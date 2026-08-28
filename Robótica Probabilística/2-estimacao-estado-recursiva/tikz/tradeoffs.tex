@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\R{3}   % raio da escala (valor máx = 3)
+
+  % ----- grade -----
+  \foreach \k in {1,2,3}
+    \draw[black!15, line width=0.6pt] (90:\k) -- (210:\k) -- (330:\k) -- cycle;
+  \foreach \a in {90,210,330}
+    \draw[black!35, line width=0.7pt] (0,0) -- (\a:\R);
+
+  % ----- rótulos dos eixos -----
+  \node[align=center, font=\small] at (90:\R+0.7)  {eficiência\\computacional};
+  \node[align=center, font=\small] at (210:\R+0.85) {precisão da\\aproximação};
+  \node[align=center, font=\small] at (330:\R+0.9)  {facilidade de\\implementação};
+
+  % ----- macro: \radar{cor}{estilo}{efic}{prec}{impl} (só contorno) -----
+  \newcommand{\radar}[5]{%
+    \draw[#1, line width=1.4pt, #2] (90:#3) -- (210:#4) -- (330:#5) -- cycle;
+    \fill[#1] (90:#3) circle (2pt);
+    \fill[#1] (210:#4) circle (2pt);
+    \fill[#1] (330:#5) circle (2pt);
+  }
+
+  \radar{dblue}{solid}{2.7}{1.2}{2.0}          % Gaussianos (KF/EKF)
+  \radar{dgreen}{densely dashed}{1.0}{2.0}{1.8} % Histograma
+  \radar{dorange}{solid}{2.0}{2.7}{2.8}         % Partículas
+
+  % ----- legenda -----
+  \begin{scope}[shift={(3.9,1.0)}, font=\small]
+    \draw[dblue,  line width=1.4pt] (0,0.16) -- (0.5,0.16);
+    \node[anchor=west] at (0.65,0.16) {Gaussianos (KF/EKF)};
+    \draw[dgreen, line width=1.4pt, densely dashed] (0,-0.44) -- (0.5,-0.44);
+    \node[anchor=west] at (0.65,-0.44) {Histograma};
+    \draw[dorange, line width=1.4pt] (0,-1.04) -- (0.5,-1.04);
+    \node[anchor=west] at (0.65,-1.04) {Partículas};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

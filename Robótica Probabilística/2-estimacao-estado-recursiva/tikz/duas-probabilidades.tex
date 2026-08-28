@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate] (xp) at (0,0)   {$x_{t-1}$};
+  \node[dstate] (xt) at (3.6,0) {$x_t$};
+  \node[dobs]   (zt) at (3.6,-3){$z_t$};
+
+  % entrada de controle
+  \node[dblue, font=\large] (u) at (1.8,2) {$u_t$};
+  \draw[dtrans] (u) -- (1.8,1.0);
+
+  % transição
+  \draw[->, black!80, line width=1pt] (xp) -- (xt)
+        node[midway, above=6pt, black!70, font=\small] {$p(x_t \mid x_{t-1}, u_t)$};
+
+  % medição
+  \draw[dmeas] (xt) -- (zt)
+        node[midway, right=4pt, dorange, font=\small] {$p(z_t \mid x_t)$};
+
+  \node[dsub] at (xp.south) [below] {estado anterior};
+  \node[dsub] at (xt.south) [below] {estado atual};
+  \node[dsub] at (zt.east)  [right] {medição (observada)};
+
+\end{tikzpicture}
+\end{document}

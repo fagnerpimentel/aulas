@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate] (a) at (0,0)   {$x_{t-1}$};
+  \node[dstate] (b) at (3.2,0) {$x_t$};
+  \node[dstate] (c) at (6.4,0) {$x_{t+1}$};
+  \node[black!55, font=\Large] (d) at (8.6,0) {$\cdots$};
+  \node[black!45, font=\Large] at (-2.0,0) {$\cdots$};
+
+  \draw[dtrans, line width=1.1pt] (-1.4,0) -- (a);
+  \draw[dtrans, line width=1.1pt] (a) -- (b);
+  \draw[dtrans, line width=1.1pt] (b) -- (c);
+  \draw[dtrans, line width=1.1pt] (c) -- (d);
+
+  % destaque de dependência
+  \draw[dorange, line width=1pt, ->, bend left=45]
+       (a.north) to node[above, dorange, font=\small] {$p(x_t\mid x_{t-1})$} (b.north);
+
+  \node[dlbl] at (3.0,-1.6)
+    {o futuro depende do passado \emph{somente} através do estado atual};
+
+\end{tikzpicture}
+\end{document}

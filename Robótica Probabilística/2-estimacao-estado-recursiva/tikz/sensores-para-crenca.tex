@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % mundo
+  \node[draw=black!45, dashed, ellipse, minimum width=3.4cm, minimum height=2.6cm,
+        fill=dgreen!8, align=center] (w) at (0,0)
+       {\footnotesize mundo\\\scriptsize (estado real $x$)};
+
+  % robô
+  \node[dbox, minimum width=2.7cm, minimum height=1.6cm] (r) at (6.2,0) {\small robô};
+
+  % dados de sensores
+  \draw[dmeas, line width=1.2pt] (w.east) -- node[above, dorange, font=\footnotesize] {dados de sensores $z_t$} (r.west);
+
+  % crença dentro do robô
+  \node[below=0.15cm of r, align=center, font=\scriptsize, black!55] {estima};
+  \draw[dblue, line width=1.2pt]
+    (5.0,-2.5) .. controls (5.9,-2.5) and (6.0,-1.2) .. (6.2,-1.2)
+               .. controls (6.4,-1.2) and (6.5,-2.5) .. (7.4,-2.5);
+  \node[dblue, font=\footnotesize] at (6.2,-2.9) {$bel(x_t)$};
+
+  \node[dlbl] at (3.0,-3.6) {o robô nunca observa $x$ diretamente: infere uma \emph{crença} a partir dos dados};
+
+\end{tikzpicture}
+\end{document}

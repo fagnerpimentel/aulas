@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1.15cm,y=1.15cm]
+
+  % piso / sala com grade
+  \fill[black!3] (0,0) rectangle (5,3.5);
+  \foreach \gx in {1,2,3,4} \draw[black!12, line width=0.4pt] (\gx,0) -- (\gx,3.5);
+  \foreach \gy in {1,2,3}   \draw[black!12, line width=0.4pt] (0,\gy) -- (5,\gy);
+  \draw[black!25, line width=0.8pt] (0,0) rectangle (5,3.5);
+
+  % eixos
+  \draw[daxis] (0,0) -- (5.6,0) node[right, font=\small] {$x$\,[m]};
+  \draw[daxis] (0,0) -- (0,4.0) node[above, font=\small] {$y$\,[m]};
+
+  % pose do robô
+  \coordinate (R) at (2.3,1.7);
+  \coordinate (H) at ($(R)+(40:1.05)$);
+  \coordinate (Ref) at ($(R)+(1.0,0)$);
+
+  \draw[dguide] (R) -- (2.3,0) node[below, black!55, font=\footnotesize] {$2{,}3$};
+  \draw[dguide] (R) -- (0,1.7) node[left,  black!55, font=\footnotesize] {$1{,}7$};
+
+  \draw[dbody] (R) circle (0.34);
+  \draw[dguide] (R) -- (Ref);
+  \draw[->, black!80, line width=1pt] (R) -- (H);
+  \pic[draw=black!70, angle radius=8mm, "$\theta$" {font=\footnotesize, xshift=1pt}]
+      {angle = Ref--R--H};
+
+  % vetor de estado com componentes rotulados
+  \node[anchor=north, font=\normalsize, inner sep=6pt] at (2.6,-0.9)
+    {$x_t \;=\; \bigl\langle\;
+        \underbrace{2{,}3}_{x}\;,\;
+        \underbrace{1{,}7}_{y}\;,\;
+        \underbrace{45^\circ}_{\theta}
+      \;\bigr\rangle$};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,175 @@
+/*-- scss:defaults --*/
+
+// Cor de destaque para links
+$link-color: #1a6fb5;
+$link-color-hover: #12507f;
+
+// >>> AJUSTE O TAMANHO DOS TÍTULOS AQUI <<<
+// (o tema serif força `font-size: NNpt !important`; por isso o controle real
+//  está nestas variáveis, aplicadas com !important na seção scss:rules abaixo)
+$titulo-h1: 40pt;  // divisores de seção (#)
+$titulo-h2: 35pt;  // título de cada slide (##)
+$titulo-h3: 20pt;  // subtítulos (###)
+
+/*-- scss:rules --*/
+
+// O tema serif aplica `color:#000 !important` nos links usando o seletor
+// `html:not(.print-pdf) .reveal a:link`. Para vencer no cascade é preciso
+// igualar essa especificidade (e vir depois na folha de estilo).
+html:not(.print-pdf) .reveal a,
+html:not(.print-pdf) .reveal a:link,
+html:not(.print-pdf) .reveal a:visited {
+  color: #1a6fb5 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 0.15em;
+}
+
+html:not(.print-pdf) .reveal a:hover {
+  color: #12507f !important;
+}
+
+// Cobre também a exportação em PDF/print
+.print-pdf .reveal a {
+  color: #1a6fb5 !important;
+  text-decoration: underline !important;
+}
+
+// Iguala a especificidade do tema (html:not(.print-pdf) .reveal hN) + !important.
+// Os valores vêm das variáveis $titulo-hN definidas no topo do arquivo.
+html:not(.print-pdf) .reveal h1, .print-pdf .reveal h1 { font-size: $titulo-h1 !important; }
+html:not(.print-pdf) .reveal h2, .print-pdf .reveal h2 { font-size: $titulo-h2 !important; }
+html:not(.print-pdf) .reveal h3, .print-pdf .reveal h3 { font-size: $titulo-h3 !important; }
+
+.reveal h1, .reveal h2, .reveal h3 {
+  margin-bottom: 0.4em;
+  line-height: 1.15;
+}
+
+// Centraliza títulos e subtítulos dos slides
+html:not(.print-pdf) .reveal h1, .print-pdf .reveal h1,
+html:not(.print-pdf) .reveal h2, .print-pdf .reveal h2,
+html:not(.print-pdf) .reveal h3, .print-pdf .reveal h3 {
+  text-align: center !important;
+}
+
+// ===== Layout dos slides divisores de seção (qualquer "#" / H1) =====
+// Duas colunas: título à esquerda, régua vertical no meio, conteúdo à direita.
+// Seletor: só as sections geradas por "#" (classe .title-slide.slide.level1).
+// NÃO usar :has() aqui — ele também casava a <section> do stack vertical do
+// reveal e quebrava o layout dos slides "##" seguintes.
+//
+// No .qmd:
+//   # Título da Seção
+//
+//   ::: {.esquerda}
+//   Texto que fica na coluna ESQUERDA (abaixo do título)
+//   :::
+//
+//   Texto/imagem restante          <-- coluna DIREITA (use {.nostretch width="55%"})
+$secao-col-esq: 40%;
+$secao-sel: ".reveal .slides section.title-slide.slide.level1";
+
+#{$secao-sel} {
+  display: grid !important;
+  grid-template-columns: $secao-col-esq 1fr;
+  grid-template-rows: 1fr auto auto 1fr;  // folgas 1fr em cima/baixo → centro
+  column-gap: 2em;
+  row-gap: 0;
+  min-height: 100%;                       // preenche a altura do slide
+  text-align: left !important;
+  // NÃO definir position/top aqui: o reveal precisa da section como
+  // position:absolute para empilhar os slides verticais ("##") corretamente.
+}
+
+// régua vertical
+#{$secao-sel}::before {
+  content: "";
+  position: absolute;
+  left: $secao-col-esq;
+  top: 18%;
+  bottom: 18%;
+  border-left: 4px solid $link-color;
+}
+
+#{$secao-sel} > h1 {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+  margin: 0 !important;
+  color: $link-color;
+  text-align: left !important;
+}
+
+// ::: {.esquerda} — coluna esquerda, sob o título
+#{$secao-sel} > .esquerda {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: start;
+  margin: 0.5em 0 0 0;
+  font-size: 0.7em;
+  line-height: 1.4;
+  color: #444;
+  text-align: left !important;
+}
+
+// resto (texto/imagem) → coluna direita, centralizado verticalmente.
+// (assume 1 bloco na direita; vários blocos iriam se sobrepor)
+#{$secao-sel} > :not(h1):not(.esquerda) {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: center;
+  margin: 0;
+  padding-left: 2em;
+  font-size: 0.8em;
+  line-height: 1.45;
+  color: #555;
+  text-align: left !important;
+}
+
+// tamanho da imagem: controlado por {width=...} no .qmd (precisa de .nostretch).
+#{$secao-sel} img {
+  max-height: 68vh;
+  height: auto;
+}
+#{$secao-sel} .r-stretch {
+  height: auto !important;
+  max-height: 68vh;
+}
+
+// ===== Capa (slide de título do YAML): autor mais para o rodapé =====
+// Abordagem só com margem (não mexe em position/display da section para não
+// quebrar o layout dos demais slides).
+.reveal .slides > section#title-slide .quarto-title-authors {
+  margin-top: 5em;
+  padding-top: 0;
+  border: 0;
+  text-align: center;
+  font-size: 0.62em;
+  color: #555;
+}
+.reveal .slides > section#title-slide .quarto-title-author-name {
+  font-style: italic;
+}
+
+// Bloco de equações com fonte reduzida (para caber em colunas estreitas)
+.reveal .eqs {
+  font-size: 0.78em;
+}
+.reveal .eqs .MathJax { font-size: inherit !important; }
+
+// Listagem de pseudocódigo (algoritmo escrito direto no .qmd como bloco $$…$$)
+.reveal .pseudo {
+  font-size: 0.82em;
+}
+.reveal .pseudo mjx-container[display="true"] { margin: 0; }
+.reveal .pseudo mjx-container { text-align: left !important; }
+
+// Crédito/atribuição de imagens (legenda pequena sob a foto)
+.reveal .credito {
+  display: block;
+  font-size: 0.40em;
+  line-height: 1.15;
+  color: #999;
+  margin-top: 0.15em;
+  text-align: center;
+}
