@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=2.6cm, minimum height=1.3cm, font=\small]  (a) at (0,0)   {$bel(x_{t-1})$};
+  \node[dbox, minimum width=2.6cm, minimum height=1.3cm, font=\small]  (b) at (4.6,0) {$\overline{bel}(x_t)$};
+  \node[dbox, minimum width=2.6cm, minimum height=1.3cm, font=\small]  (c) at (9.2,0) {$bel(x_t)$};
+
+  \draw[dtrans, line width=1.2pt] (a) -- node[above, dblue, font=\footnotesize, align=center]
+        {predição\\\scriptsize (controle $u_t$)} (b);
+  \draw[dmeas, line width=1.2pt] (b) -- node[above, dorange, font=\footnotesize, align=center]
+        {correção\\\scriptsize (medição $z_t$)} (c);
+
+  \node[dsub] at (2.3,-1.2) {$\overline{bel}(x_t)=p(x_t\mid z_{1:t-1},u_{1:t})$};
+  \node[dsub] at (6.9,-1.2) {$bel(x_t)=p(x_t\mid z_{1:t},u_{1:t})$};
+
+\end{tikzpicture}
+\end{document}

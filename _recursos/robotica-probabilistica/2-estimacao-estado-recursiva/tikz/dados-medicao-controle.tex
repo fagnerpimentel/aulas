@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ambiente
+  \node[draw=black!55, dashed, ellipse, minimum width=4cm, minimum height=3cm,
+        fill=dgreen!8, align=center] (env) at (0,0)
+        {\normalsize Ambiente\\[2pt]\footnotesize\textcolor{black!55}{(estado $x$)}};
+
+  % robô
+  \node[dbox, minimum width=3cm, minimum height=2cm] (rob) at (7,0)
+        {\normalsize Robô\\[2pt]\footnotesize\textcolor{black!55}{(crença $bel$)}};
+
+  % medição: ambiente -> robô
+  \draw[dmeas, line width=1.2pt] (env.north east) ++(0,-0.15)
+        -- node[above, dorange, font=\small] {$z_t$ (sensores)}
+           ($(rob.north west)+(0,-0.15)$);
+
+  % controle: robô -> ambiente
+  \draw[dtrans, line width=1.2pt] ($(rob.south west)+(0,0.15)$)
+        -- node[below, dblue, font=\small] {$u_t$ (atuadores)}
+           ($(env.south east)+(0,0.15)$);
+
+  \node[dlbl] at (3.5,-2.4)
+    {medições informam o robô \quad$\bullet$\quad controles influenciam o ambiente};
+
+\end{tikzpicture}
+\end{document}

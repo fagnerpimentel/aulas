@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "**/*.qmd"
+
+website:
+  title: "Aulas — Prof. Dr. Fagner de Assis Moura Pimentel"
+  page-navigation: true
+  reader-mode: true
+  navbar:
+    left:
+      - text: "Início"
+        href: index.qmd
+      - text: "Robótica Probabilística"
+        href: robotica-probabilistica/index.qmd
+  page-footer:
+    center: "Prof. Dr. Fagner de Assis Moura Pimentel"
+
+format:
+  # Formato padrão dos materiais: slides Reveal.js.
+  # As páginas de índice (index.qmd) e os roteiros de laboratório
+  # sobrescrevem para `format: html` no próprio cabeçalho.
+  revealjs:
+    theme: [serif, custom.scss]
+    slide-number: true
+    transition: slide
+    embed-resources: true

@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cw{2.2}\def\ch{1.4}
+
+  % células (fill: mais forte = mais provável)
+  \fill[dblue!55]   (0,0)      rectangle (\cw,\ch);
+  \fill[dorange!25] (\cw,0)    rectangle (2*\cw,\ch);
+  \fill[dblue!25]   (0,\ch)    rectangle (\cw,2*\ch);
+  \fill[dorange!65] (\cw,\ch)  rectangle (2*\cw,2*\ch);
+
+  % grade
+  \draw[black!80, line width=0.8pt] (0,0) grid[xstep=\cw, ystep=\ch] (2*\cw,2*\ch);
+  \draw[black!80, line width=0.8pt] (0,0) rectangle (2*\cw,2*\ch);
+
+  % valores
+  \node at (0.5*\cw,1.5*\ch) {$0{,}6$};
+  \node at (1.5*\cw,1.5*\ch) {$0{,}2$};
+  \node at (0.5*\cw,0.5*\ch) {$0{,}4$};
+  \node at (1.5*\cw,0.5*\ch) {$0{,}8$};
+
+  % cabeçalhos de coluna
+  \node[font=\small\bfseries] at (0.5*\cw,2*\ch+0.35) {está aberta};
+  \node[font=\small\bfseries] at (1.5*\cw,2*\ch+0.35) {está fechada};
+
+  % cabeçalhos de linha
+  \node[font=\small\bfseries, anchor=east] at (-0.2,1.5*\ch) {percebe aberta};
+  \node[font=\small\bfseries, anchor=east] at (-0.2,0.5*\ch) {percebe fechada};
+
+\end{tikzpicture}
+\end{document}

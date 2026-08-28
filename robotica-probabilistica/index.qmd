@@ -1,0 +1,23 @@
+---
+title: "Robótica Probabilística"
+description: "Estimação de estado, filtros bayesianos, localização e SLAM. Baseada em *Probabilistic Robotics* (Thrun, Burgard, Fox)."
+format: html
+listing:
+  - id: aulas
+    contents:
+      - "teoria/*.qmd"
+    type: table
+    fields: [title, subtitle]
+    field-display-names:
+      subtitle: "Tema"
+    sort: false
+---
+
+## Aulas teóricas
+
+::: {#aulas}
+:::
+
+## Práticas
+
+- [Filtro de Bayes para localização de robôs](pratica/exercicio-filtro-bayes.qmd)

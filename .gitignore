@@ -1,0 +1,31 @@
+# --- Quarto ---
+/.quarto/
+_site/
+_freeze/
+.luarc.json
+**/*.quarto_ipynb
+**/.jupyter_cache/
+
+# --- Saídas renderizadas (a fonte .qmd é a verdade) ---
+# Cada .qmd gera <nome>.html + pasta <nome>_files/ ao lado.
+**/*.html
+**/*_files/
+**/*.pdf
+
+# --- Binários pesados / material legado (fora do versionamento) ---
+*.pptx
+*.ppt
+*.key
+
+# --- Build dos diagramas TikZ (LaTeX) ---
+**/*.aux
+**/*.log
+**/*.fdb_latexmk
+**/*.fls
+**/*.synctex.gz
+**/*.dvi
+
+# --- Diversos ---
+snowflake.log
+.DS_Store
+Thumbs.db
