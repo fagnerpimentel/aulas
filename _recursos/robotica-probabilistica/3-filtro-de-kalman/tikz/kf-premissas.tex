@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=4.0cm, minimum height=2.4cm, font=\footnotesize] (a) at (0,0)
+    {\textbf{1. Transição de estado}\\[3pt]
+     $x_t = A_t x_{t-1} + B_t u_t + \varepsilon_t$\\[3pt]
+     linear \;+\; $\varepsilon_t \sim \mathcal{N}(0,R_t)$};
+
+  \node[dbox, minimum width=4.0cm, minimum height=2.4cm, font=\footnotesize] (b) at (5,0)
+    {\textbf{2. Medição}\\[3pt]
+     $z_t = C_t x_t + \delta_t$\\[3pt]
+     linear \;+\; $\delta_t \sim \mathcal{N}(0,Q_t)$};
+
+  \node[dbox, minimum width=4.0cm, minimum height=2.4cm, font=\footnotesize] (c) at (10,0)
+    {\textbf{3. Crença inicial}\\[3pt]
+     $bel(x_0) \sim \mathcal{N}(\mu_0,\Sigma_0)$\\[3pt]
+     gaussiana};
+
+  \node[dgreen, font=\small] at (5,-2.2)
+    {as três $\Rightarrow$ $bel(x_t)$ permanece gaussiana para todo $t$};
+
+\end{tikzpicture}
+\end{document}

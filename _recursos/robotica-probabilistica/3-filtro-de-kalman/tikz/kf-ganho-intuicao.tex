@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % barra do ganho (faixas para gradiente robusto no SVG)
+  \foreach \i in {0,...,39}{
+    \pgfmathsetmacro\tt{\i/39}
+    \pgfmathsetmacro\rr{(1-\tt)*0.165+\tt*0.702}
+    \pgfmathsetmacro\gg{(1-\tt)*0.357+\tt*0.329}
+    \pgfmathsetmacro\bb{(1-\tt)*0.549+\tt*0.118}
+    \definecolor{dstrip}{rgb}{\rr,\gg,\bb}
+    \fill[dstrip, opacity=0.55] ({\i*0.25},0) rectangle ({(\i+1)*0.25},0.6);
+  }
+  \draw[black!70, line width=0.8pt] (0,0) rectangle (10,0.6);
+  \foreach \x in {0,2.5,5,7.5,10} \draw[black!70] (\x,0) -- (\x,-0.15);
+
+  \node[dblue, font=\small, align=center]  at (0,-0.7)  {$K_t \to 0$\\[-1pt]\scriptsize confia na predição};
+  \node[dorange, font=\small, align=center] at (10,-0.7) {$K_t$ grande\\[-1pt]\scriptsize confia na medição};
+  \node[black!60, font=\footnotesize] at (5,1.05) {\textbf{ganho de Kalman} $K_t$};
+
+  % componentes
+  \node[black!75, font=\small] at (5,-2.2)
+    {$\mu_t \;=\; \underbrace{\bar\mu_t}_{\text{predição}}
+      \;+\; K_t\,\big(\,\underbrace{z_t - C_t\bar\mu_t}_{\text{inovação}}\,\big)$};
+
+  \node[dsub, align=center] at (5,-3.5)
+    {a inovação é a diferença entre a medição \emph{observada} e a \emph{esperada};\\
+     $K_t$ pondera quanto dessa surpresa entra na nova estimativa};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\gp}[5]{%
+    \draw[#1, line width=#2, #3, samples=140, domain=0:9, smooth, variable=\x]
+      plot (\x, {2.0*2.5066*gauss(\x,#4,#5)});}
+
+  \begin{scope}
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dblue}{1.2pt}{solid}{3.6}{1.15}
+    \node[dblue, font=\footnotesize, anchor=south] at (3.6,2.15) {$\overline{bel}(x_t)$};
+    \node[black!55, font=\footnotesize] at (4.6,-1.0) {$\sim \mathcal{N}(\bar\mu_t,\bar\Sigma_t)$};
+  \end{scope}
+
+  \node[font=\Large, black!55] at (10.4,1.2) {$\times$};
+
+  \begin{scope}[shift={(11.6,0)}]
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dorange}{1.2pt}{solid}{5.4}{0.8}
+    \node[dorange, font=\footnotesize, anchor=south] at (5.4,2.9) {$p(z_t\mid x_t)$};
+    \node[black!55, font=\footnotesize] at (4.6,-1.0) {medição $C_t x_t$, ruído $Q_t$};
+  \end{scope}
+
+  \node[font=\Large, black!55] at (22.0,1.2) {$\propto$};
+
+  \begin{scope}[shift={(23.2,0)}]
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dblue}{0.6pt}{densely dashed}{3.6}{1.15}
+    \gp{dorange}{0.6pt}{densely dashed}{5.4}{0.8}
+    \gp{dgreen}{1.7pt}{solid}{4.85}{0.62}
+    \node[dgreen, font=\footnotesize, anchor=west] at (5.7,3.0) {$bel(x_t)$};
+    \node[black!55, font=\footnotesize, align=center] at (4.6,-1.1)
+      {$\mu_t = \bar\mu_t + K_t(z_t - C_t\bar\mu_t)$\\[1pt]$\Sigma_t = (I - K_t C_t)\bar\Sigma_t$};
+  \end{scope}
+
+  \node[black!60, font=\small] at (16.0,4.4)
+    {produto de duas gaussianas $\Rightarrow$ gaussiana (mais estreita: incerteza diminui)};
+
+\end{tikzpicture}
+\end{document}

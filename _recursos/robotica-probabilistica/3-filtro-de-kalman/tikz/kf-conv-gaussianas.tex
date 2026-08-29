@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\gp}[5]{%
+    \draw[#1, line width=#2, #3, samples=140, domain=0:9, smooth, variable=\x]
+      plot (\x, {2.0*2.5066*gauss(\x,#4,#5)});}
+
+  \begin{scope}
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dgreen}{1.2pt}{solid}{2.6}{0.7}
+    \node[dgreen, font=\footnotesize, anchor=south] at (2.6,3.2) {$bel(x_{t-1})$};
+    \node[black!55, font=\footnotesize] at (4.6,-1.0) {$\sim \mathcal{N}(\mu_{t-1},\Sigma_{t-1})$};
+  \end{scope}
+
+  \node[font=\Large, black!55] at (10.4,1.0) {$\ast$};
+
+  \begin{scope}[shift={(11.6,0)}]
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dblue}{1.2pt}{solid}{3.4}{0.85}
+    \node[dblue, font=\footnotesize, anchor=south] at (3.4,2.7) {$p(x_t\mid u_t,x_{t-1})$};
+    \node[black!55, font=\footnotesize] at (4.6,-1.0) {mov.\ $A_t x_{t-1}+B_t u_t$, ruído $R_t$};
+  \end{scope}
+
+  \node[font=\Large, black!55] at (22.0,1.0) {$=$};
+
+  \begin{scope}[shift={(23.2,0)}]
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \gp{dorange}{1.6pt}{solid}{4.6}{1.15}
+    \node[dorange, font=\footnotesize, anchor=south] at (4.6,2.2) {$\overline{bel}(x_t)$};
+    \node[black!55, font=\footnotesize, align=center] at (4.6,-1.1)
+      {$\bar\mu_t = A_t\mu_{t-1}+B_t u_t$\\[1pt]$\bar\Sigma_t = A_t\Sigma_{t-1}A_t^{\!\top}+R_t$};
+  \end{scope}
+
+  \node[black!60, font=\small] at (16.0,4.0)
+    {convolução de duas gaussianas $\Rightarrow$ gaussiana (média soma, incerteza cresce)};
+
+\end{tikzpicture}
+\end{document}

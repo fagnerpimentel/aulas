@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=4.6cm, minimum height=2.2cm, font=\footnotesize, draw=dorange] (inv) at (0,0)
+    {\textbf{inversão de matriz}\\[3pt]
+     linha 4: $(C_t\bar\Sigma_t C_t^{\!\top}+Q_t)^{-1}$\\[3pt]
+     $\approx \mathcal{O}(k^{2.8})$ \; --- \; $k = \dim(z_t)$};
+
+  \node[dbox, minimum width=4.6cm, minimum height=2.2cm, font=\footnotesize, draw=dblue] (mul) at (6.4,0)
+    {\textbf{produto de matrizes}\\[3pt]
+     linha 6: $(I - K_t C_t)\,\bar\Sigma_t$\\[3pt]
+     $\ge \mathcal{O}(n^{2})$ \; --- \; $n = \dim(x_t)$};
+
+  \node[black!70, font=\small, align=center] at (3.2,-2.4)
+    {em geral $k \ll n$ (poucas medições, muitos estados)\\
+     $\Rightarrow$ o passo dominante costuma ser o $\mathcal{O}(n^{2})$};
+
+\end{tikzpicture}
+\end{document}

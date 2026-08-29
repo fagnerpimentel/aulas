@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------- unimodal: bom para rastreamento ----------
+  \begin{scope}
+    \draw[daxis] (-0.2,0) -- (5.4,0) node[right, dsub] {$x$};
+    \draw[dcurve, samples=140, domain=-0.2:5.4, smooth, variable=\x]
+      plot (\x, {2.5*2.5066*gauss(\x,2.6,0.8)});
+    \draw[dgreen, line width=1pt, dashed] (2.6,0) -- (2.6,3.05);
+    \fill[dgreen] (2.6,3.13) circle (2pt);
+    \node[dgreen, font=\footnotesize] at (2.6,-0.42) {estado real};
+    \node[align=center, dlbl] at (2.6,-1.35)
+      {\textbf{unimodal} --- rastreamento\\(erro pequeno em torno do real)};
+  \end{scope}
+
+  % ---------- multimodal: ruim para localização global ----------
+  \begin{scope}[shift={(8.0,0)}]
+    \draw[daxis] (-0.2,0) -- (5.4,0) node[right, dsub] {$x$};
+    \draw[dblue, line width=1pt, dash pattern=on 3pt off 2pt, samples=140,
+          domain=-0.2:5.4, smooth, variable=\x]
+      plot (\x, {2.9*2.5066*gauss(\x,2.6,1.5)});
+    \draw[dorange, line width=1.3pt, samples=240, domain=-0.2:5.4, smooth, variable=\x]
+      plot (\x, {2.6*2.5066*(0.95*gauss(\x,0.9,0.42) + 1.0*gauss(\x,2.6,0.42) + 0.85*gauss(\x,4.3,0.42))});
+    \draw[dblue, dashed, line width=0.6pt, ->] (3.5,-0.5) -- (3.5,1.15);
+    \node[dblue, font=\footnotesize] at (3.5,-0.72) {ajuste gaussiano};
+    \node[align=center, dlbl] at (2.6,-1.35)
+      {\textbf{multimodal} --- várias hipóteses\\(a gaussiana não representa bem)};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

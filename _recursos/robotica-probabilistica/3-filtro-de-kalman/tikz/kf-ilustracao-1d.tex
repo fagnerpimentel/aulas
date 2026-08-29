@@ -1,0 +1,74 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % \gp{cor}{espessura}{estilo}{mu}{sigma}
+  \newcommand{\gp}[5]{%
+    \draw[#1, line width=#2, #3, samples=140, domain=0:9, smooth, variable=\x]
+      plot (\x, {2.2*2.5066*gauss(\x,#4,#5)});%
+  }
+  % moldura de um painel: \frameax{rótulo}
+  \newcommand{\panelaxes}[1]{%
+    \draw[daxis] (-0.15,0) -- (9.3,0);
+    \draw[black!25, line width=0.7pt] (0,0) -- (0,3.0);
+    \node[black!60, font=\footnotesize, anchor=north west] at (0.0,3.35) {#1};%
+  }
+
+  \def\dx{11.2}\def\dy{5.2}
+
+  % ---------- (a) crença prévia ----------
+  \begin{scope}
+    \panelaxes{(a) crença prévia}
+    \gp{dblue}{1.1pt}{solid}{3.4}{1.25}
+  \end{scope}
+
+  % ---------- (b) medição (GPS) ----------
+  \begin{scope}[shift={(\dx,0)}]
+    \panelaxes{(b) medição (ex.: GPS)}
+    \gp{dblue}{0.7pt}{densely dashed}{3.4}{1.25}
+    \gp{dorange}{1.5pt}{solid}{4.7}{0.8}
+  \end{scope}
+
+  % ---------- (c) após integrar a medição ----------
+  \begin{scope}[shift={(2*\dx,0)}]
+    \panelaxes{(c) crença corrigida}
+    \gp{dblue}{0.7pt}{densely dashed}{3.4}{1.25}
+    \gp{dorange}{0.7pt}{densely dashed}{4.7}{0.8}
+    \gp{dgreen}{1.6pt}{solid}{4.34}{0.67}
+  \end{scope}
+
+  % ---------- (d) após o movimento ----------
+  \begin{scope}[shift={(0,-\dy)}]
+    \panelaxes{(d) após o movimento}
+    \gp{dgreen}{0.7pt}{densely dashed}{4.34}{0.67}
+    \gp{dblue}{1.6pt}{solid}{6.7}{1.05}
+  \end{scope}
+
+  % ---------- (e) nova medição ----------
+  \begin{scope}[shift={(\dx,-\dy)}]
+    \panelaxes{(e) nova medição}
+    \gp{dblue}{0.7pt}{densely dashed}{6.7}{1.05}
+    \gp{dorange}{1.5pt}{solid}{7.4}{0.8}
+  \end{scope}
+
+  % ---------- (f) crença resultante ----------
+  \begin{scope}[shift={(2*\dx,-\dy)}]
+    \panelaxes{(f) crença resultante}
+    \gp{dblue}{0.7pt}{densely dashed}{6.7}{1.05}
+    \gp{dorange}{0.7pt}{densely dashed}{7.4}{0.8}
+    \gp{dgreen}{1.6pt}{solid}{7.15}{0.62}
+  \end{scope}
+
+  % ---------- legenda ----------
+  \begin{scope}[shift={(0,-\dy-1.9)}, font=\footnotesize]
+    \draw[dblue, line width=1.4pt] (0,0) -- (0.6,0);
+    \node[anchor=west, black!65] at (0.75,0) {crença / predição};
+    \draw[dorange, line width=1.4pt] (5.2,0) -- (5.8,0);
+    \node[anchor=west, black!65] at (5.95,0) {medição};
+    \draw[dgreen, line width=1.4pt] (9.4,0) -- (10.0,0);
+    \node[anchor=west, black!65] at (10.15,0) {posterior (após correção)};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

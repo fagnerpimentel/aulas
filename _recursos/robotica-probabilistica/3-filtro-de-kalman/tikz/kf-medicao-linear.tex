@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=13mm] (x) at (0,0) {$x_t$};
+  \node[dbox, minimum width=1.1cm, minimum height=0.9cm] (C) at (2.4,0) {$C_t$};
+  \node[dop] (sum) at (4.6,0) {$+$};
+  \node[dorange, font=\small, align=center] (delta) at (4.6,2.0)
+       {$\delta_t \sim \mathcal{N}(0,\,Q_t)$};
+  \node[dobs, minimum size=13mm, dacc] (z) at (7.0,0) {$z_t$};
+
+  \draw[dtrans] (x) -- (C);
+  \draw[dtrans] (C) -- (sum);
+  \draw[dmeas] (delta) -- (sum);
+  \draw[dmeas, line width=1.2pt] (sum) -- (z);
+
+  \node[black!75, font=\small] at (3.5,-2.4)
+       {$z_t \;=\; C_t\,x_t \;+\; \delta_t$};
+  \node[dsub] at (3.5,-3.1)
+       {a medição é uma projeção linear e ruidosa do estado};
+
+\end{tikzpicture}
+\end{document}

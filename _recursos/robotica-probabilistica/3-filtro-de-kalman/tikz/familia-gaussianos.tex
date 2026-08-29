@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.6cm, font=\small] (bayes) at (0,2.4)
+       {Filtro de Bayes\\[-1pt]\scriptsize (algoritmo geral)};
+  \node[dbox, dacc, minimum width=3.8cm, font=\small] (gauss) at (0,0)
+       {\textbf{Filtros Gaussianos}\\[-1pt]\scriptsize crença $\sim \mathcal{N}(\mu,\Sigma)$};
+
+  \draw[->, black!55, line width=1pt] (bayes) -- (gauss);
+
+  \node[dbox, minimum width=3.2cm, minimum height=1.5cm, font=\footnotesize] (kf)  at (-4.6,-2.7)
+       {\textbf{Filtro de Kalman}\\[1pt]sistemas lineares\\gaussianos};
+  \node[dbox, minimum width=3.2cm, minimum height=1.5cm, font=\footnotesize] (ekf) at (0,-2.7)
+       {Filtro de Kalman\\Estendido (EKF)\\[1pt]sistemas não lineares};
+  \node[dbox, minimum width=3.2cm, minimum height=1.5cm, font=\footnotesize] (if)  at (4.6,-2.7)
+       {Filtro de Informação\\[1pt]forma canônica\\$(\xi,\Omega)$};
+
+  \draw[->, black!55, line width=1pt] (gauss) -- (kf);
+  \draw[->, black!55, line width=1pt] (gauss) -- (ekf);
+  \draw[->, black!55, line width=1pt] (gauss) -- (if);
+
+  \node[dblue, font=\footnotesize] at (-4.6,-4.0) {foco desta aula};
+
+\end{tikzpicture}
+\end{document}

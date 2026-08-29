@@ -1,0 +1,378 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Filtro de Kalman"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/3-filtro-de-kalman
+---
+
+# Filtro de Kalman
+
+::: {.esquerda}
+Capítulo 3 (seções 3.1 e 3.2) do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## Do Filtro de Bayes aos Filtros Gaussianos {.smaller}
+
+- Na aula anterior: o **Filtro de Bayes** é o algoritmo recursivo geral, mas só é implementável diretamente em casos muito simples (espaços finitos ou soluções em forma fechada)
+- Os **Filtros Gaussianos** são a primeira família de implementações tratáveis do Filtro de Bayes para **espaços de estado contínuos**
+- Ideia comum a toda a família: a crença é representada por uma **distribuição normal multivariada**
+- São, até hoje, as técnicas mais difundidas — apesar de limitações importantes
+
+![](images/familia-gaussianos.svg){fig-align="center" width="76%"}
+
+## A Crença como uma Gaussiana {.smaller}
+
+A crença é uma normal multivariada sobre o estado $x$:
+$$
+p(x) = \det(2\pi\Sigma)^{-\frac{1}{2}}
+\exp\!\left\{ -\tfrac{1}{2}(x-\mu)^{\top}\Sigma^{-1}(x-\mu) \right\}
+$$
+
+::: columns 
+
+::: {.column width="50%"}
+- **Média** $\mu$: vetor com a mesma dimensão do estado $x$
+- **Covariância** $\Sigma$: matriz quadrada, simétrica e positiva-semidefinida; número de elementos **quadrático** na dimensão do estado
+:::
+
+::: {.column width="50%"}
+![](images/gaussiana-momentos.svg){fig-align="center" width="100%"}
+:::
+:::
+
+- Esta é a **representação de momentos** (1º e 2º momentos da distribuição)
+
+
+## Duas Representações Equivalentes {.smaller}
+
+- **Representação de momentos**: parâmetros $(\mu,\ \Sigma)$ — média e covariância
+- **Representação canônica** (ou *natural*): parâmetros $(\xi,\ \Omega)$, com $\Omega = \Sigma^{-1}$ e $\xi = \Sigma^{-1}\mu$
+- As duas são **funcionalmente equivalentes**: existe um mapeamento bijetivo entre elas
+- Porém levam a algoritmos com **características computacionais opostas**:
+  - momentos $\rightarrow$ **Filtro de Kalman**
+  - canônica $\rightarrow$ **Filtro de Informação** 
+
+## Consequência: a Crença é Unimodal {.smaller}
+
+- Gaussianas são **unimodais**: possuem um único máximo
+- **Boa** para problemas de *rastreamento* (*tracking*): a crença fica concentrada em torno do estado verdadeiro, com pequena margem de incerteza
+- **Ruim** para problemas de *estimação global*, em que coexistem muitas hipóteses distintas — cada uma um modo da distribuição
+
+![](images/unimodal-multimodal.svg){fig-align="center" width="100%"}
+
+
+## Os Algoritmos Gaussianos Básicos {.smaller}
+
+- **Filtro de Kalman** — implementa o Filtro de Bayes na representação de momentos, para uma classe restrita de problemas: **dinâmica e medição lineares**
+- **Filtro de Kalman Estendido — EKF** — estende o KF para funções **não lineares** de transição e medição
+- **Filtro de Informação** — dual do KF, usa a **representação canônica**
+
+# O Filtro de Kalman
+
+Implementação do Filtro de Bayes para sistemas **lineares gaussianos**, usando **média** e **covariância**. É a técnica mais estudada para filtragem em estados contínuos.
+
+## Origem e Contexto {.smaller}
+
+::: columns
+::: {.column width="62%"}
+- Inventado nos anos 1950 por **Rudolf Emil Kálmán**, como técnica de filtragem e predição em **sistemas lineares**
+- Calcula a crença para **estados contínuos** — **não** se aplica a espaços de estado discretos ou híbridos
+- Representa a crença pela **representação de momentos**: no instante $t$, pela média ($\mu_t$) e pela covariância ($\Sigma_t$)
+:::
+::: {.column width="38%"}
+![](images/fotos/kalman-retrato.jpg){fig-align="center" width="72%"}
+
+[Rudolf E. Kálmán — G.-M. Greuel, MFO, CC BY-SA 2.0 DE]{.credito}
+:::
+:::
+
+![](images/kf-linha-tempo.svg){fig-align="center" width="92%"}
+
+## Onde o Filtro de Kalman é Usado {.smaller}
+
+::: columns
+::: {.column width="31.5%"}
+![](images/fotos/apollo-agc.jpg){fig-align="center" width="100%"}
+[Apollo Guidance Computer — S. Jurvetson, CC BY 2.0]{.credito}
+
+Navegação da **Apollo**: primeira grande aplicação prática
+:::
+::: {.column width="31.5%"}
+![](images/fotos/gps-satelite.jpg){fig-align="center" width="100%"}
+[Satélite GPS (concepção artística) — NASA, domínio público]{.credito}
+
+**GPS + navegação inercial**: fusão de posição e movimento
+:::
+::: {.column width="37%"}
+![](images/fotos/radar-trafego-aereo.jpg){fig-align="center" width="100%"}
+[Controle de tráfego aéreo, Berlim, 1986 — T. Farr / US DoD, domínio público]{.credito}
+
+**Rastreamento por radar**: alvos em trajetórias ruidosas
+:::
+:::
+
+## Onde o Filtro de Kalman é Usado {.smaller}
+
+- Em robótica, aparece na **localização**, no **SLAM** e em toda **fusão de sensores** (IMU + odometria + GPS + LiDAR…)
+- Sempre que o estado é contínuo, a incerteza é aproximadamente unimodal e os modelos podem ser linearizados
+
+::: columns
+::: {.column width="50%"}
+![](images/fotos/imu-ins.jpg){fig-align="center" width="83%"}
+[Unidade de medição inercial (IMU/INS) — Haraldino80, CC BY-SA 3.0]{.credito}
+:::
+::: {.column width="50%"}
+![](images/fotos/carro-autonomo.jpg){fig-align="center" width="100%"}
+[Sensores de um veículo autônomo — Retired electrician, CC0]{.credito}
+:::
+:::
+
+## As Três Premissas do Filtro de Kalman {.smaller}
+
+Além das hipóteses de Markov do Filtro de Bayes, a posterior é **garantidamente gaussiana** se valerem três propriedades:
+
+![](images/kf-premissas.svg){fig-align="center" width="94%"}
+
+## Premissa 1 — Transição de Estado Linear {.smaller}
+
+$$
+x_t = A_t\,x_{t-1} + B_t\,u_t + \varepsilon_t
+$$
+
+- $A_t$: matriz $n \times n$ ($n = \dim x_t$); $B_t$: matriz $n \times m$ ($m = \dim u_t$)
+- $\varepsilon_t$: ruído gaussiano de média zero e covariância $R_t$ (modela a aleatoriedade da transição)
+- Substituindo em $p(x) = \det(2\pi\Sigma)^{-\frac{1}{2}}
+\exp\!\left\{ -\tfrac{1}{2}(x-\mu)^{\top}\Sigma^{-1}(x-\mu) \right\}$
+a transição é a normal:
+
+$$
+p(x_t \mid u_t, x_{t-1}) = \det(2\pi R_t)^{-\frac{1}{2}}
+\exp\!\left\{ -\tfrac{1}{2}(x_t - A_t x_{t-1} - B_t u_t)^{\top} R_t^{-1}(x_t - A_t x_{t-1} - B_t u_t) \right\}
+$$
+
+![](images/kf-transicao-linear.svg){fig-align="center" width="60%"}
+
+## Premissa 2 — Medição Linear {.smaller}
+
+$$
+z_t = C_t\,x_t + \delta_t
+$$
+
+- $C_t$: matriz $k \times n$ ($k = \dim z_t$)
+- $\delta_t$: ruído de medição, gaussiano de média zero e covariância $Q_t$
+- A probabilidade de medição é a normal:
+$$
+p(z_t \mid x_t) = \det(2\pi Q_t)^{-\frac{1}{2}}
+\exp\!\left\{ -\tfrac{1}{2}(z_t - C_t x_t)^{\top} Q_t^{-1}(z_t - C_t x_t) \right\}
+$$
+
+![](images/kf-medicao-linear.svg){fig-align="center" width="58%"}
+
+## Premissa 3 — Crença Inicial Gaussiana {.smaller}
+
+$$
+bel(x_0) = p(x_0) = \det(2\pi\Sigma_0)^{-\frac{1}{2}}
+\exp\!\left\{ -\tfrac{1}{2}(x_0 - \mu_0)^{\top}\Sigma_0^{-1}(x_0 - \mu_0) \right\}
+$$
+
+- A crença em $t=0$ é normal, com média $\mu_0$ e covariância $\Sigma_0$
+- **As três premissas juntas** garantem que $bel(x_t)$ é gaussiana para **todo** instante $t$
+- Basta então propagar dois parâmetros no tempo: $\mu_t$ e $\Sigma_t$
+
+## O Algoritmo do Filtro de Kalman {.smaller}
+
+- **Entrada**: crença em $t-1$ ($\mu_{t-1}, \Sigma_{t-1}$), controle $u_t$, medição $z_t$
+- **Saída**: crença em $t$ ($\mu_t, \Sigma_t$)
+
+::: columns
+::: {.column width="42%"}
+- Linhas 2–3: **Predição** (incorpora o controle)
+- Linhas 4–6: **Correção** (incorpora a medição)
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de Kalman}\,\bigl(\mu_{t-1},\ \Sigma_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar\mu_t = A_t\,\mu_{t-1} + B_t\,u_t \\
+\text{3:}\quad \bar\Sigma_t = A_t\,\Sigma_{t-1}\,A_t^{\top} + R_t \\
+\text{4:}\quad K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1} \\
+\text{5:}\quad \mu_t = \bar\mu_t + K_t\,(z_t - C_t\,\bar\mu_t) \\
+\text{6:}\quad \Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t \\
+\text{7:}\quad \textbf{retornar } \mu_t,\ \Sigma_t \\
+\hline
+\end{array}
+$$
+:::
+:::
+:::
+
+## Passo de Predição (Linhas 2 e 3) {.smaller}
+
+$$
+\bar\mu_t = A_t\,\mu_{t-1} + B_t\,u_t
+\qquad\qquad
+\bar\Sigma_t = A_t\,\Sigma_{t-1}\,A_t^{\top} + R_t
+$$
+
+- A **média** é atualizada pela versão determinística da transição (3.2), substituindo $x_{t-1}$ por $\mu_{t-1}$
+- A **covariância** é multiplicada por $A_t$ **duas vezes** — pois é uma forma quadrática — e somada ao ruído da transição $R_t$
+- Resultado: a crença predita $\overline{bel}(x_t)$, deslocada pelo movimento e **mais incerta**
+
+![](images/kf-conv-gaussianas.svg){fig-align="center" width="96%"}
+
+## Passo de Correção (Linhas 4 a 6) {.smaller}
+
+$$
+K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1}
+\qquad
+\mu_t = \bar\mu_t + K_t\,(z_t - C_t\,\bar\mu_t)
+\qquad
+\Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t
+$$
+
+- **Linha 4** — o **ganho de Kalman** $K_t$: define quanto a medição é incorporada à nova estimativa
+- **Linha 5** — a média é ajustada na proporção de $K_t$ pela **inovação** $z_t - C_t\bar\mu_t$ (diferença entre a medição observada e a esperada)
+- **Linha 6** — a covariância é reduzida, refletindo o ganho de informação da medição
+
+![](images/kf-prod-gaussianas.svg){fig-align="center" width="96%"}
+
+## O Ganho de Kalman {.smaller}
+
+![](images/kf-ganho-intuicao.svg){fig-align="center" width="82%"}
+
+- Se a medição é muito ruidosa ($Q_t$ grande) → $K_t \to 0$: o filtro **confia na predição**
+- Se a predição é muito incerta ($\bar\Sigma_t$ grande) → $K_t$ grande: o filtro **confia na medição**
+
+## O Ciclo Completo {.smaller}
+
+![](images/kf-ciclo.svg){fig-align="center" width="100%"}
+
+O filtro alterna **predição** (usa o controle $u_t$) e **correção** (usa a medição $z_t$), propagando apenas $\mu_t$ e $\Sigma_t$.
+
+## Custo Computacional {.smaller}
+
+- A inversão de matriz da linha 4 tem custo $\approx \mathcal{O}(k^{2.8})$, com $k = \dim(z_t)$
+- O produto da linha 6 é pelo menos $\mathcal{O}(n^2)$, com $n = \dim(x_t)$
+- Em mapeamento robótico e problemas afins, o espaço de medição costuma ser **muito menor** que o de estado ($k \ll n$) → domina o termo $\mathcal{O}(n^2)$
+
+![](images/kf-complexidade.svg){fig-align="center" width="100%"}
+
+## Ilustração: Localização 1D {.smaller}
+
+Robô que se move ao longo de um eixo; a cada diagrama, a crença é a curva em destaque.
+
+![](images/kf-ilustracao-1d.svg){fig-align="center" width="100%"}
+
+## Ilustração: Localização 1D {.smaller}
+
+- **(a)** crença prévia sobre a posição
+- **(b)** o robô consulta um sensor de posição (ex.: GPS) → medição em destaque, com sua incerteza
+- **(c)** combinando prior + medição (linhas 4–6), a crença resultante tem média **entre** as duas e incerteza **menor que ambas** — característico da integração de informação no KF
+- **(d)** o robô se move para a direita → crença deslocada e **mais larga** (transição estocástica, linhas 2–3)
+- **(e)** nova medição, com sua incerteza
+- **(f)** posterior resultante após incorporar a segunda medição
+
+## Predição × Correção {.smaller}
+
+::: columns
+::: {.column width="46%"}
+- O **passo de correção** integra dados de sensor → **diminui** a incerteza
+- O **passo de predição** (ou *control update*) modifica a crença conforme uma ação → **aumenta** a incerteza
+- O filtro alterna os dois indefinidamente
+:::
+::: {.column width="54%"}
+![](images/kf-incerteza-ciclo.svg){fig-align="center" width="100%"}
+:::
+:::
+
+# Esboço da Derivação
+
+Por que as três premissas bastam para manter a crença gaussiana. 
+
+## A Ideia Geral {.smaller}
+
+- A crença gaussiana é **fechada** sob as duas operações do Filtro de Bayes quando os modelos são lineares gaussianos:
+  - **predição** = integral (convolução) de duas gaussianas → gaussiana
+  - **correção** = produto de duas gaussianas, normalizado → gaussiana
+- Em ambos os casos, o **expoente** resultante é uma **forma quadrática** em $x_t$ — logo a crença é normal
+- Média e covariância saem do **mínimo** e da **curvatura** dessa forma quadrática (1ª e 2ª derivadas)
+
+## Parte 1 — Predição {.smaller}
+
+$$
+\overline{bel}(x_t) = \int
+\underbrace{p(x_t \mid x_{t-1}, u_t)}_{\sim\,\mathcal{N}(A_t x_{t-1} + B_t u_t,\ R_t)}\;
+\underbrace{bel(x_{t-1})}_{\sim\,\mathcal{N}(\mu_{t-1},\ \Sigma_{t-1})}\; dx_{t-1}
+$$
+
+- O expoente do produto, $L_t$, é quadrático em $x_{t-1}$ **e** em $x_t$
+- Decompõe-se $L_t = L_t(x_{t-1}, x_t) + L_t(x_t)$, isolando em $L_t(x_{t-1},x_t)$ tudo que depende de $x_{t-1}$
+- A integral de $\exp\{-L_t(x_{t-1},x_t)\}$ é **constante** em relação a $x_t$ (absorvida no normalizador $\eta$)
+- Sobra $L_t(x_t)$, quadrático em $x_t$ → resultado gaussiano
+
+![](images/kf-conv-gaussianas.svg){fig-align="center" width="88%"}
+
+## Parte 1 — Predição: resultado {.smaller}
+
+Minimizando e derivando $L_t(x_t)$ (com auxílio do **lema de inversão de matrizes**):
+
+$$
+\bar\mu_t = A_t\,\mu_{t-1} + B_t\,u_t
+\qquad\qquad
+\bar\Sigma_t = R_t + A_t\,\Sigma_{t-1}\,A_t^{\top}
+$$
+
+que são exatamente as linhas 2 e 3 do algoritmo.
+
+**Lema de inversão de matrizes** — para $R$, $Q$ invertíveis e $P$ de dimensão compatível:
+$$
+(R + P\,Q\,P^{\top})^{-1} = R^{-1} - R^{-1} P\,(Q^{-1} + P^{\top} R^{-1} P)^{-1} P^{\top} R^{-1}
+$$
+
+## Parte 2 — Correção {.smaller}
+
+$$
+bel(x_t) = \eta\;
+\underbrace{p(z_t \mid x_t)}_{\sim\,\mathcal{N}(C_t x_t,\ Q_t)}\;
+\underbrace{\overline{bel}(x_t)}_{\sim\,\mathcal{N}(\bar\mu_t,\ \bar\Sigma_t)}
+= \eta\,\exp\{-J_t\}
+$$
+
+- $J_t$ é quadrático em $x_t$ → $bel(x_t)$ é gaussiana
+- Pelas 1ª e 2ª derivadas de $J_t$:
+$$
+\Sigma_t = (C_t^{\top} Q_t^{-1} C_t + \bar\Sigma_t^{-1})^{-1}
+\qquad
+\mu_t = \bar\mu_t + K_t\,(z_t - C_t\bar\mu_t), \quad K_t = \Sigma_t\,C_t^{\top} Q_t^{-1}
+$$
+
+![](images/kf-prod-gaussianas.svg){fig-align="center" width="88%"}
+
+## Parte 2 — Correção: forma do algoritmo {.smaller}
+
+- A definição $K_t = \Sigma_t C_t^{\top} Q_t^{-1}$ depende de $\Sigma_t$ — mas usamos $K_t$ para **calcular** $\Sigma_t$
+- Uma sequência de transformações reescreve o ganho **sem** $\Sigma_t$:
+$$
+K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1}
+$$
+- E o lema de inversão leva a linha 6 na forma:
+$$
+\Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t
+$$
+- **Vantagem**: evita inverter a matriz de covariância do estado ($n \times n$) — essencial em espaços de estado de alta dimensão
+
+## Resumo {.smaller}
+
+- O Filtro de Kalman é o Filtro de Bayes para **sistemas lineares gaussianos**, na representação de momentos $(\mu, \Sigma)$
+- Três premissas (transição linear, medição linear, prior gaussiano) mantêm a crença **gaussiana** em todo instante
+- Duas etapas por ciclo:
+  - **predição** — desloca a média pelo modelo de movimento e **aumenta** a incerteza
+  - **correção** — ajusta a média pela inovação, ponderada pelo **ganho de Kalman**, e **diminui** a incerteza
+- Eficiente: polinomial na dimensão do estado
+- **Limitação central**: linearidade e unimodalidade — raramente exatas em robótica real → motiva o **Filtro de Kalman Estendido (EKF)**, na próxima aula

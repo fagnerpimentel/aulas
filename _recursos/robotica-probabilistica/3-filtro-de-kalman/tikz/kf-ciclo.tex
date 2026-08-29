@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.4cm, minimum height=1.7cm] (A) at (0,0)
+       {$\mu_{t-1},\ \Sigma_{t-1}$\\[3pt]\footnotesize\textcolor{black!55}{crença em $t-1$}};
+  \node[dbox, minimum width=3.4cm, minimum height=1.7cm] (B) at (6.0,0)
+       {$\bar\mu_t,\ \bar\Sigma_t$\\[3pt]\footnotesize\textcolor{black!55}{predição}};
+  \node[dbox, minimum width=3.4cm, minimum height=1.7cm] (C) at (12.0,0)
+       {$\mu_t,\ \Sigma_t$\\[3pt]\footnotesize\textcolor{black!55}{crença atualizada}};
+
+  \node[dblue, font=\large]   (u) at (3.0,2.0) {$u_t$};
+  \draw[dtrans] (u) -- (3.0,1.0);
+  \node[dorange, font=\large] (z) at (9.0,2.0) {$z_t$};
+  \draw[dmeas] (z) -- (9.0,1.0);
+
+  \draw[dtrans, line width=1.2pt] (A) -- (B)
+        node[midway, below=3pt, dblue, font=\small, align=center]
+        {predição\\[-1pt]\itshape\footnotesize (control update)};
+  \draw[dmeas, line width=1.2pt] (B) -- (C)
+        node[midway, below=3pt, dorange, font=\small, align=center]
+        {correção\\[-1pt]\itshape\footnotesize (measurement update)};
+
+  \node[dblue, font=\footnotesize, align=center] at (3.0,-2.15)
+       {$\bar\mu_t = A_t\mu_{t-1} + B_t u_t$\\[2pt]
+        $\bar\Sigma_t = A_t\,\Sigma_{t-1}\,A_t^{\!\top} + R_t$};
+
+  \node[dorange, font=\footnotesize, align=center] at (9.2,-2.15)
+       {$K_t = \bar\Sigma_t C_t^{\!\top}\,(C_t \bar\Sigma_t C_t^{\!\top} + Q_t)^{-1}$\\[2pt]
+        $\mu_t = \bar\mu_t + K_t\,(z_t - C_t\bar\mu_t)$\\[2pt]
+        $\Sigma_t = (I - K_t C_t)\,\bar\Sigma_t$};
+
+  \draw[->, black!55, dashed, line width=1pt]
+       (C.south) .. controls (12.5,-5.6) and (-0.5,-5.6) .. (A.south)
+       node[midway, below, black!55, font=\small]
+       {próximo passo de tempo ($t \to t{+}1$)};
+
+\end{tikzpicture}
+\end{document}

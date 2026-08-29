@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, dacc, minimum width=3.0cm, minimum height=1.3cm, font=\small] (pred) at (0,0)
+       {predição};
+  \node[dbox, draw=dorange, minimum width=3.0cm, minimum height=1.3cm, font=\small] (corr) at (7.5,0)
+       {correção};
+
+  % predição -> correção (arco por baixo)
+  \draw[dmeas, line width=1.2pt] (pred.south) to[out=-45,in=-135]
+        node[midway, below, dorange, font=\footnotesize] {integra a medição $z_t$} (corr.south);
+  % correção -> predição (arco por cima)
+  \draw[dtrans, line width=1.2pt] (corr.north) to[out=120,in=60]
+        node[midway, above, dblue, font=\footnotesize] {aplica o controle $u_t$} (pred.north);
+
+  \node[dblue, font=\footnotesize, align=center]  at (0,-2.6)
+       {incerteza \textbf{aumenta} $\uparrow$};
+  \node[dorange, font=\footnotesize, align=center] at (7.5,-2.6)
+       {incerteza \textbf{diminui} $\downarrow$};
+
+  \node[black!55, font=\footnotesize] at (3.75,3.5)
+       {o filtro alterna os dois passos a cada ciclo};
+
+\end{tikzpicture}
+\end{document}

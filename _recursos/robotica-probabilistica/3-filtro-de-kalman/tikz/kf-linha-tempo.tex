@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis, line width=1pt] (-0.3,0) -- (13.6,0);
+
+  \foreach \x/\yr/\lbl in {
+      0/1960/{R.\,E.\ Kálmán\\publica o filtro},
+      3.4/1961/{navegação da\\Apollo (NASA)},
+      6.8/1980s/{rastreamento por\\radar / trânsito aéreo},
+      10.2/1990s/{GPS e navegação\\inercial (INS)},
+      13.0/2000s/{robótica móvel:\\localização e SLAM}} {
+    \fill[dblue] (\x,0) circle (2pt);
+    \draw[dguide] (\x,0) -- (\x,0.5);
+    \node[black!70, font=\footnotesize] at (\x,-0.45) {\yr};
+    \node[align=center, dlbl, font=\footnotesize] at (\x,1.15) {\lbl};
+  }
+
+\end{tikzpicture}
+\end{document}

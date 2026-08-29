@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=13mm] (xp) at (0,0) {$x_{t-1}$};
+  \node[dbox, minimum width=1.1cm, minimum height=0.9cm] (A) at (2.4,0) {$A_t$};
+  \node[dop] (sum) at (4.6,0) {$+$};
+  \node[dbox, minimum width=1.1cm, minimum height=0.9cm] (B) at (2.4,-2.0) {$B_t$};
+  \node[dblue, font=\large] (u) at (0,-2.0) {$u_t$};
+  \node[dorange, font=\small, align=center] (eps) at (4.6,2.0)
+       {$\varepsilon_t \sim \mathcal{N}(0,\,R_t)$};
+  \node[dstate, minimum size=13mm, dacc] (x) at (7.0,0) {$x_t$};
+
+  \draw[dtrans] (xp) -- (A);
+  \draw[dtrans] (A) -- (sum);
+  \draw[dtrans] (u) -- (B);
+  \draw[dtrans] (B) -- (sum);
+  \draw[dmeas] (eps) -- (sum);
+  \draw[dtrans, line width=1.2pt] (sum) -- (x);
+
+  \node[black!75, font=\small] at (3.5,-3.4)
+       {$x_t \;=\; A_t\,x_{t-1} \;+\; B_t\,u_t \;+\; \varepsilon_t$};
+  \node[dsub] at (3.5,-4.1)
+       {linear nos argumentos + ruído gaussiano \;$\Rightarrow$\; \emph{linear gaussiano}};
+
+\end{tikzpicture}
+\end{document}
