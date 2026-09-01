@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   cb/.style={dbox, minimum width=3.4cm, minimum height=1.05cm, font=\footnotesize, align=center}]
+
+  \def\dy{1.85}
+
+  \node[dobs, minimum size=13mm] (u) at (0,{0.6}) {\small usuário};
+  \node[cb]             (s) at (0,{-1*\dy}) {sinais\\\scriptsize face, voz, gesto, postura};
+  \node[cb, dacc]       (d) at (0,{-2*\dy}) {detecção\\\scriptsize ML, visão computacional};
+  \node[cb]             (e) at (0,{-3*\dy}) {estado afetivo\\\scriptsize emoção, humor, atitude};
+  \node[cb, draw=dorange] (a) at (0,{-4*\dy}) {adaptação\\\scriptsize da interface};
+
+  \draw[dtrans, line width=1pt] (u) -- (s);
+  \draw[dtrans, line width=1pt] (s) -- (d);
+  \draw[dtrans, line width=1pt] (d) -- (e);
+  \draw[dmeas,  line width=1pt] (e) -- (a);
+
+  % retorno ao usuário (arco à direita)
+  \draw[dmeas, line width=1pt]
+     (a.east) .. controls +(2.4,0) and +(2.4,0) ..
+     node[right=2pt, dsub, align=left, pos=0.5] {realimenta\\o usuário} (u.east);
+
+  \node[dsub, align=center] at (0,{-4*\dy-1.25})
+    {dados sensíveis --- exige \textbf{consentimento} e proteção de dados};
+
+\end{tikzpicture}
+\end{document}

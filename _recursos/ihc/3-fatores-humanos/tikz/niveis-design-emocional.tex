@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   lv/.style={dbox, minimum width=6.6cm, minimum height=1.5cm, align=center, font=\footnotesize}]
+
+  \node[lv] (r) at (0,4.6) {\textbf{Reflexivo}\\[-1pt]\scriptsize significado, mensagem, cultura, memória, identidade};
+  \node[lv, dacc] (c) at (0,2.3) {\textbf{Comportamental}\\[-1pt]\scriptsize prazer e efetividade de uso, usabilidade, funcionalidade};
+  \node[lv] (v) at (0,0) {\textbf{Visceral}\\[-1pt]\scriptsize estética, aparência, sons, atratividade, impressão inicial};
+
+  % entradas / saídas
+  \node[dsub, align=center] (ent) at (-5.6,1.15) {entradas\\sensoriais};
+  \node[dsub, align=center] (sai) at (5.6,1.15) {saídas\\motoras};
+  \draw[dtrans, line width=1pt] (ent) -- (v.west);
+  \draw[dtrans, line width=1pt] (ent) -- (c.west);
+  \draw[dtrans, line width=1pt] (v.east) -- (sai);
+  \draw[dtrans, line width=1pt] (c.east) -- (sai);
+
+  % comunicações
+  \draw[<->, dorange, line width=1pt] (c.north) -- (r.south)
+     node[midway, right, dsub] {comunicação córtex--límbico};
+  \draw[<->, dorange, line width=1pt] (v.north) -- (c.south)
+     node[midway, right, dsub] {comunicação tálamo--límbico};
+
+  % rótulos de margem
+  \node[dsub, anchor=east, rotate=90] at (-6.9,4.6) {RACIOCÍNIO};
+  \node[dsub, anchor=east, rotate=90] at (-6.9,2.3) {CONSCIÊNCIA};
+  \node[dsub, anchor=east, rotate=90] at (-6.9,0.0) {REAÇÃO AFETIVA};
+
+  \node[dsub] at (0,-1.4) {o reflexivo \emph{não} acessa diretamente entradas sensoriais nem controles motores};
+
+\end{tikzpicture}
+\end{document}

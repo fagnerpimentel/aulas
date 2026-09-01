@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % moldura de "tela"
+  \draw[black!70, line width=1pt, rounded corners=3pt] (0,0) rectangle (6.2,4.6);
+
+  % elementos com pesos visuais diferentes
+  \node[dbox, dacc, fill=dorange!20, minimum width=3.2cm, minimum height=0.9cm, font=\footnotesize] (e1) at (3.1,3.9) {ação principal};
+  \node[dbox, minimum width=4.6cm, minimum height=0.7cm, font=\scriptsize] (e2) at (3.1,2.7) {campo de busca};
+  \node[dbox, minimum width=2.0cm, minimum height=0.6cm, font=\scriptsize] (e3) at (1.7,1.6) {opção};
+  \node[dbox, minimum width=2.0cm, minimum height=0.6cm, font=\scriptsize] (e4) at (4.4,1.6) {opção};
+  \node[font=\scriptsize, black!45] (e5) at (3.1,0.6) {ação destrutiva (discreta)};
+
+  % ordem de leitura
+  \foreach \n/\k in {e1/1,e2/2,e3/3,e4/4,e5/5}{
+    \node[circle, fill=dblue, text=white, font=\scriptsize, inner sep=1.3pt] at ([shift={(-0.35,0.0)}]\n.west) {\k};
+  }
+
+  \node[dsub, align=left, anchor=west] at (7.0,3.2)
+    {o reconhecimento é \textbf{gradual}:\\há uma ordem de prioridade};
+  \node[dsub, align=left, anchor=west] at (7.0,1.6)
+    {o designer influencia o \textbf{peso} e a ordem:\\posição, tamanho, cor, animação};
+  \node[dsub, align=left, anchor=west] at (7.0,0.2)
+    {ação de alto impacto $\to$ \textbf{menos} chamativa\\+ interromper o fluxo intuitivo (confirmação)};
+
+\end{tikzpicture}
+\end{document}

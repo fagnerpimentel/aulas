@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, dacc, minimum width=5.4cm, minimum height=3.2cm, font=\footnotesize,
+        align=left, inner sep=8pt] (s1) at (0,0)
+    {\textbf{Sistema 1 --- Intuição}\\[3pt]
+     $\bullet$ inconsciente, automático\\
+     $\bullet$ rápido, sem esforço\\
+     $\bullet$ heurísticas (regras aproximadas)\\
+     $\bullet$ sensível ao contexto\\
+     $\bullet$ para estudar: \emph{observar em ação}};
+
+  \node[dbox, minimum width=5.4cm, minimum height=3.2cm, font=\footnotesize,
+        align=left, inner sep=8pt, draw=dorange] (s2) at (6.6,0)
+    {\textbf{Sistema 2 --- Reflexão}\\[3pt]
+     $\bullet$ consciente, deliberado\\
+     $\bullet$ lento, exige esforço\\
+     $\bullet$ mais consistente e robusto\\
+     $\bullet$ testável e corrigível\\
+     $\bullet$ para estudar: \emph{perguntar diretamente}};
+
+  \node[dsub, align=center] at (3.3,-2.35)
+    {vieses são comportamento humano geral --- mudam as \emph{causas} que atribuímos (intuição $\times$ reflexão)};
+
+\end{tikzpicture}
+\end{document}

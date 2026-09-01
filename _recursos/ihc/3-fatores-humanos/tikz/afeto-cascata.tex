@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ab/.style={dbox, minimum width=3.0cm, minimum height=1.6cm, font=\footnotesize, align=center}]
+
+  \node[font=\footnotesize, dblue] (g) at (-3.2,0) {gatilho};
+  \node[ab] (af) at (0,0)   {\textbf{Afeto}\\\scriptsize pré-pessoal\\\scriptsize valência + intensidade};
+  \node[ab] (em) at (3.9,0) {\textbf{Emoção}\\\scriptsize consciente, social\\\scriptsize tem causa e objeto};
+  \node[ab] (se) at (7.8,0) {\textbf{Sentimento}\\\scriptsize atribuído a um objeto\\\scriptsize mais duradouro};
+  \node[ab] (hu) at (11.7,0){\textbf{Humor}\\\scriptsize difuso, sem objeto\\\scriptsize horas / dias};
+
+  \draw[dtrans, line width=1pt] (g) -- (af);
+  \draw[dtrans, line width=1pt] (af) -- (em);
+  \draw[dtrans, line width=1pt] (em) -- (se);
+  \draw[dtrans, line width=1pt] (se) -- (hu);
+  \draw[dmeas, line width=0.9pt] (se.north) to[out=110,in=70]
+     node[above, dsub] {sentimentos afetam o humor} (hu.north);
+
+  % eixo consciência
+  \draw[black!35, dashed] (-1.7,-1.15) -- (13.3,-1.15);
+  \node[dsub, anchor=east] at (1.6,-1.5) {inconsciente};
+  \node[dsub, anchor=west] at (2.3,-1.5) {consciente $\longrightarrow$};
+
+  % eixo tempo
+  \draw[daxis] (-1.6,-2.3) -- (13.2,-2.3) node[right, dsub] {duração};
+  \node[dsub] at (0,-2.7) {instantâneo};
+  \node[dsub] at (11.7,-2.7) {prolongado};
+
+\end{tikzpicture}
+\end{document}

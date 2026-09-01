@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\n{7}
+  \foreach \i in {1,...,\n}{
+    \pgfmathsetmacro\g{100 - (\i-1)*95/(\n-1)}
+    \fill[black!\g] ({(\i-1)*1.2},0) rectangle ({(\i-1)*1.2+1.1},1.1);
+    \draw[black!70, line width=0.6pt] ({(\i-1)*1.2},0) rectangle ({(\i-1)*1.2+1.1},1.1);
+  }
+  \draw[black!70, line width=0.8pt] (-0.15,-0.15) rectangle ({(\n-1)*1.2+1.25},1.25);
+
+  \draw[->, dblue, line width=1pt] (0.55,-0.6) -- ({(\n-1)*1.2+0.55},-0.6);
+  \node[dsub] at ({(\n-1)*1.2/2+0.55},-1.05)
+    {qualquer pessoa ordena assim (ou na ordem inversa), sem instrução};
+
+\end{tikzpicture}
+\end{document}

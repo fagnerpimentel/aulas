@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   vb/.style={dbox, text width=4.5cm, minimum height=2.0cm, font=\scriptsize,
+              align=left, inner sep=5pt},
+   fal/.style={vb, draw=dgreen}]
+
+  \def\cx{5.2}\def\ry{2.5}
+
+  % ---- Vieses (7) ----
+  \node[vb] (a) at (0,0)        {\textbf{Viés de Ancoragem}\\um valor inicial apresentado guia a decisão};
+  \node[vb] (b) at (\cx,0)      {\textbf{Viés de Disponibilidade}\\o que vem mais fácil à mente parece mais provável};
+  \node[vb] (c) at (2*\cx,0)    {\textbf{Viés de Confirmação}\\enxerga-se o que confirma a crença prévia};
+  \node[vb] (d) at (3*\cx,0)    {\textbf{Viés de Substituição}\\troca-se o problema por um mais simples};
+
+  \node[vb] (e) at (0,-\ry)     {\textbf{Viés de Otimismo}\\expectativas melhores que a realidade};
+  \node[vb] (f) at (\cx,-\ry)   {\textbf{Viés de Aversão à Perda}\\perder pesa mais que ganhar o mesmo};
+  \node[vb] (g) at (2*\cx,-\ry) {\textbf{Viés de Enquadramento}\\ganho $\times$ perda muda o julgamento};
+  \node[vb, draw=dorange] (k) at (3*\cx,-\ry)
+       {\textbf{lembrete}\\vieses são tendências de uma \emph{população}, não de um indivíduo};
+
+  % ---- Falácias (3) ----
+  \node[fal] (h) at (0,-2*\ry)     {\textbf{Falácia de Taxa Base}\\ignora-se a distribuição do conjunto de eventos};
+  \node[fal] (i) at (\cx,-2*\ry)   {\textbf{Falácia de Planejamento}\\subestima-se o tempo de uma tarefa};
+  \node[fal] (j) at (2*\cx,-2*\ry) {\textbf{Falácia de Custo Irrecuperável}\\valoriza-se o que já teve investimento};
+
+\end{tikzpicture}
+\end{document}

@@ -1,8 +1,8 @@
 /*-- scss:defaults --*/
 
 // Cor de destaque para links
-$link-color: #1a6fb5;
-$link-color-hover: #12507f;
+$link-color: #1a6fb5 !default;
+$link-color-hover: #12507f !default;
 
 // (o tema serif força `font-size: NNpt !important`; por isso o controle real
 //  está nestas variáveis, aplicadas com !important na seção scss:rules abaixo)
@@ -18,18 +18,18 @@ $titulo-h3: 20pt;  // subtítulos (###)
 html:not(.print-pdf) .reveal a,
 html:not(.print-pdf) .reveal a:link,
 html:not(.print-pdf) .reveal a:visited {
-  color: #1a6fb5 !important;
+  color: $link-color !important;
   text-decoration: underline !important;
   text-underline-offset: 0.15em;
 }
 
 html:not(.print-pdf) .reveal a:hover {
-  color: #12507f !important;
+  color: $link-color-hover !important;
 }
 
 // Cobre também a exportação em PDF/print
 .print-pdf .reveal a {
-  color: #1a6fb5 !important;
+  color: $link-color !important;
   text-decoration: underline !important;
 }
 

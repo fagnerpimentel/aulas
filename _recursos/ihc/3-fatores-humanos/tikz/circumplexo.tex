@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[black!15, line width=0.8pt] (0,0) circle (3.2);
+  \draw[daxis] (-3.9,0) -- (3.9,0) node[right, dsub] {valência};
+  \draw[daxis] (0,-3.9) -- (0,3.9) node[above, dsub] {ativação};
+
+  \node[dsub, anchor=east] at (-3.5,0.35) {desagradável};
+  \node[dsub, anchor=west] at (3.5,0.35)  {agradável};
+  \node[dsub] at (0.9,3.6) {alta};
+  \node[dsub] at (0.9,-3.6) {baixa};
+
+  \foreach \a/\lbl in {40/animado, 130/tenso, 150/irritado, 215/entediado,
+                       250/deprimido, 300/calmo, 330/relaxado, 65/feliz}{
+    \fill[dblue] (\a:2.6) circle (1.8pt);
+    \node[black!70, font=\scriptsize] at (\a:3.0) {\lbl};
+  }
+
+  \node[dsub, align=center] at (0,-5.0)
+    {modelo \textbf{circumplexo} (Russell) --- o modelo \textbf{PAD} acrescenta um 3º eixo: domínio};
+
+\end{tikzpicture}
+\end{document}

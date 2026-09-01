@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ab/.style={dbox, text width=3.1cm, minimum height=1.6cm, font=\footnotesize, align=center}]
+
+  \draw[daxis] (-0.6,0) -- (15.4,0) node[right, dsub] {escopo};
+  \node[dsub, anchor=west] at (-0.5,-0.55) {emoção específica};
+  \node[dsub, anchor=east] at (15.3,-0.55) {experiência global};
+
+  \node[ab, dacc]        (a) at (1.9,1.7)  {\textbf{Design Emocional}\\\scriptsize 3 níveis --- Norman};
+  \node[ab, draw=dorange](b) at (6.0,2.9)  {\textbf{Computação Afetiva}\\\scriptsize detectar / responder --- Picard};
+  \node[ab]             (c) at (6.0,1.0)  {\textbf{Eng.\ Kansei}\\\scriptsize traduzir sensações em requisitos};
+  \node[ab]             (d) at (10.6,2.0) {\textbf{Hedonomia}\\\scriptsize prazer + bem-estar --- Hancock};
+
+  \foreach \n/\x in {a/1.9, b/6.0, c/6.0, d/10.6}{
+    \draw[dguide] (\x,0) -- (\x,0.55);
+  }
+
+\end{tikzpicture}
+\end{document}

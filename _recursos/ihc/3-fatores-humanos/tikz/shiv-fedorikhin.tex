@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=2.4cm, minimum height=1.3cm, font=\footnotesize, align=center,
+        dashed] (est) at (0,0) {estímulo\\recebido};
+
+  % caminho afetivo (recursos restritos)
+  \node[dbox, minimum width=2.8cm, minimum height=1.0cm, font=\footnotesize, dacc] (paf) at (4.6,2.1)
+     {processos afetivos};
+  \node[dbox, minimum width=3.4cm, minimum height=1.0cm, font=\scriptsize, align=center] (eaf) at (9.4,2.1)
+     {escolha por reação afetiva\\(valência + intensidade)};
+
+  % caminho cognitivo (recursos disponíveis)
+  \node[dbox, minimum width=2.8cm, minimum height=1.0cm, font=\footnotesize, draw=dorange] (pco) at (4.6,-2.1)
+     {processos cognitivos};
+  \node[dbox, minimum width=3.4cm, minimum height=1.0cm, font=\scriptsize, align=center] (eco) at (9.4,-2.1)
+     {escolha por consequência\\(cenários, memórias)};
+
+  \draw[dtrans, line width=1pt] (est.north) to[out=90,in=180]
+     node[above, dsub, pos=0.55] {recursos \textbf{restritos}} (paf.west);
+  \draw[dtrans, line width=1pt] (paf) -- (eaf);
+  \draw[dmeas, line width=1pt] (est.south) to[out=-90,in=180]
+     node[below, dsub, pos=0.55] {recursos \textbf{disponíveis}} (pco.west);
+  \draw[dmeas, line width=1pt] (pco) -- (eco);
+
+  \node[dsub, align=center] at (5.5,-3.7)
+    {bolo $\times$ salada --- o sistema que decide depende da \textbf{disponibilidade de recursos} de processamento};
+
+\end{tikzpicture}
+\end{document}

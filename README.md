@@ -34,6 +34,10 @@ pasta em `_recursos/` pelo campo `resource-path` no cabeçalho YAML.
 
 - **Robótica Probabilística** — estimação de estado, filtros bayesianos,
   localização e SLAM. Baseada em *Probabilistic Robotics* (Thrun, Burgard, Fox).
+- **Interação Humano-Computador** — fatores humanos (percepção, cognição, afeto),
+  usabilidade, experiência do usuário (UX) e métodos de avaliação. Baseada em
+  *Interação Humano-Computador e Experiência do Usuário* (Barbosa, Barbosa, Darin,
+  Silveira, Gasparini, Silva).
 
 ## Como renderizar
 

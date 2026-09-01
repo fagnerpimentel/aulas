@@ -1,0 +1,447 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Fatores Humanos em Sistemas Computacionais"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/3-fatores-humanos
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+---
+
+# Fatores Humanos em Sistemas Computacionais
+
+::: {.esquerda}
+Capítulo 4 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## Três Sistemas, Uma Experiência {.smaller}
+
+- Ao interagir com um sistema, a pessoa mobiliza **percepção**, **cognição** e **afeto** ao mesmo tempo
+- Esses sistemas mentais **não são isolados**: 
+  - a cognição é afetada pela percepção e pelo afeto; 
+  - o afeto orienta a atenção e a percepção.
+- Nossas experiências são **holísticas** — cada sistema influencia o funcionamento dos outros
+- Projetar boas experiências exige considerar toda essa gama de capacidades, das emocionais às cognitivas
+
+![](images/visao-geral.svg){fig-align="center" width="66%"}
+
+# Percepção
+
+Nosso sistema sensorial é o principal meio pelo qual conhecemos o mundo: converte estados de energia em impulsos neuronais interpretados por processos perceptivos (Norman, 2017).
+
+## Os Sentidos em IHC/UX {.smaller}
+
+- Sentidos considerados atualmente: 
+  - **visão**
+  - **audição** 
+  - **tato**
+  - **propriocepção/cinestesia** (reconhecer a posição do próprio corpo)
+- Paladar e olfato: já há pesquisa, mas difusão ainda restrita
+- A **grande maioria** das interfaces atuais envolve a **visão**
+
+## Percepção Visual = Reconhecimento de Padrões {.smaller}
+
+- Segundo **Ware** (2003), boa parte da nossa inteligência é a capacidade de **identificar padrões** — e o sistema visual é nosso mecanismo de reconhecimento de padrões mais sofisticado
+- Objetivo primário do design visual: **mapear os dados numa forma visual compatível com nossas capacidades perceptivas**
+- Além de bordas e contornos, a percepção visual identifica **profundidade** e **movimento** (Norman, 2017)
+
+## Leis de Gestalt {.smaller}
+
+Escola gestáltica (fundada em 1912; Wertheimer, Koffka, Köhler) — leis de percepção de padrões:
+
+::: columns
+::: {.column width="70%"}
+- **Proximidade** — entidades próximas são percebidas como um grupo
+- **Continuidade** — traços contínuos são percebidos mais prontamente do que contornos que mudam de direção bruscamente
+- **Simetria** — objetos simétricos são percebidos mais prontamente do que assimétricos
+- **Similaridade** — objetos semelhantes são percebidos como um grupo
+- **Destino comum** — objetos com a mesma direção de movimento são percebidos como um grupo
+- **Fecho** — a mente fecha contornos para completar figuras regulares, "preenchendo as falhas"
+::: 
+
+::: {.column width="30%"}
+![](images/gestalt-principios.svg){fig-align="center" width="70%"}
+::: 
+::: 
+
+## Gestalt: Adições Recentes {.smaller}
+
+::: columns
+::: {.column width="52%"}
+- **Região comum** (Palmer, 1992) — objetos dentro de uma região espacial confinada são percebidos como um grupo
+- **Conectividade** (Palmer e Rock, 1994) — objetos conectados por traços contínuos são percebidos como relacionados
+:::
+::: {.column width="48%"}
+![](images/gestalt-adicoes.svg){fig-align="center" width="60%"}
+:::
+:::
+
+## Percepção de Cores e Luminância {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- **Contraste** ideal para texto: razão de cerca de **10:1** entre claro e escuro
+- **Cores opostas**: vermelho, verde, amarelo, azul, preto e branco são "especiais" em todas as sociedades investigadas → usar **primeiro** em códigos de cor
+- A **semântica** da cor varia muito: "vermelho" pode ser perigo *ou* boa sorte
+:::
+::: {.column width="50%"}
+![](images/percepcao-cor.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Ordenação de Tons de Cinza {.smaller}
+
+Peça a várias pessoas para ordenar amostras de cinza: **todas** usam a mesma ordenação (ou a inversa), sem instrução.
+
+![](images/tons-de-cinza.svg){fig-align="center" width="80%"}
+
+## Características Pré-atencionais {.smaller}
+
+- **Cor, forma, movimento simples e profundidade estereoscópica** são processadas **antes** de a atenção consciente se voltar a elas — e **em paralelo**
+- Por isso alguns elementos se destacam imediatamente da vizinhança (*pop-out*)
+- Há **limites**: para um símbolo se destacar, ele precisa de um **atributo básico distinto** dos vizinhos
+
+![](images/pre-atencional.svg){fig-align="center" width="76%"}
+
+## Implicações para o Design {.smaller}
+
+- Apresente os dados de modo a **tornar os padrões fáceis de perceber** — isso facilita a resolução de problemas
+- Há **fatores culturais** que influenciam a percepção de elementos visuais, além dos mecanismos inatos
+- Diferentes representações **enviesam** a interpretação em direção a certas soluções: 
+  - uma **tabela**, um **grafo** e um **mapa** enfocam aspectos diferentes de uma mesma região
+
+# Cognição
+
+Do reconhecimento de objetos à tomada de decisão. Para o designer: **entender como a cognição do usuário afeta a interação evita decisões que o levem a não compreender o sistema**.
+
+## O que é Cognição {.smaller}
+
+- Alimentado pela percepção, o **sistema cognitivo** reconhece os elementos da situação e os **associa** entre si, fazendo sentido dela
+- Usamos **categorias**, **metonímias** e **metáforas conceituais**, entre outras capacidades
+- Ao interpretar um livro, o associamos ao autor, ao tema, à época — e essas entidades relacionadas influenciam a interpretação (Lakoff e Johnson, 2008)
+- A cognição **não é isolada**: é afetada pela percepção e pelo **afeto** (com raiva, agimos rápido e intuitivamente, ignorando o que contraria o estado emocional)
+
+## Sistema 1 e Sistema 2 {.smaller}
+
+::: columns
+::: {.column width="78%"}
+Agrupamento mais influente das capacidades cognitivas: **Kahneman e Tversky** (Kahneman, 2011).
+
+![](images/sistema1-sistema2.svg){fig-align="center" width="100%"}
+:::
+::: {.column width="22%"}
+![](images/fotos/kahneman.jpg){fig-align="center" width="100%"}
+[Daniel Kahneman — nrkbeta, CC BY-SA 2.0]{.credito}
+:::
+:::
+
+## Sistema 1 — Intuição {.smaller}
+
+- Opera de forma **inconsciente**, baseada em **heurísticas** — regras simples que geram soluções aproximadas
+- **Essencial** para a ação (desviar de um objeto lançado exige reconhecimento rápido, não deliberação)
+- Limitações: forma **impressões tácitas** difíceis de perceber e mudar
+- Muito **sensível ao contexto** — até informação "irrelevante" pesa 
+  - (juízes dão sentenças mais duras antes do almoço; Kahneman et al., 2021)
+- O conjunto de heurísticas é **dinâmico**: aprendido e alterado fora do controle consciente → hábitos
+
+## Sistema 2 — Reflexão {.smaller}
+
+- Pensamento **consciente** e deliberado; exige **esforço explícito** e é bem mais **lento** (ex.: um cálculo matemático)
+- Julgamentos mais **consistentes** e menos enviesados; impressões podem ser **testadas e alteradas**
+- Custo: desvia a atenção, é mais lento que as heurísticas do Sistema 1
+- **Design**: quando a corretude é essencial, pode-se **introduzir atrito** para forçar o engajamento do Sistema 2 — sempre equilibrando reflexão × velocidade da interação
+- Sentimos o Sistema 2 em ação → conseguimos **relatar** o raciocínio (útil em testes com usuários; *think-aloud*)
+
+## Vieses Cognitivos {.smaller}
+
+Padrões que **sistematicamente** desviam nossos julgamentos ao formar impressões rápidas e aproximadas (Kahneman, 2011).
+
+![](images/vieses-cognitivos.svg){fig-align="center" width="94%"}
+
+## Vieses Cognitivos: Exemplos {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- **Viés de Ancoragem** — oferecer o produto mais barato a um preço alto serve de âncora para o próximo parecer atrativo
+- **Viés de Disponibilidade** — se o jornal destaca violência, o leitor acha que a violência aumentou
+- **Viés de Confirmação** — o entrevistador ignora falas que contrariam sua ideia preconcebida
+- **Viés de Substituição** — em vez de avaliar se gostaremos do produto, olhamos a média das avaliações
+- **Viés de Otimismo** — superestimar a própria performance e o controle sobre a situação
+:::
+::: {.column width="50%"}
+- **Viés de Aversão à Perda** — perder R$50 dói mais do que ganhar R$50 agrada
+- **Viés de Enquadramento** — "não é gasto, é investimento na sua felicidade futura"
+- **Falácia de Taxa Base** — "bibliotecária introvertida" parece mais provável que "bibliotecária" (mas é um subconjunto)
+- **Falácia de Planejamento** — subestimar o tempo de uma tarefa, mesmo com histórico contrário
+- **Falácia de Custo Irrecuperável** — resistir a trocar de app por causa do tempo já investido no primeiro
+:::
+:::
+
+
+## Vieses: Coletivo, não Indivíduo {.smaller}
+
+- Vieses são **tendências de decisão** de uma **população**, não decisões de um indivíduo específico
+- Uma pessoa pode decidir no sentido contrário ao viés — isso não significa que a influência não existiu
+- Como são influenciados por **informação contextual**, muitas estratégias de mitigação envolvem **controlar o contexto** da decisão (ex.: alterar quais âncoras estão visíveis)
+- Projetamos para **populações**, não para uma única pessoa
+
+## Implicações: Reconhecimento e Ordem {.smaller}
+
+- O reconhecimento dos elementos acontece **aos poucos** → há uma **ordem de prioridade**
+- O designer influencia o **peso** e a ordem: posição (topo), tamanho e peso da fonte, cor chamativa, animação
+- **Redução de erros**: um comando de alto impacto (ex.: apagar documento) deve ser **menos** chamativo; e pode-se **interromper** o fluxo intuitivo com alertas/confirmações
+- Avaliação: **percurso cognitivo** (imaginar-se como usuário na 1ª vez, mapeando tarefa ↔ elementos)
+
+![](images/reconhecimento-ordem.svg){fig-align="center" width="100%"}
+
+## Implicações: Interpretação Associativa {.smaller}
+
+- A interpretação é **associativa** — relacionamos o objeto com outros à volta (o sistema com a empresa que o produziu; o botão de cor viva parece "ativo")
+- Exemplo de **ancoragem**: um site cujos vinhos em destaque custam R\$100–200 estabelece a expectativa → os preços seguintes parecem mais razoáveis
+- Mudar as **informações disponíveis** leva a interpretações diferentes (vale para enquadramento, confirmação etc.)
+
+![](images/ancora-vinhos.svg){fig-align="center" width="100%"}
+
+## Metáfora e Metonímia {.smaller}
+
+- **Metáfora** — pensar uma coisa **em termos de** outra ("João é um leão"). 
+  - O *desktop* traça paralelo com uma mesa física: traduz conhecimento do **domínio de origem** para o **domínio de destino**. 
+  - relações explícitas = analogia
+- **Metonímia** — associação por **contiguidade** 
+  - "amei ler Shakespeare" = a obra pelo autor. 
+  - Contêiner↔conteúdo, produto↔marca. Um objeto **substitui** o outro, sem convidar comparação
+
+![](images/metafora-metonimia.svg){fig-align="center" width="100%"}
+
+## Ética {.smaller}
+
+- Ao influenciar interpretações (com âncoras, metáforas, enquadramento…), podemos **persuadir** o usuário a certos julgamentos
+- Usar essas técnicas para induzir decisões que **não beneficiam** o usuário — ou o prejudicam — é **antiético** (*deceptive patterns*)
+- Nosso entendimento da cognição humana deve servir para **auxiliar**, nunca para **manipular**
+
+# Afeto e Emoção
+
+Queremos que os usuários **desejem** os produtos que criamos — o que exige estimular determinadas respostas emocionais. Emoção e afeto são força motivadora e orientadora da **atenção** e da **percepção** (Izard, 1993).
+
+## Afeto, Emoção, Sentimento, Humor {.smaller}
+
+![](images/afeto-cascata.svg){fig-align="center" width="100%"}
+
+## Afeto, Emoção, Sentimento, Humor {.smaller}
+
+- **Afeto** — resposta fisiológica a ameaças e oportunidades; tem **intensidade** e **valência**; **pré-pessoal**, antes do processamento racional; gerado no sub-córtex. Termo mais **genérico** que emoção
+- **Emoção** — a experiência **consciente** do afeto, com atribuição de **causa** e identificação do **objeto**; curta (segundos/minutos), intensa, com conteúdo cognitivo claro. É **social** (projeção de um sentimento) — pode ser genuína ou fingida
+- **Humor** — estado de ânimo **difuso**, sem objeto específico, de **longa duração**; funciona como um **filtro afetivo de fundo** e baixa os limiares das emoções relacionadas
+- **Sentimento** — representação mental **consciente** da resposta corporal; duradouro; é uma **propriedade atribuída a um objeto** ("gosto desta interface" = associo-a a um estado positivo)
+
+## Emoções Básicas {.smaller}
+
+::: columns
+::: {.column width="56%"}
+- **Ekman** (1992): felicidade, tristeza, raiva, medo, surpresa, desprezo, nojo
+- **Plutchik** (1994): felicidade, tristeza, medo, raiva, ternura
+- Sem consenso sobre **quantas/quais**; costumam recorrer: alegria, medo, surpresa, tristeza, nojo, raiva (Miguel, 2015)
+- Emoções envolvem um **objeto específico**: medo *de algo*, raiva *de alguém*, entusiasmo *com um evento*
+:::
+::: {.column width="44%"}
+![](images/fotos/emocoes-universais.jpg){fig-align="center" width="100%"}
+[Expressões faciais de emoções universais — Icerko Lýdia, CC BY 3.0]{.credito}
+:::
+:::
+
+## Modelos Dimensionais {.smaller}
+
+::: columns
+::: {.column width="46%"}
+- **Circumplexo** (Russell, 1980) — organiza as emoções em torno de duas dimensões: **valência** e **ativação**
+- **PAD** (Mehrabian, 1996) — acrescenta um terceiro eixo, **domínio** (*dominance*)
+- Não há resposta única sobre a melhor abordagem (modelos × emoções universais) — depende dos objetivos, da tarefa e dos métodos de medição
+:::
+::: {.column width="54%"}
+![](images/circumplexo.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Processamento Afetivo × Cognitivo {.smaller}
+
+- **Afetivo** — automático (gritar num susto)
+- **Cognitivo** — controlado e deliberado (decidir enfrentar o medo de altura)
+- Ambos afetam a **tomada de decisão**
+- **Shiv e Fedorikhin** (1999): escolher entre bolo e salada
+  - recursos de processamento **restritos** → decisão **afetiva** (valência + intensidade)
+  - recursos **disponíveis** → decisão **cognitiva** (consequências, cenários)
+
+![](images/shiv-fedorikhin.svg){fig-align="center" width="100%"}
+
+## O que Ativa Respostas Afetivas Automáticas {.smaller}
+
+Segundo **Norman** (2004), por correspondência de padrões:
+
+::: columns
+::: {.column width="50%"}
+**Afetos positivos** (proteção, conforto)
+
+- melodias e ritmos simples
+- matizes saturadas
+- rostos harmônicos
+- objetos simétricos, lisos, arredondados
+:::
+::: {.column width="50%"}
+**Afetos negativos** (perigo)
+
+- luzes muito fortes, sons muito altos
+- sons ou luzes súbitos e inesperados
+- superfícies e texturas pontiagudas
+:::
+:::
+
+As emoções de que a UX mais trata (frustração, orgulho, satisfação) são **secundárias**: exigem processamento **cortical** (baseado em conhecimento). Emoções influenciam **atitudes** (má experiência com um app → deixar de usá-lo, falar mal).
+
+# Abordagens de Emoção e Afeto em IHC
+
+Principais abordagens para considerar afeto e emoção na interação (Jeon, 2017): **Design Emocional**, **Computação Afetiva** e **Hedonomia**.
+
+## Panorama das Abordagens {.smaller}
+
+![](images/abordagens-afeto.svg){fig-align="center" width="94%"}
+
+- **Design Emocional** e **Computação Afetiva** → experiências emocionais específicas / tecnologia para detectar e responder
+- **Hedonomia** → busca geral por satisfação e prazer; experiência **global** do usuário
+
+## Design Emocional (Norman) {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- 1988, *O Design do Dia a Dia* — princípios de usabilidade; criticado por supostamente incentivar produtos "**usáveis, mas feios**"
+- 2004, *Design Emocional* — a visão anterior não estava errada, só **incompleta**: estética e emoção importam
+- Meta prática: **equilíbrio** entre aspectos estéticos, utilitários e significativos
+:::
+::: {.column width="50%"}
+![](images/fotos/norman.jpg){fig-align="center" width="60%"}
+[Don Norman — Meet the Media Guru, CC BY-SA 2.0]{.credito}
+:::
+:::
+
+## Design Emocional: Três Níveis {.smaller}
+
+::: columns
+::: {.column width="40%"}
+- **Visceral** — estética, aparência, sons, impressão inicial; biológico e pré-pessoal; "coisas atraentes funcionam melhor"
+- **Comportamental** — prazer e efetividade de uso, usabilidade, funcionalidade, desempenho
+- **Reflexivo** — significado, mensagem, cultura, memórias, identidade; determina a impressão geral; mais ligado à UX contemporânea
+:::
+::: {.column width="60%"}
+![](images/niveis-design-emocional.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Exemplo: Nintendo Switch {.smaller}
+
+::: columns
+::: {.column width="42%"}
+![](images/fotos/switch.jpg){fig-align="center" width="100%"}
+[Nintendo Switch — Evan-Amos, domínio público]{.credito}
+:::
+::: {.column width="58%"}
+- **Visceral** — atratividade de formas, encaixes, cores e sons: da embalagem ao "clique" dos botões e ao som de inicialização
+- **Comportamental** — facilidade de jogar e configurar, mobilidade, conectividade, versatilidade de tela e controles
+- **Reflexivo** — cultura própria da Nintendo; personalização de itens com a identidade de jogos específicos → identificação e memórias
+:::
+:::
+
+## Design Emocional: Recomendações {.smaller}
+
+::: columns
+::: {.column width="33%"}
+**Visceral**
+
+- visual atraente; 1ª impressão
+- *feedback* tátil e sonoro agradável (sem irritar)
+- tipografia legível e com personalidade
+- paleta harmônica (a cor depende do **contexto**)
+- animações sutis, com parcimônia
+:::
+::: {.column width="33%"}
+**Comportamental**
+
+- interação intuitiva e responsiva
+- *feedback* claro e **imediato**
+- personalização e controle (fonte, tema, privacidade)
+- navegação e ícones claros; hierarquia visual
+- reduzir cliques; atalhos; curva de aprendizado suave
+:::
+::: {.column width="33%"}
+**Reflexivo**
+
+- narrativa e significado
+- recursos de **reflexão** (históricos, resumos)
+- valores e identidade da marca no design
+- personalização além da estética (metas, valores)
+- momentos de **celebração** e reconhecimento
+:::
+:::
+
+São recomendações **gerais** — cada projeto exige testar com usuários, coletar *feedback* e iterar.
+
+## Computação Afetiva (Picard) {.smaller}
+
+::: columns
+::: {.column width="55%"}
+- "Computação que **se relaciona com, surge das, ou influencia deliberadamente** as emoções" (Picard, 1997)
+- Detecta o **estado afetivo** e **adapta** a resposta do sistema
+- *Estado afetivo* é guarda-chuva: emoções, humor, postura interpessoal, atitudes, disposições (Scherer)
+- Técnicas: expressões faciais, voz, gestos, postura + *machine learning*, visão computacional, processamento de sinais
+- Ex.: **m-Motion** (Garcias, 2018) — detecta a emoção pela câmera e escolhe músicas para chegar ao estado desejado
+:::
+::: {.column width="45%"}
+![](images/computacao-afetiva-ciclo.svg){fig-align="center" width="100%"}
+:::
+:::
+
+**Ética**: trabalha-se com **dados sensíveis** — obter consentimento e proteger os dados. Considerar a **diversidade emocional**; testar e iterar.
+
+## Hedonomia (Hancock et al., 2005) {.smaller}
+
+- Do grego *hedone* (prazer) + *nomos* (leis) — foca nos aspectos **agradáveis e divertidos**, na automotivação e no **bem-estar**, e não só no desempenho e na prevenção de desconforto
+- Foca também nas **preferências do indivíduo**, além das necessidades do coletivo
+- **Pirâmide** (analogia com Maslow): só se cuida de um nível após satisfazer os inferiores
+
+![](images/piramide-hedonomia.svg){fig-align="center" width="100%"}
+
+## Hedonomia: os Cinco Níveis {.smaller}
+
+- **Segurança** (prevenção da dor) — o design não oferece riscos; proteger dados e privacidade
+- **Funcionalidade** (promulgação do processo) — todas as funções necessárias, sem sobrecarga
+- **Usabilidade** (preferência das prioridades) — simplicidade, *feedback* imediato, mínimo esforço cognitivo → confiança e previsibilidade
+- **Experiência prazerosa** (promoção do prazer) — estética agradável, microinterações, recompensas; pertencimento e motivação
+- **Individualização** (perfeição pessoal) — cada usuário customiza a interface conforme suas necessidades, valores e acessibilidade
+
+## Comparando as Abordagens {.smaller}
+
+- **Design Emocional** — cria experiências emocionais específicas a partir dos **três níveis**
+- **Computação Afetiva** — usa **tecnologia** para detectar e responder às emoções
+- **Hedonomia** — abordagem **mais ampla**: satisfação e prazer, considerando a experiência **global**
+
+# Síntese {.smaller}
+
+
+- **Percepção, cognição e afeto** operam juntos — a experiência é **holística**
+- **Percepção** — projetar para o reconhecimento de padrões (Gestalt), o contraste, o pré-atencional; representações diferentes enviesam a interpretação
+- **Cognição** — Sistema 1 (intuição, heurísticas, vieses) × Sistema 2 (reflexão); influenciar peso e ordem dos elementos, reduzir erros, respeitar a ética
+- **Afeto e emoção** — do afeto pré-pessoal ao humor; níveis visceral/comportamental/reflexivo; abordagens de Design Emocional, Computação Afetiva e Hedonomia
+
+
+- Usar o conhecimento sobre fatores humanos para **auxiliar** as pessoas — nunca para manipulá-las
+
+# Exercício: Análise de uma Interface {.smaller}
+
+- Escolha **um app ou site que você usa com frequência** e analise a **tela principal** sob as três lentes da aula:
+
+  1. **Percepção** — aponte **2 leis de Gestalt** em uso; o contraste do texto se aproxima de **10:1**?; o que "salta aos olhos" (**pré-atenção**) e por quê?
+  2. **Cognição** — identifique **1 metáfora ou metonímia** da interface; **1 viés/falácia** que o design explora ou deveria mitigar (ancoragem de preço, enquadramento, custo irrecuperável…); há **atrito** onde a decisão é crítica (ex.: excluir conta)?
+  3. **Afeto** — dê **1 exemplo** de design **visceral**, **1 comportamental** e **1 reflexivo**; algum elemento dispara **afeto negativo automático** (*pop-up*, som ou movimento súbito)?
+
+- **Entrega:** 1–2 páginas (ou ~5 slides) com *prints* anotados, na próxima aula.

@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---- por cor ----
+  \begin{scope}
+    \node[black!60, font=\footnotesize] at (2.0,3.0) {destaque por \textbf{cor}};
+    \foreach \i in {0,1,2,3,4}{ \foreach \j in {0,1,2,3,4}{
+      \fill[black!45] ({0.9*\i},{0.55*\j}) circle (2.4mm); }}
+    \fill[dorange] (1.8,1.65) circle (2.4mm);
+  \end{scope}
+
+  % ---- por forma ----
+  \begin{scope}[shift={(6.6,0)}]
+    \node[black!60, font=\footnotesize] at (2.0,3.0) {destaque por \textbf{forma}};
+    \foreach \i in {0,1,2,3,4}{ \foreach \j in {0,1,2,3,4}{
+      \ifnum\i=3 \ifnum\j=2
+        \fill[black!55] ({0.9*\i-0.24},{0.55*\j-0.24}) rectangle ++(0.48,0.48);
+      \else \fill[black!45] ({0.9*\i},{0.55*\j}) circle (2.4mm); \fi
+      \else \fill[black!45] ({0.9*\i},{0.55*\j}) circle (2.4mm); \fi
+    }}
+  \end{scope}
+
+  \node[dsub, align=center] at (4.9,-1.1)
+    {cor, forma, movimento simples e profundidade estereoscópica são \textbf{pré-atencionais}:\\
+     processadas em paralelo, antes da atenção consciente --- o alvo ``salta'' aos olhos};
+
+\end{tikzpicture}
+\end{document}

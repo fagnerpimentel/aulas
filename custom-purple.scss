@@ -1,0 +1,7 @@
+/*-- scss:defaults --*/
+
+// Sobrepalheta roxa (tom da capa do livro de IHC/UX).
+// Camada aplicada DEPOIS de custom.scss (ver `theme` no cabeçalho do .qmd),
+// sobrescrevendo apenas a cor de destaque. Todo o resto vem de custom.scss.
+$link-color: #755099;        // roxo da capa (#755099 = rgb 117,80,153)
+$link-color-hover: #5a3d78;  // versão mais escura para hover

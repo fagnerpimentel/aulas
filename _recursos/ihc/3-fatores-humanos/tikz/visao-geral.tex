@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.0cm, minimum height=1.1cm, font=\small] (p) at (-4.2,1.6) {Percepção};
+  \node[dbox, minimum width=3.0cm, minimum height=1.1cm, font=\small] (c) at (0,1.6)    {Cognição};
+  \node[dbox, minimum width=3.0cm, minimum height=1.1cm, font=\small] (a) at (4.2,1.6)  {Afeto e Emoção};
+
+  \node[dbox, dacc, minimum width=6.0cm, minimum height=1.2cm, font=\small] (i) at (0,-1.4)
+     {interação com o sistema};
+
+  \draw[->, black!55, line width=1pt] (p) -- (i.north west);
+  \draw[->, black!55, line width=1pt] (c) -- (i.north);
+  \draw[->, black!55, line width=1pt] (a) -- (i.north east);
+
+  % influências mútuas
+  \draw[<->, dorange, line width=0.9pt] (p) -- (c);
+  \draw[<->, dorange, line width=0.9pt] (c) -- (a);
+  \draw[<->, dorange, line width=0.9pt, bend right=32] (p) to (a);
+
+  \node[dsub, align=center] at (0,-2.9)
+     {sistemas mentais não são isolados --- a experiência é \textbf{holística}};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+---
+title: "Interação Humano-Computador"
+description: "Fatores humanos, usabilidade, experiência do usuário (UX) e métodos de avaliação. Baseada em *Interação Humano-Computador e Experiência do Usuário* (Barbosa, Barbosa, Darin, Silveira, Gasparini, Silva)."
+format: html
+listing:
+  - id: aulas
+    contents:
+      - "teoria/*.qmd"
+    type: table
+    fields: [title, subtitle]
+    field-display-names:
+      subtitle: "Tema"
+    sort: false
+---
+
+## Aulas teóricas
+
+::: {#aulas}
+:::
