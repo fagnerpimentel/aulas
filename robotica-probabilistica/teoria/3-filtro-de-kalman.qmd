@@ -46,6 +46,21 @@ $$
 - Esta é a **representação de momentos** (1º e 2º momentos da distribuição)
 
 
+## Entendendo a Fórmula da Gaussiana {.smaller}
+
+$$
+p(x) = \underbrace{\det(2\pi\Sigma)^{-\frac{1}{2}}}_{\text{normalização}}\;
+\exp\!\Big\{ -\tfrac{1}{2}\,\underbrace{(x-\mu)^{\top}\Sigma^{-1}(x-\mu)}_{\text{Mahalanobis}^2} \Big\}
+$$
+
+- $x$ — um ponto do espaço de estado ($n$ dimensões); $p(x)$ é a **densidade** de probabilidade nesse ponto
+- $\mu$ — **centro** da distribuição: o máximo de $p$ ocorre exatamente em $x = \mu$
+- $\Sigma$ — **covariância** ($n\times n$): dá a "largura" em cada direção e as correlações entre variáveis; sua inversa $\Sigma^{-1}$ é a **matriz de precisão**
+- $(x-\mu)^{\top}\Sigma^{-1}(x-\mu)$ — distância ao centro **ponderada pela incerteza**; é uma **forma quadrática**, então as curvas de nível são **elipsoides**
+- $\exp\{-\tfrac{1}{2}(\cdot)\}$ — produz o **formato de sino**: a densidade cai com o **quadrado** dessa distância
+- $\det(2\pi\Sigma)^{-\frac{1}{2}}$ — **não depende de $x$**; só garante que $\int p(x)\,dx = 1$ (encolhe quando o "volume" de $\Sigma$ cresce)
+
+
 ## Duas Representações Equivalentes {.smaller}
 
 - **Representação de momentos**: parâmetros $(\mu,\ \Sigma)$ — média e covariância
@@ -70,6 +85,8 @@ $$
 - **Filtro de Kalman Estendido — EKF** — estende o KF para funções **não lineares** de transição e medição
 - **Filtro de Informação** — dual do KF, usa a **representação canônica**
 
+![](images/familia-gaussianos.svg){fig-align="center" width="76%"}
+
 # O Filtro de Kalman
 
 Implementação do Filtro de Bayes para sistemas **lineares gaussianos**, usando **média** e **covariância**. É a técnica mais estudada para filtragem em estados contínuos.
@@ -89,8 +106,6 @@ Implementação do Filtro de Bayes para sistemas **lineares gaussianos**, usando
 :::
 :::
 
-![](images/kf-linha-tempo.svg){fig-align="center" width="92%"}
-
 ## Onde o Filtro de Kalman é Usado {.smaller}
 
 ::: columns
@@ -100,19 +115,23 @@ Implementação do Filtro de Bayes para sistemas **lineares gaussianos**, usando
 
 Navegação da **Apollo**: primeira grande aplicação prática
 :::
-::: {.column width="31.5%"}
-![](images/fotos/gps-satelite.jpg){fig-align="center" width="100%"}
-[Satélite GPS (concepção artística) — NASA, domínio público]{.credito}
 
-**GPS + navegação inercial**: fusão de posição e movimento
-:::
 ::: {.column width="37%"}
 ![](images/fotos/radar-trafego-aereo.jpg){fig-align="center" width="100%"}
 [Controle de tráfego aéreo, Berlim, 1986 — T. Farr / US DoD, domínio público]{.credito}
 
 **Rastreamento por radar**: alvos em trajetórias ruidosas
 :::
+
+::: {.column width="31.5%"}
+![](images/fotos/gps-satelite.jpg){fig-align="center" width="100%"}
+[Satélite GPS (concepção artística) — NASA, domínio público]{.credito}
+
+**GPS + navegação inercial**: fusão de posição e movimento
 :::
+:::
+
+![](images/kf-linha-tempo.svg){fig-align="center" width="92%"}
 
 ## Onde o Filtro de Kalman é Usado {.smaller}
 
@@ -142,18 +161,31 @@ $$
 x_t = A_t\,x_{t-1} + B_t\,u_t + \varepsilon_t
 $$
 
-- $A_t$: matriz $n \times n$ ($n = \dim x_t$); $B_t$: matriz $n \times m$ ($m = \dim u_t$)
-- $\varepsilon_t$: ruído gaussiano de média zero e covariância $R_t$ (modela a aleatoriedade da transição)
-- Substituindo em $p(x) = \det(2\pi\Sigma)^{-\frac{1}{2}}
-\exp\!\left\{ -\tfrac{1}{2}(x-\mu)^{\top}\Sigma^{-1}(x-\mu) \right\}$
-a transição é a normal:
+::: columns
+::: {.column width="50%"}
+- $A_t$: matriz de **transição de estado** ($n \times n$, $n = \dim x_t$)
+  - descreve como o estado **evolui sozinho** de $x_{t-1}$ para $x_t$ (a dinâmica), sem controle nem ruído
+- $B_t$: matriz de **controle** ($n \times m$, $m = \dim u_t$)
+  - descreve como o controle $u_t$ **altera o estado**
+- $\varepsilon_t$: ruído gaussiano de média zero e covariância $R_t$
+  - modela a aleatoriedade da transição
+::: 
 
-$$
+::: {.column width="50%"}
+![](images/kf-transicao-linear.svg){fig-align="center" width="100%"}
+:::
+:::
+
+<!-- - Substituindo em $p(x) = \det(2\pi\Sigma)^{-\frac{1}{2}} -->
+<!-- \exp\!\left\{ -\tfrac{1}{2}(x-\mu)^{\top}\Sigma^{-1}(x-\mu) \right\}$ -->
+<!-- a transição é a normal: -->
+
+<!-- $$
 p(x_t \mid u_t, x_{t-1}) = \det(2\pi R_t)^{-\frac{1}{2}}
 \exp\!\left\{ -\tfrac{1}{2}(x_t - A_t x_{t-1} - B_t u_t)^{\top} R_t^{-1}(x_t - A_t x_{t-1} - B_t u_t) \right\}
-$$
+$$ -->
 
-![](images/kf-transicao-linear.svg){fig-align="center" width="60%"}
+
 
 ## Premissa 2 — Medição Linear {.smaller}
 
@@ -163,20 +195,20 @@ $$
 
 - $C_t$: matriz $k \times n$ ($k = \dim z_t$)
 - $\delta_t$: ruído de medição, gaussiano de média zero e covariância $Q_t$
-- A probabilidade de medição é a normal:
-$$
-p(z_t \mid x_t) = \det(2\pi Q_t)^{-\frac{1}{2}}
-\exp\!\left\{ -\tfrac{1}{2}(z_t - C_t x_t)^{\top} Q_t^{-1}(z_t - C_t x_t) \right\}
-$$
+<!-- - A probabilidade de medição é a normal: -->
+<!-- $$ -->
+<!-- p(z_t \mid x_t) = \det(2\pi Q_t)^{-\frac{1}{2}} -->
+<!-- \exp\!\left\{ -\tfrac{1}{2}(z_t - C_t x_t)^{\top} Q_t^{-1}(z_t - C_t x_t) \right\} -->
+<!-- $$ -->
 
 ![](images/kf-medicao-linear.svg){fig-align="center" width="58%"}
 
 ## Premissa 3 — Crença Inicial Gaussiana {.smaller}
 
-$$
-bel(x_0) = p(x_0) = \det(2\pi\Sigma_0)^{-\frac{1}{2}}
-\exp\!\left\{ -\tfrac{1}{2}(x_0 - \mu_0)^{\top}\Sigma_0^{-1}(x_0 - \mu_0) \right\}
-$$
+<!-- $$ -->
+<!-- bel(x_0) = p(x_0) = \det(2\pi\Sigma_0)^{-\frac{1}{2}} -->
+<!-- \exp\!\left\{ -\tfrac{1}{2}(x_0 - \mu_0)^{\top}\Sigma_0^{-1}(x_0 - \mu_0) \right\} -->
+<!-- $$ -->
 
 - A crença em $t=0$ é normal, com média $\mu_0$ e covariância $\Sigma_0$
 - **As três premissas juntas** garantem que $bel(x_t)$ é gaussiana para **todo** instante $t$
@@ -190,7 +222,8 @@ $$
 ::: columns
 ::: {.column width="42%"}
 - Linhas 2–3: **Predição** (incorpora o controle)
-- Linhas 4–6: **Correção** (incorpora a medição)
+- Linha 4: **Ganho de Kalman** (quanto confiar na predição ou na correção)
+- Linhas 5–6: **Correção** (incorpora a medição)
 :::
 ::: {.column width="58%"}
 ::: {.pseudo}
@@ -226,28 +259,33 @@ $$
 
 ![](images/kf-conv-gaussianas.svg){fig-align="center" width="96%"}
 
-## Passo de Correção (Linhas 4 a 6) {.smaller}
+## O Ganho de Kalman (Linha 4){.smaller}
 
 $$
 K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1}
 \qquad
+$$
+
+- **Linha 4** — o **ganho de Kalman** $K_t$: define quanto a medição é incorporada à nova estimativa
+
+![](images/kf-ganho-intuicao.svg){fig-align="center" width="82%"}
+
+- Se a medição é muito ruidosa ($Q_t$ grande): $K_t \to 0$: o filtro **confia na predição**
+- Se a predição é muito incerta ($\bar\Sigma_t$ grande): $K_t  \to 1$: o filtro **confia na medição**
+
+
+## Passo de Correção (Linhas 5 e 6) {.smaller}
+
+$$
 \mu_t = \bar\mu_t + K_t\,(z_t - C_t\,\bar\mu_t)
 \qquad
 \Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t
 $$
 
-- **Linha 4** — o **ganho de Kalman** $K_t$: define quanto a medição é incorporada à nova estimativa
 - **Linha 5** — a média é ajustada na proporção de $K_t$ pela **inovação** $z_t - C_t\bar\mu_t$ (diferença entre a medição observada e a esperada)
 - **Linha 6** — a covariância é reduzida, refletindo o ganho de informação da medição
 
 ![](images/kf-prod-gaussianas.svg){fig-align="center" width="96%"}
-
-## O Ganho de Kalman {.smaller}
-
-![](images/kf-ganho-intuicao.svg){fig-align="center" width="82%"}
-
-- Se a medição é muito ruidosa ($Q_t$ grande) → $K_t \to 0$: o filtro **confia na predição**
-- Se a predição é muito incerta ($\bar\Sigma_t$ grande) → $K_t$ grande: o filtro **confia na medição**
 
 ## O Ciclo Completo {.smaller}
 
@@ -267,23 +305,159 @@ O filtro alterna **predição** (usa o controle $u_t$) e **correção** (usa a m
 
 Robô que se move ao longo de um eixo; a cada diagrama, a crença é a curva em destaque.
 
-![](images/kf-ilustracao-1d.svg){fig-align="center" width="100%"}
+```{=html}
+<div id="kf1d" style="max-width:900px;margin:.2rem auto 0;">
+  <div style="display:flex;align-items:center;gap:14px;font-size:15px;color:#333;">
+    <button id="kf1d-play" aria-label="animar / pausar" style="padding:5px 12px;border:1px solid #2A5B8C;background:#2A5B8C;color:#fff;border-radius:5px;cursor:pointer;font:inherit;line-height:1;">&#9654;</button>
+    <input id="kf1d-t" type="range" min="0" max="5" step="1" value="0" style="flex:1;accent-color:#2A5B8C;">
+    <span id="kf1d-lbl" style="min-width:130px;text-align:right;font-variant-numeric:tabular-nums;">(a) &nbsp; t = 0</span>
+  </div>
+  <canvas id="kf1d-cv" width="1600" height="540" style="width:100%;height:auto;display:block;margin-top:6px;"></canvas>
+  <div style="display:flex;gap:22px;font-size:14px;color:#555;margin-top:2px;">
+    <span><span style="display:inline-block;width:22px;border-top:4px solid #2A5B8C;vertical-align:middle;"></span>&nbsp;cren&ccedil;a / predi&ccedil;&atilde;o</span>
+    <span><span style="display:inline-block;width:22px;border-top:4px solid #B3541E;vertical-align:middle;"></span>&nbsp;medi&ccedil;&atilde;o</span>
+    <span><span style="display:inline-block;width:22px;border-top:4px solid #4A7C59;vertical-align:middle;"></span>&nbsp;posterior (ap&oacute;s corre&ccedil;&atilde;o)</span>
+  </div>
+  <p id="kf1d-cap" style="font-size:16px;color:#444;margin:8px 0 0;min-height:3em;"></p>
+</div>
+<script>
+(function(){
+  var cv = document.getElementById('kf1d-cv');
+  if(!cv || cv.dataset.ready){ return; }
+  cv.dataset.ready = '1';
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+  var P = {l:64, r:54, t:34, b:56};
+  var XMIN = 0, XMAX = 9, YMAX = 0.66;
+  var COL = { blue:'#2A5B8C', orange:'#B3541E', green:'#4A7C59' };
+
+  var steps = [
+    { tag:'(a)', kind:'predi&ccedil;&atilde;o',
+      cap:'(a) Crença prévia sobre a posição: uma gaussiana com média μ e incerteza σ.',
+      curves:[ {mu:3.40, s:1.25, c:COL.blue, dash:false, w:5} ] },
+    { tag:'(b)', kind:'medi&ccedil;&atilde;o',
+      cap:'(b) O robô consulta um sensor de posição (ex.: GPS). A medição chega com sua própria incerteza; a crença anterior aparece tracejada.',
+      curves:[ {mu:3.40, s:1.25, c:COL.blue, dash:true,  w:3},
+               {mu:4.70, s:0.80, c:COL.orange, dash:false, w:6} ] },
+    { tag:'(c)', kind:'corre&ccedil;&atilde;o',
+      cap:'(c) Correção (linhas 4–6): a posterior tem média entre prior e medição e incerteza menor que ambas — ganho de informação.',
+      curves:[ {mu:3.40, s:1.25, c:COL.blue, dash:true, w:3},
+               {mu:4.70, s:0.80, c:COL.orange, dash:true, w:3},
+               {mu:4.34, s:0.67, c:COL.green, dash:false, w:6} ] },
+    { tag:'(d)', kind:'predi&ccedil;&atilde;o',
+      cap:'(d) O robô se move para a direita. A predição (linhas 2–3) desloca a crença e a torna mais larga (ruído de transição).',
+      curves:[ {mu:4.34, s:0.67, c:COL.green, dash:true, w:3},
+               {mu:6.70, s:1.05, c:COL.blue, dash:false, w:6} ] },
+    { tag:'(e)', kind:'medi&ccedil;&atilde;o',
+      cap:'(e) Nova leitura do sensor na posição atual, com sua incerteza.',
+      curves:[ {mu:6.70, s:1.05, c:COL.blue, dash:true, w:3},
+               {mu:7.40, s:0.80, c:COL.orange, dash:false, w:6} ] },
+    { tag:'(f)', kind:'corre&ccedil;&atilde;o',
+      cap:'(f) Posterior após incorporar a segunda medição: novamente mais concentrada. O ciclo predição ↔ correção se repete.',
+      curves:[ {mu:6.70, s:1.05, c:COL.blue, dash:true, w:3},
+               {mu:7.40, s:0.80, c:COL.orange, dash:true, w:3},
+               {mu:7.15, s:0.62, c:COL.green, dash:false, w:6} ] }
+  ];
+
+  function xpx(x){ return P.l + (x-XMIN)/(XMAX-XMIN)*(W-P.l-P.r); }
+  function ypx(y){ return H-P.b - Math.min(y,YMAX*1.06)/YMAX*(H-P.t-P.b); }
+  function g(x,mu,s){ return Math.exp(-((x-mu)*(x-mu))/(2*s*s))/(s*Math.sqrt(2*Math.PI)); }
+
+  function curve(c){
+    ctx.beginPath();
+    for(var i=0;i<=260;i++){
+      var x = XMIN + (XMAX-XMIN)*i/260, px = xpx(x), py = ypx(g(x,c.mu,c.s));
+      if(i===0){ ctx.moveTo(px,py); } else { ctx.lineTo(px,py); }
+    }
+    ctx.lineWidth = c.w; ctx.strokeStyle = c.c;
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.setLineDash(c.dash ? [11,9] : []);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function render(t){
+    ctx.clearRect(0,0,W,H);
+    var y0 = H-P.b, xe = W-P.r*0.35;
+    ctx.strokeStyle = '#bcbcbc'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(P.l,y0); ctx.lineTo(xe,y0); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xe,y0); ctx.lineTo(xe-17,y0-8); ctx.lineTo(xe-17,y0+8);
+    ctx.closePath(); ctx.fillStyle = '#bcbcbc'; ctx.fill();
+    ctx.fillStyle = '#8a8a8a'; ctx.font = '24px Georgia, "Times New Roman", serif';
+    ctx.textAlign = 'end';
+    ctx.fillText('posição  x', xe-24, y0+34);
+    ctx.textAlign = 'start';
+    steps[t].curves.forEach(curve);
+  }
+
+  var slider = document.getElementById('kf1d-t');
+  var lbl = document.getElementById('kf1d-lbl');
+  var cap = document.getElementById('kf1d-cap');
+  var btn = document.getElementById('kf1d-play');
+  var timer = null;
+
+  function show(t){
+    t = Math.max(0, Math.min(5, t|0));
+    slider.value = t;
+    lbl.innerHTML = steps[t].tag + ' &middot; ' + steps[t].kind + ' &nbsp; t = ' + t;
+    cap.innerHTML = steps[t].cap;
+    render(t);
+  }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } btn.innerHTML = '&#9654;'; }
+  function play(){
+    if(timer){ stop(); return; }
+    if(+slider.value >= 5){ show(0); }
+    btn.innerHTML = '&#10073;&#10073;';
+    timer = setInterval(function(){
+      show((+slider.value + 1) % 6);
+    }, 1200);
+  }
+  var manualPause = false;
+  function onSlide(){ var s = cv.closest('section'); return !!(s && s.classList.contains('present')); }
+  function autoStart(){ show(0); if(!manualPause){ play(); } }
+
+  slider.addEventListener('input', function(){ manualPause = true; stop(); show(+slider.value); });
+  btn.addEventListener('click', function(){
+    if(timer){ manualPause = true; stop(); }
+    else { manualPause = false; play(); }
+  });
+  if(window.Reveal && Reveal.on){
+    Reveal.on('slidechanged', function(){ if(onSlide()){ autoStart(); } else { stop(); } });
+    Reveal.on('ready', function(){ if(onSlide()){ autoStart(); } });
+  }
+  show(0);
+  if(!window.Reveal || onSlide()){ autoStart(); }
+  else { setTimeout(function(){ if(onSlide() && !timer && !manualPause){ autoStart(); } }, 400); }
+})();
+</script>
+```
 
 ## Ilustração: Localização 1D {.smaller}
 
+Robô que se move ao longo de um eixo; a cada diagrama, a crença é a curva em destaque.
+
+::: columns
+::: {.column width="55%"}
 - **(a)** crença prévia sobre a posição
 - **(b)** o robô consulta um sensor de posição (ex.: GPS) → medição em destaque, com sua incerteza
 - **(c)** combinando prior + medição (linhas 4–6), a crença resultante tem média **entre** as duas e incerteza **menor que ambas** — característico da integração de informação no KF
 - **(d)** o robô se move para a direita → crença deslocada e **mais larga** (transição estocástica, linhas 2–3)
 - **(e)** nova medição, com sua incerteza
 - **(f)** posterior resultante após incorporar a segunda medição
+:::
+::: {.column width="45%"}
+![](images/kf-ilustracao-1d.svg){fig-align="center" width="100%"}
+:::
+:::
+
 
 ## Predição × Correção {.smaller}
 
 ::: columns
 ::: {.column width="46%"}
 - O **passo de correção** integra dados de sensor → **diminui** a incerteza
-- O **passo de predição** (ou *control update*) modifica a crença conforme uma ação → **aumenta** a incerteza
+- O **passo de predição** modifica a crença conforme uma ação → **aumenta** a incerteza
 - O filtro alterna os dois indefinidamente
 :::
 ::: {.column width="54%"}
@@ -291,83 +465,625 @@ Robô que se move ao longo de um eixo; a cada diagrama, a crença é a curva em 
 :::
 :::
 
-# Esboço da Derivação
+# Exemplo 1 — Estado 1D (Posição) {.smaller}
 
-Por que as três premissas bastam para manter a crença gaussiana. 
+Um robô anda por um corredor. O estado é **escalar** — a posição $x$ (m). Como $\dim x = 1$, todas as matrizes viram **números** e cada linha do algoritmo fica uma conta simples.
 
-## A Ideia Geral {.smaller}
+## Modelo e Dados {.smaller}
 
-- A crença gaussiana é **fechada** sob as duas operações do Filtro de Bayes quando os modelos são lineares gaussianos:
-  - **predição** = integral (convolução) de duas gaussianas → gaussiana
-  - **correção** = produto de duas gaussianas, normalizado → gaussiana
-- Em ambos os casos, o **expoente** resultante é uma **forma quadrática** em $x_t$ — logo a crença é normal
-- Média e covariância saem do **mínimo** e da **curvatura** dessa forma quadrática (1ª e 2ª derivadas)
+::: columns
+::: {.column width="46%"}
+- **Modelo linear-gaussiano**
 
-## Parte 1 — Predição {.smaller}
+| par. | valor | significado |
+|:--:|:--:|:--|
+| $A$ | $1$ | a posição se mantém sozinha |
+| $B$ | $1$ | o comando desloca 1:1 |
+| $C$ | $1$ | o GPS mede a posição |
+| $R$ | $1{,}0$ | variância da transição |
+| $Q$ | $2{,}0$ | variância do GPS |
+| $\mu_0$ | $0{,}0$ | palpite inicial |
+| $\Sigma_0$ | $4{,}0$ | incerteza inicial |
+:::
+::: {.column width="54%"}
+- **Sequência de dados**
+  - 5 ciclos de predição + correção
 
+| $t$ | comando $u_t$ | medição $z_t$ |
+|:--:|:--:|:--:|
+| $1$ | $+2{,}0$ | $2{,}2$ |
+| $2$ | $+2{,}0$ | $4{,}5$ |
+| $3$ | $+2{,}0$ | $5{,}9$ |
+| $4$ | $+2{,}0$ | $8{,}3$ |
+| $5$ | $+2{,}0$ | $9{,}7$ |
+
+:::
+:::
+
+## Cálculo Passo a Passo {.smaller}
+
+Avance com **◀ ▶** (ou deixe rodar) — cada etapa mostra a conta de cada linha e a gaussiana correspondente.
+
+```{=html}
+<div id="kfex" style="max-width:960px;margin:.1rem auto 0;">
+  <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:#333;">
+    <button id="kfex-prev" style="padding:4px 12px;border:1px solid #2A5B8C;background:#fff;color:#2A5B8C;border-radius:5px;cursor:pointer;font:inherit;">&#9664;</button>
+    <input id="kfex-t" type="range" min="0" max="10" step="1" value="0" style="flex:1;accent-color:#2A5B8C;">
+    <button id="kfex-next" style="padding:4px 12px;border:1px solid #2A5B8C;background:#fff;color:#2A5B8C;border-radius:5px;cursor:pointer;font:inherit;">&#9654;</button>
+    <button id="kfex-play" aria-label="animar / pausar" style="padding:4px 12px;border:1px solid #2A5B8C;background:#2A5B8C;color:#fff;border-radius:5px;cursor:pointer;font:inherit;line-height:1;">&#9654;&#9654;</button>
+  </div>
+  <div id="kfex-lbl" style="text-align:center;font-size:15px;color:#2A5B8C;font-weight:bold;margin-top:5px;"></div>
+  <canvas id="kfex-cv" width="1520" height="450" style="width:100%;height:auto;display:block;margin-top:4px;"></canvas>
+  <div style="display:flex;gap:20px;font-size:13px;color:#555;margin-top:2px;justify-content:center;">
+    <span><span style="display:inline-block;width:20px;border-top:4px solid #2A5B8C;vertical-align:middle;"></span>&nbsp;cren&ccedil;a / predi&ccedil;&atilde;o</span>
+    <span><span style="display:inline-block;width:20px;border-top:4px solid #B3541E;vertical-align:middle;"></span>&nbsp;medi&ccedil;&atilde;o</span>
+    <span><span style="display:inline-block;width:20px;border-top:4px solid #4A7C59;vertical-align:middle;"></span>&nbsp;posterior</span>
+  </div>
+  <div id="kfex-calc" style="font-size:15px;color:#222;background:#F4F1EA;border-left:4px solid #2A5B8C;padding:8px 12px;margin-top:8px;min-height:4.4em;font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.5;"></div>
+</div>
+<script>
+(function(){
+  var cv = document.getElementById('kfex-cv');
+  if(!cv || cv.dataset.ready){ return; }
+  cv.dataset.ready = '1';
+  var ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  var P = {l:44, r:38, t:22, b:46}, XMIN = -6, XMAX = 15, YMAX = 0.42;
+  var C = { blue:'#2A5B8C', orange:'#B3541E', green:'#4A7C59' };
+  var ob = '<span style="text-decoration:overline">', oe = '</span>';
+
+  var S = [
+    { h:'Crença inicial',
+      calc:'&mu;<sub>0</sub> = 0,000 &nbsp;&nbsp; &Sigma;<sub>0</sub> = 4,000 &nbsp;&nbsp; (&sigma;<sub>0</sub> = 2,000)',
+      cs:[ {m:0, s:2.000, c:C.blue, d:false, w:6} ] },
+    { h:'t = 1 &middot; Predição',
+      calc:'L2: &nbsp;'+ob+'&mu;'+oe+'<sub>1</sub> = &mu;<sub>0</sub> + u<sub>1</sub> = 0,000 + 2,000 = <b>2,000</b><br>'
+          +'L3: &nbsp;'+ob+'&Sigma;'+oe+'<sub>1</sub> = &Sigma;<sub>0</sub> + R = 4,000 + 1,000 = <b>5,000</b>',
+      cs:[ {m:0, s:2.000, c:C.blue, d:true, w:3},
+           {m:2.000, s:2.236, c:C.blue, d:false, w:6} ] },
+    { h:'t = 1 &middot; Correção',
+      calc:'L4: &nbsp;K<sub>1</sub> = '+ob+'&Sigma;'+oe+'<sub>1</sub> / ('+ob+'&Sigma;'+oe+'<sub>1</sub> + Q) = 5,000 / 7,000 = <b>0,714</b><br>'
+          +'L5: &nbsp;&mu;<sub>1</sub> = 2,000 + 0,714&middot;(2,200 &minus; 2,000) = <b>2,143</b><br>'
+          +'L6: &nbsp;&Sigma;<sub>1</sub> = (1 &minus; 0,714)&middot;5,000 = <b>1,429</b>',
+      cs:[ {m:2.000, s:2.236, c:C.blue, d:true, w:3},
+           {m:2.2, s:1.414, c:C.orange, d:false, w:5},
+           {m:2.143, s:1.195, c:C.green, d:false, w:6} ] },
+    { h:'t = 2 &middot; Predição',
+      calc:'L2: &nbsp;'+ob+'&mu;'+oe+'<sub>2</sub> = &mu;<sub>1</sub> + u<sub>2</sub> = 2,143 + 2,000 = <b>4,143</b><br>'
+          +'L3: &nbsp;'+ob+'&Sigma;'+oe+'<sub>2</sub> = &Sigma;<sub>1</sub> + R = 1,429 + 1,000 = <b>2,429</b>',
+      cs:[ {m:2.143, s:1.195, c:C.green, d:true, w:3},
+           {m:4.143, s:1.559, c:C.blue, d:false, w:6} ] },
+    { h:'t = 2 &middot; Correção',
+      calc:'L4: &nbsp;K<sub>2</sub> = 2,429 / (2,429 + 2,000) = <b>0,548</b><br>'
+          +'L5: &nbsp;&mu;<sub>2</sub> = 4,143 + 0,548&middot;(4,500 &minus; 4,143) = <b>4,339</b><br>'
+          +'L6: &nbsp;&Sigma;<sub>2</sub> = (1 &minus; 0,548)&middot;2,429 = <b>1,097</b>',
+      cs:[ {m:4.143, s:1.559, c:C.blue, d:true, w:3},
+           {m:4.5, s:1.414, c:C.orange, d:false, w:5},
+           {m:4.339, s:1.047, c:C.green, d:false, w:6} ] },
+    { h:'t = 3 &middot; Predição',
+      calc:'L2: &nbsp;'+ob+'&mu;'+oe+'<sub>3</sub> = &mu;<sub>2</sub> + u<sub>3</sub> = 4,339 + 2,000 = <b>6,339</b><br>'
+          +'L3: &nbsp;'+ob+'&Sigma;'+oe+'<sub>3</sub> = &Sigma;<sub>2</sub> + R = 1,097 + 1,000 = <b>2,097</b>',
+      cs:[ {m:4.339, s:1.047, c:C.green, d:true, w:3},
+           {m:6.339, s:1.448, c:C.blue, d:false, w:6} ] },
+    { h:'t = 3 &middot; Correção',
+      calc:'L4: &nbsp;K<sub>3</sub> = 2,097 / (2,097 + 2,000) = <b>0,512</b><br>'
+          +'L5: &nbsp;&mu;<sub>3</sub> = 6,339 + 0,512&middot;(5,900 &minus; 6,339) = <b>6,114</b><br>'
+          +'L6: &nbsp;&Sigma;<sub>3</sub> = (1 &minus; 0,512)&middot;2,097 = <b>1,024</b>',
+      cs:[ {m:6.339, s:1.448, c:C.blue, d:true, w:3},
+           {m:5.9, s:1.414, c:C.orange, d:false, w:5},
+           {m:6.114, s:1.012, c:C.green, d:false, w:6} ] },
+    { h:'t = 4 &middot; Predição',
+      calc:'L2: &nbsp;'+ob+'&mu;'+oe+'<sub>4</sub> = &mu;<sub>3</sub> + u<sub>4</sub> = 6,114 + 2,000 = <b>8,114</b><br>'
+          +'L3: &nbsp;'+ob+'&Sigma;'+oe+'<sub>4</sub> = &Sigma;<sub>3</sub> + R = 1,024 + 1,000 = <b>2,024</b>',
+      cs:[ {m:6.114, s:1.012, c:C.green, d:true, w:3},
+           {m:8.114, s:1.423, c:C.blue, d:false, w:6} ] },
+    { h:'t = 4 &middot; Correção',
+      calc:'L4: &nbsp;K<sub>4</sub> = 2,024 / (2,024 + 2,000) = <b>0,503</b><br>'
+          +'L5: &nbsp;&mu;<sub>4</sub> = 8,114 + 0,503&middot;(8,300 &minus; 8,114) = <b>8,208</b><br>'
+          +'L6: &nbsp;&Sigma;<sub>4</sub> = (1 &minus; 0,503)&middot;2,024 = <b>1,006</b>',
+      cs:[ {m:8.114, s:1.423, c:C.blue, d:true, w:3},
+           {m:8.3, s:1.414, c:C.orange, d:false, w:5},
+           {m:8.208, s:1.003, c:C.green, d:false, w:6} ] },
+    { h:'t = 5 &middot; Predição',
+      calc:'L2: &nbsp;'+ob+'&mu;'+oe+'<sub>5</sub> = &mu;<sub>4</sub> + u<sub>5</sub> = 8,208 + 2,000 = <b>10,208</b><br>'
+          +'L3: &nbsp;'+ob+'&Sigma;'+oe+'<sub>5</sub> = &Sigma;<sub>4</sub> + R = 1,006 + 1,000 = <b>2,006</b>',
+      cs:[ {m:8.208, s:1.003, c:C.green, d:true, w:3},
+           {m:10.208, s:1.416, c:C.blue, d:false, w:6} ] },
+    { h:'t = 5 &middot; Correção',
+      calc:'L4: &nbsp;K<sub>5</sub> = 2,006 / (2,006 + 2,000) = <b>0,501</b><br>'
+          +'L5: &nbsp;&mu;<sub>5</sub> = 10,208 + 0,501&middot;(9,700 &minus; 10,208) = <b>9,953</b><br>'
+          +'L6: &nbsp;&Sigma;<sub>5</sub> = (1 &minus; 0,501)&middot;2,006 = <b>1,001</b>',
+      cs:[ {m:10.208, s:1.416, c:C.blue, d:true, w:3},
+           {m:9.7, s:1.414, c:C.orange, d:false, w:5},
+           {m:9.953, s:1.001, c:C.green, d:false, w:6} ] }
+  ];
+
+  function xpx(x){ return P.l + (x-XMIN)/(XMAX-XMIN)*(W-P.l-P.r); }
+  function ypx(y){ return H-P.b - Math.min(y,YMAX*1.05)/YMAX*(H-P.t-P.b); }
+  function g(x,m,s){ return Math.exp(-((x-m)*(x-m))/(2*s*s))/(s*Math.sqrt(2*Math.PI)); }
+
+  function curve(c){
+    ctx.beginPath();
+    for(var i=0;i<=300;i++){
+      var x = XMIN + (XMAX-XMIN)*i/300, px = xpx(x), py = ypx(g(x,c.m,c.s));
+      if(i){ ctx.lineTo(px,py); } else { ctx.moveTo(px,py); }
+    }
+    ctx.lineWidth = c.w; ctx.strokeStyle = c.c; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.setLineDash(c.d ? [10,8] : []); ctx.stroke(); ctx.setLineDash([]);
+    if(!c.d){
+      var mx = xpx(c.m);
+      ctx.setLineDash([2,4]); ctx.strokeStyle = c.c; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(mx,H-P.b); ctx.lineTo(mx, ypx(g(c.m,c.m,c.s))); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  function render(t){
+    ctx.clearRect(0,0,W,H);
+    var y0 = H-P.b, xe = W-P.r*0.4;
+    ctx.strokeStyle = '#c2c2c2'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(P.l,y0); ctx.lineTo(xe,y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xe,y0); ctx.lineTo(xe-15,y0-7); ctx.lineTo(xe-15,y0+7);
+    ctx.closePath(); ctx.fillStyle = '#c2c2c2'; ctx.fill();
+    ctx.fillStyle = '#8a8a8a'; ctx.font = '19px Georgia, "Times New Roman", serif'; ctx.textAlign = 'center';
+    for(var xt=-6; xt<=14; xt+=2){
+      var px = xpx(xt);
+      ctx.strokeStyle = '#c2c2c2'; ctx.beginPath(); ctx.moveTo(px,y0); ctx.lineTo(px,y0+6); ctx.stroke();
+      ctx.fillText(String(xt), px, y0+25);
+    }
+    ctx.textAlign = 'end'; ctx.fillText('posição  x (m)', xe-4, y0-10); ctx.textAlign = 'start';
+    S[t].cs.forEach(curve);
+  }
+
+  var slider = document.getElementById('kfex-t'),
+      lbl = document.getElementById('kfex-lbl'),
+      calc = document.getElementById('kfex-calc'),
+      play = document.getElementById('kfex-play'),
+      prev = document.getElementById('kfex-prev'),
+      next = document.getElementById('kfex-next'),
+      timer = null;
+
+  function show(t){
+    t = ((t|0) % 11 + 11) % 11;
+    slider.value = t;
+    lbl.innerHTML = S[t].h;
+    calc.innerHTML = S[t].calc;
+    render(t);
+  }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } play.innerHTML = '&#9654;&#9654;'; }
+  function run(){
+    if(timer){ stop(); return; }
+    play.innerHTML = '&#10073;&#10073;';
+    timer = setInterval(function(){ show(+slider.value + 1); }, 1500);
+  }
+  slider.addEventListener('input', function(){ stop(); show(+slider.value); });
+  prev.addEventListener('click', function(){ stop(); show(+slider.value - 1); });
+  next.addEventListener('click', function(){ stop(); show(+slider.value + 1); });
+  play.addEventListener('click', run);
+  if(window.Reveal && Reveal.on){ Reveal.on('slidechanged', function(){ show(+slider.value); }); }
+  show(0);
+})();
+</script>
+```
+
+## Resultados e Convergência {.smaller}
+
+::: columns
+::: {.column width="50%"}
+| $t$ | $\bar\mu_t$ | $\bar\Sigma_t$ | $K_t$ | $\mu_t$ | $\Sigma_t$ |
+|:--:|:--:|:--:|:--:|:--:|:--:|
+| $1$ | $2{,}000$ | $5{,}000$ | $0{,}714$ | $2{,}143$ | $1{,}429$ |
+| $2$ | $4{,}143$ | $2{,}429$ | $0{,}548$ | $4{,}339$ | $1{,}097$ |
+| $3$ | $6{,}339$ | $2{,}097$ | $0{,}512$ | $6{,}114$ | $1{,}024$ |
+| $4$ | $8{,}114$ | $2{,}024$ | $0{,}503$ | $8{,}208$ | $1{,}006$ |
+| $5$ | $10{,}208$ | $2{,}006$ | $0{,}501$ | $9{,}953$ | $1{,}001$ |
+
+- Cada **correção** encolhe a variância
+- cada **predição** soma $R$
+- Já no ciclo 3 o filtro está em **regime permanente**: $\Sigma_t \to 1{,}0$ e $K_t \to 0{,}5$
+  - não mudam mais
+- A estimativa segue a verdade **dentro da faixa** $\mu_t \pm \Sigma_t$
+:::
+::: {.column width="50%"}
+```{=html}
+<canvas id="kfex2-cv" width="900" height="640" style="width:100%;height:auto;display:block;"></canvas>
+<script>
+(function(){
+  var cv = document.getElementById('kfex2-cv');
+  if(!cv || cv.dataset.ready){ return; }
+  cv.dataset.ready = '1';
+  var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, P = {l:56, r:18, t:20, b:48};
+  var BLUE = '#2A5B8C', ORANGE = '#B3541E', GREY = '#9AA0A6';
+  var T = [0,1,2,3,4,5];
+  var tru  = [0, 2.1, 4.2, 6.0, 8.0, 10.0];
+  var est  = [0, 2.143, 4.339, 6.114, 8.208, 9.953];
+  var sig  = [2.0, 1.195, 1.047, 1.012, 1.003, 1.001];
+  var meas = [null, 2.2, 4.5, 5.9, 8.3, 9.7];
+  var XMIN = 0, XMAX = 5, YMIN = -1.2, YMAX = 12;
+
+  function xpx(x){ return P.l + (x-XMIN)/(XMAX-XMIN)*(W-P.l-P.r); }
+  function ypx(y){ return H-P.b - (y-YMIN)/(YMAX-YMIN)*(H-P.t-P.b); }
+  function poly(pts,col,wd,dash){
+    ctx.beginPath();
+    pts.forEach(function(p,i){ var X=xpx(p[0]),Y=ypx(p[1]); if(i){ctx.lineTo(X,Y);}else{ctx.moveTo(X,Y);} });
+    ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineJoin = 'round';
+    ctx.setLineDash(dash||[]); ctx.stroke(); ctx.setLineDash([]);
+  }
+  function dot(x,y,col,r){ ctx.beginPath(); ctx.arc(xpx(x),ypx(y),r,0,7); ctx.fillStyle = col; ctx.fill(); }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.font = '18px Georgia, serif';
+    ctx.strokeStyle = '#e2e0d8'; ctx.lineWidth = 1; ctx.fillStyle = '#888'; ctx.textAlign = 'right';
+    for(var y=0;y<=12;y+=2){ var py = ypx(y); ctx.beginPath(); ctx.moveTo(P.l,py); ctx.lineTo(W-P.r,py); ctx.stroke(); ctx.fillText(String(y), P.l-8, py+5); }
+    ctx.textAlign = 'center';
+    T.forEach(function(t){ ctx.fillText('t = '+t, xpx(t), H-P.b+26); });
+    ctx.strokeStyle = '#bbb'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(P.l,ypx(YMIN)); ctx.lineTo(P.l,ypx(YMAX)); ctx.moveTo(P.l,H-P.b); ctx.lineTo(W-P.r,H-P.b); ctx.stroke();
+    ctx.save(); ctx.translate(15,H/2); ctx.rotate(-Math.PI/2); ctx.fillStyle = '#888'; ctx.textAlign = 'center';
+    ctx.fillText('posição  x (m)', 0, 0); ctx.restore();
+    // faixa mu +/- sigma
+    ctx.beginPath();
+    T.forEach(function(t,i){ var X=xpx(t),Y=ypx(est[i]+sig[i]); if(i){ctx.lineTo(X,Y);}else{ctx.moveTo(X,Y);} });
+    for(var i=T.length-1;i>=0;i--){ ctx.lineTo(xpx(T[i]), ypx(est[i]-sig[i])); }
+    ctx.closePath(); ctx.fillStyle = 'rgba(42,91,140,0.14)'; ctx.fill();
+    poly(T.map(function(t,i){ return [t,tru[i]]; }), GREY, 2.5, [8,6]);
+    poly(T.map(function(t,i){ return [t,est[i]]; }), BLUE, 4);
+    T.forEach(function(t,i){ dot(t, est[i], BLUE, 6); });
+    [1,2,3,4,5].forEach(function(t){ dot(t, meas[t], ORANGE, 7); });
+    ctx.textAlign = 'left'; ctx.font = '17px Georgia, serif';
+    ctx.fillStyle = GREY;   ctx.fillText('verdade', P.l+10, P.t+8);
+    ctx.fillStyle = BLUE;   ctx.fillText('estimativa  μ ± σ', P.l+10, P.t+30);
+    ctx.fillStyle = ORANGE; ctx.fillText('medições  z', P.l+10, P.t+52);
+  }
+  draw();
+  if(window.Reveal && Reveal.on){ Reveal.on('slidechanged', draw); }
+})();
+</script>
+```
+:::
+:::
+
+# Exemplo 2 — Estado 2D (Posição e Velocidade)
+
+Agora o estado tem **duas variáveis**: $x=\begin{bmatrix}p\\[2pt]v\end{bmatrix}$. O GPS mede **só a posição** — e mesmo assim o filtro **estima a velocidade**.
+
+## Modelo de Velocidade Constante {.smaller}
+
+Posição $p$ (m) e velocidade $v$ (m/s); passo $\Delta t = 1$ s.
+
+::: columns
+::: {.column width="52%"}
 $$
-\overline{bel}(x_t) = \int
-\underbrace{p(x_t \mid x_{t-1}, u_t)}_{\sim\,\mathcal{N}(A_t x_{t-1} + B_t u_t,\ R_t)}\;
-\underbrace{bel(x_{t-1})}_{\sim\,\mathcal{N}(\mu_{t-1},\ \Sigma_{t-1})}\; dx_{t-1}
-$$
-
-- O expoente do produto, $L_t$, é quadrático em $x_{t-1}$ **e** em $x_t$
-- Decompõe-se $L_t = L_t(x_{t-1}, x_t) + L_t(x_t)$, isolando em $L_t(x_{t-1},x_t)$ tudo que depende de $x_{t-1}$
-- A integral de $\exp\{-L_t(x_{t-1},x_t)\}$ é **constante** em relação a $x_t$ (absorvida no normalizador $\eta$)
-- Sobra $L_t(x_t)$, quadrático em $x_t$ → resultado gaussiano
-
-![](images/kf-conv-gaussianas.svg){fig-align="center" width="88%"}
-
-## Parte 1 — Predição: resultado {.smaller}
-
-Minimizando e derivando $L_t(x_t)$ (com auxílio do **lema de inversão de matrizes**):
-
-$$
-\bar\mu_t = A_t\,\mu_{t-1} + B_t\,u_t
-\qquad\qquad
-\bar\Sigma_t = R_t + A_t\,\Sigma_{t-1}\,A_t^{\top}
-$$
-
-que são exatamente as linhas 2 e 3 do algoritmo.
-
-**Lema de inversão de matrizes** — para $R$, $Q$ invertíveis e $P$ de dimensão compatível:
-$$
-(R + P\,Q\,P^{\top})^{-1} = R^{-1} - R^{-1} P\,(Q^{-1} + P^{\top} R^{-1} P)^{-1} P^{\top} R^{-1}
-$$
-
-## Parte 2 — Correção {.smaller}
-
-$$
-bel(x_t) = \eta\;
-\underbrace{p(z_t \mid x_t)}_{\sim\,\mathcal{N}(C_t x_t,\ Q_t)}\;
-\underbrace{\overline{bel}(x_t)}_{\sim\,\mathcal{N}(\bar\mu_t,\ \bar\Sigma_t)}
-= \eta\,\exp\{-J_t\}
-$$
-
-- $J_t$ é quadrático em $x_t$ → $bel(x_t)$ é gaussiana
-- Pelas 1ª e 2ª derivadas de $J_t$:
-$$
-\Sigma_t = (C_t^{\top} Q_t^{-1} C_t + \bar\Sigma_t^{-1})^{-1}
+A=\begin{bmatrix}1&\Delta t\\0&1\end{bmatrix}=\begin{bmatrix}1&1\\0&1\end{bmatrix}
 \qquad
-\mu_t = \bar\mu_t + K_t\,(z_t - C_t\bar\mu_t), \quad K_t = \Sigma_t\,C_t^{\top} Q_t^{-1}
+C=\begin{bmatrix}1&0\end{bmatrix}
 $$
+$$
+R=\begin{bmatrix}0{,}25&0\\0&0{,}25\end{bmatrix}
+\qquad Q = 4{,}0
+$$
+$$
+\mu_0=\begin{bmatrix}0\\0\end{bmatrix}
+\qquad
+\Sigma_0=\begin{bmatrix}4&0\\0&4\end{bmatrix}
+$$
+:::
+::: {.column width="48%"}
+- $A$: $p_{\text{nova}} = p + v\,\Delta t$; $v$ constante
+- **Sem controle**: $u_t = 0$
+- O **GPS mede só $p$** — $v$ nunca é observada diretamente
+- Palpite inicial: parado na origem, com bastante incerteza
 
-![](images/kf-prod-gaussianas.svg){fig-align="center" width="88%"}
+| $t$ | $z_t$ (posição) |
+|:--:|:--:|
+| $1$ | $1{,}4$ |
+| $2$ | $2{,}1$ |
+| $3$ | $3{,}6$ |
+| $4$ | $3{,}5$ |
+| $5$ | $5{,}2$ |
 
-## Parte 2 — Correção: forma do algoritmo {.smaller}
+Verdade: parte de $p=0$ com $v=1{,}0$ m/s constante.
+:::
+:::
 
-- A definição $K_t = \Sigma_t C_t^{\top} Q_t^{-1}$ depende de $\Sigma_t$ — mas usamos $K_t$ para **calcular** $\Sigma_t$
-- Uma sequência de transformações reescreve o ganho **sem** $\Sigma_t$:
-$$
-K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1}
-$$
-- E o lema de inversão leva a linha 6 na forma:
-$$
-\Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t
-$$
-- **Vantagem**: evita inverter a matriz de covariância do estado ($n \times n$) — essencial em espaços de estado de alta dimensão
+## Um Ciclo com Matrizes (t = 1) {.smaller}
 
-## Resumo {.smaller}
+::: columns
+::: {.column width="50%"}
+**Predição**: ($u=0$)
+$$
+\bar\mu_1 = A\,\mu_0 = \begin{bmatrix}1&1\\0&1\end{bmatrix}\!\begin{bmatrix}0\\0\end{bmatrix} = \begin{bmatrix}0\\0\end{bmatrix}
+$$
+$$
+\bar\Sigma_1 = A\,\Sigma_0 A^{\top} + R
+= \begin{bmatrix}8{,}25 & 4{,}00\\[2pt] 4{,}00 & 4{,}25\end{bmatrix}
+$$
+O termo $A\Sigma_0 A^{\top}$ cria valores **fora da diagonal**: posição e velocidade ficam **correlacionadas**.
+:::
+::: {.column width="50%"}
+**Correção**: $z_1 = 1{,}4$, $C=[\,1\ \ 0\,]$
+$$
+K_1 = \frac{\bar\Sigma_1 C^{\top}}{C\bar\Sigma_1 C^{\top}+Q}
+= \frac{1}{12{,}25}\begin{bmatrix}8{,}25\\4{,}00\end{bmatrix}
+= \begin{bmatrix}0{,}673\\0{,}327\end{bmatrix}
+$$
+$$
+\mu_1 = \bar\mu_1 + K_1\,(z_1 - C\,\bar\mu_1) = \begin{bmatrix}0{,}943\\0{,}457\end{bmatrix}
+$$
+$$
+\Sigma_1 = (I - K_1 C)\,\bar\Sigma_1 = \begin{bmatrix}2{,}69 & 1{,}31\\[2pt]1{,}31 & 2{,}94\end{bmatrix}
+$$
+:::
+:::
+
+Mesmo **sem medir a velocidade**, $K_1$ tem segunda componente $\neq 0$ — a medição de posição **corrige a velocidade** pela correlação.
+
+## Evolução da Crença — Elipse de Covariância {.smaller}
+
+```{=html}
+<div id="kf2d" style="max-width:900px;margin:.1rem auto 0;">
+  <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:#333;">
+    <button id="kf2d-prev" style="padding:4px 12px;border:1px solid #2A5B8C;background:#fff;color:#2A5B8C;border-radius:5px;cursor:pointer;font:inherit;">&#9664;</button>
+    <input id="kf2d-t" type="range" min="0" max="10" step="1" value="0" style="flex:1;accent-color:#2A5B8C;">
+    <button id="kf2d-next" style="padding:4px 12px;border:1px solid #2A5B8C;background:#fff;color:#2A5B8C;border-radius:5px;cursor:pointer;font:inherit;">&#9654;</button>
+    <button id="kf2d-play" aria-label="animar / pausar" style="padding:4px 12px;border:1px solid #2A5B8C;background:#2A5B8C;color:#fff;border-radius:5px;cursor:pointer;font:inherit;line-height:1;">&#9654;&#9654;</button>
+  </div>
+  <div id="kf2d-lbl" style="text-align:center;font-size:15px;color:#2A5B8C;font-weight:bold;margin-top:5px;"></div>
+  <div id="kf2d-cap" style="text-align:center;font-size:13px;color:#666;min-height:1.4em;"></div>
+  <canvas id="kf2d-cv" width="1180" height="620" style="width:100%;height:auto;display:block;margin-top:2px;"></canvas>
+  <div style="display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:#555;margin-top:2px;justify-content:center;">
+    <span><span style="display:inline-block;width:18px;border-top:3px dashed #2A5B8C;vertical-align:middle;"></span>&nbsp;predi&ccedil;&atilde;o (1&sigma;)</span>
+    <span><span style="display:inline-block;width:18px;border-top:4px solid #4A7C59;vertical-align:middle;"></span>&nbsp;posterior (1&sigma;)</span>
+    <span><span style="display:inline-block;width:18px;border-top:3px solid #B3541E;vertical-align:middle;"></span>&nbsp;medi&ccedil;&atilde;o de posi&ccedil;&atilde;o</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:#999;border-radius:50%;vertical-align:middle;"></span>&nbsp;estado verdadeiro</span>
+  </div>
+  <div id="kf2d-calc" style="font-size:14px;color:#222;background:#F4F1EA;border-left:4px solid #2A5B8C;padding:7px 12px;margin-top:8px;min-height:5em;font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.55;"></div>
+</div>
+<script>
+(function(){
+  var cv = document.getElementById('kf2d-cv');
+  if(!cv || cv.dataset.ready){ return; }
+  cv.dataset.ready = '1';
+  var ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  var P = {l:64, r:20, t:18, b:52};
+  var XMIN = -4, XMAX = 9.5, YMIN = -3, YMAX = 3.5;
+  var BLUE = '#2A5B8C', GREEN = '#4A7C59', ORANGE = '#B3541E', GREY = '#9AA0A6';
+  var mb = '<span style="text-decoration:overline">&mu;</span>';
+  var Sb = '<span style="text-decoration:overline">&Sigma;</span>';
+
+  var S = [
+    { h:'Crença inicial', tt:0, kind:'init', mu:[0,0], cov:[[4,0],[0,4]],
+      cap:'Elipse circular — posição e velocidade ainda não correlacionadas.',
+      calc:'&mu;<sub>0</sub> = (0,00 ; 0,00)<br>&Sigma;<sub>0</sub> = [ 4,00 &nbsp; 0,00 ; &nbsp; 0,00 &nbsp; 4,00 ]' },
+    { h:'t = 1 &middot; Predição', tt:1, kind:'pred', mu:[0,0], cov:[[8.25,4],[4,4.25]],
+      cap:'O cisalhamento de A estica e inclina a elipse: aparece correlação p–v.',
+      calc:'L2:&nbsp; '+mb+' = A&middot;&mu;<sub>0</sub> = (0,00 ; 0,00)<br>L3:&nbsp; '+Sb+' = A&middot;&Sigma;<sub>0</sub>&middot;A<sup>T</sup> + R = [ 8,25 &nbsp; 4,00 ; &nbsp; 4,00 &nbsp; 4,25 ]' },
+    { h:'t = 1 &middot; Correção', tt:1, kind:'corr', z:1.4, mu:[0.943,0.457], cov:[[2.694,1.306],[1.306,2.944]],
+      cap:'A medição de posição também corrige a velocidade: K tem componente v ≠ 0.',
+      calc:'L4:&nbsp; K = (8,25 ; 4,00) / 12,25 = (0,673 ; <b>0,327</b>)<br>L5:&nbsp; &mu; = (0,943 ; <b>0,457</b>)<br>L6:&nbsp; &Sigma; = [ 2,69 &nbsp; 1,31 ; &nbsp; 1,31 &nbsp; 2,94 ]' },
+    { h:'t = 2 &middot; Predição', tt:2, kind:'pred', mu:[1.400,0.457], cov:[[8.500,4.250],[4.250,3.194]],
+      cap:'Predição avança p em v e volta a inflar a incerteza.',
+      calc:'L2:&nbsp; '+mb+' = A&middot;&mu; = (1,400 ; 0,457)<br>L3:&nbsp; '+Sb+' = [ 8,50 &nbsp; 4,25 ; &nbsp; 4,25 &nbsp; 3,19 ]' },
+    { h:'t = 2 &middot; Correção', tt:2, kind:'corr', z:2.1, mu:[1.876,0.695], cov:[[2.720,1.360],[1.360,1.749]],
+      cap:'σ_v cai de novo — a velocidade vai sendo triangulada pelas posições.',
+      calc:'L4:&nbsp; K = (0,680 ; 0,340)<br>L5:&nbsp; &mu; = (1,876 ; 0,695)<br>L6:&nbsp; &Sigma; = [ 2,72 &nbsp; 1,36 ; &nbsp; 1,36 &nbsp; 1,75 ]' },
+    { h:'t = 3 &middot; Predição', tt:3, kind:'pred', mu:[2.571,0.695], cov:[[7.439,3.109],[3.109,1.999]],
+      cap:'',
+      calc:'L2:&nbsp; '+mb+' = (2,571 ; 0,695)<br>L3:&nbsp; '+Sb+' = [ 7,44 &nbsp; 3,11 ; &nbsp; 3,11 &nbsp; 2,00 ]' },
+    { h:'t = 3 &middot; Correção', tt:3, kind:'corr', z:3.6, mu:[3.240,0.975], cov:[[2.601,1.087],[1.087,1.154]],
+      cap:'μ_v ≈ 0,98 — quase a verdade (1,0 m/s), sem nunca medir velocidade.',
+      calc:'L4:&nbsp; K = (0,650 ; 0,272)<br>L5:&nbsp; &mu; = (3,240 ; <b>0,975</b>)<br>L6:&nbsp; &Sigma; = [ 2,60 &nbsp; 1,09 ; &nbsp; 1,09 &nbsp; 1,15 ]' },
+    { h:'t = 4 &middot; Predição', tt:4, kind:'pred', mu:[4.215,0.975], cov:[[6.179,2.241],[2.241,1.404]],
+      cap:'',
+      calc:'L2:&nbsp; '+mb+' = (4,215 ; 0,975)<br>L3:&nbsp; '+Sb+' = [ 6,18 &nbsp; 2,24 ; &nbsp; 2,24 &nbsp; 1,40 ]' },
+    { h:'t = 4 &middot; Correção', tt:4, kind:'corr', z:3.5, mu:[3.781,0.817], cov:[[2.428,0.881],[0.881,0.911]],
+      cap:'z₄ = 3,5 veio "atrás": inovação negativa puxa p e v para baixo.',
+      calc:'L4:&nbsp; K = (0,607 ; 0,220)<br>L5:&nbsp; &mu; = (3,781 ; 0,817)<br>L6:&nbsp; &Sigma; = [ 2,43 &nbsp; 0,88 ; &nbsp; 0,88 &nbsp; 0,91 ]' },
+    { h:'t = 5 &middot; Predição', tt:5, kind:'pred', mu:[4.598,0.817], cov:[[5.350,1.791],[1.791,1.161]],
+      cap:'',
+      calc:'L2:&nbsp; '+mb+' = (4,598 ; 0,817)<br>L3:&nbsp; '+Sb+' = [ 5,35 &nbsp; 1,79 ; &nbsp; 1,79 &nbsp; 1,16 ]' },
+    { h:'t = 5 &middot; Correção', tt:5, kind:'corr', z:5.2, mu:[4.943,0.933], cov:[[2.289,0.766],[0.766,0.817]],
+      cap:'Regime quase estacionário: σ_p ≈ 1,5 · σ_v ≈ 0,9 · correlação ≈ 0,56.',
+      calc:'L4:&nbsp; K = (0,572 ; 0,192)<br>L5:&nbsp; &mu; = (4,943 ; <b>0,933</b>)<br>L6:&nbsp; &Sigma; = [ 2,29 &nbsp; 0,77 ; &nbsp; 0,77 &nbsp; 0,82 ]' }
+  ];
+
+  function xpx(x){ return P.l + (x-XMIN)/(XMAX-XMIN)*(W-P.l-P.r); }
+  function ypx(y){ return H-P.b - (y-YMIN)/(YMAX-YMIN)*(H-P.t-P.b); }
+
+  function ellipsePts(mu,cov,k){
+    var a = cov[0][0], b = cov[0][1], d = cov[1][1];
+    var tr = a+d, det = a*d - b*b;
+    var disc = Math.sqrt(Math.max(tr*tr/4 - det, 0));
+    var l1 = tr/2 + disc, l2 = tr/2 - disc;
+    var phi = 0.5*Math.atan2(2*b, a-d);
+    var ra = k*Math.sqrt(Math.max(l1,0)), rb = k*Math.sqrt(Math.max(l2,0));
+    var cph = Math.cos(phi), sph = Math.sin(phi), pts = [];
+    for(var i=0;i<=80;i++){
+      var th = i/80*2*Math.PI, cx = ra*Math.cos(th), cy = rb*Math.sin(th);
+      pts.push([ mu[0] + cx*cph - cy*sph, mu[1] + cx*sph + cy*cph ]);
+    }
+    return pts;
+  }
+  function stroke(pts,col,wd,dash){
+    ctx.beginPath();
+    pts.forEach(function(p,i){ var X=xpx(p[0]),Y=ypx(p[1]); if(i){ctx.lineTo(X,Y);}else{ctx.moveTo(X,Y);} });
+    ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineJoin = 'round';
+    ctx.setLineDash(dash||[]); ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  function render(i){
+    var st = S[i];
+    ctx.clearRect(0,0,W,H);
+    // grade
+    ctx.strokeStyle = '#e7e4db'; ctx.lineWidth = 1; ctx.fillStyle = '#9a9a9a';
+    ctx.font = '17px Georgia, serif'; ctx.textAlign = 'center';
+    for(var gx=-4; gx<=8; gx+=2){ ctx.beginPath(); ctx.moveTo(xpx(gx),ypx(YMIN)); ctx.lineTo(xpx(gx),ypx(YMAX)); ctx.stroke(); ctx.fillText(String(gx), xpx(gx), ypx(YMIN)+22); }
+    ctx.textAlign = 'right';
+    for(var gy=-3; gy<=3; gy+=1){ ctx.beginPath(); ctx.moveTo(xpx(XMIN),ypx(gy)); ctx.lineTo(xpx(XMAX),ypx(gy)); ctx.stroke(); ctx.fillText(String(gy), xpx(XMIN)-6, ypx(gy)+5); }
+    // eixos em 0
+    ctx.strokeStyle = '#b9b9b9'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(xpx(XMIN),ypx(0)); ctx.lineTo(xpx(XMAX),ypx(0)); ctx.moveTo(xpx(0),ypx(YMIN)); ctx.lineTo(xpx(0),ypx(YMAX)); ctx.stroke();
+    ctx.fillStyle = '#8a8a8a'; ctx.textAlign = 'center';
+    ctx.fillText('posição  p (m)', (xpx(XMIN)+xpx(XMAX))/2, H-14);
+    ctx.save(); ctx.translate(16, (ypx(YMIN)+ypx(YMAX))/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText('velocidade  v (m/s)', 0, 0); ctx.restore();
+    // medição de posição (faixa vertical em p = z, largura +/- sqrt(Q) = 2)
+    if(st.kind === 'corr'){
+      ctx.fillStyle = 'rgba(179,84,30,0.10)';
+      ctx.fillRect(xpx(st.z-2), ypx(YMAX), xpx(st.z+2)-xpx(st.z-2), ypx(YMIN)-ypx(YMAX));
+      ctx.strokeStyle = ORANGE; ctx.lineWidth = 3; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(xpx(st.z),ypx(YMIN)); ctx.lineTo(xpx(st.z),ypx(YMAX)); ctx.stroke();
+      ctx.fillStyle = ORANGE; ctx.textAlign = 'left'; ctx.font = 'bold 16px Georgia, serif';
+      ctx.fillText('z = '+String(st.z).replace('.',','), xpx(st.z)+6, ypx(YMAX)+16);
+    }
+    // crença anterior (faint)
+    if(i > 0){ stroke(ellipsePts(S[i-1].mu, S[i-1].cov, 1), '#c8c8c8', 2, [4,4]); }
+    // elipse atual
+    var col = st.kind === 'pred' ? BLUE : (st.kind === 'corr' ? GREEN : BLUE);
+    var dash = st.kind === 'pred' ? [9,7] : [];
+    stroke(ellipsePts(st.mu, st.cov, 1), col, st.kind==='corr'?4:3, dash);
+    // media
+    ctx.beginPath(); ctx.arc(xpx(st.mu[0]), ypx(st.mu[1]), 5, 0, 7); ctx.fillStyle = col; ctx.fill();
+    // estado verdadeiro (p = tt, v = 1)
+    ctx.beginPath(); ctx.arc(xpx(st.tt), ypx(1.0), 5.5, 0, 7); ctx.fillStyle = '#999'; ctx.fill();
+  }
+
+  var slider = document.getElementById('kf2d-t'),
+      lbl = document.getElementById('kf2d-lbl'),
+      capd = document.getElementById('kf2d-cap'),
+      calc = document.getElementById('kf2d-calc'),
+      play = document.getElementById('kf2d-play'),
+      prev = document.getElementById('kf2d-prev'),
+      next = document.getElementById('kf2d-next'),
+      timer = null;
+
+  function nf(x){ return x.toFixed(2).replace('.', ','); }
+  function show(t){
+    t = ((t|0) % 11 + 11) % 11;
+    slider.value = t;
+    lbl.innerHTML = S[t].h;
+    capd.textContent = S[t].cap;
+    var cm = S[t].cov, sp = Math.sqrt(cm[0][0]), sv = Math.sqrt(cm[1][1]), rho = cm[0][1]/(sp*sv);
+    calc.innerHTML = S[t].calc
+      + '<br><span style="color:#4A7C59">&#8627;&nbsp; &sigma;<sub>p</sub> = &radic;&Sigma;<sub>pp</sub> = ' + nf(sp)
+      + ' &nbsp;&middot;&nbsp; &sigma;<sub>v</sub> = &radic;&Sigma;<sub>vv</sub> = ' + nf(sv)
+      + ' &nbsp;&middot;&nbsp; &rho;<sub>pv</sub> = &Sigma;<sub>pv</sub>/(&sigma;<sub>p</sub>&sigma;<sub>v</sub>) = ' + nf(rho) + '</span>';
+    render(t);
+  }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } play.innerHTML = '&#9654;&#9654;'; }
+  function run(){
+    if(timer){ stop(); return; }
+    play.innerHTML = '&#10073;&#10073;';
+    timer = setInterval(function(){ show(+slider.value + 1); }, 1600);
+  }
+  slider.addEventListener('input', function(){ stop(); show(+slider.value); });
+  prev.addEventListener('click', function(){ stop(); show(+slider.value - 1); });
+  next.addEventListener('click', function(){ stop(); show(+slider.value + 1); });
+  play.addEventListener('click', run);
+  if(window.Reveal && Reveal.on){ Reveal.on('slidechanged', function(){ show(+slider.value); }); }
+  show(0);
+})();
+</script>
+```
+
+## Resultados — a Velocidade Emerge {.smaller}
+
+::: columns
+::: {.column width="46%"}
+| $t$ | $\mu_p$ | $\mu_v$ | $\Sigma_p$ | $\Sigma_v$ | $\rho_{pv}$ |
+|:--:|:--:|:--:|:--:|:--:|:--:|
+| $1$ | $0{,}94$ | $0{,}46$ | $1{,}64$ | $1{,}72$ | $0{,}46$ |
+| $2$ | $1{,}88$ | $0{,}70$ | $1{,}65$ | $1{,}32$ | $0{,}62$ |
+| $3$ | $3{,}24$ | $0{,}98$ | $1{,}61$ | $1{,}07$ | $0{,}63$ |
+| $4$ | $3{,}78$ | $0{,}82$ | $1{,}56$ | $0{,}95$ | $0{,}59$ |
+| $5$ | $4{,}94$ | $0{,}93$ | $1{,}51$ | $0{,}90$ | $0{,}56$ |
+
+- $\mu_v \to \approx 1{,}0$ m/s (o valor **verdadeiro**) — **sem nunca medir a velocidade**
+- Só funciona porque $A$ **correlaciona** $p$ e $v$: $\rho_{pv}$ sobe para $\approx 0{,}6$ e a correção de posição "vaza" para $v$
+- $\Sigma_v$ cai de $2{,}0$ para $\approx 0{,}9$; $\Sigma_p$ estabiliza em $\approx 1{,}5$
+:::
+::: {.column width="54%"}
+```{=html}
+<canvas id="kf2d2-cv" width="960" height="820" style="width:100%;height:auto;display:block;"></canvas>
+<script>
+(function(){
+  var cv = document.getElementById('kf2d2-cv');
+  if(!cv || cv.dataset.ready){ return; }
+  cv.dataset.ready = '1';
+  var ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  var BLUE = '#2A5B8C', GREEN = '#4A7C59', ORANGE = '#B3541E', GREY = '#9AA0A6';
+  var T = [0,1,2,3,4,5];
+  var trup = [0,1,2,3,4,5];
+  var estp = [0, 0.943, 1.876, 3.240, 3.781, 4.943];
+  var sigp = [2.0, 1.641, 1.649, 1.613, 1.558, 1.513];
+  var estv = [0, 0.457, 0.695, 0.975, 0.817, 0.933];
+  var sigv = [2.0, 1.716, 1.323, 1.074, 0.954, 0.904];
+  var measz = [null, 1.4, 2.1, 3.6, 3.5, 5.2];
+
+  function panel(oy, ph, ymin, ymax, ystep, title){
+    var L = 54, Rr = 14;
+    function xpx(t){ return L + (t-0)/(5-0)*(W-L-Rr); }
+    function ypx(y){ return oy + ph - (y-ymin)/(ymax-ymin)*ph; }
+    ctx.font = '17px Georgia, serif'; ctx.fillStyle = '#333'; ctx.textAlign = 'left';
+    ctx.fillText(title, L, oy - 8);
+    ctx.strokeStyle = '#e7e4db'; ctx.lineWidth = 1; ctx.fillStyle = '#999'; ctx.textAlign = 'right';
+    for(var y=ymin; y<=ymax+1e-9; y+=ystep){
+      var py = ypx(y);
+      ctx.beginPath(); ctx.moveTo(L,py); ctx.lineTo(W-Rr,py); ctx.stroke();
+      ctx.fillText((Math.round(y*10)/10).toString().replace('.',','), L-6, py+5);
+    }
+    ctx.textAlign = 'center';
+    T.forEach(function(t){ ctx.fillText('t='+t, xpx(t), oy+ph+22); });
+    ctx.strokeStyle = '#b9b9b9'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(L,ypx(ymin)); ctx.lineTo(L,ypx(ymax)); ctx.moveTo(L,oy+ph); ctx.lineTo(W-Rr,oy+ph); ctx.stroke();
+    return { xpx:xpx, ypx:ypx };
+  }
+  function band(m, est, sig, col){
+    ctx.beginPath();
+    T.forEach(function(t,i){ var X=m.xpx(t),Y=m.ypx(est[i]+sig[i]); if(i){ctx.lineTo(X,Y);}else{ctx.moveTo(X,Y);} });
+    for(var i=T.length-1;i>=0;i--){ ctx.lineTo(m.xpx(T[i]), m.ypx(est[i]-sig[i])); }
+    ctx.closePath(); ctx.fillStyle = col; ctx.fill();
+  }
+  function poly(m, arr, col, wd, dash){
+    ctx.beginPath();
+    arr.forEach(function(y,i){ var X=m.xpx(T[i]),Y=m.ypx(y); if(i){ctx.lineTo(X,Y);}else{ctx.moveTo(X,Y);} });
+    ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineJoin='round';
+    ctx.setLineDash(dash||[]); ctx.stroke(); ctx.setLineDash([]);
+  }
+  function dots(m, arr, col, r){ T.forEach(function(t,i){ if(arr[i]==null) return; ctx.beginPath(); ctx.arc(m.xpx(t), m.ypx(arr[i]), r, 0, 7); ctx.fillStyle = col; ctx.fill(); }); }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // painel 1: posição
+    var m1 = panel(40, 320, -1, 7, 1, 'Posição  p (m)');
+    band(m1, estp, sigp, 'rgba(42,91,140,0.13)');
+    poly(m1, trup, GREY, 2.5, [8,6]);
+    poly(m1, estp, BLUE, 3.5);
+    dots(m1, estp, BLUE, 5);
+    dots(m1, measz, ORANGE, 6);
+    ctx.textAlign = 'left'; ctx.font = '15px Georgia, serif';
+    ctx.fillStyle = GREY;   ctx.fillText('verdade', W-190, 60);
+    ctx.fillStyle = BLUE;   ctx.fillText('estimativa μ ± σ', W-190, 80);
+    ctx.fillStyle = ORANGE; ctx.fillText('medições z', W-190, 100);
+    // painel 2: velocidade
+    var m2 = panel(455, 300, -0.5, 2.5, 0.5, 'Velocidade  v (m/s)  —  nunca medida');
+    band(m2, estv, sigv, 'rgba(74,124,89,0.14)');
+    poly(m2, [1,1,1,1,1,1], GREY, 2.5, [8,6]);
+    poly(m2, estv, GREEN, 3.5);
+    dots(m2, estv, GREEN, 5);
+    ctx.textAlign = 'left'; ctx.font = '15px Georgia, serif';
+    ctx.fillStyle = GREY;  ctx.fillText('verdade = 1,0', W-190, 475);
+    ctx.fillStyle = GREEN; ctx.fillText('estimativa μ ± σ', W-190, 495);
+  }
+  draw();
+  if(window.Reveal && Reveal.on){ Reveal.on('slidechanged', draw); }
+})();
+</script>
+```
+:::
+:::
+
+# Resumo {.smaller}
 
 - O Filtro de Kalman é o Filtro de Bayes para **sistemas lineares gaussianos**, na representação de momentos $(\mu, \Sigma)$
 - Três premissas (transição linear, medição linear, prior gaussiano) mantêm a crença **gaussiana** em todo instante
@@ -375,4 +1091,5 @@ $$
   - **predição** — desloca a média pelo modelo de movimento e **aumenta** a incerteza
   - **correção** — ajusta a média pela inovação, ponderada pelo **ganho de Kalman**, e **diminui** a incerteza
 - Eficiente: polinomial na dimensão do estado
-- **Limitação central**: linearidade e unimodalidade — raramente exatas em robótica real → motiva o **Filtro de Kalman Estendido (EKF)**, na próxima aula
+- **Limitação central**: linearidade e unimodalidade — raramente exatas em robótica real
+  - Solução: o **Filtro de Kalman Estendido (EKF)**
