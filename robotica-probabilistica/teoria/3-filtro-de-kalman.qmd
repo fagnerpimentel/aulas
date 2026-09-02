@@ -53,12 +53,14 @@ p(x) = \underbrace{\det(2\pi\Sigma)^{-\frac{1}{2}}}_{\text{normalização}}\;
 \exp\!\Big\{ -\tfrac{1}{2}\,\underbrace{(x-\mu)^{\top}\Sigma^{-1}(x-\mu)}_{\text{Mahalanobis}^2} \Big\}
 $$
 
-- $x$ — um ponto do espaço de estado ($n$ dimensões); $p(x)$ é a **densidade** de probabilidade nesse ponto
+- $x$ — um ponto do espaço de estado ($n$ dimensões)
+- $p(x)$ é a **densidade** de probabilidade nesse ponto
 - $\mu$ — **centro** da distribuição: o máximo de $p$ ocorre exatamente em $x = \mu$
-- $\Sigma$ — **covariância** ($n\times n$): dá a "largura" em cada direção e as correlações entre variáveis; sua inversa $\Sigma^{-1}$ é a **matriz de precisão**
+- $\Sigma$ — **covariância** ($n\times n$): dá a "largura" em cada direção e as correlações entre variáveis
 - $(x-\mu)^{\top}\Sigma^{-1}(x-\mu)$ — distância ao centro **ponderada pela incerteza**; é uma **forma quadrática**, então as curvas de nível são **elipsoides**
 - $\exp\{-\tfrac{1}{2}(\cdot)\}$ — produz o **formato de sino**: a densidade cai com o **quadrado** dessa distância
-- $\det(2\pi\Sigma)^{-\frac{1}{2}}$ — **não depende de $x$**; só garante que $\int p(x)\,dx = 1$ (encolhe quando o "volume" de $\Sigma$ cresce)
+- $\det(2\pi\Sigma)^{-\frac{1}{2}}$ — **não depende de $x$**; só garante que $\int p(x)\,dx = 1$
+  - (encolhe quando o "volume" de $\Sigma$ cresce)
 
 
 ## Duas Representações Equivalentes {.smaller}
