@@ -504,8 +504,6 @@ Um robô anda por um corredor. O estado é **escalar** — a posição $x$ (m). 
 
 ## Cálculo Passo a Passo {.smaller}
 
-Avance com **◀ ▶** (ou deixe rodar) — cada etapa mostra a conta de cada linha e a gaussiana correspondente.
-
 ```{=html}
 <div id="kfex" style="max-width:960px;margin:.1rem auto 0;">
   <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:#333;">
