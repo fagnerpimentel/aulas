@@ -19,9 +19,6 @@ else
     percepcao-cor
     sistema1-sistema2
     vieses-cognitivos
-    metafora-metonimia
-    ancora-vinhos
-    reconhecimento-ordem
     afeto-cascata
     circumplexo
     shiv-fedorikhin

@@ -188,34 +188,6 @@ Padrões que **sistematicamente** desviam nossos julgamentos ao formar impressõ
 - Como são influenciados por **informação contextual**, muitas estratégias de mitigação envolvem **controlar o contexto** da decisão (ex.: alterar quais âncoras estão visíveis)
 - Projetamos para **populações**, não para uma única pessoa
 
-## Implicações: Reconhecimento e Ordem {.smaller}
-
-- O reconhecimento dos elementos acontece **aos poucos** → há uma **ordem de prioridade**
-- O designer influencia o **peso** e a ordem: posição (topo), tamanho e peso da fonte, cor chamativa, animação
-- **Redução de erros**: um comando de alto impacto (ex.: apagar documento) deve ser **menos** chamativo; e pode-se **interromper** o fluxo intuitivo com alertas/confirmações
-- Avaliação: **percurso cognitivo** (imaginar-se como usuário na 1ª vez, mapeando tarefa ↔ elementos)
-
-![](images/reconhecimento-ordem.svg){fig-align="center" width="100%"}
-
-## Implicações: Interpretação Associativa {.smaller}
-
-- A interpretação é **associativa** — relacionamos o objeto com outros à volta (o sistema com a empresa que o produziu; o botão de cor viva parece "ativo")
-- Exemplo de **ancoragem**: um site cujos vinhos em destaque custam R\$100–200 estabelece a expectativa → os preços seguintes parecem mais razoáveis
-- Mudar as **informações disponíveis** leva a interpretações diferentes (vale para enquadramento, confirmação etc.)
-
-![](images/ancora-vinhos.svg){fig-align="center" width="100%"}
-
-## Metáfora e Metonímia {.smaller}
-
-- **Metáfora** — pensar uma coisa **em termos de** outra ("João é um leão"). 
-  - O *desktop* traça paralelo com uma mesa física: traduz conhecimento do **domínio de origem** para o **domínio de destino**. 
-  - relações explícitas = analogia
-- **Metonímia** — associação por **contiguidade** 
-  - "amei ler Shakespeare" = a obra pelo autor. 
-  - Contêiner↔conteúdo, produto↔marca. Um objeto **substitui** o outro, sem convidar comparação
-
-![](images/metafora-metonimia.svg){fig-align="center" width="100%"}
-
 ## Ética {.smaller}
 
 - Ao influenciar interpretações (com âncoras, metáforas, enquadramento…), podemos **persuadir** o usuário a certos julgamentos
@@ -234,17 +206,22 @@ Queremos que os usuários **desejem** os produtos que criamos — o que exige es
 
 - **Afeto** — resposta fisiológica a ameaças e oportunidades; tem **intensidade** e **valência**; **pré-pessoal**, antes do processamento racional; gerado no sub-córtex. Termo mais **genérico** que emoção
 - **Emoção** — a experiência **consciente** do afeto, com atribuição de **causa** e identificação do **objeto**; curta (segundos/minutos), intensa, com conteúdo cognitivo claro. É **social** (projeção de um sentimento) — pode ser genuína ou fingida
-- **Humor** — estado de ânimo **difuso**, sem objeto específico, de **longa duração**; funciona como um **filtro afetivo de fundo** e baixa os limiares das emoções relacionadas
 - **Sentimento** — representação mental **consciente** da resposta corporal; duradouro; é uma **propriedade atribuída a um objeto** ("gosto desta interface" = associo-a a um estado positivo)
+- **Humor** — estado de ânimo **difuso**, sem objeto específico, de **longa duração**; funciona como um **filtro afetivo de fundo** e baixa os limiares das emoções relacionadas
 
 ## Emoções Básicas {.smaller}
 
 ::: columns
 ::: {.column width="56%"}
-- **Ekman** (1992): felicidade, tristeza, raiva, medo, surpresa, desprezo, nojo
-- **Plutchik** (1994): felicidade, tristeza, medo, raiva, ternura
-- Sem consenso sobre **quantas/quais**; costumam recorrer: alegria, medo, surpresa, tristeza, nojo, raiva (Miguel, 2015)
-- Emoções envolvem um **objeto específico**: medo *de algo*, raiva *de alguém*, entusiasmo *com um evento*
+- felicidade
+- tristeza
+- raiva
+- medo
+- surpresa
+- desprezo
+- nojo
+
+Emoções envolvem um **objeto específico**: medo *de algo*, raiva *de alguém*, entusiasmo *com um evento*
 :::
 ::: {.column width="44%"}
 ![](images/fotos/emocoes-universais.jpg){fig-align="center" width="100%"}
