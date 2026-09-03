@@ -1,0 +1,209 @@
+---
+title: "Exercício: Filtro de Kalman"
+subtitle: "Estimação de posição e velocidade 1D"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Duração estimada:** 1h30
+- **Pré-requisitos:** 
+   - ROS 2 (Humble ou mais recente)
+   - Gazebo Classic
+   - pacotes `turtlebot3*`
+   - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Explicar as etapas de **predição** e **correção** do Filtro de Kalman em termos da média $\mu$ e da covariância $\Sigma$.
+- Relacionar as linhas 2–6 do algoritmo com as matrizes $A$, $B$, $C$, $R$, $Q$ e o ganho $K_t$.
+- Justificar por que uma medição **só de posição** também corrige a **velocidade**.
+- Implementar um Filtro de Kalman de 2 estados (posição, velocidade) dentro de um nó **ROS 2** que consome dados do **TurtleBot3 Burger simulado no Gazebo**.
+- Identificar onde o modelo **linear** falha no TurtleBot3 real e por que isso motiva o **Filtro de Kalman Estendido (EKF)**.
+
+---
+
+## Cenário
+
+O TurtleBot3 Burger parte de um ponto conhecido e dirige **em linha reta** por um corredor, de frente para uma parede que está a uma distância $L$ (medida no início). O estado a estimar é
+
+$$
+x_t = \begin{bmatrix} p_t \\ v_t \end{bmatrix},
+\qquad
+p_t = \text{distância percorrida (m)}, \quad
+v_t = \text{velocidade para a frente (m/s)}.
+$$
+
+- **Predição** — modelo de **velocidade constante** (a mesma dinâmica do Exemplo 2 da aula teórica). 
+- **Correção** — o **LiDAR** (`/scan`) mede a distância até a parede da frente, $d_t$. Como a parede está em $L$, a posição medida é
+$$
+z_t = L - d_t, \qquad C = \begin{bmatrix} 1 & 0 \end{bmatrix}
+$$
+ou seja, o sensor mede **só a posição**, nunca a velocidade.
+- **Referência (verdade)** — a pose real do robô no Gazebo (tópico `/odom` do simulador).
+
+---
+
+## Parte 0 — Preparação do ambiente
+
+1. Rode o abiente simulado no Docker:
+
+   ```bash
+   cd .devcontainer
+   docker compose up
+   ```
+   Para os próximos sempre abra um terminal dentro do container (ou use `docker exec -it ros-env bash`).
+
+2. Compile o workspace ROS 2:
+
+   ```bash
+   source /opt/ros/jazzy/setup.bash
+   colcon build 
+   source install/setup.bash
+   ```
+
+3. Suba o simulador do TurtleBot3:
+
+   ```bash
+   ros2 launch ambientes one_box.launch.py
+   ```
+
+4. Rode o teleop_keyboard para controlar o robô:
+
+   ```bash
+   ros2 run turtlebot3_teleop teleop_keyboard
+   ``` 
+   Envie um comando de velocidade constante $\approx 0{,}15$ m/s em direção à parede.
+
+5. Inicie o nó do Filtro de Kalman (ainda não implementado):
+
+   ```bash
+   ros2 run robotica_probabilistica kf_node
+   ``` 
+
+6. Inicie o nó do plot do gráfico:
+
+   ```bash
+   ros2 run robotica_probabilistica plot_node
+   ``` 
+
+---
+
+## Parte 1 — Fundamentação teórica (sem código)
+
+1. Escreva as **6 linhas** do Filtro de Kalman (predição, ganho de Kalman, correção) para o estado $x=[p,\;v]^\top$. Identifique, para este cenário, o que são $A$, $B$, $C$, $R$ e $Q$ e as **dimensões** de cada matriz.
+
+2. Para o modelo de **velocidade constante** com passo $\Delta t$, escreva a matriz $A$. Neste exercício assumimos $B\,u_t = 0$.
+
+3. O LiDAR mede só a posição, então $C = [\,1\ \ 0\,]$. Explique fisicamente o que significa "a medição de posição corrigir a velocidade".
+
+4. Enuncie as **três premissas** do Filtro de Kalman. Assim que o TurtleBot3 **gira** (velocidade angular $\neq 0$), qual(is) premissa(s) deixa(m) de valer? Por quê?
+
+5. **Ganho de Kalman:** quais são os valores **mínimo** e **máximo** que $K_t$ pode assumir (caso escalar) e o que cada extremo significa em termos de "confiar na predição" $\times$ "confiar na medição"?
+
+---
+
+## Parte 2 — Cálculo manual com um trecho de log
+
+Simule 3 ciclos do algoritmo com os dados fornecidos a seguir. O filtro roda a cada $\Delta t = 0{,}5$ s. Use:
+
+$$
+A=\begin{bmatrix}1 & \Delta t\\ 0 & 1\end{bmatrix}=\begin{bmatrix}1 & 0{,}5\\ 0 & 1\end{bmatrix}, \quad
+B=\begin{bmatrix}\Delta t^2/2\\ \Delta t\end{bmatrix}=\begin{bmatrix}0{,}125\\ 0{,}5\end{bmatrix}, \quad
+C=\begin{bmatrix}1 & 0\end{bmatrix}, \quad 
+$$
+$$
+R=\begin{bmatrix}0{,}01 & 0\\ 0 & 0{,}04\end{bmatrix}, \quad
+Q = 0{,}09,
+$$
+$$
+\mu_0=\begin{bmatrix}0\\0\end{bmatrix}, \qquad
+\Sigma_0=\begin{bmatrix}0{,}25 & 0\\ 0 & 0{,}25\end{bmatrix}.
+$$
+
+A matriz $B$ (2×1) mapearia um comando de aceleração $u_t$ para o estado. Aqui
+**não há informação de controle**, então $u_t = 0$ e o termo $B\,u_t$ some da
+predição — mas $B$ fica registrada para você ver sua dimensão e onde entraria.
+
+| ciclo $t$ | $z_t = L - d_t$ (pos. medida, m) | (pos. real, m) |
+|:--:|:--:|:--:|
+| 1 | $0{,}12$ | $\approx 0{,}10$ |
+| 2 | $0{,}19$ | $\approx 0{,}20$ |
+| 3 | $0{,}34$ | $\approx 0{,}30$ |
+
+A velocidade real do robô é $\approx 0{,}15$ m/s (constante).
+
+**Tarefa:** para $t = 1, 2, 3$, calcule e monte a tabela com
+
+$$
+\bar\mu_t,\quad \bar\Sigma_t,\quad K_t,\quad \mu_t,\quad \Sigma_t.
+$$
+
+Mostre pelo menos o passo $t=1$ **completo**, com todas as multiplicações de matrizes escritas.
+
+<!-- **Graficos:** desenhe a elipse de covariância $\Sigma_3$ (com $\sigma_p$, $\sigma_v$ e $\rho_{pv}$ marcados) e o ponto $\mu_3$. -->
+
+---
+
+## Parte 3 — Implementação: nó ROS 2 com Filtro de Kalman
+
+Implementar o Filtro de Kalman em Python dentro de um nó ROS 2 que consome os tópicos do TurtleBot3 simulado. O nó deve realizar a predição e correção do estado do robô com base nas medições do LiDAR e na posição real fornecida pela odometria.
+
+**Esqueleto:**
+
+```python
+import numpy as np
+
+class KF1D:
+
+    def __init__(self, dt, R, Q, mu0, Sigma0):
+        self.dt = float(dt)
+
+        self.A = np.array([[1.0, self.dt],[0.0, 1.0]])      # velocidade constante
+        self.B = np.array([[0.5 * self.dt ** 2],[self.dt]]) # mapeia o controle
+        self.C = np.array([[1.0, 0.0]])                     # LiDAR mede só a posição
+
+        self.R = np.array(R, dtype=float).reshape(2, 2)     # ruído de transição
+        self.Q = np.array(Q, dtype=float).reshape(1, 1)     # ruído do LiDAR
+
+        self.mu = np.array(mu0, dtype=float).reshape(2)
+        self.Sigma = np.array(Sigma0, dtype=float).reshape(2, 2)
+
+    def kalman_filter(self, mu, Sigma, u, z):
+
+        # TODO: _mu
+        # TODO: _Sigma
+        # TODO: K
+        # TODO: mu
+        # TODO: Sigma
+
+        return mu, Sigma
+
+```
+
+**Tarefas:**
+
+1. Implemente `kalman_filter` de forma **genérica**.
+2. **Valide** o filtro reproduzindo numericamente a tabela da Parte 2 (rode `kalman_filter` com aqueles $z_t$ fora do ROS; os valores devem bater até a 3ª casa decimal).
+3. Dirija o robô **em linha reta** a $\approx 0{,}15$ m/s em direção à parede (use `turtlebot3_teleop`.
+4. **Gráficos**: num mesmo eixo de tempo, analise os 3 gráficos:
+   (a) $\hat p_t$, a posição de referência e a medição bruta $z_t$;
+   (b) $\hat v_t$ e a velocidade comandada;
+   (c) $\Sigma_{p,t}$ e $\Sigma_{v,t}$.
+<!-- 5. **Sintonia de $R$ e $Q$:** -->
+   <!-- - Comece com $Q$ **pequeno demais**: o filtro fica "superconfiante", quase ignora o LiDAR e se descola da verdade num tranco. Registre. -->
+   <!-- - Depois $Q$ **grande demais**: a estimativa vira a própria medição ruidosa. Registre. -->
+   <!-- - Ache um par $(R, Q)$ em que a faixa $\hat p_t \pm 1\Sigma_{p,t}$ **contenha a verdade em $\approx 68\%$** dos instantes. Entregue os 3 gráficos desse caso. -->
+<!-- 6. **Teste de consistência:** calcule o erro normalizado $e_t = \dfrac{\hat p_t - p^{\text{ref}}_t}{\sigma_{p,t}}$ a cada passo e faça o **histograma**. Ele deveria se parecer com uma $\mathcal{N}(0,1)$. O que significa se ficar largo demais? E estreito demais? -->
+<!-- 7. **Perda de sensor:** pare de chamar `correct()` por 3 s (robô continua andando) e observe $\sigma_p$ **crescer**. Quando as medições voltam, a estimativa "salta" de volta. Explique com base em $\bar\Sigma_t = A\Sigma_{t-1}A^\top + R$. -->
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas).
+- **Parte 2:** os cálculos manuais dos 3 ciclos (passo $t=1$ completo). 
+<!-- + o esboço da elipse de covariância de $t=3$ com $\sigma_p$, $\sigma_v$ e $\rho_{pv}$ marcados. -->
+- **Parte 3:** o node ROS 2 (`kf_node`)
+<!-- , os **3 gráficos** do caso bem sintonizado, o **histograma** do teste de consistência, o `rosbag` (ou link) e **um parágrafo** explicando como você escolheu $R$ e $Q$ e o que observou na perda de sensor. -->
