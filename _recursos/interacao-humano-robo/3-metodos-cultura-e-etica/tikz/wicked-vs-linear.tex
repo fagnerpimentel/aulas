@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   sm/.style={dbox, minimum width=1.9cm, minimum height=0.8cm, font=\scriptsize},
+   wn/.style={circle, draw=dorange, fill=dorange!12, line width=0.9pt,
+              minimum size=1.35cm, inner sep=1pt, font=\scriptsize, align=center}]
+
+  % ---------- problema "bem-comportado": linear ----------
+  \node[dsub, anchor=west, font=\itshape] at (-0.2,2.6) {problema bem-comportado};
+  \node[sm, dacc] (l1) at (0.5,1.3) {definir};
+  \node[sm]       (l2) at (2.9,1.3) {modelar};
+  \node[sm]       (l3) at (5.3,1.3) {resolver};
+  \draw[dtrans] (l1) -- (l2);
+  \draw[dtrans] (l2) -- (l3);
+  \node[dsub, font=\scriptsize, align=center] at (2.9,0.2)
+     {ex.: um avião novo quase certamente voa no 1\textsuperscript{o} voo};
+
+  \draw[black!15, line width=0.6pt] (7.0,-1.6) -- (7.0,3.0);
+
+  % ---------- wicked design problem ----------
+  \node[dsub, anchor=west, font=\itshape] at (7.4,3.05) {\emph{wicked design problem} (Buchanan, 1992)};
+  \node[wn] (a) at (9.0,1.3)  {mutáveis};
+  \node[wn] (b) at (11.4,1.8) {incompletos};
+  \node[wn] (c) at (10.2,-0.4){interdependentes};
+  \node[wn] (d) at (12.6,0.1) {indeterminados};
+  \foreach \u/\v in {a/b,a/c,b/c,b/d,c/d,a/d}{
+     \draw[dorange!70, line width=0.8pt] (\u) -- (\v);
+  }
+
+  \node[dbox, draw=dgreen, font=\scriptsize, align=center, text width=6.4cm] at (10.4,-2.5)
+     {\emph{satisficing} (\emph{satisfy} + \emph{suffice}): buscar o \textbf{bom o suficiente}, não o ``ótimo absoluto''};
+
+\end{tikzpicture}
+\end{document}

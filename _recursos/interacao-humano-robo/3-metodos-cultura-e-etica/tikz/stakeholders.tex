@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \fill[dblue!4, draw=dblue!40, line width=0.8pt] (0,0) circle (4.3);
+  \fill[dblue!8, draw=dblue!55, line width=0.9pt] (0,0) circle (3.0);
+  \fill[dblue!16, draw=dblue, line width=1pt]     (0,0) circle (1.7);
+
+  \node[dstate, minimum size=13mm, font=\footnotesize] at (0,0) {robô};
+
+  \node[font=\footnotesize\bfseries, dblue] at (0,1.15) {primários};
+  \node[dsub, font=\scriptsize, align=center] at (0,0.75) {usam diretamente};
+
+  \node[font=\footnotesize\bfseries] at (0,2.4) {secundários};
+  \node[dsub, font=\scriptsize, align=center] at (0,2.02) {contato intermitente / via intermediário};
+
+  \node[font=\footnotesize\bfseries] at (0,3.75) {terciários};
+  \node[dsub, font=\scriptsize, align=center] at (0,3.37) {afetados pelo uso (ex.: empregos), sem interagir};
+
+  % exemplos à direita
+  \node[dbox, font=\scriptsize, align=left, text width=4.3cm] at (7.4,1.6)
+     {\textbf{ex.: robô de entrega de remédios}\\[2pt]
+      $\bullet$ enfermeiros, pacientes\\
+      $\bullet$ equipe que o vê no corredor\\
+      $\bullet$ profissões alteradas / substituídas};
+  \node[dsub, font=\scriptsize, align=left, text width=4.3cm] at (7.4,-1.2)
+     {\emph{stakeholders} = todos os envolvidos e afetados; identificá-los é um \textbf{passo inicial}};
+  \draw[dblue, line width=0.6pt] (4.3,0.9) -- (5.0,1.6);
+
+\end{tikzpicture}
+\end{document}

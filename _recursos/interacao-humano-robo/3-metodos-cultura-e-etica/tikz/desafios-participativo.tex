@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   panel/.style={dbox, text width=5.3cm, minimum height=3.7cm, font=\footnotesize,
+                 align=left, inner sep=8pt},
+   yes/.style={dgreen, font=\footnotesize\bfseries},
+   no/.style={dred, font=\footnotesize\bfseries}]
+
+  \node[panel, dacc] (u) at (0,0)
+     {\textbf{Participantes / usuários}\\[4pt]
+      {\color{dgreen}\textbf{+}} conhecem o próprio\\\hphantom{+}\, \textbf{cotidiano}, valores e\\\hphantom{+}\, necessidades reais\\[5pt]
+      {\color{dred}\textbf{--}} muitas \textbf{preconcepções};\\\hphantom{+}\, pouco conhecimento\\\hphantom{+}\, técnico $\rightarrow$ ideias irrealistas};
+
+  \node[panel, draw=dorange] (d) at (7.6,0)
+     {\textbf{Pesquisadores / designers}\\[4pt]
+      {\color{dgreen}\textbf{+}} sabem o que é\\\hphantom{+}\, tecnicamente \textbf{viável}\\[5pt]
+      {\color{dred}\textbf{--}} conhecem pouco o\\\hphantom{+}\, \textbf{dia a dia} dos usuários\\\hphantom{+}\, (ex.: cuidado a idosos)};
+
+  % aprendizado mútuo (setas dos dois lados)
+  \draw[dtrans, line width=1.2pt] (u.north east) to[bend left=22] (d.north west);
+  \draw[dmeas,  line width=1.2pt] (d.south west) to[bend left=22] (u.south east);
+  \node[dblue, font=\footnotesize\bfseries, align=center] at (3.8,2.2) {aprendizado mútuo};
+
+  % base de apoio
+  \node[dbox, draw=black!55, fill=black!4, text width=11.0cm, minimum height=0.9cm,
+        font=\scriptsize, align=center] (f) at (3.8,-3.05)
+     {sustentado por \textbf{frameworks de apoio} ao processo participativo (Axelsson et al., 2021)};
+  \draw[dguide] (u.south) -- (u.south |- f.north);
+  \draw[dguide] (d.south) -- (d.south |- f.north);
+
+\end{tikzpicture}
+\end{document}

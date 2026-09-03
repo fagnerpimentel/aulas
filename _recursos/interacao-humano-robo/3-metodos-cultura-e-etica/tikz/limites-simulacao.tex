@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   world/.style={dbox, minimum width=3.0cm, minimum height=2.2cm, font=\footnotesize, align=center},
+   gap/.style={dbox, fill=white, draw=dorange, text width=3.1cm, minimum height=1.5cm,
+               font=\scriptsize, align=center, inner sep=4pt}]
+
+  \node[world, dacc]        (sim)  at (0,0)    {\textbf{SIMULAÇÃO}\\[2pt]\scriptsize modelo\\aproximado};
+  \node[world, draw=dgreen] (real) at (12.4,0) {\textbf{MUNDO REAL}\\[2pt]\scriptsize detalhe\\``infinito''};
+
+  \draw[<->, dorange, line width=1.4pt] (sim.east) -- (real.west);
+  \node[dorange, font=\footnotesize\bfseries] at (6.2,0.7)
+     {\emph{reality gap} --- o que a simulação não captura};
+
+  % acima: interação social (destaque)
+  \node[gap, draw=dred, text width=6.8cm, minimum height=1.1cm] (g4) at (6.2,2.6)
+     {\textbf{interação social humana} --- ainda um problema em aberto (Lemaignan et al., 2014)};
+  \draw[dguide, dred] (g4.south) -- (6.2,0.55);
+
+  % abaixo: três fontes do gap
+  \node[gap] (g1) at (2.4,-2.4)  {física de \textbf{contato},\\atrito, deformação};
+  \node[gap] (g2) at (6.2,-2.4)  {\textbf{ruído} e falhas de sensores; luz e materiais};
+  \node[gap] (g3) at (10.0,-2.4) {\textbf{atrasos}, folgas e\\desgaste dos atuadores};
+  \foreach \g/\x in {g1/2.4, g2/6.2, g3/10.0}{ \draw[dguide] (\g.north) -- (\x,-0.55); }
+
+  \node[dsub, align=center, font=\scriptsize] at (6.2,-3.9)
+     {calibrar \emph{todos} os parâmetros para bater com o real $\rightarrow$ \textbf{inviável} computacionalmente};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   lane/.style={rounded corners=2pt, draw=black!55, line width=0.8pt, fill=black!3,
+                minimum width=9.2cm, minimum height=0.9cm},
+   uid/.style={circle, draw=dblue, fill=dblue!18, line width=1pt, minimum size=6mm,
+               inner sep=0pt, font=\scriptsize}]
+
+  \def\dy{2.0}
+  % rótulo de fases (topo)
+  \node[dsub, font=\scriptsize, anchor=west] at (0.0,\dy+1.5) {início do projeto};
+  \node[dsub, font=\scriptsize, anchor=east] at (9.2,\dy+1.5) {produto final};
+  \draw[gray!45, ->, line width=0.6pt] (0,\dy+1.2) -- (9.4,\dy+1.2);
+
+  % ---- Engenharia ----
+  \node[lane] (e) at (4.6,\dy) {};
+  \node[anchor=east, font=\footnotesize\bfseries] at (-0.4,\dy) {Engenharia};
+  \node[font=\scriptsize] at (4.6,\dy) {problema + requisitos $\rightarrow$ soluções $\rightarrow$ escolha racional};
+  \node[dsub, font=\scriptsize, anchor=west] at (9.2,\dy) {usuário só (talvez) no fim};
+
+  % ---- Centrado no usuário ----
+  \node[lane] (u) at (4.6,0) {};
+  \node[anchor=east, font=\footnotesize\bfseries, align=right] at (-0.4,0) {Centrado no\\usuário (UCD)};
+  \node[font=\scriptsize] at (4.6,0) {ciclos: usuário \textbf{comenta} e \textbf{avalia} iterações};
+  \foreach \x in {3.2,5.4,7.6}{ \node[uid] at (\x,0.9) {}; \draw[dblue, line width=0.6pt] (\x,0.75) -- (\x,0.45);}
+  \node[dsub, font=\scriptsize, anchor=west] at (9.2,0.9) {usuário na \textbf{avaliação}};
+
+  % ---- Participativo ----
+  \node[lane, fill=dblue!6, draw=dblue] (p) at (4.6,-\dy) {};
+  \node[anchor=east, font=\footnotesize\bfseries] at (-0.4,-\dy) {Participativo};
+  \node[font=\scriptsize] at (4.6,-\dy) {usuário e \emph{stakeholders} nas \textbf{decisões de design}};
+  \foreach \x in {0.6,2.6,4.6,6.6,8.6}{ \node[uid] at (\x,-\dy+0.9) {}; \draw[dblue, line width=0.6pt] (\x,-\dy+0.75) -- (\x,-\dy+0.45);}
+  \node[dsub, font=\scriptsize, anchor=west] at (9.2,-\dy+0.9) {usuário \textbf{desde o início}};
+
+  \node[dsub, align=center, font=\scriptsize] at (4.6,-\dy-1.15)
+     {o custo de mudar o sistema \textbf{cresce} ao longo do processo $\Rightarrow$ envolver o usuário \textbf{cedo}};
+
+\end{tikzpicture}
+\end{document}

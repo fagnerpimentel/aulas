@@ -1,0 +1,315 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Design (Parte 2) — Métodos, Prototipagem, Cultura e Ética"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/3-metodos-cultura-e-etica
+---
+
+# Métodos de Design em IHR
+
+::: {.esquerda}
+Capítulo 4 (seções 4.3 a 4.8) do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="55%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Métodos de design: engenharia, centrado no usuário e participativo
+- Ferramentas de prototipagem
+- Cultura no design de IHR
+- De máquinas a pessoas — considerações filosóficas e éticas
+- Conclusão e exercícios
+
+## O ciclo de design {.smaller}
+
+::: columns
+::: {.column width="50%"}
+1. **Definir** o problema ou a pergunta
+2. **Construir** a interação
+3. **Testar**
+4. **Analisar**
+5. **Repetir** a partir do passo 2 até ficar satisfeito (ou até acabarem tempo e dinheiro)
+
+:::
+::: {.column width="50%"}
+- IHR combina métodos da **engenharia**, da **IHC** e do **design industrial**
+- Objetivo: unir **desenvolvimento técnico** e **necessidades humanas** num sistema de IHR bem-sucedido
+- Lema: **"teste cedo; teste sempre"**
+:::
+:::
+
+![](images/ciclo-design.svg){fig-align="center" width="82%"}
+
+## Processo de design de engenharia {.smaller}
+
+- Parte de **problema + requisitos** → geram-se soluções possíveis → escolha **racional** da que melhor atende
+- A função costuma ser **modelada e simulada**: variam-se os parâmetros e calculam-se as propriedades resultantes
+- Para máquinas bem compreendidas, dá para **calcular** os parâmetros necessários para atender aos requisitos — um avião novo **quase certamente** voa no primeiro voo
+
+![](images/processo-engenharia.svg){fig-align="center" width="100%"}
+
+## Limites da simulação {.smaller}
+
+- Nem sempre é possível **validar em simulação**:
+  - a simulação pode não capturar o mundo real com detalhe suficiente
+  - o número de parâmetros pode ser grande demais → **inviável** computacionalmente
+- **Simular interação social** revelou-se um problema muito difícil (Lemaignan et al., 2014)
+
+::: columns
+::: {.column width="39%"}
+![](images/fotos/sim-gazebo-src.jpg){fig-align="center" width="100%"}
+
+[Gazebo — *NASA Space Robotics Challenge* (humanoide Valkyrie) — Chapulinaaa, CC BY-SA 4.0]{.credito}
+:::
+::: {.column width="61%"}
+![](images/limites-simulacao.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Design centrado no usuário (UCD) {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- *"Processos de design em que os usuários finais influenciam como o design toma forma"* (Abras et al., 2004) — não é exclusivo de IHR (vem da IHC)
+- Formas de envolver o usuário:
+  - análise inicial de **necessidades e desejos** (ajuda a **definir** o problema)
+  - **comentar** variações de design
+  - **avaliar** iterações e o produto final em diferentes contextos de uso
+- Estudos empíricos garantem que a diferença observada é **causada** pelo recurso de design (torso vermelho × azul; uma voz "animada" atrai mais clientes à loja?)
+:::
+
+::: {.column width="40%"}
+- O custo de mudar o sistema **cresce** ao longo do processo → rodar os ciclos **cedo**
+
+![](images/custo-mudanca.svg){fig-align="center" width="100%"}
+::: 
+::: 
+
+## Usuários e stakeholders {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- **Primários** — usam o robô diretamente (enfermeiros e pacientes com um robô de entrega de medicamentos)
+- **Secundários** — contato **intermitente** ou via intermediário (equipe que só vê o robô no corredor)
+- **Terciários** — **afetados** pelo uso (empregos alterados ou substituídos), mesmo sem interagir
+- **Stakeholders** = todos os envolvidos e afetados; **identificá-los** é um passo inicial do processo
+:::
+
+::: {.column width="40%"}
+- Métodos: análise de necessidades e requisitos, estudos de campo e observação, grupos focais, entrevistas e questionários, testes com protótipos (Vredenburg et al., 2002)
+
+![](images/stakeholders.svg){fig-align="center" width="100%"}
+::: 
+::: 
+
+## Exemplo: Snackbot (Carnegie Mellon) {.smaller}
+
+::: columns
+::: {.column width="68%"}
+- Processo **iterativo de 24 meses** considerando o robô, as pessoas e o contexto (Lee et al., 2009)
+- Pesquisa sobre **onde** as pessoas já pegavam lanches no prédio (estabelecer a necessidade)
+- Estudos de **viabilidade técnica** e de interação; **múltiplos protótipos**
+- Estudos do uso real e do efeito de diferentes formas de **diálogo** e comportamento na **satisfação** dos usuários
+:::
+::: {.column width="32%"}
+![](images/fotos/snackbot.jpg){fig-align="center" width="80%"}
+
+[Snackbot — projeto CMU (Lee et al., 2009)]{.credito}
+:::
+:::
+
+## Design participativo {.smaller}
+
+- Inclui **usuários e stakeholders nas decisões de design desde o início** — não apenas na fase de avaliação
+- Reconhece a **expertise** das pessoas sobre o próprio cotidiano e circunstâncias
+- Presente desde os **anos 1970** (sistemas de informação; trabalhadores participando do design do software que usariam)
+- Em IHR: testar/desenvolver comportamentos, projetar aplicações para o ambiente local, imaginar como capacidades existentes atendem a necessidades reais
+
+![](images/tres-abordagens.svg){fig-align="center" width="100%"}
+
+## Design participativo — exemplos {.smaller}
+
+::: columns
+::: {.column width="70%"}
+- **DiSalvo et al. (2008)** — "*neighborhood networks*": moradores usam um protótipo para criar **sensores ambientais** do bairro
+- **Feng et al. (2015)** — roboticistas + pessoas com deficiência visual definem, em oficinas, **comportamentos de guia** para um robô PR-2
+- Também em **saúde** e **educação**; com **adolescentes** (Björling et al., 2019) e **crianças** (Zaga, 2021)
+:::
+::: {.column width="30%"}
+![](images/fotos/pr2.jpg){fig-align="center" width="90%"}
+
+[Robô PR-2 (Feng et al., 2015) — Willow Garage, CC BY-SA 3.0]{.credito}
+:::
+:::
+
+## Design participativo — desafios {.smaller}
+
+- Pessoas têm muitas **preconcepções** mas pouco conhecimento técnico → ideias irrealistas
+- Designers conhecem pouco o **dia a dia** dos usuários (ex.: cuidado a idosos)
+- Solução: **aprendizado mútuo** entre pesquisadores e participantes (Lee et al., 2017; Winkle et al., 2018); frameworks de apoio (Axelsson et al., 2021)
+
+![](images/desafios-participativo.svg){fig-align="center" width="86%"}
+
+# Ferramentas de Prototipagem
+
+## Kits e plataformas {.smaller}
+
+- Do **papelão** ao **Raspberry Pi**: quanto mais flexível e poderoso, mais **conhecimento técnico** exigido
+- A escolha depende do que se quer testar — a **interação**, a **forma** ou o **sistema técnico** completo
+
+![](images/espectro-prototipagem.svg){fig-align="center" width="100%"}
+
+## Papelão e objetos encontrados {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- Protótipos **simples e baratos**, feitos com o que estiver à mão
+- Ideais para o **"mágico de Oz"** e para testar ideias de **interação** antes de investir em tecnologia
+- Ciclo de iteração **muito rápido**
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-cardboard.jpg){fig-align="center" width="82%"}
+
+[Protótipo em papelão — G. Alessandroni, CC BY-SA 4.0]{.credito}
+:::
+:::
+
+## LEGO Mindstorms {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- Ideia de **Seymour Papert** (MIT): **construir para aprender**
+- Kit de peças + **tijolo programável** com sensores e motores
+- Baixa barreira de entrada; usado para ilustrar **prototipagem rápida** em IHR (Bartneck & Hu, 2004; Klassner, 2002)
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-lego.jpg){fig-align="center" width="90%"}
+
+[LEGO Mindstorms EV3 — J. Leiva, CC BY-SA 4.0]{.credito}
+:::
+:::
+
+## Vex Robotics {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- Kit de robótica educacional: **estrutura metálica**, motores e controlador
+- Mais **robusto e mecânico** que o LEGO
+- A versão avançada é o kit das **FIRST Robotics Competitions**
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-vex.jpg){fig-align="center" width="95%"}
+
+[Robô VEX de competição — N. Wulf, CC BY-SA 4.0]{.credito}
+:::
+:::
+
+## LittleBits {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- "Tijolos" eletrônicos **plug-and-play** que se encaixam por **ímãs**
+- Sensores, atuadores e lógica **sem solda nem programação**
+- Monta protótipos **interativos** em minutos
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-littlebits.jpg){fig-align="center" width="90%"}
+
+[Kit littleBits — SparkFun Electronics, CC BY 2.0]{.credito}
+:::
+:::
+
+## Arduino {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- **Microcontrolador** open source; barato, com **comunidade enorme** e muitos exemplos
+- Mais **flexível** que os kits fechados
+- Exige **programação** e noções de eletrônica
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-arduino.jpg){fig-align="center" width="95%"}
+
+[Placa Arduino Uno — JrawX, CC0]{.credito}
+:::
+:::
+
+## Raspberry Pi {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- **Computador completo** de placa única — roda Linux e ROS
+- Com **impressoras 3D acessíveis** → prototipagem "para as massas" (ou, ao menos, para estudantes)
+- Mais **poder** (visão, redes) ao custo de maior **complexidade**
+:::
+::: {.column width="40%"}
+![](images/fotos/kit-rpi.jpg){fig-align="center" width="95%"}
+
+[Raspberry Pi 4 Model B — Laserlicht, CC BY-SA 4.0]{.credito}
+:::
+:::
+
+## Smartphone como robô {.smaller}
+
+- Um smartphone comum já tem **poder de computação** suficiente para controlar um robô
+- Sensores embutidos: microfone, câmera, giroscópio, acelerômetro
+- Atuadores: tela, alto-falante, motor de vibração
+- **Robovie MR2** — um smartphone controla todas as funções do robô
+- Guy Hoffman chama isso de abordagem **"dumb robot, smart phone"** (2012)
+
+::: columns
+::: {.column width="72%"}
+![](images/dumb-robot-smart-phone.svg){fig-align="center" width="88%"}
+:::
+::: {.column width="28%"}
+![](images/fotos/robovie-mr2.jpg){fig-align="center" width="68%"}
+
+[Robovie mR2 (iPod Touch no torso) — Reo Matsumura / ATR IRC, © ATR 2010]{.credito}
+:::
+:::
+
+# Cultura no Design de IHR
+
+## Cultura e robôs — Oriente × Ocidente {.smaller}
+
+![](images/cultura-leste-oeste.svg){fig-align="center" width="100%"}
+
+# De Máquinas a Pessoas — e o Meio-Termo
+
+## Compromissos filosóficos e éticos {.smaller}
+
+- Toda decisão de design carrega compromissos **filosóficos, éticos e até políticos** — melhor torná-los **conscientes**
+- Decisões básicas do pesquisador:
+
+![](images/compromissos-design.svg){fig-align="center" width="96%"}
+
+## Design guiado por valores {.smaller}
+
+- **Value-Sensitive Design (VSD)** (Friedman et al., 2002): a tecnologia **se adapta às necessidades humanas**, não o contrário
+
+![](images/value-sensitive-design.svg){fig-align="center" width="96%"}
+
+## Conclusão {.smaller}
+
+- Projetar robôs exige **expertise multidisciplinar** (em geral, uma equipe) e um processo que considere **usuários e contexto**
+- Entendidos os usuários e as interações, projeta-se **de fora para dentro** — dos usuários e do contexto aos conceitos e, então, às especificações técnicas
+- Todo design de IHR **expressa valores** sociais e éticos dos designers, de forma consciente ou não
+- O **antropomorfismo** é uma das considerações mais importantes; o **antropomorfismo psicológico** é uma ponte fértil entre robótica e ciências sociais
+- Forma e função humanas afetam a **qualidade percebida**, a **aceitação** e o **prazer** na interação
+
+## Exercícios (para praticar) {.smaller}
+
+- **Veículo autônomo** — assista à palestra de Leila Takayama, [*"What Is It Like to Be a Robot?"*](https://www.ted.com/talks/leila_takayama_what_s_it_like_to_be_a_robot); que **affordances** e **padrões de design** você incluiria para que passageiros se sintam seguros e para que pedestres e outros motoristas **confiem** no carro?
+
+## Projeto {.smaller}
+
+**Atividade em grupo** — apliquem a aula ao robô que vocês estão construindo.
+
+1. **Contexto e stakeholders** — onde e para quê o robô será usado; listem stakeholders **primários, secundários e terciários**
+2. **Forma × função** — que **affordances** a aparência e o comportamento sinalizam? Elas **casam** com o que o robô faz? O que dá para "**prometer menos**"?
+3. **Grau de antropomorfismo** — marquem um ponto no espectro **máquina ↔ humano** e justifiquem; como evitar o **vale da estranheza**?
+4. **Padrões de design** — 2 padrões que se aplicam ao projeto e como se **combinam**
+5. **Valores e ética** — 1–2 **valores** em jogo (VSD); 1 **risco ético** e como mitigá-lo
+6. **Protótipo no papel** — esbocem à mão como esperam que o robô **seja**: forma, tamanho, rosto/olhos, partes móveis, tela… — o protótipo mais **barato e rápido**; *teste cedo*

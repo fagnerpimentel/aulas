@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, dacc, text width=5.6cm, minimum height=3.4cm, font=\footnotesize,
+        align=left, inner sep=8pt] (l) at (0,0)
+     {\textbf{Oriente} \scriptsize(ligações frequentes na literatura)\\[3pt]
+      $\bullet$ crenças \textbf{animistas} $\rightarrow$ conforto com robôs (Japão, Coreia)\\
+      $\bullet$ noções \textbf{holísticas} de mente/corpo\\
+      $\bullet$ práticas \textbf{comunitárias}\\
+      $\bullet$ casa como espaço \textbf{relacional} (Coreia)};
+
+  \node[dbox, draw=dorange, text width=5.6cm, minimum height=3.4cm, font=\footnotesize,
+        align=left, inner sep=8pt] (o) at (7.0,0)
+     {\textbf{Ocidente}\\[3pt]
+      $\bullet$ \textbf{excepcionalismo humano} $\rightarrow$ desconforto com robôs sociais / humanoides\\
+      $\bullet$ noções \textbf{dualistas} de mente/corpo\\
+      $\bullet$ práticas \textbf{individualistas}\\
+      $\bullet$ casa como espaço \textbf{funcional} (EUA)};
+
+\end{tikzpicture}
+\end{document}

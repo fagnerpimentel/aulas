@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   vs/.style={dbox, minimum width=3.0cm, minimum height=1.0cm, font=\footnotesize}]
+
+  % etapas
+  \node[vs, dacc]        (i) at (1.6,1.7) {identificação};
+  \node[vs]              (n) at (5.6,1.7) {incorporação};
+  \node[vs, draw=dgreen] (a) at (9.6,1.7) {avaliação};
+
+  % rótulos abaixo de cada caixa
+  \node[dsub, font=\scriptsize] at (1.6,0.85) {\emph{de valores}};
+  \node[dsub, font=\scriptsize] at (5.6,0.85) {\emph{no design}};
+  \node[dsub, font=\scriptsize] at (9.6,0.85) {\emph{dos valores}};
+
+  \draw[dtrans] (i) -- (n);
+  \draw[dtrans] (n) -- (a);
+
+  % laço iterativo
+  \draw[dmeas, line width=1pt]
+     (a.north) .. controls +(0,1.4) and +(0,1.4) ..
+     node[above, dsub, font=\scriptsize] {iterar} (i.north);
+
+  % faixa do desenvolvimento
+  \foreach \x in {1.6,5.6,9.6}{ \draw[dguide] (\x,0.05) -- (\x,0.5); }
+  \draw[daxis, line width=1pt] (-0.4,0) -- (11.6,0);
+  \node[dsub, font=\scriptsize] at (0.0,-0.45) {início};
+  \node[dsub, font=\scriptsize, anchor=east] at (11.6,-0.45) {desenvolvimento};
+
+\end{tikzpicture}
+\end{document}
