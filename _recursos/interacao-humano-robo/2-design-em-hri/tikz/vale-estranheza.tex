@@ -1,0 +1,53 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ------- região do vale (fundo) -------
+  \fill[dred!9] (7.9,-2.9) rectangle (9.9,5.4);
+
+  % ------- eixos -------
+  \draw[daxis] (0,0) -- (12.6,0) node[right, dsub] {semelhança humana \footnotesize$\rightarrow$ 100\%};
+  \draw[daxis] (0,-2.9) -- (0,5.6) node[above, dsub] {afinidade (\emph{shinwa-kan})};
+
+  % ------- curva estático -------
+  \draw[dcurve, line width=1.3pt]
+     (0,0.3) .. controls (2.0,1.5) and (3.6,2.4) ..
+     (5.2,2.7) .. controls (6.2,2.9) and (6.6,2.9) ..
+     (7.0,2.6) .. controls (7.7,2.0) and (8.2,-0.6) ..
+     (8.9,-1.1) .. controls (9.3,-1.35) and (9.6,-0.2) ..
+     (10.3,2.6) .. controls (11.0,4.3) and (11.6,4.7) .. (12.2,4.8);
+
+  % ------- curva em movimento (vale mais fundo, picos mais altos) -------
+  \draw[dcurveb, line width=1.3pt, densely dashed]
+     (0,0.2) .. controls (2.0,1.7) and (3.6,3.0) ..
+     (5.2,3.4) .. controls (6.2,3.7) and (6.6,3.7) ..
+     (7.0,3.2) .. controls (7.7,2.2) and (8.3,-1.8) ..
+     (8.9,-2.5) .. controls (9.3,-2.75) and (9.6,-0.6) ..
+     (10.2,2.8) .. controls (11.0,4.9) and (11.6,5.3) .. (12.2,5.4);
+
+  \node[dred, font=\footnotesize\bfseries, align=center] at (8.9,4.6) {vale da\\estranheza};
+
+  % ------- marcadores -------
+  \foreach \x/\y/\lbl/\pos in {
+     0.9/0.75/{robô industrial}/{above left},
+     4.4/2.35/{humanoide (C-3PO)}/{below},
+     6.7/2.75/{robô muito realista}/{above},
+     8.9/-1.15/{prótese / boneco / ``zumbi''}/{below},
+     12.1/4.8/{humano saudável}/{left}}{
+     \fill[black!80] (\x,\y) circle (0.07);
+     \node[dsub, font=\scriptsize, align=center, \pos=2pt] at (\x,\y) {\lbl};
+  }
+
+  % ------- legenda (dentro do gráfico, canto sup. esq.) -------
+  \draw[dcurve, line width=1.3pt] (0.5,5.0) -- (1.3,5.0);
+  \node[dsub, font=\scriptsize, anchor=west] at (1.4,5.0) {estático};
+  \draw[dcurveb, line width=1.3pt, densely dashed] (0.5,4.4) -- (1.3,4.4);
+  \node[dsub, font=\scriptsize, anchor=west] at (1.4,4.4) {em movimento --- \emph{amplifica} o efeito};
+
+  % ------- legenda inferior -------
+  \node[dsub, font=\scriptsize, align=center] at (6.3,-3.6)
+     {Mori (1970): proposta influente, mas \textbf{nunca testada empiricamente} --- usar com cautela};
+
+\end{tikzpicture}
+\end{document}

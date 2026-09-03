@@ -17,6 +17,8 @@ website:
         href: robotica-probabilistica/index.qmd
       - text: "Navegação"
         href: navegacao/index.qmd
+      - text: "Interação Humano-Robô"
+        href: interacao-humano-robo/index.qmd
       - text: "Interação Humano-Computador"
         href: ihc/index.qmd
   page-footer:

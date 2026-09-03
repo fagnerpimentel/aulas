@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % "cena": retângulo com abertura (a "casa")
+  \draw[black!55, line width=1pt] (0,0) rectangle (5.2,3.2);
+  \draw[white, line width=1.6pt] (3.6,3.2) -- (4.4,3.2); % abertura
+  \draw[black!55, line width=1pt] (3.6,3.2) -- (3.6,3.5);
+  \draw[black!55, line width=1pt] (4.4,3.2) -- (4.4,3.5);
+
+  % triângulo grande (o "agressor")
+  \fill[dred!75] (1.2,1.9) -- (2.1,1.9) -- (1.65,2.75) -- cycle;
+  \draw[->, dred, line width=1pt] (2.25,2.1) .. controls (2.9,2.0) .. (3.4,1.4);
+  \node[dsub, font=\scriptsize, dred] at (1.0,2.9) {``o agressor''};
+
+  % triângulo pequeno
+  \fill[dblue!70] (3.5,0.7) -- (4.1,0.7) -- (3.8,1.3) -- cycle;
+  \draw[->, dblue, line width=1pt] (3.6,0.5) .. controls (2.6,0.3) .. (1.6,0.7);
+
+  % círculo
+  \fill[dgreen!70] (2.6,0.9) circle (0.28);
+  \draw[->, dgreen, line width=1pt] (2.4,1.15) .. controls (2.0,1.7) .. (2.2,2.4);
+  \node[dsub, font=\scriptsize, dgreen] at (4.9,0.35) {``os amigos''};
+
+  % callouts de interpretação
+  \node[dbox, font=\scriptsize, align=left, text width=4.6cm] at (9.6,2.4)
+     {pessoas descrevem \textbf{relações sociais} e \textbf{emoções}:\\[2pt]
+      $\bullet$ amizade, perseguição, medo\\
+      $\bullet$ raiva, ciúme};
+  \node[dbox, draw=dgreen, font=\scriptsize, align=left, text width=4.6cm] at (9.6,0.3)
+     {o \textbf{movimento} --- mais que a forma --- comunica emoção e intenção\\
+      \scriptsize (Heider \& Simmel, 1944)};
+
+  \draw[dblue, line width=0.7pt] (5.3,2.0) -- (7.2,2.4);
+  \draw[dgreen, line width=0.7pt] (5.3,1.0) -- (7.2,0.5);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,43 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   bexp/.style={draw=black!60, fill=black!12, line width=0.8pt},
+   bdel/.style={draw=dblue, fill=dblue!22, line width=1pt}]
+
+  % entrega real do robô (a mesma nos dois casos)
+  \def\del{2.4}
+
+  % eixo
+  \draw[daxis] (-0.5,0) -- (-0.5,4.2) node[above, dsub] {nível};
+
+  % ---------- caso A: prometer muito ----------
+  \begin{scope}[shift={(0.4,0)}]
+    \fill[bexp] (0,0) rectangle (1.0,3.7);
+    \fill[bdel] (1.3,0) rectangle (2.3,\del);
+    \node[dsub, font=\scriptsize] at (0.5,-0.4) {expectativa};
+    \node[dsub, font=\scriptsize] at (1.8,-0.4) {entrega};
+    \draw[<->, dred, line width=1pt] (2.45,\del) -- (2.45,3.7)
+        node[midway, right=1pt, font=\scriptsize, dred, align=left] {expectativa\\frustrada};
+    \node[align=center, font=\footnotesize] at (1.3,-1.15) {\textbf{prometer muito}\\\scriptsize $\rightarrow$ avaliação \textcolor{dred}{negativa}};
+  \end{scope}
+
+  % separador
+  \draw[black!15, line width=0.6pt] (6.2,-1.5) -- (6.2,4.3);
+
+  % ---------- caso B: prometer menos ----------
+  \begin{scope}[shift={(7.2,0)}]
+    \fill[bexp] (0,0) rectangle (1.0,1.5);
+    \fill[bdel] (1.3,0) rectangle (2.3,\del);
+    \node[dsub, font=\scriptsize] at (0.5,-0.4) {expectativa};
+    \node[dsub, font=\scriptsize] at (1.8,-0.4) {entrega};
+    \draw[<->, dgreen, line width=1pt] (2.45,1.5) -- (2.45,\del)
+        node[midway, right=1pt, font=\scriptsize, dgreen, align=left] {entrega\\a mais};
+    \node[align=center, font=\footnotesize] at (1.3,-1.15) {\textbf{prometer menos}\\\scriptsize (\emph{underpromise, overdeliver})};
+  \end{scope}
+
+  \node[dsub, align=center, font=\scriptsize] at (5.0,-2.15)
+    {reduzir expectativas melhora a avaliação --- às vezes convém \textbf{nem chamar de ``robô''}};
+
+\end{tikzpicture}
+\end{document}

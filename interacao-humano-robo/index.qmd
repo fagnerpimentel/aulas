@@ -1,0 +1,19 @@
+---
+title: "Interação Humano-Robô"
+description: "Design de robôs, antropomorfismo, métodos de projeto e considerações culturais e éticas em IHR. Baseada em *Human–Robot Interaction: An Introduction* (Bartneck, Belpaeme, Eyssel, Kanda, Keijsers, Šabanović)."
+format: html
+listing:
+  - id: aulas
+    contents:
+      - "teoria/*.qmd"
+    type: table
+    fields: [title, subtitle]
+    field-display-names:
+      subtitle: "Tema"
+    sort: false
+---
+
+## Aulas teóricas
+
+::: {#aulas}
+:::

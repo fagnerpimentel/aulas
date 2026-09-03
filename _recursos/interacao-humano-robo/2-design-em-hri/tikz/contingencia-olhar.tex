@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   fb/.style={dbox, text width=3.2cm, minimum height=1.2cm, font=\footnotesize, align=center},
+   dec/.style={draw=black!80, fill=dcream, line width=1pt, diamond, aspect=2.2,
+               inner sep=2pt, font=\footnotesize, align=center}]
+
+  \node[fb]              (a) at (0,0)   {detecta movimento\\ou toque};
+  \node[fb, dacc]        (b) at (4.2,0) {olha \textbf{rápido} para a origem\\\scriptsize (parecer vivo e responsivo)};
+  \node[dec]             (c) at (8.6,0) {é\\relevante?};
+
+  \node[fb, draw=dgreen] (d) at (12.9,1.4)  {\textbf{sustenta o olhar}\\\scriptsize pessoa acenando ``oi''};
+  \node[fb, draw=dorange](e) at (12.9,-1.4) {volta a olhar para\\outro lado\\\scriptsize árvore balançando ao vento};
+
+  \draw[dtrans] (a) -- (b);
+  \draw[dtrans] (b) -- (c);
+  \draw[dtrans, dgreen]  (c) -- node[above left=-1pt, font=\scriptsize] {sim} (d);
+  \draw[dtrans, dorange] (c) -- node[below left=-1pt, font=\scriptsize] {não} (e);
+
+  \node[dsub, align=center, font=\scriptsize] at (5.5,-2.7)
+    {\textbf{contingência} = comportamento apropriado ao contexto --- junto com a \textbf{velocidade de reação}, faz o robô parecer ``quase vivo''};
+
+\end{tikzpicture}
+\end{document}
