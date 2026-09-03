@@ -1,0 +1,240 @@
+---
+title: "Exercício: Locomoção"
+subtitle: "Inicializando e controlando robôs móveis"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- **Inicializar** três robôs de arquiteturas diferentes:
+  - o **TurtleBot3 Burger** (base diferencial).
+  - o **Unitree Go2** (quadrúpede).
+  - o **ROBOTIS OP3** (humanoide).
+- Descobrir, com as ferramentas de linha de comando do ROS 2 (`ros2 node`,
+  `ros2 topic`, `ros2 interface`), **qual é a interface de locomoção** de cada robô.
+- **Comandar movimento** em cada um: velocidade de corpo (`/cmd_vel`) nos robôs
+  com rodas/pernas contínuas e o **ciclo de módulos** (habilitar módulo →
+  `start`/`stop`) no humanoide.
+- Explicar por que um humanoide **não** é controlado por `/cmd_vel` como uma base
+  diferencial, e o que muda no fluxo de controle.
+
+---
+
+## Parte 0 — Preparação do ambiente
+
+1. Suba o container do Docker:
+
+   ```bash
+   cd .devcontainer
+   docker compose up
+   ```
+
+2. Em um terminal dentro do container, compile o workspace (os três robôs já
+   estão em `workspace/src/`: `turtlebot3/`, `unitree_go2/` e `robotis_op3/`):
+
+   ```bash
+   docker exec -it ros-env bash
+   source /opt/ros/jazzy/setup.bash
+   colcon build
+   source install/setup.bash
+   ```
+
+::: {.callout-tip}
+Cada robô abaixo é independente. **Rode um de cada vez** — não suba dois
+simuladores Gazebo ao mesmo tempo. Para cada parte, abra novos terminais no
+container com `docker exec -it ros-env bash` e lembre-se de
+`source install/setup.bash` em todos.
+:::
+
+---
+
+## Parte 1 — TurtleBot3 Burger (base diferencial)
+
+Arquitetura mais simples: um corpo rígido sobre duas rodas motrizes. A locomoção
+é uma **velocidade de corpo** — linear $v$ e angular $\omega$ — publicada em
+`/cmd_vel`.
+
+### 1.1 Inicializar
+
+```bash
+# terminal 1 — simulação
+ros2 launch turtlebot3_gazebo empty_world.launch.py
+```
+
+### 1.2 Inspecionar
+
+```bash
+# terminal 2
+ros2 node list
+ros2 topic list
+ros2 topic info /cmd_vel -v          # quem publica / assina e qual o tipo
+ros2 interface show geometry_msgs/msg/TwistStamped
+ros2 topic echo /odom --once         # pose estimada pela odometria das rodas
+```
+
+### 1.3 Controlar
+
+**Teclado:**
+
+```bash
+# terminal 2
+ros2 run turtlebot3_teleop teleop_keyboard
+```
+
+**Por publicação direta** (andar para a frente a 0,15 m/s):
+
+```bash
+ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/TwistStamped \
+  '{header: {frame_id: base_link}, twist: {linear: {x: 0.15}, angular: {z: 0.0}}}'
+```
+
+Girar no lugar: `twist: {linear: {x: 0.0}, angular: {z: 0.5}}`. Parar: publique tudo
+zero (ou `Ctrl+C` no teleop).
+
+<!-- ### 1.4 Tarefa -->
+
+<!-- Faça o robô percorrer um **quadrado de ~1 m de lado**: alterne trechos de `linear.x` por um tempo fixo e `angular.z` por ~$\pi/2$. Registre o desenho da trajetória com `ros2 topic echo /odom` (campo `pose.pose.position`) no início e no fim de cada trecho. O robô volta exatamente ao ponto de partida? Explique o acúmulo de erro. -->
+
+---
+
+## Parte 2 — Unitree Go2 (quadrúpede, controlador CHAMP)
+
+O Go2 tem 12 juntas, mas um controlador de marcha (**CHAMP**) esconde essa
+complexidade e expõe de volta uma interface de **velocidade de corpo**: você
+publica `/cmd_vel` ($v_x$, $v_y$, $\omega_z$) e o CHAMP resolve as trajetórias das
+quatro patas.
+
+### 2.1 Inicializar
+
+```bash
+# terminal 1 — Gazebo + CHAMP + (opcional) RViz
+ros2 launch unitree_go2_sim unitree_go2_launch.py
+```
+
+Aguarde o robô "levantar" (o CHAMP leva alguns segundos para estabilizar em pé).
+
+### 2.2 Inspecionar
+
+```bash
+# terminal 2
+ros2 node list                         # note o quadruped_controller_node (CHAMP)
+ros2 topic info /cmd_vel -v
+ros2 interface show geometry_msgs/msg/Twist
+ros2 topic echo /odom --once
+ros2 topic echo /gps/fix --once        # GPS simulado (NavSatFix)
+```
+
+### 2.3 Controlar
+
+**Teclado:**
+
+```bash
+# terminal 3
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+**Por publicação direta** (caminhar para a frente):
+
+```bash
+ros2 topic pub -r 20 /cmd_vel geometry_msgs/msg/Twist \
+  '{linear: {x: 0.3, y: 0.0}, angular: {z: 0.0}}'
+```
+
+Caminhada lateral (*strafe*): `linear: {x: 0.0, y: 0.2}`. Girar: `angular: {z: 0.5}`.
+
+<!-- ### 2.4 Tarefa -->
+
+<!-- 1. Compare a resposta do Go2 a um degrau de `linear.x` com a do TurtleBot3: qual demora mais a atingir a velocidade comandada? Por quê (pense no que o CHAMP precisa fazer com as patas)? -->
+<!-- 2. Faça o Go2 andar em "L": ~1 m para a frente, parar, girar 90°, ~1 m para a frente. Use `/odom` para conferir. -->
+<!-- 3. O Go2 consegue *strafe* (andar de lado) e o TurtleBot3 não. Explique a partir das restrições de cada plataforma (holonômica × não-holonômica). -->
+
+---
+
+## Parte 3 — ROBOTIS OP3 (humanoide)
+
+O OP3 tem 20 juntas controladas em **posição**. Não existe `/cmd_vel`: andar é
+resultado de um **módulo de marcha** que gera trajetórias para as juntas. O fluxo
+de controle é: `op3_manager` (carrega os módulos) → **pose inicial** → **habilitar
+o módulo de marcha** → `start` / `stop`.
+
+### 3.1 Inicializar
+
+```bash
+# terminal 1 — simulação (Gazebo + robot_state_publisher + ros2_control)
+ros2 launch op3_gazebo_ros2 robot_sim.launch.py
+
+# terminal 2 — gerente de módulos do OP3 (modo simulação)
+ros2 launch op3_manager op3_simulation.launch.py
+```
+
+### 3.2 Inspecionar
+
+```bash
+# terminal 3
+ros2 topic list | grep robotis
+ros2 topic echo /robotis/present_joint_states --once     # estado das juntas
+ros2 interface show op3_walking_module_msgs/msg/WalkingParam
+```
+
+### 3.3 Controlar (ciclo de módulos)
+
+```bash
+# 1) ir para a pose inicial (fica em pé, juntas na posição de referência)
+ros2 topic pub -1 /robotis/base/ini_pose std_msgs/msg/String "{data: 'ini_pose'}"
+
+# 2) habilitar o módulo de marcha
+ros2 topic pub -1 /robotis/enable_ctrl_module std_msgs/msg/String "{data: 'walking_module'}"
+
+# 3) começar a marchar (no lugar, com os parâmetros default)
+ros2 topic pub -1 /robotis/walking/command std_msgs/msg/String "{data: 'start'}"
+
+# 4) parar
+ros2 topic pub -1 /robotis/walking/command std_msgs/msg/String "{data: 'stop'}"
+```
+
+Para **andar para a frente** (e não só marchar no lugar) é preciso ajustar a
+amplitude de passo no campo `x_move_amplitude` de `WalkingParam`, publicado em
+`/robotis/walking/set_params`. Como essa mensagem tem muitos campos, use a
+interface gráfica de demonstração, que tem controles deslizantes de marcha:
+
+```bash
+ros2 launch op3_gui_demo op3_demo.launch.py
+```
+
+<!-- ### 3.4 Tarefa -->
+
+<!-- 1. Descreva, com base no que você observou em `ros2 node list` e `ros2 topic list`, **por que** o OP3 precisa do `op3_manager` rodando antes de qualquer comando de marcha funcionar. -->
+<!-- 2. Faça o OP3 dar a pose inicial, marchar no lugar por ~5 s e parar. Capture `ros2 topic echo /robotis/present_joint_states` antes e durante a marcha e aponte quais juntas mais se movimentam. -->
+<!-- 3. (Opcional) Pela GUI, dê `x_move_amplitude > 0` e faça o robô caminhar ~1 m para a frente. -->
+
+---
+
+## Parte 4 — Síntese
+
+Preencha a tabela comparando as três plataformas:
+
+| | TurtleBot3 Burger | Unitree Go2 | ROBOTIS OP3 |
+|---|---|---|---|
+| Tipo de robô | base diferencial | quadrúpede (12 GDL) | humanoide (20 GDL) |
+| Como se inicializa | | | |
+| Interface de locomoção (tópico) | | | |
+| Tipo da mensagem de comando | | | |
+| Controla velocidade ou posição? | | | |
+| Holonômico? | | | |
+
+---
+
+## Entregáveis
+
+- **Um relatório curto (2–3 páginas)** com:
+  - os comandos exatos usados para inicializar e mover cada robô (o que funcionou
+    e o que não funcionou de primeira);
+  - capturas de `ros2 node list` e `ros2 topic list` de cada robô, com o(s)
+    tópico(s) de locomoção destacado(s);
+  - a **tabela da Parte 4** preenchida;
+  <!-- - as respostas das tarefas 1.4, 2.4 e 3.4; -->
+  - um parágrafo final: *"em que cada arquitetura de robô muda a forma de comandar locomoção?"*
+- Um **vídeo curto** (ou sequência de prints) de cada robô se movendo por comando seu.

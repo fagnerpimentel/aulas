@@ -1,0 +1,9 @@
+# Roteiros de laboratório: página "solta", sem a barra de navegação do site.
+format:
+  html:
+    include-in-header:
+      text: |
+        <style>
+          .navbar { display: none !important; }
+          body.nav-fixed { padding-top: 0 !important; }
+        </style>

@@ -1,0 +1,13 @@
+---
+title: "Navegação"
+description: "Locomoção, controle de robôs móveis e com pernas, planejamento de caminho, SLAM e navegação autônoma."
+format: html
+---
+
+## Aulas teóricas
+
+_Em preparação._
+
+## Práticas
+
+- [Locomoção: inicializando e controlando os robôs (TurtleBot3, ROBOTIS OP3, Unitree Go2)](pratica/exercicio-locomocao.qmd)
