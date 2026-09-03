@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   opt/.style={dbox, text width=3.5cm, minimum height=1.5cm, font=\footnotesize, align=center},
+   endb/.style={dbox, text width=2.2cm, minimum height=1.1cm, font=\footnotesize, align=center}]
+
+  % ===== eixo 1: aparência =====
+  \node[dsub, anchor=west, font=\itshape] at (-0.3,3.9) {1. O robô deve\ldots};
+
+  \node[endb, dacc]        (m) at (1.2,2.6)  {parecer\\\textbf{MÁQUINA}};
+  \node[endb, draw=dorange](h) at (12.8,2.6) {parecer\\\textbf{HUMANO}};
+  \draw[<->, line width=1.1pt, black!65] (m.east) -- (h.west);
+  \fill[dblue!12, rounded corners=3pt] (5.9,2.95) rectangle (8.1,3.55);
+  \node[dblue, font=\footnotesize\bfseries] at (7.0,3.25) {meio-termo};
+  \draw[dblue, line width=0.7pt] (7.0,2.95) -- (7.0,2.68);
+
+  \draw[black!15, line width=0.6pt] (-0.7,1.35) -- (14.4,1.35);
+
+  % ===== eixo 2: foco da pesquisa =====
+  \node[dsub, anchor=west, font=\itshape] at (-0.3,0.85) {2. O foco da pesquisa é\ldots};
+  \node[opt, dacc]        (a) at (2.2,-0.7)  {\textbf{avanço técnico}};
+  \node[opt]              (b) at (7.0,-0.7)  {\textbf{entender humanos}};
+  \node[opt, draw=dorange](c) at (11.8,-0.7) {\textbf{aplicações} para contextos específicos};
+  \node[dop] at (4.6,-0.7) {\small ou};
+  \node[dop] at (9.4,-0.7) {\small ou};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   tag/.style={dbox, font=\scriptsize, align=left, text width=4.2cm}]
+
+  % corpo do robô ("casca")
+  \draw[dbody, rounded corners=8pt] (-1.9,-2.8) rectangle (1.9,2.9);
+  \draw[dbody, rounded corners=4pt] (-1.0,2.9) rectangle (1.0,3.7);
+  \fill[dblue] (-0.45,3.3) circle (0.12);
+  \fill[dblue] ( 0.45,3.3) circle (0.12);
+  \node[dsub, font=\scriptsize] at (0,-3.25) {\textbf{robô ``burro''} --- corpo, forma, presença};
+
+  % smartphone no centro
+  \draw[dacc, fill=dblue!8, rounded corners=4pt, line width=1.2pt] (-0.9,-1.9) rectangle (0.9,1.9);
+  \node[font=\scriptsize\bfseries, dblue, align=center] at (0,0) {smart-\\phone};
+
+  % listas
+  \node[tag, dacc] (s) at (-5.2,1.7)
+     {\textbf{sensores}\\\scriptsize microfone, câmera, giroscópio, acelerômetro};
+  \node[tag, draw=dorange] (a) at (5.2,1.7)
+     {\textbf{atuadores}\\\scriptsize tela, alto-falante, motor de vibração};
+  \node[tag, draw=dgreen] (c) at (-5.2,-1.4)
+     {\textbf{computação}\\\scriptsize já suficiente para controlar todas as funções do robô};
+  \node[tag] (ex) at (5.2,-1.4)
+     {\textbf{ex.: Robovie MR2}\\\scriptsize um smartphone controla o robô inteiro};
+
+  \draw[dblue, line width=0.7pt]  (s.east)  -- (-0.9,1.3);
+  \draw[dorange, line width=0.7pt] (a.west) -- (0.9,1.3);
+  \draw[dgreen, line width=0.7pt] (c.east)  -- (-0.9,-1.0);
+  \draw[black!45, line width=0.7pt] (ex.west) -- (0.9,-1.0);
+
+  \node[dsub, align=center, font=\scriptsize] at (0,-4.0)
+     {abordagem \textbf{``dumb robot, smart phone''} (Hoffman, 2012)};
+
+\end{tikzpicture}
+\end{document}

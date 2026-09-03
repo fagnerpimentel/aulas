@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, text width=2.7cm, minimum height=1.35cm, font=\footnotesize, align=center},
+   sub/.style={dbox, fill=white, text width=2.9cm, minimum height=1.0cm,
+               font=\scriptsize, align=center, draw=dorange}]
+
+  \node[st, dacc]        (r) at (0,0)    {problema\\+ requisitos};
+  \node[st]              (g) at (3.7,0)  {gerar soluções\\possíveis};
+  \node[st]              (m) at (7.5,0)  {modelar\\e simular};
+  \node[st]              (e) at (11.3,0) {escolha\\\textbf{racional}};
+  \node[st, draw=dgreen] (s) at (15.1,0) {solução que\\melhor atende};
+
+  \draw[dtrans] (r) -- (g);
+  \draw[dtrans] (g) -- (m);
+  \draw[dtrans] (m) -- (e);
+  \draw[dtrans, dgreen] (e) -- (s);
+
+  % --- detalhe de "modelar e simular": ciclo variar <-> calcular ---
+  \node[sub] (pv) at (5.0,-2.5) {variar\\parâmetros};
+  \node[sub] (cp) at (10.0,-2.5) {calcular as propriedades\\resultantes};
+  \draw[dmeas, line width=0.9pt] (pv.north) to[bend left=28] (cp.north);
+  \draw[dmeas, line width=0.9pt] (cp.south) to[bend left=28] (pv.south);
+  \draw[dguide] (m.south) -- (7.5,-1.4);
+
+\end{tikzpicture}
+\end{document}

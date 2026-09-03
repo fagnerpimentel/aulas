@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, minimum width=2.7cm, minimum height=1.0cm, font=\footnotesize}]
+
+  \node[st, dacc]        (d) at (-4.6,0)  {1. Definir};
+  \node[st]              (c) at (-1.5,2.3){2. Construir};
+  \node[st]              (t) at ( 1.5,2.3){3. Testar};
+  \node[st]              (a) at ( 4.6,0)  {4. Analisar};
+
+  \draw[dtrans] (d) -- (c);
+  \draw[dtrans] (c) -- (t);
+  \draw[dtrans] (t) -- (a);
+  % laço de repetição: Analisar -> Construir
+  \draw[dmeas, line width=1.1pt]
+     (a.south) .. controls +(0,-2.4) and +(0,-2.4) ..
+     node[below, dsub, font=\scriptsize, yshift=-4mm] {5. Repetir a partir do passo 2} (c.south);
+
+  \node[dsub, align=center, font=\scriptsize] at (0,-3.4)
+     {itera até ficar satisfeito (ou acabarem tempo e dinheiro) --- \textbf{``teste cedo; teste sempre''}};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pk/.style={dbox, text width=2.9cm, minimum height=1.9cm, font=\footnotesize, align=center}]
+
+  \draw[daxis] (0,0) -- (15.4,0);
+  \node[dsub, anchor=west] at (0,-0.5) {mais fácil / mais rápido};
+  \node[dsub, anchor=east] at (15.4,-0.5) {mais flexível / exige mais técnica};
+
+  \node[pk, dacc]        (a) at (1.9,1.9)  {\textbf{papelão e objetos}\\\scriptsize protótipos simples, \emph{mágico de Oz}};
+  \node[pk]              (b) at (5.6,1.9)  {\textbf{kits plug-and-play}\\\scriptsize LEGO Mindstorms, LittleBits, Vex};
+  \node[pk]              (c) at (9.3,1.9)  {\textbf{Arduino}\\\scriptsize barato, open source, comunidade grande};
+  \node[pk, draw=dorange](d) at (13.0,1.9) {\textbf{Raspberry Pi + impressora 3D}\\\scriptsize prototipagem ``para as massas''};
+
+  \foreach \x in {1.9,5.6,9.3,13.0}{ \draw[dguide] (\x,0.05) -- (\x,0.9); }
+
+\end{tikzpicture}
+\end{document}

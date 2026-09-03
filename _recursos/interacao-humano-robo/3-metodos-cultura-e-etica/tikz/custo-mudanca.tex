@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis] (0,0) -- (9.6,0) node[right, dsub] {fase do projeto};
+  \draw[daxis] (0,0) -- (0,5.2) node[above, dsub, align=center] {custo de\\mudar};
+
+  \foreach \i/\h/\lbl in {0/0.7/{definição}, 1/1.5/{protótipo}, 2/3.0/{desenvolvimento}, 3/4.7/{no mercado}}{
+     \pgfmathsetmacro\x{1.2+2.0*\i}
+     \fill[dblue!22, draw=dblue, line width=1pt] (\x-0.55,0) rectangle (\x+0.55,\h);
+     \node[dsub, font=\scriptsize] at (\x,-0.4) {\lbl};
+  }
+
+  \draw[dcurveb, line width=1.2pt] (1.2,0.7) .. controls (3.0,1.1) and (4.0,2.4) .. (7.2,4.7);
+
+  \node[dbox, draw=dgreen, font=\scriptsize, align=center] at (2.6,4.3)
+     {rodar os ciclos de\\avaliação \textbf{cedo}};
+  \draw[dgreen, line width=0.7pt] (2.6,3.55) -- (1.5,1.6);
+
+\end{tikzpicture}
+\end{document}
