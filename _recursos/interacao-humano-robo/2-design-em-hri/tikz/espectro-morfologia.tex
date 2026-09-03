@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   mf/.style={dbox, text width=2.7cm, minimum height=2.0cm, font=\footnotesize, align=center}]
+
+  % eixo: grau de semelhança humana
+  \draw[daxis] (0,0) -- (15.2,0);
+  \node[dsub, anchor=west] at (0,-0.5) {mais semelhante ao humano};
+  \node[dsub, anchor=east] at (15.2,-0.5) {menos semelhante ao humano};
+
+  \node[mf, dacc]        (a) at (1.7,1.9)
+     {\textbf{Androide /\\Humanoide}\\\scriptsize Geminoid, ASIMO, Nao};
+  \node[mf]              (b) at (5.4,1.9)
+     {\textbf{Zoomórfico}\\\scriptsize cão, gato, foca (Paro), dinossauro};
+  \node[mf]              (c) at (9.1,1.9)
+     {\textbf{Minimalista}\\\scriptsize Muu, Keepon, ``Naked Invisible Guy''};
+  \node[mf, draw=dorange](d) at (12.8,1.9)
+     {\textbf{Robjeto}\\\scriptsize pufe robótico, lixeira social};
+
+  \foreach \n/\x in {a/1.7, b/5.4, c/9.1, d/12.8}{
+    \draw[dguide] (\x,0.05) -- (\x,0.9);
+  }
+
+  \node[dsub, align=center, font=\scriptsize] at (7.6,-1.35)
+    {quanto maior a semelhança, \textbf{maior a expectativa} a cumprir};
+
+\end{tikzpicture}
+\end{document}

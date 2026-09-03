@@ -1,0 +1,48 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   cal/.style={dbox, text width=3.5cm, font=\scriptsize, align=left, inner sep=5pt},
+   pin/.style={dblue, line width=0.7pt}]
+
+  % ---------- robô estilizado (centro) ----------
+  \begin{scope}[shift={(0,0)}]
+    % corpo
+    \draw[dbody, rounded corners=6pt] (-1.1,-2.6) rectangle (1.1,0.4);
+    % tela no corpo
+    \draw[dacc, fill=dblue!8, rounded corners=3pt] (-0.7,-1.9) rectangle (0.7,-0.4);
+    % pescoço
+    \draw[dbody] (-0.25,0.4) rectangle (0.25,0.75);
+    % cabeça
+    \draw[dbody, rounded corners=5pt] (-0.95,0.75) rectangle (0.95,2.3);
+    % olhos
+    \fill[dblue] (-0.42,1.75) circle (0.16);
+    \fill[dblue] ( 0.42,1.75) circle (0.16);
+    % boca
+    \draw[black!70, line width=1pt] (-0.35,1.15) -- (0.35,1.15);
+    % braços
+    \draw[dbody, rounded corners=3pt] (-1.1,-0.2) -- (-2.0,-0.9) -- (-1.75,-1.2) -- (-1.1,-0.7) -- cycle;
+    \draw[dbody, rounded corners=3pt] ( 1.1,-0.2) -- ( 2.0,-0.9) -- ( 1.75,-1.2) -- ( 1.1,-0.7) -- cycle;
+  \end{scope}
+
+  % ---------- balão de fala ----------
+  \node[dbox, draw=black!55, fill=white, font=\scriptsize, inner sep=3pt] (hi) at (2.1,2.2) {``Olá''};
+
+  % ---------- callouts ----------
+  \node[cal, dacc]           (c1) at (-5.0,1.8)  {\textbf{tem olhos} $\Rightarrow$ espera-se que \emph{enxergue} e siga o olhar};
+  \node[cal, draw=dorange]   (c2) at ( 5.4,1.9)  {\textbf{diz ``Olá''} $\Rightarrow$ espera-se que \emph{entenda linguagem natural} e converse};
+  \node[cal]                 (c3) at (-5.0,-0.6) {\textbf{tem braços} $\Rightarrow$ espera-se que \emph{pegue objetos} e aperte a mão};
+  \node[cal, draw=dgreen]    (c4) at ( 5.4,-1.2) {\textbf{tela no corpo} $\Rightarrow$ espera-se \emph{interagir pela tela sensível ao toque}};
+  \node[cal]                 (c5) at (-5.0,-2.6) {\textbf{expressa emoção no rosto} $\Rightarrow$ espera-se que \emph{leia as emoções} da pessoa};
+
+  \draw[pin] (c1.east) -- (-0.5,1.75);
+  \draw[pin, dorange] (c2.west) -- (hi.east);
+  \draw[pin] (c3.east) -- (-1.7,-0.95);
+  \draw[pin, dgreen] (c4.west) -- (0.7,-1.1);
+  \draw[pin] (c5.east) -- (-0.35,1.15);
+
+  \node[dsub, align=center, font=\scriptsize] at (0,-3.4)
+    {\emph{design affordances}: aparência e comportamento sinalizam capacidades e limites --- e criam \textbf{terreno comum}};
+
+\end{tikzpicture}
+\end{document}

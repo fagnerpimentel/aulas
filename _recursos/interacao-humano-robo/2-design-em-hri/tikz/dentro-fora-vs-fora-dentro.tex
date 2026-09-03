@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, minimum width=3.0cm, minimum height=1.3cm, font=\footnotesize, align=center}]
+
+  % ============ de dentro para fora (Frankenstein) ============
+  \node[dsub, anchor=west, font=\itshape] at (-0.3,2.6)
+     {``Abordagem Frankenstein'' --- de dentro para fora};
+
+  \node[st]              (a1) at (0.9,1.4)  {plataforma\\técnica};
+  \node[st]              (a2) at (4.6,1.4)  {sensores\\+ atuadores};
+  \node[st]              (a3) at (8.3,1.4)  {carcaça\\\scriptsize (se sobrar tempo)};
+  \node[st, draw=dorange](a4) at (12.0,1.4) {interação social\\\scriptsize ``pendurada''};
+
+  \draw[dtrans] (a1) -- (a2);
+  \draw[dtrans] (a2) -- (a3);
+  \draw[dmeas]  (a3) -- (a4);
+  \node[dsub, anchor=east, font=\scriptsize] at (13.3,0.35)
+     {ignora o contexto e o caso de uso pretendido};
+
+  \draw[black!15, line width=0.6pt] (-0.5,-0.15) -- (13.7,-0.15);
+
+  % ============ de fora para dentro (outside-in) ============
+  \node[dsub, anchor=west, font=\itshape] at (-0.3,-0.8)
+     {Design ``de fora para dentro'' (\emph{outside-in})};
+
+  \node[st, dacc]       (b1) at (0.9,-2.1)  {interação\\esperada};
+  \node[st, dacc]       (b2) at (4.6,-2.1)  {forma externa\\+ comportamentos};
+  \node[st, dacc]       (b3) at (8.3,-2.1)  {encaixa a\\tecnologia};
+  \node[st, draw=dgreen](b4) at (12.0,-2.1) {robô como\\parceiro social};
+
+  \draw[dtrans] (b1) -- (b2);
+  \draw[dtrans] (b2) -- (b3);
+  \draw[dtrans, dgreen] (b3) -- (b4);
+  \node[dsub, anchor=east, font=\scriptsize] at (13.3,-3.15)
+     {parte de necessidades, valores e do ``onde / para quê''};
+
+\end{tikzpicture}
+\end{document}

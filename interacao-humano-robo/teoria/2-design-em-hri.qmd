@@ -1,0 +1,224 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Design (Parte 1) — Design em IHR e Antropomorfização"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/2-design-em-hri
+---
+
+# Design de Robôs
+
+::: {.esquerda}
+Capítulo 4 (seções 4.1 e 4.2) do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de Christoph Bartneck, Tony Belpaeme, Friederike Eyssel, Takayuki Kanda, Merel Keijsers e Selma Šabanović (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="55%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Como um bom **design físico** eleva a interação a outro patamar
+- Por que as pessoas **não** tratam robôs como um amontoado de plástico, eletrônica e código, mas como **entidades quase humanas** (antropomorfismo)
+- Como a pesquisa em IHR recorre a teorias da **psicologia** para projetar e estudar interações
+- Conteúdo: **4.1 Design em IHR** e **4.2 Antropomorfização em IHR**
+
+## De um amontoado de peças a um parceiro social {.smaller}
+
+- Transformar metal e plástico em um parceiro de interação social é um processo **iterativo e interdisciplinar**
+- Papéis típicos:
+  - **designers** — desenvolvem conceitos de design
+  - **cientistas sociais** — estudos exploratórios sobre usuários e contexto de uso
+  - **engenheiros / cientistas da computação** — viabilizam as ideias em tecnologia que funciona
+- O design em IHR pode partir de **robôs existentes** (projetando comportamentos e tarefas) ou criar **novos protótipos** para a interação desejada
+
+## "Abordagem Frankenstein" — de dentro para fora {.smaller}
+
+- Processo comum: resolver primeiro os **problemas técnicos**, depois ajustar aparência e comportamento
+- Ex.: parte-se de uma plataforma móvel (um **TurtleBot**), acrescentam-se sensores e atuadores e — se houver tempo — uma carcaça para cobrir a tecnologia
+- As capacidades de interação social são "penduradas" sobre a infraestrutura técnica
+- **Limitação**: ignora a perspectiva centrada no humano, o **contexto** e o **caso de uso** pretendido
+
+## Design "de fora para dentro" (outside-in) {.smaller}
+
+- Começa pela **interação esperada** → define forma externa e comportamentos → só então encaixa a tecnologia
+- Considera desde cedo **necessidades, valores e preferências** dos stakeholders; **onde** e **para quê** o robô será usado
+- Exemplos comerciais:
+  - **ASIMO** — menor, para não intimidar os usuários
+  - **Pepper** — cintura articulada para **curvar-se** em saudação (lojas no Japão)
+  - **Paro** — mudou de gato para **foca** (evita comparação com bichos conhecidos); rodas removidas porque os idosos, seus principais usuários, tinham mobilidade limitada
+
+![](images/dentro-fora-vs-fora-dentro.svg){fig-align="center" width="92%"}
+
+# 4.1 Design em IHR
+
+## 4.1.1 Morfologia e forma {.smaller}
+
+- Ponto de partida comum: **o que o robô vai fazer?**
+- Debate "a forma segue a função" × o inverso — em IHR, **forma e função são interligadas** e não se separam
+- Formas disponíveis ao designer:
+  - **Androides / humanoides** — muito parecidos com humanos; alta expectativa a cumprir
+  - **Zoomórficos** — animais familiares (cão, gato) ou familiares mas exóticos (dinossauro, foca)
+  - **Minimalistas** — exploram os requisitos **mínimos** para inspirar IHR social
+
+![](images/espectro-morfologia.svg){fig-align="center" width="100%"}
+
+## Robôs minimalistas e "robjects" {.smaller}
+
+- **Minimalistas**: Muu, **Keepon**; o caso mais extremo é o *busker robot* "**Naked Invisible Guy**" — um par de sandálias animadas sobre uma caixa
+- **Robjects** (*robotic objects*): design baseado em **objetos**, não em criaturas vivas
+  - pufe (ottoman) robótico, **lixeiras sociais** (Sociable Trash Box), caixas de brinquedos robóticas
+- O espaço de design é grande (forma, função, autonomia, modalidades, usuários, contexto) → **decidir bem** entre essas dimensões é parte central do trabalho
+
+## 4.1.2 Affordances {.smaller}
+
+- Origem: **psicologia ecológica** (Gibson) — a relação inerente entre organismo e ambiente
+  - uma pedra: para nós, algo a lançar; para um rato, um **esconderijo**
+- **Norman (2008)**: relações **perceptíveis** entre organismo e ambiente que habilitam ações (uma cadeira serve para sentar — uma escada também)
+- Em IHR, as "*design affordances*" criam **terreno comum**: a pessoa entende as capacidades e os limites do robô e **adapta** a interação
+
+## Aparência e comportamento como affordances {.smaller}
+
+- As pessoas assumem que a **capacidade combina com a aparência**:
+  - parece humano → deve **agir** como humano
+  - tem olhos → deve **enxergar**; tem braços → deve **pegar objetos** e talvez apertar as mãos
+- **Modalidades de interação**:
+  - diz "Olá" → espera-se que **entenda linguagem natural** e converse
+  - expressa emoções no rosto → espera-se que **leia** as emoções da pessoa
+- **Capacidades técnicas**: tela sensível ao toque no corpo → espera-se **interagir pela tela**
+- Como robôs são parceiros **novos**, as affordances são cruciais para sinalizar o modo apropriado de engajamento
+
+![](images/affordances-robo.svg){fig-align="center" width="88%"}
+
+## 4.1.3 Padrões de design (design patterns) {.smaller}
+
+- Peter Kahn et al. (2008), inspirados em **Christopher Alexander** (padrões na arquitetura)
+- Um padrão descreve *"um problema que ocorre repetidamente e o núcleo da solução, de modo que se possa usá-la um milhão de vezes sem nunca fazê-la igual"* (Alexander, 1977)
+- O objeto de design **não é só o robô** (aparência, sensores, atuação), mas as **interações** pessoa–robô em contextos sociais
+
+## Propriedades e exemplos de padrões {.smaller}
+
+- Devem ser **abstratos** (várias instâncias possíveis), **combináveis** e aninháveis (padrões simples dentro de complexos), e descrever interações com o mundo **social e físico**
+- Ex.: **comunicação didática** (robô como professor) + **movimento conjunto** (robô inicia e alinha o movimento com a pessoa) → **robô guia turístico**
+- Derivam de **observação** de interações humanas, **conhecimento empírico** prévio e **experiência** do designer, de forma **iterativa**
+- Outros exemplos: "**apresentação inicial**" do robô; "**em movimento junto**"
+
+![](images/padroes-composicao.svg){fig-align="center" width="92%"}
+
+## 4.1.4 Princípios de design em IHR (1/2) {.smaller}
+
+- **Casar forma e função** — se é humanoide, espera-se que fale, pense e aja como humano; se isso não é necessário (ex.: limpeza), talvez um design **menos** antropomórfico; o design também evoca **estereótipos** (ex.: esperar que um robô "feito na China" saiba mais sobre turismo no país)
+- **Prometer menos e entregar mais** (*underpromise, overdeliver*) — expectativas frustradas geram avaliação negativa e podem prejudicar a interação; melhor **reduzir expectativas** (Paepcke & Takayama, 2010) — às vezes **nem chamar de "robô"**
+
+![](images/prometer-entregar.svg){fig-align="center" width="70%"}
+
+## 4.1.4 Princípios de design em IHR (2/2) {.smaller}
+
+- **A interação amplia a função** — as pessoas "preenchem as lacunas" do design com seus valores e crenças; um design **aberto** ajuda robôs de capacidade limitada (ex.: **Paro** evoca "bicho de estimação" sem ser comparado a cães/gatos, o que levaria a decepção)
+- **Não misturar metáforas** — design **holístico**: capacidades, comportamentos e affordances coordenados; pele cobrindo só partes do corpo, ou um "animal" que ensina matemática, incomodam (ligação com o **vale da estranheza**)
+  - Ex.: o robô de **Philip K. Dick** com as "entranhas" à mostra mistura *humano* + *máquina* → ainda mais perturbador
+
+# 4.2 Antropomorfização em IHR
+
+## O que é antropomorfização {.smaller}
+
+- **Atribuição de traços, emoções ou intenções humanas a entidades não humanas**
+- De *ánthrōpos* (humano) + *morphē* (forma)
+- No cotidiano: "meu computador me **odeia**"; "o carro não está se **sentindo bem** ultimamente"
+- **Pareidolia** — ver traços humanos em padrões aleatórios ou objetos comuns
+  - o "**rosto em Marte**" (Viking 1, 1976); fotos de maior resolução em 2001 (Mars Global Surveyor) mostraram que **não** é um rosto
+
+## Por que interessa ao design {.smaller}
+
+- O grau de **semelhança humana** é uma das principais decisões de design
+- Influencia a **aparência**, a **funcionalidade esperada** e as **percepções sociais** evocadas por forma e função
+- A predisposição **inata** das pessoas a antropomorfizar tornou-se uma **affordance de design** comum: dão-se ao robô pistas humanas para que seja visto como agente social
+
+## 4.2.1 Atribuir características humanas — aparência {.smaller}
+
+- **Androides** — réplicas humanas (Geminoid; Actroid da Kokoro — agregação de traços)
+- **Humanoides** — semelhança **abstrata**:
+  - **ASIMO** — corpo e proporções humanas, mas **sem olhos** (cabeça tipo capacete)
+  - **Nao** — olhos de LED que mudam de cor, mas **sem boca**
+  - **Robovie, Wakamaru, Pepper** — não bípedes, mas com braços e cabeça com dois olhos
+- **Não humanoides** também têm traços humanos: **Keepon** (dois olhos, corpo simétrico); o carro autônomo do Google (faróis afastados + "nariz de botão")
+
+## 4.2.1 Atribuir características humanas — comportamento {.smaller}
+
+- A **animação** explora semelhança humana há décadas; só recentemente virou interesse da psicologia social
+- Disney, *The Illusion of Life* → "**squash & stretch**" (robô Tofu); animação no **PR-2** para dar metas e intenções aparentes (Takayama et al., 2011)
+- **Antecipação** e **exagero**: robô marimbista de Guy Hoffman; robôs companheiros musicais
+- **Haru** (Honda) — movimento baseado em ações emotivas atuadas por performers humanos
+- **Antropomorfismo psicológico** — atribuição de emoções, intenções e "mente" **não diretamente observáveis** (Epley et al., 2007)
+
+## O vale da estranheza (uncanny valley) {.smaller}
+
+- **Mori (1970)**: quanto mais humano, mais **agradável** — até um ponto em que a semelhança é quase perfeita e a simpatia **despenca**; o **movimento amplifica** o efeito
+- Tradução para o inglês feita **com o próprio Mori** (Mori et al., 2012)
+- Mori **nunca testou** a ideia empiricamente; o termo *shinwa-kan* foi traduzido como *likability*, *familiarity*, *affinity*; outros pesquisadores medem "**eeriness**" (estranheza)
+
+![](images/vale-estranheza.svg){fig-align="center" width="82%"}
+
+## Vale da estranheza — cautela {.smaller}
+
+- Teoria **"usada e abusada"** para explicar fenômenos sem justificativa ou base empírica
+- Antropomorfismo é **multidimensional** — reduzi-lo a uma só dimensão não modela bem a realidade
+- Quanto mais humano o robô, **maior o risco** de errar algum detalhe de aparência/comportamento e diminuir a simpatia (Moore, 2012)
+- Explicação simples: a **dificuldade** de atender às expectativas cresce com a **complexidade** do robô
+
+## 4.2.2 Projetar aparência humana {.smaller}
+
+- Designers tratam a semelhança humana como **característica do robô**
+- Cientistas sociais a veem como algo **atribuído** pela pessoa
+- Juntando as duas visões: antropomorfismo é a **relação** entre o design/funções do robô e as **percepções** das pessoas
+
+## Abordagem 1 — aparência {.smaller}
+
+- Poucas linhas num papel já evocam a forma humana
+- **Dois pontos** (olhos) + um nariz ou boca simples **já bastam** para sugerir "humano"
+- Acrescentar braços/pernas **não aumenta muito** a antropomorfização
+- Robôs simples (**Keepon**, **R2-D2**) já são muito eficazes em disparar a antropomorfização — **pistas mínimas** bastam
+
+![](images/pistas-minimas-rosto.svg){fig-align="center" width="80%"}
+
+## Abordagem 2 — comportamento {.smaller}
+
+- **Heider & Simmel (1944)**: triângulos e círculos em movimento fizeram as pessoas descreverem **relações sociais** (amigos; "o agressor") e emoções (raiva, medo, ciúme)
+- O **movimento** — mais do que a forma — comunica emoção e intenção
+- *The Dot and the Line* (Chuck Jones / Norton Juster): visuais mínimos, história perfeitamente compreensível
+
+![](images/heider-simmel.svg){fig-align="center" width="85%"}
+
+## Estimular a antropomorfização {.smaller}
+
+- **Velocidade de reação** — responder rápido a toque ou som faz o robô parecer mais **vivo e responsivo** (dar um pulo quando a porta bate; olhar para cima ao ser tocado na cabeça)
+- **Contingência** — comportamento **apropriado ao contexto**:
+  - detectou movimento → olhar brevemente para a origem
+  - se é irrelevante (uma árvore ao vento) → volta a olhar para outro lado
+  - se é relevante (uma pessoa acenando "oi") → **sustenta o olhar**
+
+![](images/contingencia-olhar.svg){fig-align="center" width="100%"}
+
+## Forma + comportamento e expectativas {.smaller}
+
+- Em geral combina-se **forma e comportamento** para inspirar a antropomorfização
+- **Androides** — quase idênticos a pessoas, mas ainda **limitados no repertório comportamental**
+- **Robôs de brinquedo** — pressão de custo → **poucos traços visuais + comportamentos reativos**
+- Quanto mais humano o robô parece, **mais** se espera dele: contingência, diálogo e outros recursos
+
+## Contexto, cultura e personalidade {.smaller}
+
+- **Diferenças individuais** — algumas pessoas antropomorfizam mais que outras (Waytz et al., 2010)
+- **Demografia e cultura** afetam a probabilidade e a interpretação das capacidades do robô (Wang et al., 2010; Spatola et al., 2022)
+- **Contexto social** aumenta a antropomorfização:
+  - **Baxter** em fábricas — trabalhadores punham chapéus e acessórios, queriam que fosse educado e "puxasse conversa" (Sauppé & Mutlu, 2015)
+  - **Roomba** — preferência por exibir emoções com uma **cauda** tipo cão (Singh & Young, 2012)
+  - co-bot "**Walt**" numa fábrica de carros — visto como **membro da equipe** (El Makrini et al., 2018)
+  - robô de pausa no escritório — ganhou **nome** e pedidos de mais interação social (Šabanović et al., 2014)
+- **Prova social** — idosos num lar interagiam mais com o **Paro** ao ver outros tratando-o como bicho de estimação (Chang & Šabanović, 2015)
+
+## Síntese da aula {.smaller}
+
+- Design de robôs: **de fora para dentro**, interdisciplinar, guiado por **affordances** e **padrões de design**
+- Princípios: casar forma e função; prometer menos; a interação amplia a função; não misturar metáforas
+- **Antropomorfismo** é inevitável e útil — **pistas mínimas** de forma e, sobretudo, de **comportamento** (reação rápida, contingência) já disparam a percepção de "quase humano"
+- **Vale da estranheza**: proposta influente de Mori, mas sem base empírica sólida — usar com cautela
+- **Próxima aula**: métodos de design, prototipagem, cultura e ética (4.3 a 4.8)

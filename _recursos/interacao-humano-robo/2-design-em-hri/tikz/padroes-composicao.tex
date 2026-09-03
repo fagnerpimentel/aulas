@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pat/.style={dbox, text width=3.6cm, minimum height=1.7cm, font=\footnotesize, align=center}]
+
+  \node[pat, dacc]        (p1) at (0,1.2)  {\textbf{comunicação didática}\\\scriptsize robô no papel de professor};
+  \node[pat, dacc]        (p2) at (0,-1.2) {\textbf{movimento conjunto}\\\scriptsize robô inicia e alinha o\\movimento com a pessoa};
+
+  \node[dop, minimum size=9mm] (plus) at (3.3,0) {\large $+$};
+
+  \node[pat, draw=dgreen, text width=3.9cm, minimum height=2.3cm] (comp) at (7.6,0)
+     {\textbf{robô guia turístico}\\\scriptsize padrão composto\\(padrões simples aninhados\\dentro de um complexo)};
+
+  \draw[dtrans] (p1.east) -- (plus);
+  \draw[dtrans] (p2.east) -- (plus);
+  \draw[dtrans, dgreen] (plus) -- (comp.west);
+
+  \node[dsub, align=center, font=\scriptsize] at (3.7,-2.7)
+    {padrões são \textbf{abstratos}, \textbf{combináveis} e \textbf{aninháveis} --- derivam de observação, dados empíricos e experiência, de forma iterativa};
+
+\end{tikzpicture}
+\end{document}
