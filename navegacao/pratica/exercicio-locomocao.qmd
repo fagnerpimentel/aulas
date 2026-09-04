@@ -25,14 +25,18 @@ Ao final deste exercício, o aluno deve ser capaz de:
 
 ## Parte 0 — Preparação do ambiente
 
-1. Suba o container do Docker:
+1. Clone o repositório [https://github.com/fagnerpimentel/aprendendo_ros2](https://github.com/fagnerpimentel/aprendendo_ros2).
+
+2. Suba o container do Docker:
 
    ```bash
    cd .devcontainer
    docker compose up
    ```
 
-2. Em um terminal dentro do container, compile o workspace (os três robôs já
+3. Acesse a interface grafica do container em [http://localhost:3000](http://localhost:3000).
+
+4. Em um terminal dentro do container, compile o workspace (os três robôs já
    estão em `workspace/src/`: `turtlebot3/`, `unitree_go2/` e `robotis_op3/`):
 
    ```bash
@@ -81,7 +85,7 @@ ros2 topic echo /odom --once         # pose estimada pela odometria das rodas
 
 ```bash
 # terminal 2
-ros2 run turtlebot3_teleop teleop_keyboard
+xterm -e "ros2 run turtlebot3_teleop teleop_keyboard"
 ```
 
 **Por publicação direta** (andar para a frente a 0,15 m/s):
@@ -132,8 +136,8 @@ ros2 topic echo /gps/fix --once        # GPS simulado (NavSatFix)
 **Teclado:**
 
 ```bash
-# terminal 3
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+# terminal 2
+xterm -e "ros2 run teleop_twist_keyboard teleop_twist_keyboard"
 ```
 
 **Por publicação direta** (caminhar para a frente):

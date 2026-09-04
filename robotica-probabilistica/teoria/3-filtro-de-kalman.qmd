@@ -754,8 +754,12 @@ Posição $p$ (m) e velocidade $v$ (m/s); passo $\Delta t = 1$ s.
 ::: columns
 ::: {.column width="52%"}
 $$
-A=\begin{bmatrix}1&\Delta t\\0&1\end{bmatrix}=\begin{bmatrix}1&1\\0&1\end{bmatrix}
-\qquad
+A=\begin{bmatrix}1&\Delta t\\0&1\end{bmatrix}=\begin{bmatrix}1&1\\0&1\end{bmatrix}\qquad
+$$
+$$
+B=\begin{bmatrix}\Delta t^2/2\\ \Delta t\end{bmatrix}=\begin{bmatrix}0{,}125\\ 0{,}5\end{bmatrix}\qquad
+$$
+$$
 C=\begin{bmatrix}1&0\end{bmatrix}
 $$
 $$
