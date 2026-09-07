@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   r/.style={dbox, text width=3.4cm, minimum height=1.0cm, font=\footnotesize, align=center},
+   inf/.style={dbox, fill=white, text width=5.4cm, font=\scriptsize, align=left, inner sep=6pt}]
+
+  \node[dsub, anchor=west, font=\itshape] at (-0.3,3.3)
+     {o usuário age na interface $\rightarrow$ a \textbf{resposta do sistema} comunica algo};
+
+  \node[r, dacc]        (a) at (0,2.0)  {nova\\instrução};
+  \node[r, draw=dorange](b) at (0,0.3)  {\textbf{sem}\\resposta};
+  \node[r, draw=dred]   (c) at (0,-1.8) {repete a\\instrução};
+
+  \node[inf, dacc]        (ai) at (7.2,2.0)  {ação anterior \textbf{confirmada} --- pode progredir};
+  \node[inf, draw=dorange](bi) at (7.2,0.3)  {ação estava \textbf{incompleta} --- falta algo para o usuário fazer};
+  \node[inf, draw=dred]   (ci) at (7.2,-1.8) {(1) procedimento é \textbf{iterativo}; \; (2) houve \textbf{erro} e o sistema desfez; \; (3) a ação \textbf{falhou} e precisa ser remediada};
+
+  \draw[dtrans] (a) -- (ai); \draw[dmeas] (b) -- (bi); \draw[->, dred, line width=1pt] (c) -- (ci);
+
+\end{tikzpicture}
+\end{document}

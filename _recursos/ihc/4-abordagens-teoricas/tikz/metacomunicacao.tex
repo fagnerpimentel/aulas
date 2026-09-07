@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ag/.style={circle, draw=black!80, fill=dcream, line width=1pt, minimum size=1.2cm, font=\scriptsize, align=center}]
+
+  % envelope da metacomunicação (seta grande)
+  \fill[dblue!8, draw=dblue, line width=1pt]
+     (2.0,-2.1) -- (10.2,-2.1) -- (10.2,-2.9) -- (12.4,-0.2)
+     -- (10.2,2.5) -- (10.2,1.7) -- (2.0,1.7) -- cycle;
+  \node[dblue, anchor=north west, font=\scriptsize\bfseries] at (2.15,1.55)
+     {mensagem de metacomunicação (única, unidirecional)};
+
+  % comunicação usuário-sistema (dentro)
+  \node[dbox, fill=white, draw=black!55, dashed,
+        minimum width=6.0cm, minimum height=2.7cm] (box) at (5.6,-0.5) {};
+  \node[dsub, anchor=north, font=\scriptsize] at (5.6,0.72) {comunicação usuário--sistema};
+  \node[ag, dacc] (sys) at (4.5,-0.8) {sistema\\\scriptsize (preposto)};
+  \node[ag]       (u2)  at (6.8,-0.8) {usuário};
+  \draw[<->, dblue, line width=1pt] (sys) -- (u2);
+
+  % designer e usuário
+  \node[ag, dacc]        (des) at (0.2,-0.3) {designer};
+  \node[ag, draw=dgreen] (usr) at (13.4,-0.3) {usuário};
+  \draw[dtrans, line width=1.1pt] (des) -- (2.0,-0.3);
+  \draw[dtrans, dgreen, line width=1.1pt] (12.4,-0.3) -- (usr);
+
+\end{tikzpicture}
+\end{document}

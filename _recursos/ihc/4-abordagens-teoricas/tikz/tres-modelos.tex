@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ment/.style={draw=black!70, line width=1pt, dashed, rounded corners=10pt, fill=dcream,
+                text width=3.2cm, minimum height=1.8cm, align=center, font=\footnotesize},
+   phys/.style={dbox, text width=3.4cm, minimum height=1.8cm, align=center, font=\footnotesize}]
+
+  \node[ment, dacc] (d) at (0,0) {\textbf{modelo de design}\\\scriptsize modelo conceitual do sistema};
+  \node[phys]       (s) at (5.5,0) {\textbf{imagem do sistema}\\\scriptsize sistema executável\\+ documentação / ajuda};
+  \node[ment, draw=dgreen] (u) at (11.0,0) {\textbf{modelo do usuário}\\\scriptsize construído durante a interação};
+
+  \draw[dtrans, line width=1.1pt] (d) -- (s);
+  \draw[dtrans, line width=1.1pt] (s) -- (u);
+
+  \node[dsub, font=\scriptsize] at (0,-1.5) {\emph{designer}};
+  \node[dsub, font=\scriptsize] at (11.0,-1.5) {\emph{usuário}};
+
+  \node[dbox, draw=dgreen, font=\scriptsize, align=center, text width=9cm] at (5.5,-2.4)
+     {objetivo: o \textbf{modelo do usuário} deve ficar \textbf{compatível} com o \textbf{modelo de design} --- para isso a imagem do sistema deve ser explícita, inteligível e consistente};
+
+\end{tikzpicture}
+\end{document}

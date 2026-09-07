@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % janela do diálogo
+  \draw[black!70, fill=white, line width=1pt] (0,0) rectangle (7.2,5.4);
+  % barra de título
+  \fill[black!12] (0,4.9) rectangle (7.2,5.4);
+  \draw[black!70, line width=1pt] (0,4.9) -- (7.2,4.9);
+  \node[font=\footnotesize, anchor=west] at (0.25,5.15) {Selecionar Cor};
+  \draw[black!70, line width=0.8pt] (6.7,5.0) -- (6.95,5.3); \draw[black!70, line width=0.8pt] (6.95,5.0) -- (6.7,5.3);
+
+  % três controles idênticos, sem rótulo
+  \foreach \y/\pos in {3.6/0.35, 2.55/0.72, 1.5/0.55}{
+    \draw[black!55, line width=1.4pt] (0.85,\y) -- (6.65,\y);
+    \fill[dblue] ({0.85+\pos*5.8},\y) circle (0.14);
+    \node[dred, font=\Large] at (0.3,\y+0.05) {?};
+  }
+
+  % sem amostra de cor (área vazia riscada)
+  \draw[black!30, dashed, line width=0.8pt] (0.5,0.55) rectangle (2.0,1.05);
+  \node[dsub, font=\scriptsize, anchor=west] at (2.15,0.8) {(sem amostra)};
+
+  % botões
+  \draw[black!60, line width=0.9pt] (4.6,0.35) rectangle (5.7,0.9);
+  \node[font=\scriptsize] at (5.15,0.62) {OK};
+  \draw[black!60, line width=0.9pt] (5.85,0.35) rectangle (6.95,0.9);
+  \node[font=\scriptsize] at (6.4,0.62) {Cancelar};
+
+\end{tikzpicture}
+\end{document}

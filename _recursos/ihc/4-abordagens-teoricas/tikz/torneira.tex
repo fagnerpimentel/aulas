@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pn/.style={dbox, text width=3.7cm, minimum height=2.3cm, font=\scriptsize, align=center},
+   knob/.style={circle, draw=black!70, line width=0.9pt, minimum size=0.7cm, inner sep=0pt}]
+
+  % (a) mapeamento
+  \node[pn, dacc] (a) at (0,0) {\textbf{mapeamento}\\qual botão é quente? qual é frio? para que lado gira?};
+  \node[knob] at (-0.7,-0.55) {}; \node[knob] at (0.7,-0.55) {};
+  \node[font=\scriptsize] at (-0.7,-0.55) {?}; \node[font=\scriptsize] at (0.7,-0.55) {?};
+
+  % (b) dificuldade de controle
+  \node[pn] (b) at (4.6,0) {\textbf{dificuldade de controle}\\mudar só a \emph{temperatura} exige girar \textbf{as duas} torneiras ao mesmo tempo};
+
+  % (c) dificuldade de avaliação
+  \node[pn] (c) at (9.2,0) {\textbf{dificuldade de avaliação}\\com dois bicos, é difícil saber se o resultado foi alcançado};
+
+  % solução: monocomando
+  \node[knob, draw=dgreen, minimum size=0.95cm] at (-1.7,-2.4) {};
+  \draw[dgreen, line width=0.9pt, ->] (-1.7,-2.4) -- ++(0,0.55);
+  \draw[dgreen, line width=0.9pt, ->] (-1.7,-2.4) -- ++(0.55,0);
+  \node[dbox, draw=dgreen, text width=10.2cm, font=\scriptsize, align=center] (m) at (5.2,-2.4)
+     {\textbf{monocomando}: cima/baixo = \textbf{fluxo}\, ,\; esquerda/direita = \textbf{temperatura}\\
+      as variáveis manipuladas \textbf{são} as variáveis de interesse (o mapeamento ainda precisa ser aprendido)};
+
+\end{tikzpicture}
+\end{document}

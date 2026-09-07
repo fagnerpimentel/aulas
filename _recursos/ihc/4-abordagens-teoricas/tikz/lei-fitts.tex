@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % trajetória (pontos)
+  \foreach \i in {0,...,11}{ \fill[black!35] (\i*0.85,0) circle (0.09); }
+
+  % início
+  \node[dsub, anchor=east, font=\small] at (-0.4,0) {início};
+  \draw[dblue, line width=1pt] (-0.15,-0.15) -- (-0.05,-0.35) -- (0.15,-0.30) -- (0.05,-0.05); % cursor
+
+  % alvo
+  \fill[dcream] (9.55,-0.55) rectangle (10.9,0.55);
+  \draw[dacc, line width=1.1pt] (9.55,-0.55) rectangle (10.9,0.55);
+  \node[font=\footnotesize] at (10.22,0) {alvo};
+
+  % distância D
+  \draw[<->, black!60, line width=0.8pt] (0.1,1.1) -- (9.5,1.1);
+  \node[dlbl, font=\normalsize] at (4.8,1.4) {$D$};
+
+  % tamanho S
+  \draw[<->, black!60, line width=0.8pt] (9.55,1.1) -- (10.9,1.1);
+  \node[dlbl, font=\normalsize] at (10.22,1.4) {$S$};
+
+  \node[dsub, align=center, font=\scriptsize] at (5.2,-1.6)
+     {$T = k \times \log_2\!\left( \dfrac{D}{S} + 0{,}5 \right)$ \qquad $k \approx 100$\,ms (varia com o dispositivo)};
+
+\end{tikzpicture}
+\end{document}

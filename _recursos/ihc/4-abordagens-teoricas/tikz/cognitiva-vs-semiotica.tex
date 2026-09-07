@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   col/.style={dbox, text width=5.6cm, minimum height=4.2cm, font=\scriptsize, align=left, inner sep=8pt}]
+
+  \node[col, dacc] (a) at (0,0)
+     {\textbf{Engenharia cognitiva}\\[4pt]
+      $\bullet$ objeto: o \textbf{aprendizado} do usuário\\
+      $\bullet$ meta: \textbf{produzir} a tecnologia (a imagem do sistema)\\
+      $\bullet$ foco: aspectos \textbf{operacionais} (\emph{como} usar)\\
+      $\bullet$ designer \textbf{ausente} na interação\\
+      $\bullet$ risco: alienar o usuário};
+
+  \node[col, draw=dgreen] (b) at (6.6,0)
+     {\textbf{Engenharia semiótica}\\[4pt]
+      $\bullet$ objeto: a \textbf{comunicação} (metacomunicação)\\
+      $\bullet$ meta: produzir \textbf{e introduzir} a tecnologia\\
+      $\bullet$ foco: também os aspectos \textbf{estratégicos} (\emph{por que / quando})\\
+      $\bullet$ designer \textbf{presente} via \emph{preposto}\\
+      $\bullet$ teoria \textbf{explicativa}, não preditiva};
+
+\end{tikzpicture}
+\end{document}

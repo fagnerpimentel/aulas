@@ -1,0 +1,34 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   sm/.style={dbox, minimum width=1.5cm, minimum height=0.75cm, font=\scriptsize}]
+
+  % ---------- Ação planejada ----------
+  \node[dsub, anchor=west, font=\itshape] at (-0.2,2.6) {Ação \textbf{planejada} (Newell \& Simon)};
+  \node[sm, dacc] (a1) at (0.6,1.5) {plano};
+  \node[sm]       (a2) at (2.7,1.5) {ação};
+  \node[sm]       (a3) at (4.8,1.5) {ação};
+  \node[sm]       (a4) at (6.9,1.5) {objetivo};
+  \draw[dtrans] (a1) -- (a2); \draw[dtrans] (a2) -- (a3); \draw[dtrans] (a3) -- (a4);
+  \draw[dmeas, line width=0.9pt] (a3.south) .. controls +(0,-0.8) and +(0,-0.8) ..
+        node[below, dsub, font=\scriptsize] {imprevisto $\rightarrow$ replanejar} (a1.south);
+  \node[dsub, font=\scriptsize, align=center] at (3.7,-1.0) {sequência definida \textbf{a priori}; segue-se o plano};
+
+  \draw[black!15, line width=0.6pt] (8.3,-1.4) -- (8.3,3.0);
+
+  % ---------- Ação situada ----------
+  \node[dsub, anchor=west, font=\itshape] at (8.9,2.6) {Ação \textbf{situada} (Suchman)};
+  \draw[dcurve, line width=1.3pt]
+     (9.2,0.6) .. controls (10.0,1.8) and (11.0,-0.4) ..
+     (11.8,0.9) .. controls (12.6,1.9) and (13.4,0.0) .. (14.4,1.2);
+  \foreach \x/\y in {10.0/1.5, 11.0/-0.1, 12.4/1.7, 13.4/0.2}{
+     \fill[dorange] (\x,\y) circle (0.08);
+     \node[dsub, font=\scriptsize] at (\x,\y-0.4) {};
+  }
+  \node[dorange, font=\scriptsize] at (12.7,-0.7) {contingências};
+  \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (11.8,-1.15)
+     {a cada instante, avalia-se a situação; a ação se constrói \textbf{localmente}};
+
+\end{tikzpicture}
+\end{document}

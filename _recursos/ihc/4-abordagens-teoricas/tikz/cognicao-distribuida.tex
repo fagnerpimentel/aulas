@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pe/.style={circle, draw=black!80, fill=dcream, line width=1pt, minimum size=1.0cm, font=\scriptsize},
+   ar/.style={dbox, minimum width=1.5cm, minimum height=0.8cm, font=\scriptsize}]
+
+  \draw[dguide, line width=1pt, rounded corners=8pt] (0.2,-1.7) rectangle (11.8,2.4);
+  \node[dsub, anchor=north west, font=\scriptsize] at (0.35,2.3)
+     {\textbf{sistema funcional} --- unidade de análise: o \emph{processo cognitivo}};
+
+  \node[pe] (p1) at (2.0,1.0) {pessoa};
+  \node[pe] (p2) at (6.0,-0.6) {pessoa};
+  \node[pe] (p3) at (9.6,1.0) {pessoa};
+  \node[ar, dacc] (a1) at (4.0,-0.2) {artefato};
+  \node[ar, draw=dorange] (a2) at (7.8,0.2) {representação};
+
+  \draw[dtrans] (p1) -- (a1); \draw[dtrans] (a1) -- (p2);
+  \draw[dtrans] (p2) -- (a2); \draw[dtrans] (a2) -- (p3);
+  \draw[dtrans] (p1) to[bend left=12] (p3);
+
+  \draw[dtrans, dgreen, line width=1pt] (-1.2,1.0) node[left, dsub, font=\scriptsize] {entrada} -- (p1);
+  \draw[dtrans, dorange, line width=1pt] (p3) -- (13.0,1.0) node[right, dsub, font=\scriptsize] {saída};
+
+  \node[dsub, align=center, font=\scriptsize, text width=12cm] at (6.0,-2.4)
+     {a cognição é distribuída entre \textbf{pessoas}, \textbf{artefatos} e \textbf{representações} --- e no \textbf{tempo}};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,65 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{fr/.style={draw=black!18, line width=0.6pt, rounded corners=2pt}}
+  \tikzset{pcap/.style={black!60, font=\scriptsize\bfseries, align=center}}
+  \def\W{4.6} \def\H{3.4}
+
+  % ---------- (1) objetivo ----------
+  \begin{scope}[shift={(0,0)}]
+    \draw[fr] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.2) {1. objetivo};
+    \draw[black!50, fill=black!6, line width=0.8pt] (0.9,1.1) rectangle (2.6,2.3);
+    \draw[->, black!50, line width=0.9pt] (2.75,1.7) -- (3.5,1.7);
+    \fill[olive!70!black, draw=black!50, line width=0.8pt] (3.55,1.35) rectangle (4.15,2.05);
+    \node[dsub, font=\scriptsize, align=center] at (\W/2,0.45) {verde oliva\\ H=58, S=99, L=77};
+  \end{scope}
+
+  \draw[->, black!45, line width=1pt] (\W+0.15,\H/2) -- (\W+0.65,\H/2);
+
+  % ---------- (2) especificação: abre o diálogo ----------
+  \begin{scope}[shift={(\W+0.8,0)}]
+    \draw[fr] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.2) {2. especificação};
+    \draw[black!70, fill=white, line width=0.9pt] (0.5,0.6) rectangle (4.1,2.9);
+    \fill[black!10] (0.5,2.55) rectangle (4.1,2.9);
+    \draw[black!70, line width=0.7pt] (0.5,2.55) -- (4.1,2.55);
+    \node[font=\scriptsize] at (1.4,2.72) {Selecionar Cor};
+    \foreach \y/\lbl in {2.1/H, 1.55/S, 1.0/L}{
+      \node[dblue, font=\scriptsize\bfseries] at (0.85,\y) {\lbl};
+      \draw[black!55, line width=1pt] (1.15,\y) -- (3.75,\y);
+    }
+    \node[dsub, font=\scriptsize, align=center] at (\W/2,0.3) {informa H $\rightarrow$ S $\rightarrow$ L};
+  \end{scope}
+
+  \draw[->, black!45, line width=1pt] (2*\W+0.95,\H/2) -- (2*\W+1.45,\H/2);
+
+  % ---------- (3) ciclo repetido a cada campo ----------
+  \begin{scope}[shift={(2*\W+1.6,0)}]
+    \draw[fr] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.2) {3. a cada campo};
+    \node[dbox, dacc, font=\scriptsize, minimum width=1.6cm, minimum height=0.7cm] (ex) at (1.15,2.35) {executo};
+    \node[dbox, font=\scriptsize, minimum width=1.6cm, minimum height=0.7cm] (pe) at (3.45,2.35) {percebo};
+    \node[dbox, font=\scriptsize, minimum width=1.6cm, minimum height=0.7cm] (it) at (3.45,1.05) {interpreto};
+    \node[dbox, draw=dgreen, font=\scriptsize, minimum width=1.6cm, minimum height=0.7cm] (av) at (1.15,1.05) {avalio};
+    \draw[dtrans, line width=0.9pt] (ex) -- (pe);
+    \draw[dtrans, line width=0.9pt] (pe) -- (it);
+    \draw[dtrans, line width=0.9pt] (it) -- (av);
+    \draw[dmeas, line width=0.9pt] (av) -- (ex);
+    \node[dsub, font=\scriptsize, align=center] at (\W/2,0.3) {repete p/ H, S e L};
+  \end{scope}
+
+  \draw[->, black!45, line width=1pt] (3*\W+2.4,\H/2) -- (3*\W+2.9,\H/2);
+
+  % ---------- (4) confirma: objetivo alcançado ----------
+  \begin{scope}[shift={(3*\W+3.05,0)}]
+    \draw[fr] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.2) {4. confirma};
+    \fill[olive!70!black, draw=black!50, line width=0.8pt] (0.9,1.1) rectangle (2.6,2.3);
+    \node[dgreen, font=\Large\bfseries] at (3.3,1.7) {$\surd$};
+    \node[dgreen, font=\scriptsize\bfseries, align=center] at (\W/2,0.45) {objetivo alcançado};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

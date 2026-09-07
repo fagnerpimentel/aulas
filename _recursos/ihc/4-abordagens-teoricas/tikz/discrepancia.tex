@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   w/.style={dbox, text width=4.6cm, minimum height=2.4cm, align=center, font=\footnotesize}]
+
+  \node[w, dacc] (p) at (0,0)
+     {\textbf{Mundo psicológico}\\[3pt]
+      variáveis \textbf{psicológicas}\\\scriptsize objetivos, intenções\\\scriptsize (só existem na mente)};
+
+  \node[w, draw=dorange] (f) at (8.0,0)
+     {\textbf{Mundo físico}\\[3pt]
+      variáveis \textbf{físicas} (estados do sistema)\\ + controles físicos\\\scriptsize (mecanismos de interação)};
+
+  \node[dblue, font=\Huge\bfseries] (q) at (4.0,0.55) {?};
+  \draw[->, dblue, line width=1.1pt] ([yshift=7pt]p.east) .. controls +(1.4,0.5) and +(-1.4,0.5) .. ([yshift=7pt]f.west);
+  \draw[<-, dorange, line width=1.1pt] ([yshift=-7pt]p.east) .. controls +(1.4,-0.5) and +(-1.4,-0.5) .. ([yshift=-7pt]f.west);
+
+  \node[dsub, align=center, font=\scriptsize, text width=12cm] at (4.0,-2.1)
+     {é preciso \textbf{traduzir} intenções em ações sobre os controles \; e \; \textbf{interpretar} as variáveis físicas em termos dos objetivos};
+
+\end{tikzpicture}
+\end{document}

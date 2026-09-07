@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   b/.style={draw=black!80, line width=1pt, fill=dcream, align=center, inner sep=4pt, font=\footnotesize},
+   pr/.style={b, minimum width=3.0cm, minimum height=1.0cm}]
+
+  % memória de longo prazo (moldura)
+  \draw[b, fill=black!3] (-0.4,3.0) rectangle (9.4,5.4);
+  \node[anchor=north, font=\footnotesize] at (4.5,5.35) {Memória de Longo Prazo};
+
+  % memória de trabalho
+  \node[b, minimum width=4.6cm, minimum height=1.35cm] (mt) at (4.5,3.6) {};
+  \node[anchor=north, font=\scriptsize] at (4.5,4.2) {Memória de Trabalho};
+  \node[b, fill=white, minimum width=1.7cm] at (3.55,3.35) {\scriptsize Visual};
+  \node[b, fill=white, minimum width=1.7cm] at (5.45,3.35) {\scriptsize Auditiva};
+
+  % processadores
+  \node[pr, dacc] (pp) at (0.9,1.4) {Processador\\Perceptivo};
+  \node[pr]       (pc) at (4.5,1.4) {Processador\\Cognitivo};
+  \node[pr]       (pm) at (8.1,1.4) {Processador\\Motor};
+
+  \draw[dtrans] (pp.north) -- (pp.north|-mt.south);
+  \draw[<->, dblue, line width=1pt] (pc.north) -- (pc.north|-mt.south);
+  \draw[dtrans] (pp.east) -- (pc.west);
+  \draw[dtrans] (pc.east) -- (pm.west);
+
+  % receptores e atuadores
+  \node[b, minimum width=3.0cm] (rc) at (0.9,-0.2) {Receptores\\\scriptsize (olhos, ouvidos, \ldots)};
+  \node[b, minimum width=3.0cm] (at) at (8.1,-0.2) {Atuadores};
+  \draw[dtrans] (rc) -- (pp);
+  \draw[dtrans] (pm) -- (at);
+
+  % fronteira mundo externo
+  \draw[dguide] (-0.6,-1.1) -- (9.6,-1.1);
+  \node[dsub, font=\scriptsize] at (4.5,-0.95) {\emph{Processador Humano de Informação}};
+  \node[dsub, font=\scriptsize] at (4.5,-1.3) {Mundo Externo};
+  \draw[dtrans, dgreen] (0.9,-1.9) node[below, dsub, font=\scriptsize] {Entrada} -- (rc.south);
+  \draw[dtrans, dorange] (at.south) -- (8.1,-1.9) node[below, dsub, font=\scriptsize] {Saída};
+
+\end{tikzpicture}
+\end{document}

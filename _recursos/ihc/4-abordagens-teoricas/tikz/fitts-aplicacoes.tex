@@ -1,0 +1,57 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{pcap/.style={black!60, font=\scriptsize\bfseries, align=center}}
+  \tikzset{psub/.style={black!45, font=\scriptsize, align=center}}
+  \tikzset{frame/.style={draw=black!15, line width=0.6pt, rounded corners=2pt}}
+
+  \def\W{5.6} \def\H{2.9}
+
+  % ===== (a) tamanho do alvo =====
+  \begin{scope}[shift={(0,0)}]
+    \draw[frame] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.15) {(a) casar tamanho e frequência};
+    \fill[black!30] (0.5,1.9) circle (0.08);
+    \draw[dacc, fill=dcream, line width=0.9pt] (4.3,1.65) rectangle (5.2,2.15);
+    \node[font=\scriptsize] at (4.75,1.9) {OK};
+    \fill[black!30] (0.5,0.95) circle (0.08);
+    \draw[dacc, fill=dcream, line width=0.9pt] (3.6,0.70) rectangle (5.2,1.20);
+    \node[font=\scriptsize] at (4.4,0.95) {[+] OK};
+    \node[psub, anchor=south] at (\W/2,0.12) {rótulo aumenta o alvo $\Rightarrow$ mais rápido};
+  \end{scope}
+
+  % ===== (b) palheta na borda =====
+  \begin{scope}[shift={(\W+0.7,0)}]
+    \draw[frame] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.15) {(b) alvo na borda};
+    \draw[black!45, line width=0.9pt] (0.35,0.5) -- (0.35,2.2);
+    \foreach \j in {0,1,2}{ \draw[dacc, fill=dcream, line width=0.8pt] (0.35,{0.7+\j*0.5}) rectangle (0.85,{1.1+\j*0.5}); }
+    \node[dblue, font=\large] at (3.0,1.55) {$\infty$};
+    \draw[->, dblue, line width=1pt] (4.4,1.15) -- (1.0,1.15);
+    \node[psub, anchor=south] at (\W/2,0.12) {deslocamento ``infinito'' sempre acerta};
+  \end{scope}
+
+  % ===== (c) menu na borda da tela =====
+  \begin{scope}[shift={(0,-\H-0.7)}]
+    \draw[frame] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.15) {(c) menu na borda da tela};
+    \draw[dacc, fill=dcream, line width=0.9pt] (0.4,1.95) rectangle (5.2,2.30);
+    \node[font=\scriptsize, anchor=west] at (0.6,2.13) {Arquivo\ \ Editar};
+    \draw[black!45, line width=0.8pt] (0.4,0.55) rectangle (5.2,1.75);
+    \draw[dorange, fill=dorange!12, line width=0.8pt] (0.6,1.35) rectangle (2.5,1.65);
+    \node[psub, anchor=south] at (\W/2,0.12) {$\approx$ 5$\times$ mais rápido que no topo da janela};
+  \end{scope}
+
+  % ===== (d) pie menu =====
+  \begin{scope}[shift={(\W+0.7,-\H-0.7)}]
+    \draw[frame] (0,0) rectangle (\W,\H);
+    \node[pcap, anchor=north] at (\W/2,\H-0.15) {(d) \emph{pie menu}};
+    \draw[dacc, fill=dcream, line width=0.9pt] (\W/2,1.35) circle (0.78);
+    \foreach \ang in {30,90,...,330}{ \draw[dacc, line width=0.7pt] (\W/2,1.35) -- ++(\ang:0.78); }
+    \fill[dblue] (\W/2,1.35) circle (0.08);
+    \node[psub, anchor=south] at (\W/2,0.12) {opções equidistantes do acionamento};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

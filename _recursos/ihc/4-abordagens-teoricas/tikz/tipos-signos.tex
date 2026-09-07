@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   s/.style={dbox, text width=4.4cm, minimum height=3.0cm, font=\scriptsize, align=left, inner sep=7pt}]
+
+  \node[s, dacc] (a) at (0,0)
+     {\textbf{Estáticos}\\\scriptsize estado do sistema; independem de tempo/causa; um ``retrato'' da tela\\[4pt]
+      \emph{ex.:} layout, itens de menu, botões, campos de formulário, conteúdo de textos e tabelas};
+
+  \node[s, draw=dorange] (b) at (5.2,0)
+     {\textbf{Dinâmicos}\\\scriptsize comportamento do sistema; aspectos \emph{temporais e causais}; ligados à interação\\[4pt]
+      \emph{ex.:} menu $\rightarrow$ diálogo, arrastar itens, mudança de foco, botão que ativa/desativa, \emph{tooltip}};
+
+  \node[s, draw=dgreen] (c) at (10.4,0)
+     {\textbf{Metalinguísticos}\\\scriptsize verbais; \emph{referem-se a outros signos} de interface\\[4pt]
+      \emph{ex.:} mensagens de ajuda e de erro, alertas, diálogos de esclarecimento, dicas};
+
+\end{tikzpicture}
+\end{document}

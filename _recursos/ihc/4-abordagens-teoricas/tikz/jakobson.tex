@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   el/.style={dbox, font=\footnotesize, minimum height=0.9cm}]
+
+  \draw[dguide, line width=1pt] (3.7,0.2) ellipse (5.6 and 3.0);
+
+  \node[el, dacc]        (em) at (0,0) {emissor};
+  \node[el, draw=dgreen] (re) at (7.4,0) {receptor};
+  \draw[dtrans, line width=1.4pt] (em) -- node[above, font=\footnotesize] {mensagem} (re);
+
+  \node[el]        (ct) at (3.7,2.3)  {contexto};
+  \node[el]        (cn) at (3.7,0.95) {canal};
+  \node[el]        (cd) at (3.7,-1.6) {código};
+
+  \draw[dguide] (cn) -- (3.7,0.15);
+  \draw[dguide] (ct) -- (cn);
+  \draw[dguide] (cd) -- (3.7,-0.15);
+
+  \node[dsub, anchor=north, font=\scriptsize, text width=12cm, align=center] at (3.7,-2.9)
+     {a comunicação é guiada por uma \textbf{intenção}; o \textbf{emissor} escolhe uma \textbf{expressão} para o \textbf{conteúdo}, num \textbf{código} que o receptor interprete (e o sistema processe)};
+
+\end{tikzpicture}
+\end{document}

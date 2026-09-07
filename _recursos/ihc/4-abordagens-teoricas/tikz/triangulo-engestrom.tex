@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   v/.style={dbox, font=\footnotesize, align=center, inner sep=5pt},
+   ed/.style={black!70, line width=1pt}]
+
+  \coordinate (I) at (3.4,4.3);
+  \coordinate (S) at (0,1.4);
+  \coordinate (O) at (6.8,1.4);
+  \coordinate (C) at (3.4,-1.1);
+
+  % arestas
+  \draw[ed] (S) -- (I) -- (O) -- (S);
+  \draw[ed] (S) -- (C) -- (O);
+  \draw[ed, dashed] (S) -- (O);
+
+  % vértices
+  \node[v, dacc]        at (I) {Instrumento\\\scriptsize ferramenta ou signo};
+  \node[v, dacc]        at (S) {Sujeito};
+  \node[v, draw=dorange] (obj) at (O) {Objeto};
+  \node[v]              at (C) {Comunidade};
+
+  % mediações nas arestas da base
+  \node[dbox, fill=white, font=\scriptsize] at (1.2,0.15) {Regras};
+  \node[dbox, fill=white, font=\scriptsize] at (5.6,0.15) {Divisão de trabalho};
+
+  \draw[->, dorange, line width=1pt] (obj.east) -- ++(1.8,0) node[right, dsub, font=\scriptsize] {Resultado};
+
+\end{tikzpicture}
+\end{document}

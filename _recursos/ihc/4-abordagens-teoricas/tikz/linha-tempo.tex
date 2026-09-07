@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ev/.style={dbox, text width=3.3cm, font=\scriptsize, align=center, inner sep=4pt}]
+
+  \node[dsub, font=\scriptsize\itshape] at (7.85,2.9)
+     {da \textbf{mente individual} \; $\rightarrow$ \; ao \textbf{contexto social} \; $\rightarrow$ \; à \textbf{comunicação}};
+
+  \draw[daxis, line width=1pt] (-0.3,0) -- (16.0,0);
+  \node[dsub, anchor=north, font=\scriptsize] at (0.0,-0.1) {1950};
+  \node[dsub, anchor=north, font=\scriptsize] at (15.7,-0.1) {2005+};
+
+  \node[ev, dacc]        (a) at (0.9,1.5)  {\textbf{anos 1950}\\Psicologia experimental\\\scriptsize Hick--Hyman; Fitts};
+  \node[ev, dacc]        (b) at (3.4,-1.5) {\textbf{$\approx$1983}\\Psic.\ cognitiva aplicada\\\scriptsize MHP (Card et al.)};
+  \node[ev]              (c) at (5.9,1.5)  {\textbf{1986}\\Engenharia cognitiva\\\scriptsize (Norman)};
+  \node[ev, draw=dorange](d) at (8.4,-1.5) {\textbf{1987}\\Ação situada\\\scriptsize etnometodologia (Suchman)};
+  \node[ev, draw=dorange](e) at (10.9,1.5) {\textbf{anos 1990}\\Teoria da atividade\\\scriptsize (Bødker, 1996)};
+  \node[ev, draw=dgreen] (f) at (13.4,-1.5){\textbf{2000}\\Cognição distribuída\\\scriptsize (Hollan et al.)};
+  \node[ev, draw=dgreen] (g) at (15.2,1.5) {\textbf{2005}\\Engenharia semiótica\\\scriptsize (de Souza)};
+
+  \foreach \n in {a,c,e,g}{ \draw[dguide] (\n.south) -- (\n.south |- 0,0); }
+  \foreach \n in {b,d,f}{ \draw[dguide] (\n.north) -- (\n.north |- 0,0); }
+
+\end{tikzpicture}
+\end{document}

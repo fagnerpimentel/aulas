@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, text width=2.5cm, minimum height=1.0cm, font=\footnotesize, align=center},
+   goal/.style={circle, draw=black!80, fill=dcream, line width=1pt, minimum size=1.5cm,
+                inner sep=1pt, font=\footnotesize, align=center}]
+
+  \node[goal] (o) at (0,1.1) {objetivo};
+  \node[st, dacc] (i) at (3.2,2.7)  {intenção};
+  \node[st]       (e) at (6.6,2.7)  {especificação\\da ação};
+  \node[st]       (x) at (10.0,2.7) {execução};
+
+  \node[st, draw=dorange, minimum height=1.6cm, text width=2.2cm] (s) at (13.3,1.1) {\textbf{SISTEMA}\\\scriptsize mundo físico};
+
+  \node[st]              (p)  at (10.0,-0.5) {percepção};
+  \node[st]              (in) at (6.6,-0.5)  {interpretação};
+  \node[st, draw=dgreen] (av) at (3.2,-0.5)  {avaliação};
+
+  \draw[dtrans] (o) -- (i);
+  \draw[dtrans] (i) -- (e);
+  \draw[dtrans] (e) -- (x);
+  \draw[dtrans] (x) -- (s.north west);
+  \draw[dmeas] (s.south west) -- (p);
+  \draw[dmeas] (p) -- (in);
+  \draw[dmeas] (in) -- (av);
+  \draw[dmeas] (av) -- (o);
+
+  % golfos: linha tracejada entre estágios mentais e o sistema físico
+  \draw[dguide, line width=1pt] (11.7,-1.1) -- (11.7,3.3);
+
+  \node[dsub, font=\scriptsize] at (5.0,-1.7) {$\leftarrow$ atividade mental};
+  \node[dsub, font=\scriptsize] at (13.3,-1.0) {atividade física $\rightarrow$};
+
+  % legenda dos golfos (fora da área dos blocos, sem sobreposição)
+  \draw[dblue, line width=1.4pt] (0,-2.6) -- (0.7,-2.6);
+  \node[dblue, font=\scriptsize\bfseries, anchor=west] at (0.85,-2.6) {Golfo de execução};
+  \draw[dorange, line width=1.4pt] (6.8,-2.6) -- (7.5,-2.6);
+  \node[dorange, font=\scriptsize\bfseries, anchor=west] at (7.65,-2.6) {Golfo de avaliação};
+
+\end{tikzpicture}
+\end{document}

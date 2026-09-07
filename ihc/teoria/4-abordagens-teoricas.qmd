@@ -1,0 +1,408 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Abordagens Teóricas em IHC"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/4-abordagens-teoricas
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+---
+
+# Abordagens Teóricas em IHC
+
+::: {.esquerda}
+Capítulo 5 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## Por que teoria numa área tão prática? {.smaller}
+
+- IHC é uma área **prática** — mas seus métodos, modelos e técnicas **se baseiam em teorias**
+
+![](images/pratica-e-teoria.svg){fig-align="center" width="80%"}
+
+- Conhecer as teorias ajuda a:
+  - **entender** os métodos da literatura
+  - saber **quando** usá-los
+  - identificar quando é preciso **adaptá-los** (domínios complexos, tecnologias inovadoras)
+
+## O que veremos nesta aula {.smaller}
+
+- **Psicologia experimental** — leis de Hick-Hyman e de Fitts
+- **Psicologia cognitiva aplicada** — o Processador Humano Modelo (MHP)
+- **Engenharia cognitiva** (Norman) — golfos de execução e avaliação
+- **Abordagens etnometodológicas** (Suchman) — ação situada
+- **Teoria da atividade** — mediação por artefatos
+- **Cognição distribuída** — cognição além do indivíduo
+- **Engenharia semiótica** (de Souza) — IHC como comunicação
+
+![](images/linha-tempo.svg){fig-align="center" width="100%"}
+
+# Psicologia Experimental
+
+Nos anos 1950, a psicologia experimental produziu modelos de **informação** dos processos psicológicos, que permitem **modelar e prever o desempenho humano**.
+
+## Lei de Hick-Hyman {.smaller}
+
+- Relaciona o **tempo de decisão** com o **número de opções** (Hick, 1952; Hyman, 1953)
+- A pessoa **subdivide** o conjunto de opções, eliminando $\approx$ metade a cada passo (busca binária) — não considera uma a uma
+- Serve para **estimar** o tempo de encontrar uma opção numa lista organizada
+
+![](images/hick-hyman.svg){fig-align="center" width="86%"}
+
+## Lei de Fitts {.smaller}
+
+- Relaciona o **tempo de apontar** ($T$) com a **distância** ($D$) até o alvo e o **tamanho** ($S$) do alvo (Fitts, 1954)
+- Modela o tempo de um **mouse** (ou dispositivo semelhante) atingir um objeto na tela
+- Importante quando o **desempenho é crítico**: ajuda a decidir **tamanho** e **localização** dos elementos
+
+![](images/lei-fitts.svg){fig-align="center" width="82%"}
+
+## Lei de Fitts na prática {.smaller}
+
+- Alvos **maiores** e **próximos** são mais rápidos; **bordas** e **cantos** da tela funcionam como alvos "infinitos"
+
+![](images/fitts-aplicacoes.svg){fig-align="center" width="72%"}
+
+# Psicologia Cognitiva Aplicada
+
+No início dos anos 1980, Card, Moran e Newell (1983) propuseram uma **psicologia aplicada de processamento de informação**: análise de tarefas, cálculos e aproximações para **prever o desempenho humano**.
+
+## O Modelo de Processamento Humano (MHP) {.smaller}
+
+- A mente humana como um **sistema de processamento de informação** 
+  - permite predições **aproximadas**
+
+::: {.columns}
+::: {.column} 
+- **Três subsistemas**, cada um com memórias e processadores próprios:
+  - **perceptivo** — do mundo físico às representações mentais
+  - **cognitivo** — decide como responder, usando a memória de longo prazo
+  - **motor** — traduz o pensamento em ação (micromovimentos)
+:::
+
+::: {.column}
+![](images/mhp.svg){fig-align="center" width="100%"}
+:::
+:::
+
+- Do MHP derivou o **GOMS**, modelo de decomposição de tarefas ainda muito usado
+
+# Engenharia Cognitiva
+
+Concebida por **Norman (1986)**: aplicar ciência cognitiva, psicologia cognitiva e fatores humanos ao **design de sistemas** — entender os princípios da ação humana, fazer **melhores escolhas** e explicitar os ***trade-offs***.
+
+## O abismo entre o psicológico e o físico {.smaller}
+
+- Objetivos e intenções são **variáveis psicológicas** — só existem na mente
+- A tarefa se realiza num **sistema físico**, com controles e estados **físicos**
+- É preciso **traduzir** intenções em ações e **interpretar** as variáveis físicas
+- As variáveis fáceis de controlar **nem sempre** são as de interesse (ex.: torneira → fluxo de quente/frio, mas quero **vazão** e **temperatura**)
+
+![](images/discrepancia.svg){fig-align="center" width="86%"}
+
+## Exemplo: a torneira {.smaller}
+
+::: columns
+::: {.column width="40%"}
+![](images/fotos/torneira-dupla.jpg){fig-align="center" width="70%"}
+
+[Torneira de duas alavancas — KD2030, CC BY-SA 4.0]{.credito}
+:::
+::: {.column width="60%"}
+- Dificuldade de mapeamento: **qual alavanca devo mover para aumentar a temperatura?**
+- Dificuldade de controle: **quanto girar cada alavanca para obter a temperatura desejada?**
+- Dificuldade de avaliação: **qual é a temperatura da água?**
+:::
+:::
+
+::: columns
+::: {.column width="40%"}
+![](images/fotos/monocomando.jpg){fig-align="center" width="60%"}
+
+[Torneira monocomando — Wiki LIC, CC BY-SA 4.0]{.credito}
+:::
+::: {.column width="60%"}
+- Mononcomando: **uma alavanca** controla **temperatura e vazão** — reduz o mapeamento e o controle
+  - cima/baixo → vazão
+  - esquerda/direita → temperatura
+:::
+:::
+
+## Exemplo: seleção de cor {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/dialogo-cor-ruim.svg){fig-align="center" width="60%"}
+
+- três controles **sem rótulo** → qual é R? é G? é B?
+- interessa **matiz (H)**, **saturação (S)**, **luminosidade (L)** — mas não dá para defini-las
+- sem **pré-visualização** → não dá para avaliar o resultado
+:::
+::: {.column width="50%"}
+![](images/fotos/inkscape-hsl.png){fig-align="center" width="76%"}
+
+[Inkscape, aba HSL — Stilfehler, CC BY-SA 4.0]{.credito}
+
+- diálogo **melhor**: rótulos por **proximidade**, cada barra já é uma **amostra** (gradiente), seletor **H/S/L** direto
+:::
+:::
+
+## Teoria da Ação — os dois golfos {.smaller}
+
+- A interação = **ciclos de ação** com fases de **execução** e **avaliação**
+- **Golfo de execução** — dificuldade de **atuar** sobre o ambiente
+- **Golfo de avaliação** — dificuldade de **avaliar** o estado do ambiente
+- Reduzem-se com **bom design** (ou com treino e esforço do usuário)
+
+![](images/golfos.svg){fig-align="center" width="92%"}
+
+## Os sete estágios da ação {.smaller}
+
+- **Execução:** 
+  - estabelecer o **objetivo** → formular a **intenção** → **especificar** as ações → **executar**
+- **Avaliação:**
+  - **perceber** a mudança de estado → **interpretar** → **avaliar** frente ao objetivo
+  - O resultado da avaliação diz se o usuário **se aproximou** do objetivo — senão, refaz o ciclo (ou muda / desiste do objetivo)
+
+ ![](images/golfos.svg){fig-align="center" width="92%"}
+
+## Exemplo: mudar a cor de fundo {.smaller}
+
+- **Objetivo:** mudar a cor de fundo do retângulo selecionado
+- **Intenção:** verde oliva — H=58, S=99, L=77
+- **Especificação:** abrir o diálogo → informar H → S → L → confirmar
+- Para **cada** ação: **executo** → **percebo** (valor e pré-visualização mudam) → **interpreto** → **avalio** (me aproximei do objetivo)
+- Ao confirmar: diálogo fecha, o retângulo fica verde oliva → **objetivo alcançado**
+
+![](images/exemplo-cor-fundo.svg){fig-align="center" width="100%"}
+
+## Como o designer reduz os golfos {.smaller}
+
+- **Mapeamento adequado** das variáveis de interesse para as variáveis físicas
+  - Mecanismos e controles para manipular a entrada → abreviam o **golfo de execução**
+  - Representação da saída e **feedback** → abreviam o **golfo de avaliação**
+- Treino e experiência ajudam — mas o designer deve **reduzir a necessidade** de treino
+
+## Três modelos: design, sistema, usuário {.smaller}
+
+- **Modelo de design** — o sistema como o **designer** o concebe
+- **Imagem do sistema** — o sistema executável + documentação, ajuda, mensagens
+- **Modelo do usuário** — o que o **usuário** constrói ao interagir com a imagem do sistema
+
+![](images/tres-modelos.svg){fig-align="center" width="96%"}
+
+- Quanto mais **heterogênea** a população de usuários, mais difícil o trabalho do designer
+
+# Etnometodologia e Ação Situada
+
+**Suchman (1987)** trouxe para a IHC a visão da antropologia etnográfica: o significado e o valor da ação humana são **situados** — dependem das circunstâncias concretas e da interação com o mundo material e social.
+
+## Ação planejada × ação situada {.smaller}
+
+- **Ação planejada** — a ação se caracteriza por **objetivos, intenções e planos**; seguir um plano predefinido; imprevisto → **replanejar**
+- **Ação situada** — a cada instante se **avalia** a situação; a ação se constrói **localmente**, sensível às contingências — que não podem ser previstas em detalhe
+
+![](images/planejada-situada.svg){fig-align="center" width="100%"}
+
+## Etnometodologia {.smaller}
+
+- Proposta por **Harold Garfinkel** (anos 1960)
+  - O significado das ações não está **isolado**
+    - nem só no comportamento observável
+    - nem só num estado mental prévio
+  - Está numa relação **contingencial** entre 
+    - comportamento
+    - circunstâncias
+    - intenções 
+    - relações entre os atores
+- Dois domínios: **análise da conversação** e **estudos etnometodológicos do trabalho**
+
+## O que a resposta do sistema comunica {.smaller}
+
+![](images/expectativas-resposta.svg){fig-align="center" width="84%"}
+
+## Estudos etnometodológicos de IHC {.smaller}
+
+- Usos: analisar o **impacto** de um sistema no trabalho; os **métodos** de um domínio; **criticar** o design em conflito com esses métodos
+- Estudo de campo: a atividade é observada **enquanto se desdobra**; o pesquisador é a "**sombra**" de um indivíduo
+- Pressupor **o mínimo** sobre a estrutura da ação situada
+- **Ação reportável** — as ações são feitas de modo a poderem ser **reconhecidas**; o sistema pode dar um **relato** do que está fazendo
+
+# Teoria da Atividade
+
+Origem no início do séc. XX com **Vygotsky**: contra a separação entre mente e comportamento, e entre mente e sociedade; **centralidade dos artefatos mediadores** (linguagem, símbolos, ferramentas).
+
+## Três características da atividade humana {.smaller}
+
+- É **dirigida a um objeto** (material ou ideal)
+- É **mediada por artefatos**
+- É **socialmente constituída** dentro de uma cultura
+
+A unidade de análise **não** é o ser humano isolado — inclui os artefatos técnicos e a organização cultural, que **determinam** e são **criados** pelo ser humano.
+
+## Hierarquia: atividade, ação, operação {.smaller}
+
+- **Atividade** — dirigida por um **motivo / necessidade** (*por quê?*)
+- **Ação** — consciente, dirigida a um **objetivo** (*o quê?*)
+- **Operação** — inconsciente, disparada pelas **condições** (*como?*)
+- **Internalização** — a ação vira operação (automação, aprendizado)
+- **Externalização** — a operação vira ação (situações de reparo, trabalho conjunto)
+
+![](images/hierarquia-atividade.svg){fig-align="center" width="70%"}
+
+## O sistema de atividade {.smaller}
+
+- **Sujeito** e **Objeto**, mediados pela **Comunidade** e pelo **Instrumento** (ferramenta técnica ou signo)
+- Da mediação Sujeito–Comunidade emergem **Regras**; da Comunidade–Objeto, a **Divisão de trabalho**
+- Várias atividades interligadas → **redes de atividade**
+
+![](images/triangulo-engestrom.svg){fig-align="center" width="60%"}
+
+## Contradição e aprendizado {.smaller}
+
+- Sistemas de atividade são marcados por **contradições** — forças motrizes do aprendizado
+- Ex.: tensão entre a **melhor solução possível** e o que dá para projetar com tempo e recursos
+- Projetar um artefato = projetar **novas condições** para a atividade coletiva (nova divisão de trabalho, novas formas de coordenação)
+- As pessoas **recriam** ativamente o próprio ambiente
+
+## Teoria da atividade em IHC {.smaller}
+
+- Análise/design de uma **prática de trabalho** (qualificações, ambiente, divisão de trabalho)
+- Foco no **uso real** e na atividade **multiusuário** — o artefato como **mediador**
+- O desenvolvimento da **experiência** e do uso ao longo do tempo
+- A **participação** ativa do usuário no design
+- Permite combinar **múltiplos níveis** (do uso estrito ao contexto de design) sem hierarquia fixa
+
+# Cognição Distribuída
+
+A cognição distribuída **amplia** a noção de "cognitivo": inclui as interações entre **pessoas, recursos e materiais** no ambiente (Hollan et al., 2000). Surgiu para entender o trabalho que **extrapola o indivíduo**.
+
+## Uma unidade de análise diferente {.smaller}
+
+- A unidade de análise é o **processo cognitivo** — delimitado pelos **relacionamentos funcionais** dos elementos, onde quer que estejam
+- Processos cognitivos podem estar distribuídos:
+  - entre **membros** de um grupo
+  - entre estruturas **internas** (modelos mentais) e **externas** (materiais)
+  - no **tempo** (o passado transforma o presente)
+
+![](images/cognicao-distribuida.svg){fig-align="center" width="96%"}
+
+## Três crenças básicas {.smaller}
+
+- A **organização social** é uma forma de **arquitetura cognitiva** — ela determina como a informação flui pelo grupo
+- A cognição é **materializada** — coordena recursos internos (memória, atenção) e externos (objetos, artefatos)
+- O estudo da cognição **não se separa** do estudo da **cultura** — a cultura molda os processos cognitivos
+
+## Representações externas {.smaller}
+
+- As pessoas **externalizam** informação para apoiar o trabalho individual e coletivo
+- Reduzem a **carga cognitiva**:
+  - **memória** — lembretes, anotações
+  - **processamento** — traçar um gráfico à medida que os dados chegam, buscar tendências
+- Projetar representações de **uso flexível** e representações **mais ativas** (mostram o que é relevante e o que fazer)
+- Análise (Perry, 2003): descrever o **contexto** e os **recursos**, identificar **entradas/saídas**, **representações/processos** e as **transformações**
+
+# Engenharia Semiótica
+
+Teoria de IHC **centrada na comunicação** (de Souza, 2005): a interação humano-computador é um caso particular de **comunicação humana mediada por sistemas**. Investiga a comunicação entre **designers, usuários e sistemas**.
+
+## Metacomunicação: designer → usuário {.smaller}
+
+- **Dois níveis** de comunicação:
+  - **direta** usuário–sistema
+  - **metacomunicação** — do designer para o usuário, **através** da interface
+- A aplicação é um **artefato de metacomunicação**: comunica **como** e **por que** usar o sistema, e **com que efeitos**
+
+![](images/metacomunicacao.svg){fig-align="center" width="94%"}
+
+## A metamensagem {.smaller}
+
+> "Este é o meu entendimento, como designer, de **quem você, usuário, é**, do que aprendi que você **quer ou precisa fazer**, de que maneiras **prefere fazer**, e **por quê**. Este, portanto, é o **sistema que projetei para você**, e esta é a **forma como você pode ou deve utilizá-lo** para alcançar uma gama de objetivos que se encaixam nesta visão."
+
+::: {.esquerda}
+— de Souza (2005b, p. 25)
+:::
+
+
+<!---
+## Mensagem única e unidirecional {.smaller}
+
+- O designer **não está presente** na interação → a metamensagem é ***one-shot*** (única, unidirecional)
+- Tudo é planejado em **tempo de design** e codificado no programa
+- O **preposto do designer** (*designer's deputy*) comunica a metamensagem **durante** a interação
+- **Comunicabilidade** — capacidade do preposto de transmitir a **essência** da mensagem original do designer (métodos: **inspeção semiótica** e **avaliação de comunicabilidade**)
+
+## Semiótica: o signo triádico {.smaller}
+
+- **Signo** = algo que representa alguma coisa **para alguém** (Peirce)
+- Relação **triádica**: **Representação** — **Objeto** — **Interpretante** (a ideia que o signo evoca)
+- Um **signo de interface** é codificado pelo designer para comunicar sua **intenção de design**
+
+![](images/signo-triadico.svg){fig-align="center" width="92%"}
+
+## Semiose ilimitada {.smaller}
+
+- O interpretante de um signo é, ele próprio, **outro signo** — que gera outro interpretante, e assim por diante
+- Processo interpretativo **potencialmente ilimitado**, influenciado por conhecimento prévio, hábitos, **cultura** e **contexto**
+- Interrompe-se quando o intérprete se **satisfaz** (ou não tem mais tempo/recursos) — mas pode ser **retomado** e **revisto** a qualquer momento
+
+![](images/semiose.svg){fig-align="center" width="94%"}
+
+## Sistema interativo como artefato intelectual {.smaller}
+
+- Resulta de **análise** (interpretar a situação-problema) e **síntese** (codificar soluções)
+- É **intelectual** porque é **linguístico**: designers, preposto e usuários usam uma mesma **linguagem de interface** (vocabulário, gramática, semântica)
+- A semiose **humana** não se determina — só se **motiva**
+- Já os significados **computacionais** são **previsíveis** e **inspecionáveis** — essa limitação pode causar **rupturas** que não ocorreriam entre pessoas
+
+## O espaço de design (Jakobson) {.smaller}
+
+- A engenharia semiótica é **explicativa**, não preditiva — ajuda a **formular** problemas e soluções
+- Usa o modelo de **espaço de comunicação** de Jakobson (1960)
+
+![](images/jakobson.svg){fig-align="center" width="66%"}
+
+## Seis perguntas do designer de IHC {.smaller}
+
+- **Emissor** (designer) — que limitações, motivações e crenças comunicar?
+- **Receptor** (usuários) — que aspectos do usuário, como interpretados pelo designer?
+- **Contexto** — que elementos do contexto o sistema deve processar, e como?
+- **Código** — qual deve ser a **linguagem de interface**?
+- **Canal** — que canais de metacomunicação estão disponíveis?
+- **Mensagem** — o que o designer quer contar, e com que efeito?
+
+## Três tipos de signos de interface {.smaller}
+
+![](images/tipos-signos.svg){fig-align="center" width="100%"}
+
+--->
+
+## O papel ativo do designer {.smaller}
+
+- O designer deve se posicionar como **interlocutor** — ajudar o usuário a entender a **metamensagem** e por que ela faz sentido
+- Objetivo: **introduzir** o sistema ao usuário, não apenas **produzi-lo**
+- Primeiro os aspectos **estratégicos** (que valor a tecnologia agrega, qual caminho seguir); depois os **operacionais** (como usar)
+- Conhecimento estratégico importa mais em situações **imprevistas**
+
+## Engenharia cognitiva × engenharia semiótica {.smaller}
+
+![](images/cognitiva-vs-semiotica.svg){fig-align="center" width="90%"}
+
+# Síntese {.smaller}
+
+- **Psicologia experimental** — Hick-Hyman (decisão × opções) e Fitts (apontar × distância/tamanho): modelam e **preveem** desempenho
+- **Psicologia cognitiva aplicada** — o **MHP** e os *chunks* (7 ± 2); base do GOMS
+- **Engenharia cognitiva** — os **golfos** de execução e avaliação; alinhar **modelo de design**, **imagem do sistema** e **modelo do usuário**
+- **Etnometodologia** — a ação é **situada**; a interação usuário–sistema é **assimétrica** e apoiada em convenções da conversa
+- **Teoria da atividade** — a atividade é **mediada** por artefatos e **socialmente** constituída
+- **Cognição distribuída** — a cognição se distribui entre **pessoas, artefatos, representações** e no **tempo**
+- **Engenharia semiótica** — IHC é **comunicação**: a interface é a **metamensagem** do designer, entregue pelo **preposto**
+
+# Exercícios {.smaller}
+
+1. **Hick-Hyman.** Calcule o tempo médio para achar um livro numa lista de **25, 50 e 100** itens em ordem alfabética, sem rolagem.
+2. **Fitts.** Que cuidados tornam os itens de um **menu pop-up vertical** igualmente acessíveis, **sem** mudar a orientação vertical?
+4. **Golfos.** Descreva os passos dos golfos de execução e avaliação para **inserir um contato** num celular — e como mudariam para um adolescente experiente × um idoso no primeiro aparelho.

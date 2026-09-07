@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   th/.style={dbox, rounded corners=6pt, fill=dcream, text width=4.6cm, font=\scriptsize, align=center, inner sep=5pt}]
+
+  \node[dbox, dacc, font=\scriptsize, align=center, text width=3.2cm] (s) at (0,0)
+     {signo\\\scriptsize botão \textsf{Salvar}};
+
+  \node[th] (i1) at (4.6,0.9)  {``clicando aqui eu salvo o arquivo''};
+  \node[th] (i2) at (8.4,1.9)  {``com o arquivo salvo, já posso desligar o computador''};
+  \node[th] (i3) at (12.2,2.9) {``mas antes é melhor fazer uma cópia de segurança''};
+  \node[dsub, font=\large] at (13.8,3.9) {$\cdots$};
+
+  \draw[dtrans, line width=1pt] (s) -- (i1);
+  \draw[dtrans, line width=1pt] (i1) -- (i2);
+  \draw[dtrans, line width=1pt] (i2) -- (i3);
+  \draw[dtrans, line width=1pt] (i3) -- (13.5,3.6);
+
+  \node[dblue, font=\footnotesize\bfseries, rotate=18] at (7.0,3.4) {semiose (ilimitada)};
+
+  \node[dsub, align=center, font=\scriptsize, text width=12.5cm] at (5.5,-1.4)
+     {cada \textbf{interpretante} vira um novo \textbf{signo} --- interrompe-se quando o intérprete se satisfaz (ou acaba o tempo)};
+
+\end{tikzpicture}
+\end{document}

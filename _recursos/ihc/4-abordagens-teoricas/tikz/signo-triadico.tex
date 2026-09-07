@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   nd/.style={dbox, font=\scriptsize, align=center, text width=2.6cm, inner sep=4pt}]
+
+  % ===== (a) signo genérico =====
+  \begin{scope}[shift={(0,0)}]
+    \coordinate (I) at (1.6,3.0);
+    \coordinate (R) at (0,0.3);
+    \coordinate (O) at (3.2,0.3);
+    \draw[black!70, line width=1pt] (R) -- (I) -- (O) -- (R);
+    \node[nd, dacc]        at (I) {\textbf{Interpretante}\\\scriptsize ``ideia de maçã''};
+    \node[nd]             at (R) {\textbf{Representação}\\\scriptsize ilustração};
+    \node[nd, draw=dorange] at (O) {\textbf{Objeto}\\\scriptsize a fruta maçã};
+    \node[dsub, font=\scriptsize] at (1.6,-1.1) {(a) signo genérico};
+  \end{scope}
+
+  % ===== (b) signo de interface =====
+  \begin{scope}[shift={(7.6,0)}]
+    \coordinate (I) at (1.6,3.0);
+    \coordinate (R) at (0,0.3);
+    \coordinate (O) at (3.2,0.3);
+    \draw[black!70, line width=1pt] (R) -- (I) -- (O) -- (R);
+    \node[nd, dacc]        at (I) {\textbf{Interpretante}\\\scriptsize ``clicando aqui eu salvo o documento''};
+    \node[nd]             at (R) {\textbf{Representação}\\\scriptsize botão \textsf{Salvar} + ícone};
+    \node[nd, draw=dorange] at (O) {\textbf{Objeto}\\\scriptsize $\langle$salvar arquivo$\rangle$};
+    \node[dsub, font=\scriptsize] at (1.6,-1.1) {(b) signo de interface};
+  \end{scope}
+
+  \node[dsub, align=center, font=\scriptsize, text width=12cm] at (5.6,-2.0)
+     {o signo é \textbf{algo que representa alguma coisa para alguém} --- relação \textbf{triádica}};
+
+\end{tikzpicture}
+\end{document}

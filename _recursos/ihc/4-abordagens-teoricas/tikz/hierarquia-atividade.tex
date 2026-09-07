@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   lv/.style={dbox, minimum width=3.2cm, minimum height=1.0cm, font=\footnotesize}]
+
+  \node[lv, dacc] (at) at (0,3.2) {Atividade};
+  \node[lv]       (ac) at (0,1.6) {Ação};
+  \node[lv]       (op) at (0,0.0) {Operação};
+
+  \draw[<->, dblue, line width=1pt] (at) -- (ac);
+  \draw[<->, dblue, line width=1pt] (ac) -- (op);
+
+  % rótulos das transições (Ação <-> Operação)
+  \node[dsub, font=\scriptsize, anchor=west] at (1.9,0.95) {$\downarrow$ \textbf{internalização} (automação)};
+  \node[dsub, font=\scriptsize, anchor=west] at (1.9,0.65) {$\uparrow$ \textbf{externalização} (conceitualização)};
+
+  % dirigida por
+  \node[dsub, font=\scriptsize, anchor=east] at (-2.0,3.2) {\emph{por quê?} \; motivo / necessidade};
+  \node[dsub, font=\scriptsize, anchor=east] at (-2.0,1.6) {\emph{o quê?} \; objetivo (consciente)};
+  \node[dsub, font=\scriptsize, anchor=east] at (-2.0,0.0) {\emph{como?} \; condições (inconsciente)};
+  \foreach \y in {3.2,1.6,0.0}{ \draw[dguide] (-1.9,\y) -- (-1.6,\y); }
+
+\end{tikzpicture}
+\end{document}
