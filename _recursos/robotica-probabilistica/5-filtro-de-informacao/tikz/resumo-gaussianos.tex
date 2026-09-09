@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.4cm, font=\small] (bayes) at (0,3) {Filtro de Bayes};
+
+  \node[dbox, minimum width=3.0cm, minimum height=1.4cm, font=\footnotesize, dacc] (kf) at (-4.4,0.4)
+     {\textbf{KF}\\momentos $(\mu,\Sigma)$\\linear};
+  \node[dbox, minimum width=3.0cm, minimum height=1.4cm, font=\footnotesize, draw=dorange] (if) at (4.4,0.4)
+     {\textbf{IF}\\canônica $(\xi,\Omega)$\\linear};
+
+  \node[dbox, minimum width=3.0cm, minimum height=1.4cm, font=\footnotesize] (ekf) at (-4.4,-2.4)
+     {\textbf{EKF}\\Taylor / Jacobiana\\não linear};
+  \node[dbox, minimum width=3.0cm, minimum height=1.4cm, font=\footnotesize] (eif) at (4.4,-2.4)
+     {\textbf{EIF}\\Taylor / Jacobiana\\não linear};
+
+  \draw[->, black!55, line width=1pt] (bayes) -- (kf);
+  \draw[->, black!55, line width=1pt] (bayes) -- (if);
+  \draw[<->, dsub, line width=0.8pt] (kf) -- (if) node[midway, above, dsub] {duais};
+  \draw[->, black!55, line width=1pt] (kf) -- (ekf) node[midway, right, dsub] {linearização};
+  \draw[->, black!55, line width=1pt] (if) -- (eif) node[midway, right, dsub] {linearização};
+  \draw[<->, dsub, line width=0.8pt] (ekf) -- (eif) node[midway, above, dsub] {duais};
+
+  \node[dsub, align=center] at (0,-4.2)
+     {vantagem: custo \textbf{polinomial} em $n$ \quad$|$\quad limitação: gaussiana \textbf{unimodal}};
+
+\end{tikzpicture}
+\end{document}

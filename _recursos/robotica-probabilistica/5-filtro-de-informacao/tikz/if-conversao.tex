@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, dacc, minimum width=3.6cm, minimum height=1.5cm] (m) at (0,0)
+     {momentos\\[2pt]$(\mu,\ \Sigma)$};
+  \node[dbox, draw=dorange, minimum width=3.6cm, minimum height=1.5cm] (c) at (7.5,0)
+     {canônica\\[2pt]$(\xi,\ \Omega)$};
+
+  \draw[dtrans, line width=1.1pt, bend left=22] (m.north east) to
+     node[above, font=\footnotesize, dblue] {$\Omega = \Sigma^{-1}$ \quad $\xi = \Sigma^{-1}\mu$} (c.north west);
+  \draw[dmeas, line width=1.1pt, bend left=22] (c.south west) to
+     node[below, font=\footnotesize, dorange] {$\Sigma = \Omega^{-1}$ \quad $\mu = \Omega^{-1}\xi$} (m.south east);
+
+  \node[dsub] at (3.75,2.15) {mapeamento bijetivo (via inversão de matriz)};
+
+\end{tikzpicture}
+\end{document}

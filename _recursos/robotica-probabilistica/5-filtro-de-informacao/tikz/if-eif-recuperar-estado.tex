@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=2.8cm, minimum height=1.2cm] (xi) at (0,0) {$\xi_{t-1},\ \Omega_{t-1}$};
+  \node[dbox, draw=dred, minimum width=3.0cm, minimum height=1.2cm] (mu) at (4.6,0) {$\mu_{t-1} = \Omega_{t-1}^{-1}\xi_{t-1}$};
+  \node[dbox, minimum width=3.0cm, minimum height=1.2cm] (g) at (9.6,0) {$g(u_t,\mu_{t-1})$,\ $h(\bar\mu_t)$};
+
+  \draw[dtrans, line width=1.1pt] (xi) -- (mu);
+  \draw[dtrans, line width=1.1pt] (mu) -- (g);
+
+  \node[dred, font=\footnotesize, align=center] at (4.6,-1.6)
+     {recuperar o estado\\= inverter $\Omega$};
+\end{tikzpicture}
+\end{document}

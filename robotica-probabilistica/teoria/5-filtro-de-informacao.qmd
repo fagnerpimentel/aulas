@@ -1,0 +1,187 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Filtro de Informação"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/5-filtro-de-informacao
+---
+
+# Filtro de Informação
+
+::: {.esquerda}
+Capítulo 3 (seção 3.4) do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O Dual do Filtro de Kalman {.smaller}
+
+- O **Filtro de Informação (IF)** também representa a crença por uma **gaussiana**
+  - está sujeito às **mesmas premissas** do KF
+- A diferença está em **como** a gaussiana é representada:
+  - KF: **momentos** — média e covariância
+  - IF: **representação canônica** — matriz de informação + vetor de informação
+- Consequência: o que é **caro** numa representação é **barato** na outra (e vice-versa)
+
+![](images/if-dualidade.svg){fig-align="center" width="100%"}
+
+## Representação Canônica {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- **Matriz de informação**:
+$$
+\Omega = \Sigma^{-1}
+$$
+:::
+::: {.column width="50%"}
+- **Vetor de informação**:
+$$
+\xi = \Sigma^{-1}\mu
+$$
+:::
+:::
+
+
+- Parametrização **completa** de uma gaussiana — os momentos se recuperam por
+
+$$
+\Sigma = \Omega^{-1} \qquad \mu = \Omega^{-1}\xi
+$$
+
+![](images/if-conversao.svg){fig-align="center" width="100%"}
+
+## O Algoritmo do Filtro de Informação {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entrada**: $\xi_{t-1}, \Omega_{t-1}$, controle $u_t$, medição $z_t$
+- **Saída**: $\xi_t, \Omega_t$
+- Linhas 2–3: **predição** (envolve inverter duas matrizes $n \times n$)
+- Linhas 4–5: **correção** — puramente **aditiva**
+- Matrizes $A_t, B_t, C_t, R_t, Q_t$: as mesmas do KF
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de Informação}\,\bigl(\xi_{t-1},\ \Omega_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar\Omega_t = (A_t\,\Omega_{t-1}^{-1} A_t^{\top} + R_t)^{-1} \\
+\text{3:}\quad \bar\xi_t = \bar\Omega_t\,(A_t\,\Omega_{t-1}^{-1}\,\xi_{t-1} + B_t\,u_t) \\
+\text{4:}\quad \Omega_t = C_t^{\top} Q_t^{-1} C_t + \bar\Omega_t \\
+\text{5:}\quad \xi_t = C_t^{\top} Q_t^{-1} z_t + \bar\xi_t \\
+\text{6:}\quad \textbf{retornar } \xi_t,\ \Omega_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## O Ciclo do Filtro de Informação {.smaller}
+
+![](images/if-ciclo.svg){fig-align="center" width="100%"}
+
+A **correção** é apenas uma **soma** de matrizes e vetores — sem inversão.
+
+## KF × IF: a Complexidade se Inverte {.smaller}
+
+- **IF, predição**: inverte **duas** matrizes $n \times n$ → $\approx \mathcal{O}(n^{2.8})$
+- **IF, correção**: **aditiva** → $\le \mathcal{O}(n^2)$
+- No **KF** é o oposto: predição aditiva ($\le \mathcal{O}(n^2)$), correção com inversão ($\mathcal{O}(n^{2.8})$)
+- Ilustra o **caráter dual** dos dois filtros
+
+![](images/if-complexidade-dual.svg){fig-align="center" width="100%"}
+
+## Esboço da Derivação {.smaller}
+
+- **Predição** — substituir $\mu_{t-1} = \Omega_{t-1}^{-1}\xi_{t-1}$ e $\Sigma_{t-1} = \Omega_{t-1}^{-1}$ nas equações de predição do KF (3.77–3.78):
+
+$$
+\bar\Omega_t = (A_t\,\Omega_{t-1}^{-1} A_t^{\top} + R_t)^{-1}
+\qquad
+\bar\xi_t = \bar\Omega_t\,(A_t\,\Omega_{t-1}^{-1}\xi_{t-1} + B_t u_t)
+$$
+
+- **Correção** — a partir do expoente da crença $bel(x_t)$ (3.34), multiplicar os termos e reagrupar em torno de $x_t$:
+
+$$
+bel(x_t) = \eta\,\exp\!\left\{ -\tfrac12\,x_t^{\top}[C_t^{\top}Q_t^{-1}C_t + \bar\Omega_t]\,x_t + x_t^{\top}[C_t^{\top}Q_t^{-1}z_t + \bar\xi_t] \right\}
+$$
+
+- Lêem-se $\Omega_t$ e $\xi_t$ **diretamente** dos colchetes
+
+## Filtro de Informação Estendido (EIF) {.smaller}
+
+- Análogo ao EKF: as funções $g$, $h$ e as Jacobianas $G_t$, $H_t$ substituem $A_t, B_t, C_t$
+- **Problema**: $g$ e $h$ exigem um **estado** como entrada → é preciso **recuperar** $\mu = \Omega^{-1}\xi$ na atualização
+- Essa recuperação (uma inversão de $\Omega$) está em **tensão** com a ideia de operar em parâmetros canônicos
+
+![](images/if-eif-recuperar-estado.svg){fig-align="center" width="100%"}
+
+## Vantagens do IF em Robótica {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- **Incerteza global** é trivial: basta $\Omega = 0$ (nos momentos, seria covariância de magnitude infinita)
+- Tende a ser **numericamente mais estável** que o KF em muitas aplicações
+- **Problemas multirrobô**: integração **descentralizada** de dados de sensores
+  - Em forma logarítmica, a regra de Bayes vira uma **soma**
+  - Os parâmetros canônicos representam a probabilidade nessa forma → integrar informação = **somar** $\xi$ e $\Omega$
+  - Adição é **comutativa** → ordem arbitrária, atrasos arbitrários, totalmente descentralizado
+:::
+::: {.column width="40%"}
+![](images/if-multirrobo.svg){fig-align="center" width="100%"}
+
+![](images/fotos/enxame-kilobots.jpg){fig-align="center" width="100%"}
+[Enxame de robôs Kilobot — asuscreative, CC BY-SA 4.0]{.credito}
+:::
+:::
+
+## Limitações do IF {.smaller}
+
+::: columns
+::: {.column width="58%"}
+- **EIF**: necessidade de **recuperar o estado** na atualização (inversão da matriz de informação); mais inversões na predição
+- Para alta dimensão, geralmente **inferior** ao KF em custo → por isso o **EKF é muito mais popular** que o EIF
+- **Exceção importante**: quando $\Omega$ tem **estrutura esparsa**
+  - Interações **locais** entre variáveis → $\Omega$ esparsa (a covariância **não** fica esparsa)
+  - O IF vira um **grafo**: aresta $\Leftrightarrow$ elemento fora da diagonal não nulo → **campos aleatórios de Markov gaussianos**
+  - Algoritmos eficientes (ex.: *loopy belief propagation*); usado em **mapeamento** com $\Omega$ esparsa
+:::
+::: {.column width="42%"}
+![](images/if-esparsa-grafo.svg){fig-align="center" width="100%"}
+
+![](images/fotos/mapa-slam.jpg){fig-align="center" width="100%"}
+[Mapa construído por robô — F. Fernando, CC BY 4.0]{.credito}
+:::
+:::
+
+# Resumo do Capítulo
+
+Filtros Gaussianos: implementações eficientes do Filtro de Bayes que representam a posterior por uma gaussiana multivariada.
+
+## Filtros Gaussianos — Panorama {.smaller}
+
+::: columns
+::: {.column width="48%"}
+- Duas representações da gaussiana: **momentos** $(\mu,\Sigma)$ e **canônica** $(\xi,\Omega)$ — duais, recuperáveis uma da outra por inversão
+- O Filtro de Bayes em cada uma: **KF** (momentos) e **IF** (canônica) — **duais em complexidade**
+- Três premissas → **sistemas lineares gaussianos**
+- Extensão a não linearidades: **tangente** via expansão de Taylor → **Jacobiana** → filtros "estendidos" (**EKF**, **EIF**)
+:::
+::: {.column width="52%"}
+![](images/resumo-gaussianos.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Filtros Gaussianos — Balanço {.smaller}
+
+- Precisão da linearização depende do **grau de não linearidade** e da **largura da posterior**
+- **Vantagem central**: custo **polinomial** na dimensão do estado
+- **Desvantagem central**: confinamento a **gaussianas unimodais**
+- **KF / EKF** são muito mais populares que **IF / EIF**

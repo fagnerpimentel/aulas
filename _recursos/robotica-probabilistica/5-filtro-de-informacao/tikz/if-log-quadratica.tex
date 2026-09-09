@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\muv{3.0}\def\sig{1.0}
+
+  % ---- p(x): gaussiana ----
+  \begin{scope}
+    \draw[daxis] (-0.2,0) -- (6.0,0) node[right, dsub] {$x$};
+    \draw[daxis] (0,-0.2) -- (0,3.0);
+    \draw[dblue, line width=1.3pt, samples=120, domain=-0.1:6.0, smooth, variable=\x]
+      plot (\x, {2.5*2.5066*gauss(\x,\muv,\sig)});
+    \draw[dguide] (\muv,0) -- (\muv,2.6);
+    \node[dsub] at (\muv,-0.35) {$\mu$};
+    \node[dblue, font=\footnotesize] at (4.8,2.4) {$p(x)$};
+    \node[dlbl, font=\footnotesize] at (3.0,-1.1) {representação de momentos};
+  \end{scope}
+
+  % ---- -log p(x): parábola ----
+  \begin{scope}[shift={(8.4,0)}]
+    \draw[daxis] (-0.2,0) -- (6.0,0) node[right, dsub] {$x$};
+    \draw[daxis] (0,-0.2) -- (0,3.2);
+    \draw[dorange, line width=1.3pt, samples=120, domain=0.5:5.5, variable=\x]
+      plot (\x, {0.25 + 0.34*(\x-\muv)*(\x-\muv)});
+    \draw[dguide] (\muv,0) -- (\muv,0.25);
+    \fill[dorange] (\muv,0.25) circle (1.6pt);
+    \node[dsub] at (\muv,-0.35) {$x = \Omega^{-1}\xi$};
+    \node[dorange, font=\footnotesize, anchor=west] at (0.3,2.9) {$-\log p(x)$};
+    \node[dgreen, font=\footnotesize, anchor=west] at (4.35,2.0) {curvatura $= \Omega$};
+    \draw[dgreen, line width=0.8pt, ->] (4.3,1.85) -- (3.75,{0.25+0.34*0.56});
+    \node[dlbl, font=\footnotesize, align=center] at (3.0,-1.15)
+      {$-\log p(x) = \mathrm{c} + \tfrac12 x^{\top}\Omega x - x^{\top}\xi$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

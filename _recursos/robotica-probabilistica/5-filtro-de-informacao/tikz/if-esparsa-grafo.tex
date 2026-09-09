@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---- matriz de informação esparsa ----
+  \begin{scope}
+    \def\n{5}
+    \foreach \r in {1,...,\n}\foreach \c in {1,...,\n}{
+      \draw[black!20, line width=0.4pt] (\c-1,-\r+1) rectangle (\c,-\r);
+    }
+    % diagonal + poucos elementos fora da diagonal (banda)
+    \foreach \k in {1,...,\n}{ \fill[dblue!70] (\k-1,-\k+1) rectangle (\k,-\k); }
+    \foreach \a/\b in {1/2,2/1,2/3,3/2,3/4,4/3,4/5,5/4}{
+      \fill[dorange!55] (\b-1,-\a+1) rectangle (\b,-\a);
+    }
+    \draw[black!70, line width=0.8pt] (0,0) rectangle (\n,-\n);
+    \node[dlbl, font=\footnotesize] at (2.5,-6.0) {$\Omega$ esparsa};
+  \end{scope}
+
+  \node[font=\Large, black!45] at (6.6,-2.5) {$\Longleftrightarrow$};
+
+  % ---- grafo correspondente ----
+  \begin{scope}[shift={(8.2,0)}]
+    \foreach \k/\x/\y in {1/0/0, 2/2/-1, 3/1/-3, 4/3/-3.6, 5/4/-1.6}{
+      \node[circle, draw=black!75, fill=dcream, minimum size=8mm, font=\footnotesize] (n\k) at (\x,\y) {$x_{\k}$};
+    }
+    \foreach \a/\b in {1/2,2/3,3/4,4/5}{ \draw[dorange!70, line width=1pt] (n\a) -- (n\b); }
+    \node[dlbl, font=\footnotesize] at (2.0,-6.0) {grafo esparso (MRF gaussiano)};
+  \end{scope}
+
+  \node[dsub] at (7.0,-7.0)
+     {aresta $\Leftrightarrow$ elemento fora da diagonal não nulo \;\;(a covariância \emph{não} fica esparsa)};
+
+\end{tikzpicture}
+\end{document}

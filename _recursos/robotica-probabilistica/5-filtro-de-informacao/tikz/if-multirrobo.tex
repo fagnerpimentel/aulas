@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \foreach \i/\x in {1/0, 2/3.0, 3/6.0}{
+    \node[dobs, minimum size=12mm] (r\i) at (\x,0) {\small $R_{\i}$};
+    \node[dbox, minimum width=2.0cm, minimum height=0.9cm, font=\footnotesize] (i\i) at (\x,-1.8)
+        {$\xi_{\i},\ \Omega_{\i}$};
+    \draw[dtrans] (r\i) -- (i\i);
+  }
+
+  \node[dbox, dacc, minimum width=4.6cm, minimum height=1.1cm, font=\small] (sum) at (3.0,-4.0)
+      {$\xi = \xi_1+\xi_2+\xi_3$ \quad $\Omega = \Omega_1+\Omega_2+\Omega_3$};
+
+  \foreach \i in {1,2,3}{ \draw[dtrans, line width=1pt] (i\i) -- (sum); }
+
+\end{tikzpicture}
+\end{document}

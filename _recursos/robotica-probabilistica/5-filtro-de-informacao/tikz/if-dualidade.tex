@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, dacc, minimum width=4.4cm, minimum height=1.6cm, font=\small] (kf) at (0,0)
+     {\textbf{Filtro de Kalman}\\[2pt]\footnotesize momentos $(\mu,\ \Sigma)$};
+  \node[dbox, minimum width=4.4cm, minimum height=1.6cm, font=\small, draw=dorange] (if) at (7.5,0)
+     {\textbf{Filtro de Informação}\\[2pt]\footnotesize canônica $(\xi,\ \Omega)$};
+
+  \draw[<->, black!55, line width=1pt] (kf) -- (if)
+     node[midway, above, dsub] {duais};
+
+  \node[font=\footnotesize, align=center, dblue]   at (0,-2.2)
+     {predição: \textbf{fácil} (aditiva)\\correção: \textbf{difícil} (inversão)};
+  \node[font=\footnotesize, align=center, dorange] at (7.5,-2.2)
+     {predição: \textbf{difícil} (inversão)\\correção: \textbf{fácil} (aditiva)};
+
+\end{tikzpicture}
+\end{document}

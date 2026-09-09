@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cA{5.6}\def\cB{9.4}\def\rh{1.3}\def\midx{7.5}
+
+  \node[font=\small\bfseries, dblue]   at (\cA,{2*\rh}) {Filtro de Kalman};
+  \node[font=\small\bfseries, dorange] at (\cB,{2*\rh}) {Filtro de Informação};
+
+  \node[font=\footnotesize, anchor=east] at (3.3,\rh) {passo de predição};
+  \node[font=\footnotesize, dgreen]  at (\cA,\rh) {aditivo --- $\mathcal{O}(n^2)$};
+  \node[font=\footnotesize, dred]    at (\cB,\rh) {2 inversões --- $\mathcal{O}(n^{2.8})$};
+
+  \node[font=\footnotesize, anchor=east] at (3.3,0) {passo de correção};
+  \node[font=\footnotesize, dred]    at (\cA,0) {inversão --- $\mathcal{O}(n^{2.8})$};
+  \node[font=\footnotesize, dgreen]  at (\cB,0) {aditivo --- $\mathcal{O}(n^2)$};
+
+  \draw[black!30, line width=0.6pt] (3.5,{1.55*\rh}) -- (11.4,{1.55*\rh});
+  \draw[black!30, line width=0.6pt] (3.5,{0.5*\rh})  -- (11.4,{0.5*\rh});
+  \draw[black!30, line width=0.6pt] (3.5,{-0.5*\rh}) -- (11.4,{-0.5*\rh});
+  \draw[black!30, line width=0.6pt] (\midx,{1.9*\rh}) -- (\midx,{-0.5*\rh});
+
+  \node[dsub] at (7.4,-1.5) {os papéis de ``fácil'' e ``difícil'' se invertem --- caráter dual};
+
+\end{tikzpicture}
+\end{document}
