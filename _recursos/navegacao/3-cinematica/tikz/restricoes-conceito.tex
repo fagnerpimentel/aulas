@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % roda (vista de cima): retângulo fino = plano da roda
+  \fill[black!70] (-0.22,-0.8) rectangle (0.22,0.8);
+
+  % direção do plano: rolamento permitido
+  \draw[<->, dgreen, line width=1.3pt] (0,-2.1) -- (0,2.1);
+  % ortogonal: deslizamento bloqueado
+  \draw[dorange, line width=1.3pt] (-2.1,0) -- (2.1,0);
+  \node[dred, font=\Large\bfseries] at (1.5,0) {$\times$};
+
+  \node[dgreen, font=\scriptsize, align=center, anchor=west] at (0.4,1.8)
+     {plano da roda:\\ mov.\ \textbf{permitido}\\ (com giro $r\dot\varphi$)};
+  \node[dorange, font=\scriptsize, align=center, anchor=south] at (-1.15,0.25)
+     {ortogonal:\\ \textbf{sem} deslize};
+
+  % restrições
+  \node[dbox, dacc, font=\scriptsize, align=left, text width=6.2cm] at (7.4,1.2)
+     {\textbf{1. Restrição de rolamento}\\ o giro da roda acompanha o movimento ao longo do plano da roda (rolamento puro no contato)};
+  \node[dbox, draw=dorange, font=\scriptsize, align=left, text width=6.2cm] at (7.4,-1.2)
+     {\textbf{2. Restrição de deslizamento}\\ o movimento \emph{ortogonal} ao plano da roda deve ser \textbf{zero}};
+
+\end{tikzpicture}
+\end{document}

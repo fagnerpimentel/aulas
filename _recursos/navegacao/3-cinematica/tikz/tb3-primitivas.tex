@@ -1,0 +1,51 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+
+\newcommand{\tbrobot}{%
+  \draw[dbody, rounded corners=2pt] (-1.0,-0.85) rectangle (0.9,0.85);
+  \fill[black!70, rounded corners=1pt] (-0.25,-1.12) rectangle (0.35,-0.82);
+  \fill[black!70, rounded corners=1pt] (-0.25, 0.82) rectangle (0.35, 1.12);
+  \node[dop, minimum size=4mm] at (-0.72,0) {};
+  \fill[dblue] (0.05,0) circle (0.08);
+}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % =================== reta ===================
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, <->] (0.05,-2.1) -- (0.05,1.75);
+    \node[dsub, font=\tiny, anchor=west] at (0.14,1.55) {eixo das rodas};
+    \tbrobot
+    \draw[<->, black!55, line width=0.5pt] (-1.35,-0.97) -- (-1.35,0.97);
+    \node[dsub, font=\tiny, anchor=east] at (-1.40,0) {$2L$};
+    \draw[dtrans, line width=1pt] (1.15,0) -- (3.2,0);
+    \node[dorange, font=\scriptsize] at (2.0,-0.42) {ICR $\to \infty$};
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (4.6,-2.9) -- (4.6,2.0);
+
+  % =================== arco ===================
+  \begin{scope}[shift={(7.4,0)}]
+    \draw[dguide] (0.05,1.6) -- (0.05,-2.6);
+    \tbrobot
+    \fill[dorange] (0.05,-2.1) circle (0.09);
+    \node[dorange, font=\scriptsize, anchor=west] at (0.20,-2.1) {ICR};
+    \draw[<->, black!55, line width=0.5pt] (-0.12,-2.1) -- (-0.12,0);
+    \draw[dtrans, line width=1pt] (0.05,-2.1) ++(90:2.1) arc (90:24:2.1);
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (12.6,-2.9) -- (12.6,2.0);
+
+  % =================== giro no lugar ===================
+  \begin{scope}[shift={(15.4,0)}]
+    \draw[dguide] (0.05,-1.8) -- (0.05,1.8);
+    \tbrobot
+    \draw[dorange, line width=1pt] (0.05,0) circle (0.17);
+    \node[dorange, font=\scriptsize, anchor=south west] at (0.16,0.16) {ICR};
+    \draw[dgreen, ->, line width=1pt] (1.7,0) arc (0:150:1.7);
+    \node[dgreen, font=\small] at (-1.7,1.1) {$\dot\theta$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

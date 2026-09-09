@@ -1,0 +1,54 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   ttl/.style={font=\scriptsize\bfseries, align=center},
+   sub/.style={dsub, font=\scriptsize, align=center}]
+
+  \def\S{4.5}
+
+  % ---------- 1. carro / bicicleta : DDOF = 1 ----------
+  \node[ttl] at (1.1,2.55) {carro / bicicleta \ ($\delta_m{=}1$)};
+  \draw[->, dblue, line width=1.2pt] (0.1,1.35) -- (2.1,1.35) node[right, font=\scriptsize] {$v$};
+  \fill[dblue] (1.1,1.35) circle (0.06);
+  \node[sub] at (1.1,0.45) {\textbf{DDOF = 1}};
+  \node[sub] at (1.1,0.05) {só comanda $v$};
+  \node[sub, text width=3.5cm] at (1.1,-0.85)
+     {$\dot\theta$ só muda \emph{ao esterçar e depois andar}};
+
+  \draw[black!15, line width=0.5pt] (\S-1.35,-1.3) -- (\S-1.35,2.75);
+
+  % ---------- 2. diferencial : DDOF = 2 ----------
+  \begin{scope}[shift={(\S,0)}]
+    \node[ttl] at (1.1,2.55) {diferencial \ ($\delta_m{=}2$)};
+    \fill[dblue!12, draw=dblue, line width=0.9pt] (0.25,0.5) rectangle (1.75,1.8);
+    \draw[->, dblue, line width=0.9pt] (0.25,0.5) -- (2.15,0.5) node[right, font=\scriptsize] {$v$};
+    \draw[->, dblue, line width=0.9pt] (0.25,0.5) -- (0.25,2.05) node[above, font=\scriptsize] {$\dot\theta$};
+    \node[sub] at (1.1,0.05) {\textbf{DDOF = 2}};
+    \node[sub] at (1.1,-0.35) {$v$ e $\dot\theta$ independentes};
+  \end{scope}
+
+  \draw[black!15, line width=0.5pt] (2*\S-1.35,-1.3) -- (2*\S-1.35,2.75);
+
+  % ---------- 3. omnidirecional : DDOF = 3 ----------
+  \begin{scope}[shift={(2*\S,0)}]
+    \node[ttl] at (1.25,2.55) {omnidirecional \ ($\delta_m{=}3$)};
+    \def\a{1.3}\def\dx{0.5}\def\dy{0.36}
+    \coordinate (o) at (0.35,0.65);
+    \fill[dblue!12] ($(o)+(\dx,\dy)$) rectangle ++(\a,\a);
+    \fill[dblue!7]  (o) -- ++(\a,0) -- ++(\dx,\dy) -- ++(-\a,0) -- cycle;
+    \draw[dblue, line width=0.9pt] (o) rectangle ++(\a,\a);
+    \draw[dblue, line width=0.9pt] ($(o)+(\dx,\dy)$) rectangle ++(\a,\a);
+    \draw[dblue, line width=0.9pt] (o) -- ++(\dx,\dy);
+    \draw[dblue, line width=0.9pt] ($(o)+(\a,0)$) -- ++(\dx,\dy);
+    \draw[dblue, line width=0.9pt] ($(o)+(0,\a)$) -- ++(\dx,\dy);
+    \draw[dblue, line width=0.9pt] ($(o)+(\a,\a)$) -- ++(\dx,\dy);
+    \node[font=\scriptsize, anchor=west] at ($(o)+(\a+0.08,-0.02)$) {$\dot x$};
+    \node[font=\scriptsize, anchor=east] at ($(o)+(-0.08,\a/2)$) {$\dot y$};
+    \node[font=\scriptsize, anchor=west] at ($(o)+(\a,\a)+(\dx/2+0.06,\dy/2+0.02)$) {$\dot\theta$};
+    \node[sub] at (1.25,0.05) {\textbf{DDOF = 3}};
+    \node[sub] at (1.25,-0.35) {$\dot x, \dot y, \dot\theta$ independentes};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

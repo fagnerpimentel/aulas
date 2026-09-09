@@ -1,0 +1,44 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % referencial local em P
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (5.0,0) node[right, font=\small] {$X_R$};
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (0,3.8) node[above, font=\small] {$Y_R$};
+  \node[font=\small, anchor=north east] at (-0.05,-0.05) {$P$};
+
+  \def\aA{34} \def\lA{3.4}
+  \coordinate (A) at (\aA:\lA);
+
+  % l e alpha
+  \draw[black!60, line width=0.8pt] (0,0) -- (A);
+  \node[dsub, font=\small] at (\aA-4:\lA/2) {$l$};
+  \draw[->, black!55, line width=0.6pt] (1.0,0) arc (0:\aA:1.0);
+  \node[font=\small] at (\aA/2:1.3) {$\alpha$};
+
+  % roda em A com plano a beta da direção radial
+  \begin{scope}[shift={(A)}, rotate=\aA+58]
+    \fill[black!70] (-0.55,-0.16) rectangle (0.55,0.16); % roda
+    \draw[dguide] (-0.9,0) -- (0.9,0); % plano da roda
+    \draw[->, dorange, line width=1pt] (0,0) -- (1.0,0) node[above, font=\scriptsize] {$v$};
+  \end{scope}
+  % beta: entre a linha radial e o plano da roda
+  \draw[dguide] (A) -- ($(A)+({\aA}:1.2)$);
+  \draw[->, black!55, line width=0.6pt] ($(A)+({\aA}:0.8)$) arc (\aA:\aA+58:0.8);
+  \node[font=\small] at ($(A)+({\aA+30}:1.15)$) {$\beta$};
+  \node[font=\small, anchor=south west] at ($(A)+(0.15,0.15)$) {$A$};
+  \node[dsub, font=\scriptsize, anchor=west] at ($(A)+(0.7,-0.6)$) {$\varphi,\ r$};
+
+  % restrições
+  \node[dbox, dacc, font=\scriptsize, align=center, text width=6.4cm] at (10.6,2.6)
+     {\textbf{rolamento}\\
+      $\big[\sin(\alpha{+}\beta)\ \ -\cos(\alpha{+}\beta)\ \ (-l)\cos\beta\big]\,R(\theta)\dot\xi_I - r\dot\varphi = 0$};
+  \node[dbox, draw=dorange, font=\scriptsize, align=center, text width=6.4cm] at (10.6,0.4)
+     {\textbf{deslizamento}\\
+      $\big[\cos(\alpha{+}\beta)\ \ \sin(\alpha{+}\beta)\ \ l\sin\beta\big]\,R(\theta)\dot\xi_I = 0$};
+
+  \node[dsub, font=\scriptsize] at (3.0,-0.7) {parâmetros fixos: $\alpha,\ \beta,\ l,\ r$};
+
+\end{tikzpicture}
+\end{document}

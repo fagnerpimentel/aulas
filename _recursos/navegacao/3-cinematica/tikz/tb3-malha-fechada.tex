@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    blk/.style={dbox, font=\scriptsize, align=center, inner sep=4pt, minimum height=9mm},
+    sig/.style={dsub, font=\scriptsize, inner sep=1.5pt, align=center}]
+
+  % --- cadeia direta ---
+  \node[sig] (goal) at (0,0) {$\xi^{*}$\\objetivo};
+  \node[dop, minimum size=7mm] (sum) at (2.0,0) {$\Sigma$};
+  \node[blk] (ctrl) at (5.2,0) {lei de controle\\[1pt]$v = k_\rho\rho$\\$\omega = k_\alpha\alpha + k_\beta\beta$};
+  \node[blk] (inv)  at (9.0,0) {cinem\'atica inversa\\[1pt]$+$ satura\c{c}\~ao};
+  \node[blk] (bot)  at (12.3,0) {TurtleBot3\\rodas $+$ chassi};
+  \coordinate (out) at (14.6,0);
+
+  \draw[->, black!70, line width=0.8pt] (goal) -- (sum);
+  \draw[->, black!70, line width=0.8pt] (sum) -- (ctrl)
+        node[sig, midway, above] {$\rho,\alpha,\beta$};
+  \draw[->, black!70, line width=0.8pt] (ctrl) -- (inv)
+        node[sig, midway, above] {$v,\omega$};
+  \draw[->, black!70, line width=0.8pt] (inv) -- (bot)
+        node[sig, midway, above] {$\dot\varphi_R,\dot\varphi_L$};
+  \draw[->, black!70, line width=0.8pt] (bot) -- (out)
+        node[sig, near end, above] {$\xi$ (real)};
+
+  % --- realimentacao ---
+  \node[blk, draw=dgreen] (odo) at (9.0,-2.0) {odometria (encoders)\\[1pt]$\hat\xi = (\hat x,\hat y,\hat\theta)$};
+  \draw[->, dgreen, line width=0.8pt] (13.4,0) |- (odo.east);
+  \draw[->, dgreen, line width=0.8pt] (odo.west) -| (sum.south)
+        node[sig, near start, below] {$\hat\xi$};
+  \node[sig, anchor=north east] at (1.75,-0.15) {$-$};
+
+  \node[sig, anchor=north] at (7.3,-3.0)
+     {a cada ciclo ($\sim$20 Hz): estima a pose, calcula o erro, reenvia $(v,\omega)$};
+
+\end{tikzpicture}
+\end{document}

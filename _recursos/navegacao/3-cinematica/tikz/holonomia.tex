@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   c/.style={dbox, text width=6.0cm, minimum height=2.7cm, font=\scriptsize, align=left, inner sep=7pt}]
+
+  \node[c, dacc] (h) at (0,0)
+     {\textbf{Restrição holonômica}\\[3pt]
+      $\bullet$ função \textbf{explícita} só das variáveis de \textbf{posição}\\
+      \hphantom{$\bullet$}\ ($x, y, \theta, \alpha, \beta, \ldots$) --- \textbf{sem derivadas}\\
+      $\bullet$ é \textbf{integrável}};
+
+  \node[c, draw=dorange] (n) at (6.8,0)
+     {\textbf{Restrição não-holonômica}\\[3pt]
+      $\bullet$ relação \textbf{diferencial} (usa $\dot\varphi$, $\dot\xi$)\\
+      $\bullet$ \textbf{não-integrável} ($\Rightarrow$ ``não-integrável'')\\
+      $\bullet$ ex.: \textbf{deslizamento} da roda padrão};
+
+  \node[dbox, font=\scriptsize, align=center, text width=13cm] at (3.4,-2.3)
+     {robô \textbf{holonômico} $\iff$ $\mathrm{DDOF} = \mathrm{DOF}$ \quad$\cdot$\quad
+      \textbf{omnidirecional} = holonômico com $\mathrm{DDOF} = 3$};
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (3.4,-3.2)
+     {o diferencial alcança qualquer $(x,y,\theta)$ --- mas \textbf{não} por translação lateral direta (precisa ``balizar'')};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,58 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\robo}[3]{% #1=pos  #2=rot  #3=1 fantasma / 0 sólido
+    \begin{scope}[shift={(#1)}, rotate=#2]
+      \ifnum#3=1
+        \draw[rounded corners=2pt, draw=black!45, fill=black!4, line width=1pt] (-0.42,-0.28) rectangle (0.42,0.28);
+        \fill[black!35] (-0.14,-0.40) rectangle (0.14,-0.28);
+        \fill[black!35] (-0.14,0.40) rectangle (0.14,0.28);
+        \fill[dblue!45] (0.42,0) -- (0.68,0.12) -- (0.68,-0.12) -- cycle;
+      \else
+        \draw[dbody, rounded corners=2pt] (-0.42,-0.28) rectangle (0.42,0.28);
+        \fill[black!70] (-0.14,-0.40) rectangle (0.14,-0.28);
+        \fill[black!70] (-0.14,0.40) rectangle (0.14,0.28);
+        \fill[dblue] (0.42,0) -- (0.68,0.12) -- (0.68,-0.12) -- cycle;
+      \fi
+      \fill[black!60] (0,0) circle (0.04);
+    \end{scope}}
+
+  % eixos globais
+  \draw[daxis, line width=0.9pt] (-0.7,0) -- (4.3,0) node[right, font=\scriptsize] {$X_I$};
+  \draw[daxis, line width=0.9pt] (0,-0.7) -- (0,4.3) node[above, font=\scriptsize] {$Y_I$};
+
+  % ICR na origem
+  \draw[black!70, line width=0.9pt] (-0.14,-0.14) -- (0.14,0.14) (-0.14,0.14) -- (0.14,-0.14);
+  \node[dsub, font=\scriptsize, anchor=north east] at (-0.02,-0.02) {ICR};
+
+  % raios + arco varrido
+  \draw[dguide] (0,0) -- (3,0);
+  \draw[dguide] (0,0) -- (0,3);
+  \node[dsub, font=\scriptsize, anchor=north] at (1.7,-0.08) {$R=v/\omega=3$};
+  \draw[->, dgreen, line width=0.9pt] (0.8,0) arc (0:90:0.8);
+  \node[dgreen, font=\scriptsize, anchor=south west] at (0.68,0.62) {$\omega\,\Delta t=\pi/2$};
+
+  % caminho: 1/4 de circunferência, anti-horário, de (3,0) a (0,3)
+  \draw[->, dcurve, densely dashed, line width=1.2pt] (3,0) arc (0:90:3);
+
+  % ---- robô inicial: (3,0), nariz para +Y  (theta = 90) ----
+  \robo{3,0}{90}{1}
+  \draw[->, dorange, line width=1.2pt] (3,0) -- (3,1.15);
+  \node[dorange, font=\scriptsize, anchor=west] at (3.12,0.85) {$v=3$};
+  \node[dsub, font=\scriptsize, align=center, anchor=north] at (3.0,-0.62)
+     {\textbf{início} ($t=0$)\\ $\xi_I=(3,\ 0,\ 90^\circ)$};
+
+  % ---- robô final: (0,3), nariz para -X  (theta = 180) ----
+  \robo{0,3}{180}{0}
+  \node[dsub, font=\scriptsize, align=left, anchor=west] at (0.35,3.6)
+     {\textbf{fim} ($t=\pi/2$)\\ $\xi_I=(0,\ 3,\ 180^\circ)$};
+
+  % caixa resumo
+  \node[dbox, dacc, font=\scriptsize, align=center] at (2.0,-1.95)
+     {$\dot\varphi_1=4,\ \dot\varphi_2=2$ constantes $\Rightarrow$ $v=3$, $\omega=1$\\
+      caminho: arco de raio $R=3$ (anti-horário) — $\tfrac14$ de volta em $\Delta t=\pi/2$};
+
+\end{tikzpicture}
+\end{document}

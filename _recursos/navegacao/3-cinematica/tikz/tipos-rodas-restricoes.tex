@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   rt/.style={dbox, text width=3.0cm, minimum height=1.6cm, font=\scriptsize, align=center}]
+
+  \node[rt, dacc]        (a) at (0,0)    {\textbf{Padrão fixa}\\[2pt]{\color{dgreen}impõe restrição}\\\scriptsize rolamento + deslizamento};
+  \node[rt, dacc]        (b) at (3.4,0)  {\textbf{Padrão orientável}\\[2pt]{\color{dgreen}impõe restrição}\\\scriptsize $\beta = \beta(t)$};
+  \node[rt, draw=dgreen] (c) at (6.8,0)  {\textbf{Castor}\\[2pt]{\color{dred}não impõe}};
+  \node[rt, draw=dgreen] (d) at (10.2,0) {\textbf{Sueca}\\[2pt]{\color{dred}não impõe}};
+  \node[rt, draw=dgreen] (e) at (13.6,0) {\textbf{Esférica}\\[2pt]{\color{dred}não impõe}};
+
+\end{tikzpicture}
+\end{document}

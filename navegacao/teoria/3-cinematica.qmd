@@ -1,0 +1,359 @@
+---
+title: "Navegação"
+subtitle: "Cinemática de Robôs Móveis"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/3-cinematica
+header-includes: |
+  <style>
+  /* título de seção (#) menor quando marcado com .h1-menor */
+  .reveal .slides section.title-slide.slide.level1.h1-menor > h1 { font-size: 30pt !important; }
+  /* divisória vertical entre colunas: classe .col-div na 2ª coluna */
+  .reveal .slides .columns > .column.col-div {
+    border-left: 1px solid rgba(0,0,0,0.18);
+    padding-left: 1.1rem;
+  }
+  </style>
+---
+
+# Cinemática de Robôs Móveis
+
+::: {.esquerda}
+Capítulo 3 do livro [**Introduction to Autonomous Mobile Robots**](https://mitpress.mit.edu/9780262015356/introduction-to-autonomous-mobile-robots/) (2ª ed.), de **Roland Siegwart**, **Illah R. Nourbakhsh** e **Davide Scaramuzza** (MIT Press, 2011).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Cinemática** — como o robô se move em função da geometria e das rodas
+- **Referenciais** e a **pose** do robô no plano
+- **Modelo cinemático direto** (diferencial)
+- **Restrições** de cada tipo de roda (rolamento e deslizamento)
+- **Manobrabilidade** — mobilidade, esterçabilidade, ICR e os **5 tipos de chassi**
+- **Holonomia** e espaço de trabalho
+- **Controle de movimento** — malha aberta × realimentado
+
+## Cinemática × dinâmica {.smaller}
+
+- **Cinemática** — o estudo mais básico do comportamento mecânico
+  - projetar o robô certo para a tarefa
+  - escrever o software de **controle** para um hardware específico
+- **Dinâmica** — acrescenta **massa** e **força** (importante em robôs rápidos)
+  - ex.: centro de gravidade alto limita o raio de curva de um robô tipo carro
+
+![](images/cinematica-vs-dinamica.svg){fig-align="center" width="82%"}
+
+## Robô móvel × manipulador {.smaller}
+
+- **Manipulador** — uma ponta **fixa** ao ambiente; a pose do efetuador é **sempre calculável** pelos sensores das juntas
+- **Robô móvel** — autômato **autocontido**; **não há** como medir a posição diretamente
+  - é preciso **integrar o movimento** no tempo
+  - o **escorregamento** acumula erro → medir a posição com precisão é **muito difícil**
+
+![](images/manipulador-vs-movel.svg){fig-align="center" width="100%"}
+
+# Modelos e Restrições Cinemáticas
+
+Derivar o modelo do robô inteiro é um processo **de baixo para cima**: cada roda **contribui** para o movimento e, ao mesmo tempo, **impõe restrições**. Tudo deve ser expresso num referencial claro e consistente.
+
+## Representando a posição do robô {.smaller}
+
+- Modelamos o robô como um **corpo rígido sobre rodas** num plano horizontal
+- **Referencial global** (inercial) $\{X_I, Y_I\}$ com origem $O$
+- **Referencial local** $\{X_R, Y_R\}$ preso a um ponto $P$ do chassi
+- Pose = **3 elementos**: posição $(x, y)$ + orientação $\theta$
+
+![](images/frames.svg){fig-align="center" width="60%"}
+
+## Do referencial global ao local {.smaller}
+
+- Para descrever o movimento em **componentes**, mapeamos o global no local
+- O mapeamento depende da **pose atual** — usa a **matriz de rotação ortogonal** $R(\theta)$
+
+![](images/rotacao.svg){fig-align="center" width="86%"}
+
+## Modelo cinemático direto {.smaller}
+
+- **Pergunta:** como o robô se move, dada sua **geometria** e a **velocidade das rodas**?
+- Robô **diferencial**: duas rodas de raio $r$; ponto $P$ a distância $l$ de cada roda; velocidades de giro $\dot\varphi_1, \dot\varphi_2$
+
+![](images/diff-drive-forward.svg){fig-align="center" width="66%"}
+
+## Contribuição de cada roda {.smaller}
+
+- Primeiro no **referencial local**, depois $\dot\xi_I = R(\theta)^{-1}\dot\xi_R$
+
+![](images/contribuicoes-rodas.svg){fig-align="center" width="100%"}
+
+## Exemplo numérico {.smaller}
+
+- **Dados**: $\theta = \pi/2$ , $r = 1$ , $l = 1$ , $\dot\varphi_1 = 4$ , $\dot\varphi_2 = 2$
+- **No robô** (soma das contribuições das rodas): $v = \dfrac{r\dot\varphi_1 + r\dot\varphi_2}{2} = 3$ , $\;\omega = \dfrac{r\dot\varphi_1 - r\dot\varphi_2}{2l} = 1$ $\;\Rightarrow\; \dot\xi_R = (3,\ 0,\ 1)$
+- **No mundo** — como $\theta = \pi/2$, $R(\theta)^{-1}$ só troca os eixos:
+
+$$
+\dot\xi_I = R\!\left(\tfrac{\pi}{2}\right)^{-1}\dot\xi_R =
+\begin{bmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+\begin{bmatrix} 3 \\ 0 \\ 1 \end{bmatrix}
+=
+\begin{bmatrix} 0 \\ 3 \\ 1 \end{bmatrix}
+$$
+
+## Exemplo numérico {.smaller}
+
+- $v$ e $\omega$ **constantes** $\Rightarrow$ o robô percorre um **arco de círculo** de raio $R = v/\omega = 3$, em torno do **ICR** 
+- **Pose inicial** ($t = 0$): $\;\xi_I = (3,\ 0,\ 90^\circ)$
+- **Pose final** ($t = \pi/2\,\text{s}$ — um quarto de volta): $\;\xi_I = (0,\ 3,\ 180^\circ)$
+
+![](images/exemplo-trajetoria.svg){fig-align="center" width="52%"}
+
+# Restrições das Rodas
+
+Para determinar o **espaço de movimentos possíveis** de um chassi, não basta somar contribuições: é preciso descrever formalmente as **restrições** que cada roda impõe.
+
+## Duas restrições por roda {.smaller}
+
+- **Hipóteses**: plano da roda sempre **vertical**; **um** ponto de contato; **rolamento puro** (sem escorregar)
+
+![](images/restricoes-conceito.svg){fig-align="center" width="86%"}
+
+## Roda padrão fixa {.smaller}
+
+- Sem eixo vertical de esterçamento — ângulo ao chassi **fixo**
+- Parâmetros: posição $(\alpha, l)$ do centro $A$; orientação $\beta$ do plano da roda; raio $r$; giro $\varphi(t)$
+
+![](images/roda-fixa.svg){fig-align="center" width="92%"}
+
+## Roda padrão orientável {.smaller}
+
+- Um **grau de liberdade a mais**: gira em torno de um eixo vertical que passa pelo **centro** e pelo **contato**
+- $\beta$ deixa de ser fixo → $\beta(t)$
+
+![](images/roda-orientavel.svg){fig-align="center" width="92%"}
+
+::: {.esquerda}
+As restrições **instantâneas** são iguais às da roda fixa — $\dot\beta$ (esterço) só afeta a mobilidade **ao integrar** no tempo, diferente de $\dot\varphi$ (giro).
+:::
+
+## Roda castor {.smaller}
+
+- Esterça em torno de um eixo vertical que **não** passa pelo contato — deslocamento **$d$** (barra rígida $AB$)
+- Esterçar **move o chassi** → a força lateral ocorre em $A$
+
+![](images/roda-castor.svg){fig-align="center" width="92%"}
+
+::: {.esquerda}
+Para **qualquer** movimento do chassi existe um $\dot\varphi$ e um $\dot\beta$ que satisfazem as restrições → a roda castor **não impõe restrição** cinemática. Ex.: a cadeira de escritório de 5 rodinhas é omnidirecional.
+:::
+
+## Roda sueca (Mecanum) {.smaller}
+
+- Roda fixa + **roletes** na periferia, com eixo a um ângulo $\gamma$ do eixo principal
+- O rolamento vale na direção de **velocidade nula do rolete**; ortogonal a ela, o movimento é **livre**
+
+![](images/roda-sueca.svg){fig-align="center" width="92%"}
+
+::: {.esquerda}
+Com $\gamma = 0$ (roda sueca de 90°) o movimento fica **desacoplado** (roletes e roda principal em direções ortogonais) → omnidirecional, **não impõe restrição**.
+:::
+
+## Roda esférica {.smaller}
+
+- Bola: **sem eixo principal** de rotação
+
+![](images/roda-esferica.svg){fig-align="center" width="88%"}
+
+::: {.esquerda}
+Não existem restrições de rolamento nem de deslizamento aplicáveis — como castor e sueca, é claramente omnidirecional.
+:::
+
+## Quais rodas restringem o chassi {.smaller}
+
+Só as **rodas padrão** (fixas e orientáveis) impõem restrições de deslizamento. As demais tem graus de liberdade internos que absovem qualquer movimento do chassi, portanto **não restringem** o movimento.
+
+![](images/tipos-rodas-restricoes.svg){fig-align="center" width="100%"}
+
+![](images/rodas-tipos-icones.svg){fig-align="center" width="90%"}
+
+# Manobrabilidade {.h1-menor}
+
+A **mobilidade cinemática** de um chassi é sua capacidade de se mover **diretamente** no ambiente. A restrição básica é que **toda roda** satisfaça sua restrição de **deslizamento**.
+
+## Centro Instantâneo de Rotação (ICR) {.smaller}
+
+- Uma roda padrão tem movimento lateral **nulo** → traça-se uma **reta de movimento nulo** pelo seu eixo, **perpendicular** ao plano da roda
+  - A cada instante a roda se move sobre um **círculo** cujo centro (o **ICR**) está nessa reta
+- Várias rodas ⇒ todas as retas de movimento nulo devem **se encontrar** num único ICR
+
+![](images/icr.svg){fig-align="center" width="88%"}
+
+## Manobrabilidade: mobilidade + esterçabilidade {.smaller}
+
+- **Mobilidade $\delta_m$** — graus que o robô muda **na hora**, só variando a **velocidade das rodas** (sem esterçar)
+- **Esterçabilidade $\delta_s$** — graus **a mais** que ele alcança **reorientando as rodas orientáveis** e então se movendo (**indireto**, leva tempo)
+- **Manobrabilidade $\delta_M = \delta_m + \delta_s$** — total de graus que o robô consegue manipular
+
+![](images/cinco-tipos.svg){fig-align="center" width="100%"}
+
+## $\delta_M$ igual, comportamento diferente {.smaller}
+
+- **Diferencial** e **triciclo**: ambos $\delta_M = 2$
+  - diferencial — vem da **mobilidade direta** ($\delta_m = 2$, $\delta_s = 0$)
+  - triciclo — vem também do **esterço** ($\delta_m = 1$, $\delta_s = 1$)
+  - em ambos o ICR fica numa **reta predefinida** relativa ao robô
+
+:::: columns
+::: {.column width="52%"}
+- **Synchro drive** (2 motores, 3 rodas travadas juntas)
+  - $\delta_m = 1$, esterço por correia dá $\delta_s = 1$ → $\delta_M = 2$
+  - o chassi **nunca muda de orientação**
+:::
+::: {.column width="48%"}
+![](images/synchro-drive.svg){fig-align="center" width="100%"}
+:::
+::::
+
+## Caminho × trajetória {.smaller}
+
+- **caminho** = a sequência de poses $(x,y,\theta)$ **sem o tempo**
+- **trajetória** = o caminho **com o tempo**
+- o **omnidirecional** cada transição só muda as velocidades das rodas
+- o **two-steer** precisa **parar e esterçar** as rodas antes de girar o chassi
+
+![](images/path-vs-trajectory.svg){fig-align="center" width="94%"}
+
+::: {.esquerda}
+Um robô com $\delta_M = 3$ segue **qualquer caminho**; mas só o **omnidirecional** ($\delta_m = 3$) segue qualquer **trajetória** — o *two-steer* precisa esperar as rodas esterçarem.
+:::
+
+## Prós e contras do omnidirecional {.smaller}
+
+- Precisa de rodas **sem restrição** (sueca, castor, esférica)
+  - menos folga ao solo, sem suspensão robusta; projeto e fabricação **complexos e caros**
+- Restrições não-holonômicas **melhoram a estabilidade** em alta velocidade
+  - numa curva, a força centrípeta lateral num robô tipo carro é **contrabalançada passivamente** pelas restrições de deslizamento
+  - num omnidirecional, essa força depende do **torque dos motores** — falha de controle → sai da curva
+
+# Controle de Movimento (Cinemático)
+
+O controle de movimento **não é trivial** para sistemas não-holonômicos, mas há soluções adequadas na literatura.
+
+## Controle em malha aberta {.smaller}
+
+- Dividir a trajetória em **segmentos** de forma definida (retas e arcos de círculo) e pré-calcular um percurso suave do início ao objetivo
+
+![](images/controle-malha-aberta.svg){fig-align="center" width="76%"}
+
+::: {.esquerda}
+Desvantagens: difícil pré-calcular uma trajetória viável com todas as restrições de velocidade e aceleração; o robô **não se adapta** a mudanças; **descontinuidade de aceleração** nas junções dos segmentos.
+:::
+
+## Controle realimentado {.smaller}
+
+- A cada instante o robô **mede onde o objetivo está em relação a si** e recalcula $v$ e $\omega$ → corrige erros de odometria e perturbações (malha fechada)
+
+- Pondo o objetivo na origem, o **erro de pose** vira três números:
+  - $\rho$ — **distância** até o objetivo
+  - $\alpha$ — ângulo do objetivo **visto da frente do robô** ($X_R$)
+  - $\beta$ — quanto ainda falta girar para a **orientação final** desejada
+
+![](images/controle-realimentado.svg){fig-align="center" width="66%"}
+
+## Lei de controle {.smaller}
+- **Lei de controle** — linear nesses três erros:
+  - $v = k_\rho\,\rho$ — mais rápido quanto mais longe; zera em $\rho = 0$
+  - $\omega = k_\alpha\,\alpha + k_\beta\,\beta$ — gira para **apontar ao objetivo** ($\alpha$) e alcançar a **orientação final** ($\beta$)
+- em malha fechada há **equilíbrio único** em $(\rho,\alpha,\beta) = (0,0,0)$ → o robô converge ao objetivo
+- com $k_\rho > 0$, $k_\beta < 0$, $k_\alpha - k_\rho > 0$ o sistema é **estável**
+  - $v$ mantém o **sinal** → estaciona **sem dar ré**
+
+## Além da cinemática básica {.smaller}
+
+- **Dinâmica** — velocidade e força importam em robôs rápidos; chassis tipo tanque e *slip/skid* **violam** os modelos cinemáticos
+- **Motorização** — atuar de fato os graus de liberdade disponíveis
+- **Controlabilidade** — sob que condições o robô vai da pose inicial à final em **tempo limitado**
+- Preço de violar as restrições de deslizamento: **odometria** menos precisa e eficiência de energia menor
+
+# Estudo de caso: malha aberta no TurtleBot3 Burger
+
+Um controlador em **malha aberta** transforma a **manobrabilidade** do robô numa **sequência cronometrada** de comandos $(v, \omega)$ — nenhum sensor fecha o laço.
+
+## O que a manobrabilidade do Burger permite {.smaller}
+
+- **Diferencial**: $\delta_M = 2$ ($\delta_m = 2$, $\delta_s = 0$) — não há esterço; o **ICR fica sempre sobre o eixo das duas rodas**
+
+:::: columns
+::: {.column width="62%"}
+- Daí só existem **três primitivas** de movimento:
+  - **reta** — $v = 0$, $\omega = 0$, ICR no infinito
+  - **arco** — $v \neq 0$, $\omega \neq 0$, ICR no eixo
+  - **spin** — $v = 0$, $\omega \neq 0$, ICR no centro do eixo
+:::
+::: {.column width="36%" .col-div}
+- Parâmetros do Burger: 
+  - $r \approx 33$ mm
+  - $\phi = 2L \approx 160$ mm
+  - $v_{\max} \approx 0{,}22$ m/s
+  - $\omega_{\max} \approx 2{,}84$ rad/s
+:::
+:::
+
+![](images/tb3-primitivas.svg){fig-align="center" width="90%"}
+
+## Receita do controle em malha aberta {.smaller}
+
+:::: columns
+::: {.column width="52%"}
+**Cinemática do diferencial**
+
+- direto: 
+  - $\;v = \dfrac{r(\dot\varphi_R + \dot\varphi_L)}{2}$
+  - $\quad \omega = \dfrac{r(\dot\varphi_R - \dot\varphi_L)}{2L}$
+- inverso: 
+  - $\;\dot\varphi_R = \dfrac{v + \omega L}{r}$
+  - $\quad \dot\varphi_L = \dfrac{v - \omega L}{r}$
+:::
+::: {.column width="48%"}
+**Passos**
+
+- Para cada passo, determinar o giro $\Delta\theta_i$ e a distância $d_i$
+  - **girar no lugar**: enviar $(0,\ \pm\omega_g)$ por $t = |\Delta\theta_i|/\omega_g$
+  - **andar reto**: enviar $(v_a,\ 0)$ por $t = d_i/v_a$
+:::
+::::
+
+- opcional: **rampas trapezoidais** de $v,\omega$ nas junções, para não ter descontinuidade de aceleração
+
+## Exemplo: percurso em L {.smaller}
+
+Ir de $(0,0,0^\circ)$ a $(1{,}0;\ 0{,}5;\ 90^\circ)$ com $v_a = 0{,}15$ m/s e $\omega_g = 1{,}0$ rad/s:
+
+| trecho | comando $(v,\omega)$ | tempo | rodas $\dot\varphi_R,\dot\varphi_L$ |
+|---|---|---|---|
+| reta $1{,}0$ m | $(0{,}15,\ 0)$ | $d_1/v_a \approx 6{,}7$ s | $+4{,}5,\ +4{,}5$ rad/s |
+| giro $+90^\circ$ | $(0,\ +1{,}0)$ | $(\pi/2)/\omega_g \approx 1{,}57$ s | $+2{,}4,\ -2{,}4$ rad/s |
+| reta $0{,}5$ m | $(0{,}15,\ 0)$ | $d_2/v_a \approx 3{,}3$ s | $+4{,}5,\ +4{,}5$ rad/s |
+
+![](images/tb3-malha-aberta.svg){fig-align="center" width="80%"}
+
+# Síntese {.smaller}
+
+- **Pose** $\xi_I = [x, y, \theta]^T$; $R(\theta)$ mapeia entre referencial global e local
+- **Modelo direto** — soma das contribuições de cada roda (ex.: diferencial)
+- Cada roda impõe **rolamento** + **deslizamento**; só **rodas padrão** (fixas e orientáveis) restringem o chassi
+- **Manobrabilidade** $\delta_M = \delta_m + \delta_s$; o **ICR** resume a geometria do movimento
+- **5 tipos de chassi**: omnidirecional (3,3,0), diferencial (2,2,0), omni-steer (3,2,1), triciclo (2,1,1), two-steer (3,1,2)
+- **Holonômico**: o omnidirecional é holonômico mas exige rodas especiais e é menos estável em velocidade
+- **Controle**: malha aberta (segmentos pré-calculados) × realimentado (lei $v = k_\rho\rho$, $\omega = k_\alpha\alpha + k_\beta\beta$)
+
+
+<!--
+# Exercícios {.smaller}
+
+1. **Modelo direto.** Um robô diferencial tem $\theta = 0$, $r = 2$, $l = 1$, $\dot\varphi_1 = 4$, $\dot\varphi_2 = 2$. Calcule $\dot\xi_I$ e interprete o movimento.
+2. **Omnidirecional.** Para o chassi de 3 rodas suecas de 90° com $l = r = 1$, $\theta = 0$ e $\dot\varphi = (4, 1, 2)$, verifique $\dot\xi_I = [\,2/\sqrt{3},\ -4/3,\ -7/3\,]^T$.
+3. **Classificação.** Para o robô **diferencial**, o **carro (Ackerman)** e uma **plataforma Mecanum**, dê $(\delta_M, \delta_m, \delta_s)$, diga se é **holonômico** e onde fica o **ICR**.
+4. **Diferencial × triciclo.** Ambos têm $\delta_M = 2$. Explique por que o **comportamento** é diferente e o que muda no **ICR**.
+5. **Controle realimentado.** Com $k = (k_\rho, k_\alpha, k_\beta) = (3,\ 8,\ -1{,}5)$, verifique as condições $k_\rho > 0$, $k_\beta < 0$, $k_\alpha - k_\rho > 0$ e esboce o caminho a partir de uma pose inicial fora da origem.
+-->

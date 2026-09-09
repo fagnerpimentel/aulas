@@ -1,0 +1,45 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+
+\newcommand{\minibot}[3]{% x, y, angulo
+  \begin{scope}[shift={(#1,#2)}, rotate=#3]
+    \draw[dbody, rounded corners=1pt] (-0.20,-0.15) rectangle (0.17,0.15);
+    \fill[black!70] (-0.06,-0.21) rectangle (0.08,-0.13);
+    \fill[black!70] (-0.06, 0.13) rectangle (0.08, 0.21);
+    \fill[dblue] (0.17,-0.08) -- (0.31,0) -- (0.17,0.08) -- cycle;
+  \end{scope}}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ============ trajetorias convergindo ao objetivo ============
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide] (0,0) circle (2.2);
+    \foreach \a in {18,90,162,234,306}{
+      \draw[dcurve, line width=1pt]
+        (\a:2.2) .. controls ({\a-55}:1.5) and ({\a-110}:0.7) .. (0,0);
+      \fill[black!55] (\a:2.2) circle (0.05);
+    }
+    \fill[dorange] (0,0) circle (0.10);
+    \node[dorange, font=\scriptsize, anchor=west] at (0.16,0) {objetivo};
+    \minibot{2.09}{0.68}{125}
+    \node[dsub, font=\scriptsize, anchor=north] at (0,-2.6) {mesmas leis, v\'arias poses iniciais $\Rightarrow$ todas convergem};
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (3.4,-2.8) -- (3.4,2.6);
+
+  % ============ decaimento de rho(t) ============
+  \begin{scope}[shift={(4.4,-0.6)}]
+    \draw[daxis] (0,0) -- (3.6,0) node[right, font=\scriptsize] {$t$};
+    \draw[daxis] (0,0) -- (0,2.6) node[above, font=\scriptsize] {$\rho$};
+    \draw[dcurve, line width=1.2pt]
+      (0,2.3) .. controls (0.9,0.9) and (1.8,0.35) .. (3.4,0.12);
+    \draw[dguide] (0,0.25) -- (3.4,0.25);
+    \node[dsub, font=\scriptsize, anchor=west] at (1.35,1.35) {$\rho(t) \to 0$};
+    \node[dsub, font=\tiny, anchor=south west] at (0.15,0.28) {toler\^ancia $\varepsilon_\rho$};
+    \node[dsub, font=\scriptsize, anchor=north, text width=4.2cm, align=center] at (1.8,-0.5)
+       {para quando $\rho < \varepsilon_\rho$ e $|\theta_{\mathrm{err}}| < \varepsilon_\theta$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

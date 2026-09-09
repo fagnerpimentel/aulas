@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   c/.style={dbox, text width=5.0cm, minimum height=1.7cm, font=\scriptsize, align=left, inner sep=6pt}]
+
+  \node[c, dacc] (a) at (0,0)
+     {\textbf{Translação} ($\dot x_R$)\\[2pt]
+      cada roda contribui $\tfrac{1}{2}r\dot\varphi$\\[2pt]
+      $\dot x_R = \dfrac{r\dot\varphi_1}{2} + \dfrac{r\dot\varphi_2}{2}$};
+
+  \node[c] (b) at (5.6,0)
+     {\textbf{Lateral} ($\dot y_R$)\\[2pt]
+      nenhuma roda empurra de lado\\[2pt]
+      $\dot y_R = 0$ \; (sempre)};
+
+  \node[c, draw=dgreen] (d) at (11.2,0)
+     {\textbf{Rotação} ($\dot\theta_R$)\\[2pt]
+      $\omega_1 = \dfrac{r\dot\varphi_1}{2l}$ , \; $\omega_2 = \dfrac{-r\dot\varphi_2}{2l}$\\[2pt]
+      giros opostos e iguais $\Rightarrow$ \emph{giro puro}};
+
+  \node[dbox, font=\footnotesize, align=center, text width=13cm] at (5.6,-2.2)
+     {$\dot\xi_I = R(\theta)^{-1}
+       \begin{bmatrix}
+         \dfrac{r\dot\varphi_1}{2} + \dfrac{r\dot\varphi_2}{2} \\[6pt]
+         0 \\[4pt]
+         \dfrac{r\dot\varphi_1}{2l} - \dfrac{r\dot\varphi_2}{2l}
+       \end{bmatrix}$};
+
+\end{tikzpicture}
+\end{document}

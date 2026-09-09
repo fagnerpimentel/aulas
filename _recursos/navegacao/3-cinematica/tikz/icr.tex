@@ -1,0 +1,51 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ============ (a) diferencial ============
+  \begin{scope}[shift={(0,0)}]
+    \node[dsub, anchor=south, font=\scriptsize] at (2.2,3.05) {\textbf{Diferencial} --- eixo comum};
+    \draw[dbody, rounded corners=2pt] (1.5,0.7) rectangle (2.9,2.1);
+    \fill[black!70] (1.35,1.0) rectangle (1.6,1.8);
+    \fill[black!70] (2.8,1.0) rectangle (3.05,1.8);
+    % reta de movimento nulo (compartilhada, perpendicular a ambas as rodas)
+    \draw[dguide, line width=0.9pt] (-1.4,1.4) -- (5.6,1.4);
+    \fill[dorange] (0.2,1.4) circle (0.07);
+    \fill[dorange] (4.1,1.4) circle (0.07);
+    \node[dorange, font=\scriptsize] at (0.2,1.05) {ICR?};
+    \node[dorange, font=\scriptsize] at (4.1,1.05) {ICR?};
+    \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (2.2,-0.2)
+       {as duas retas de movimento nulo \textbf{coincidem} $\Rightarrow$ ICR sobre uma \textbf{reta} (1 restrição)};
+  \end{scope}
+
+  \draw[black!15, line width=0.6pt] (6.6,-0.6) -- (6.6,3.3);
+
+  % ============ (b) tipo carro (Ackerman) ============
+  \begin{scope}[shift={(7.4,0)}]
+    \node[dsub, anchor=south, font=\scriptsize] at (2.35,3.05) {\textbf{Tipo carro} (Ackerman)};
+    \draw[dbody, rounded corners=2pt] (1.55,0.95) rectangle (3.15,2.75);
+    \coordinate (icr) at (0.30,1.35);
+
+    % rodas traseiras: plano vertical, eixo em y=1.35
+    \foreach \rx in {1.60, 3.10}{ \fill[black!70] ({\rx-0.09},1.10) rectangle ({\rx+0.09},1.60); }
+    % reta traseira (horizontal, pelo eixo)
+    \draw[dguide, line width=0.9pt] (icr) -- (3.55,1.35);
+
+    % rodas dianteiras: cada uma perpendicular a sua reta ate o ICR (Ackerman)
+    \coordinate (fl) at (1.60,2.45);
+    \coordinate (fr) at (3.10,2.45);
+    \begin{scope}[shift={(fl)}, rotate=40.2] \fill[black!70] (-0.10,-0.27) rectangle (0.10,0.27); \end{scope}
+    \begin{scope}[shift={(fr)}, rotate=21.4] \fill[black!70] (-0.10,-0.27) rectangle (0.10,0.27); \end{scope}
+    \draw[dguide, line width=0.9pt] ($(fl)!-0.18!(icr)$) -- (icr);
+    \draw[dguide, line width=0.9pt] ($(fr)!-0.10!(icr)$) -- (icr);
+
+    \fill[dorange] (icr) circle (0.09);
+    \node[dorange, font=\scriptsize, anchor=north] at ($(icr)+(0,-0.06)$) {ICR};
+
+    \node[dsub, font=\scriptsize, align=center, text width=5.7cm] at (2.35,-0.2)
+       {cada reta \'e \textbf{perpendicular} \`a sua roda; sendo \textbf{independentes}, cruzam-se num \textbf{ponto} \'unico};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

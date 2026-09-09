@@ -1,0 +1,63 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ================= Cinemática =================
+  \node[dsub, font=\itshape] at (2.5,3.55) {Cinemática};
+
+  % chassi (vista de cima) + rodas
+  \draw[dbody, rounded corners=2pt] (1.8,1.05) rectangle (3.6,2.45);
+  \fill[black!55] (1.63,1.25) rectangle (1.82,1.85);
+  \fill[black!55] (3.58,1.25) rectangle (3.77,1.85);
+  \fill[black!45] (2.7,2.45) circle (0.055);
+  \node[dsub, font=\scriptsize, anchor=north east] at (2.63,2.42) {$P$};
+
+  % velocidades das rodas (setas de giro) -- mesma altura
+  \draw[->, dblue, line width=0.9pt] (1.47,1.72) arc (200:-20:0.17);
+  \draw[->, dblue, line width=0.9pt] (3.93,1.72) arc (-20:200:0.17);
+  \node[dsub, font=\scriptsize] at (1.05,1.58) {$\dot\varphi_1$};
+  \node[dsub, font=\scriptsize] at (4.35,1.58) {$\dot\varphi_2$};
+
+  % geometria
+  \draw[dguide] (1.72,0.80) -- (3.68,0.80);
+  \node[dsub, font=\scriptsize] at (2.7,0.55) {geometria: $2l$, raio $r$};
+
+  % saída: movimento
+  \draw[dtrans, line width=1.7pt] (2.7,2.64) -- (2.7,3.22);
+  \node[dsub, font=\scriptsize, anchor=west] at (2.88,3.08) {$\dot\xi$};
+
+  \node[dsub, font=\scriptsize, align=center, text width=4.8cm] at (2.5,-0.85)
+     {\textbf{geometria} $+$ \textbf{velocidades das rodas} $\rightarrow$ movimento\\[1pt] (ignora massa e força)};
+
+  % divisória
+  \draw[black!15, line width=0.6pt] (6.0,-1.6) -- (6.0,3.85);
+
+  % ================= Dinâmica =================
+  \node[dsub, font=\itshape] at (9.7,3.55) {Dinâmica};
+
+  % chão
+  \draw[black!45, line width=1pt] (6.9,0.35) -- (12.7,0.35);
+
+  % robô tipo carro prestes a tombar (girado em torno da roda externa)
+  \begin{scope}[rotate around={13:(10.9,0.35)}]
+    \draw[dbody, rounded corners=2pt] (9.5,0.65) rectangle (11.2,1.85);
+    \draw[black!80, line width=1pt, fill=black!12] (9.75,0.65) circle (0.25);
+    \draw[black!80, line width=1pt, fill=black!12] (10.9,0.65) circle (0.25);
+    \draw[dguide] (10.35,1.85) -- (10.35,2.18);
+    \node[dblue, font=\Large] (cg) at (10.35,2.38) {$\otimes$};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, anchor=east] at ($(cg)+(-0.32,0.26)$) {CG alto};
+  \draw[dmeas, line width=1.4pt] (cg) -- ++(1.6,0);
+  \node[dsub, font=\scriptsize, anchor=west] at ($(cg)+(1.7,0)$) {força lateral};
+
+  % tombamento
+  \draw[->, dred, line width=1.1pt] (11.6,0.90) arc (35:98:0.85);
+  \node[dsub, font=\scriptsize] at (12.4,1.42) {tomba};
+
+  \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (9.7,-0.85)
+     {\textbf{$+$ massa} \quad \textbf{$+$ força}\\[1pt] ex.: centro de gravidade alto limita o raio de curva de um robô rápido (risco de \textbf{tombar})};
+
+\end{tikzpicture}
+\end{document}

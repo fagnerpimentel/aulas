@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------- manipulador ----------
+  \node[dsub, anchor=west, font=\itshape] at (-0.2,3.3) {Manipulador};
+  \fill[black!12] (0,-0.1) rectangle (2.4,0.15); % base fixa
+  \draw[black!45, line width=0.5pt] (0,-0.1) -- (0,-0.5); \draw[black!45] (0.4,-0.1)--(0.4,-0.5);
+  \draw[black!45] (0.8,-0.1)--(0.8,-0.5); \draw[black!45] (1.2,-0.1)--(1.2,-0.5);
+  \draw[dacc, line width=1.4pt] (1.2,0.15) -- (2.5,2.2) -- (4.0,1.4);
+  \fill[dblue] (1.2,0.15) circle (0.10); \fill[dblue] (2.5,2.2) circle (0.10);
+  \node[dop, minimum size=4mm] at (4.0,1.4) {};
+  \node[dsub, font=\scriptsize, align=center, text width=4.6cm] at (2.0,-1.2)
+     {base \textbf{fixa} ao ambiente\\ pose do efetuador \textbf{sempre calculável} pelos sensores das juntas};
+
+  \draw[black!15, line width=0.6pt] (5.4,-1.6) -- (5.4,3.4);
+
+  % ---------- robô móvel ----------
+  \node[dsub, anchor=west, font=\itshape] at (6.2,3.3) {Robô móvel};
+  \draw[dcurve, densely dashed, line width=1pt]
+     (6.6,0.2) .. controls (8.4,1.6) and (9.6,-0.6) .. (11.6,1.2);
+  \draw[dbody, rounded corners=2pt] (10.9,0.75) rectangle (11.9,1.65);
+  \fill[black!55] (11.0,0.75) circle (0.12); \fill[black!55] (11.8,0.75) circle (0.12);
+  \fill[black!55] (11.0,1.65) circle (0.12); \fill[black!55] (11.8,1.65) circle (0.12);
+  \node[dsub, font=\scriptsize] at (7.4,0.9) {escorregamento};
+  \draw[->, dred, line width=0.8pt] (8.2,1.05) -- (8.7,0.75);
+  \node[dsub, font=\scriptsize, align=center, text width=5.2cm] at (9.2,-1.2)
+     {\textbf{sem ponto fixo} $\rightarrow$ é preciso \textbf{integrar o movimento} no tempo; o escorregamento \textbf{acumula erro} de posição};
+
+\end{tikzpicture}
+\end{document}

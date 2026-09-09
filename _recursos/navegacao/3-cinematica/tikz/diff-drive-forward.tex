@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis, line width=0.9pt] (0,0) -- (9.0,0) node[right, font=\small] {$X_I$};
+  \draw[daxis, line width=0.9pt] (0,0) -- (0,5.0) node[above, font=\small] {$Y_I$};
+
+  % trajetória
+  \draw[dcurve, line width=1.2pt] (2.9,3.0) .. controls (5.5,3.6) and (6.8,1.8) .. (8.4,1.0);
+
+  \def\px{2.9} \def\py{3.0} \def\ang{18}
+  \begin{scope}[shift={(\px,\py)}, rotate=\ang]
+    % corpo
+    \draw[dbody, rounded corners=2pt] (-1.0,-1.0) rectangle (0.9,1.0);
+    % rodas de tração
+    \fill[black!70] (-0.15,-1.15) rectangle (0.45,-0.75);
+    \fill[black!70] (-0.15,1.15) rectangle (0.45,0.75);
+    % castor
+    \node[dop, minimum size=4mm] at (-0.75,0) {};
+    \node[dsub, font=\scriptsize, anchor=east] at (-1.15,0.0) {roda castor};
+    % ponto P e distância l
+    \fill[dblue] (0.15,0) circle (0.09);
+    \node[font=\small, anchor=east] at (-0.02,0.0) {$P$};
+    \draw[<->, black!55, line width=0.6pt] (0.15,0) -- (0.15,0.95) node[midway, right, font=\scriptsize] {$l$};
+    \draw[<->, black!55, line width=0.6pt] (0.15,0) -- (0.15,-0.95) node[midway, right, font=\scriptsize] {$l$};
+    % velocidades das rodas
+    \node[dsub, font=\scriptsize] at (0.15,1.55) {$\dot\varphi_1,\ r$};
+    \node[dsub, font=\scriptsize] at (0.15,-1.55) {$\dot\varphi_2,\ r$};
+    % v e omega
+    \draw[->, dorange, line width=1.1pt] (0.15,0) -- (2.0,0) node[above, font=\small] {$v(t)$};
+    \draw[->, dgreen, line width=1.1pt] (0.15,0) ++(95:0.55) arc (95:196:0.55);
+    \node[dgreen, font=\small, anchor=south east] at (-0.26,0.18) {$\omega(t)$};
+  \end{scope}
+  \draw[dguide] (\px,\py) -- ++(2.9,0);
+  \draw[->, black!55, line width=0.7pt] (\px+1.85,\py) arc (0:\ang:1.85);
+  \node[font=\small] at (\px+2.25,\py+0.28) {$\theta$};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,74 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+
+\newcommand{\minibot}[3]{% x, y, angulo
+  \begin{scope}[shift={(#1,#2)}, rotate=#3]
+    \draw[dbody, rounded corners=1pt] (-0.17,-0.12) rectangle (0.15,0.12);
+    \fill[black!70] (-0.05,-0.17) rectangle (0.07,-0.10);
+    \fill[black!70] (-0.05, 0.10) rectangle (0.07, 0.17);
+    \fill[dblue] (0.15,-0.07) -- (0.27,0) -- (0.15,0.07) -- cycle;
+  \end{scope}}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % =================== percurso em L ===================
+  \begin{scope}[shift={(0,0)}]
+    \draw[daxis] (-0.3,0) -- (3.0,0) node[right, font=\scriptsize] {$X_I$};
+    \draw[daxis] (0,-0.3) -- (0,2.7) node[above, font=\scriptsize] {$Y_I$};
+
+    \draw[dtrans, line width=1pt] (0.4,0) -- (1.8,0);
+    \node[dsub, font=\tiny, anchor=north] at (1.05,-0.07) {reta \; $d_1 = 1{,}0$ m};
+
+    \draw[dtrans, line width=1pt] (2.28,-0.16) arc (-35:120:0.30);
+    \node[dsub, font=\tiny, anchor=west] at (2.42,0.30) {giro $+90^\circ$};
+
+    \draw[dtrans, line width=1pt] (2.0,0.20) -- (2.0,1.5);
+    \node[dsub, font=\tiny, anchor=west] at (2.10,1.05) {reta \; $d_2 = 0{,}5$ m};
+
+    \minibot{0.0}{0.0}{0}
+    \minibot{2.0}{0.0}{90}
+    \minibot{2.0}{1.62}{90}
+    \node[dorange, font=\tiny, anchor=south] at (2.0,2.02) {objetivo \;$(1{,}0;\,0{,}5;\,90^\circ)$};
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (3.9,-2.7) -- (3.9,2.6);
+
+  % =================== linha de tempo (v, omega) ===================
+  \begin{scope}[shift={(4.6,0)}]
+    \def\xa{2.05}  \def\xb{2.80}  \def\xc{3.95}   % fronteiras: 6,7 s / 8,3 s / 11,6 s
+    \def\hh{0.78}
+
+    % rótulos de fase
+    \node[dsub, font=\tiny] at ({\xa/2},2.15) {reta};
+    \node[dsub, font=\tiny] at ({(\xa+\xb)/2},2.15) {giro};
+    \node[dsub, font=\tiny] at ({(\xb+\xc)/2},2.15) {reta};
+    \draw[dguide] (\xa,-2.35) -- (\xa,1.95);
+    \draw[dguide] (\xb,-2.35) -- (\xb,1.95);
+
+    % v(t)
+    \draw[daxis] (0,0) -- (4.1,0) node[right, font=\tiny] {$t$};
+    \draw[daxis] (0,-0.15) -- (0,1.15) node[above, font=\tiny] {$v$};
+    \draw[dblue, line width=1pt]
+      (0,\hh) -- (\xa,\hh) -- (\xa,0) -- (\xb,0) -- (\xb,\hh) -- (\xc,\hh);
+    \node[dsub, font=\tiny, anchor=east] at (-0.06,\hh) {$0{,}15$};
+
+    % omega(t)
+    \begin{scope}[shift={(0,-2.0)}]
+      \draw[daxis] (0,0) -- (4.1,0) node[right, font=\tiny] {$t$};
+      \draw[daxis] (0,-0.15) -- (0,1.15) node[above, font=\tiny] {$\omega$};
+      \draw[dgreen, line width=1pt]
+        (0,0) -- (\xa,0) -- (\xa,\hh) -- (\xb,\hh) -- (\xb,0) -- (\xc,0);
+      \node[dsub, font=\tiny, anchor=east] at (-0.06,\hh) {$1{,}0$};
+    \end{scope}
+
+    \node[dsub, font=\tiny, anchor=north east] at (\xa,-2.4) {$6{,}7$ s};
+    \node[dsub, font=\tiny, anchor=north west] at (\xb,-2.4) {$8{,}3$ s};
+    \node[dsub, font=\tiny, anchor=north] at (\xc,-2.4) {$11{,}6$ s};
+
+    \node[dsub, font=\tiny, align=center, text width=5.4cm] at (2.0,-3.05)
+      {cada trecho: envie $(v,\omega)$ constante pelo tempo calculado --- sem sensor no laço};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

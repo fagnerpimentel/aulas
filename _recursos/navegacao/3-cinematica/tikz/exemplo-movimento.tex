@@ -1,0 +1,52 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\robo}[2]{%
+    \begin{scope}[shift={(#1)}, rotate=#2]
+      \draw[dbody, rounded corners=2pt] (-0.5,-0.34) rectangle (0.5,0.34);
+      \fill[black!70] (-0.17,-0.48) rectangle (0.17,-0.34);
+      \fill[black!70] (-0.17,0.48) rectangle (0.17,0.34);
+      \fill[dblue] (0.5,0) -- (0.80,0.15) -- (0.80,-0.15) -- cycle;
+      \fill[black!60] (0,0) circle (0.045);
+    \end{scope}}
+
+  %% ============ A) referencial do robô ============
+  \node[dsub, font=\itshape] at (2.7,3.4) {referencial do robô ($\dot\xi_R$)};
+
+  \def\ax{2.7} \def\ay{1.4}
+  \draw[->, black!50, line width=0.7pt] (\ax,\ay) -- (\ax+1.1,\ay) node[below, font=\scriptsize] {$X_R$};
+  \draw[->, black!50, line width=0.7pt] (\ax,\ay) -- (\ax,\ay+1.1) node[left, font=\scriptsize] {$Y_R$};
+  \robo{\ax,\ay}{0}
+  \draw[->, dorange, line width=1.5pt] (\ax,\ay) -- (\ax+1.75,\ay);
+  \node[dorange, font=\small, anchor=west] at (\ax+1.9,\ay) {$\dot x_R = 3$};
+  \node[dsub, font=\scriptsize, anchor=west] at (\ax+0.2,\ay+1.0) {$\dot y_R = 0$};
+  \draw[->, dgreen, line width=1.1pt] (\ax,\ay) ++(235:0.92) arc (235:120:0.92);
+  \node[dgreen, font=\small, anchor=east] at (\ax-1.05,\ay+0.12) {$\dot\theta = 1$};
+
+  \node[dbox, dacc, font=\footnotesize] at (\ax,-0.35) {$\dot\xi_R = (\,3,\ 0,\ 1\,)$};
+
+  %% divisória
+  \draw[black!15, line width=0.6pt] (6.0,-0.95) -- (6.0,3.7);
+
+  %% ============ B) referencial global ============
+  \node[dsub, font=\itshape] at (9.5,3.4) {referencial global ($\dot\xi_I$)};
+
+  \def\ox{7.0} \def\oy{0.30}
+  \draw[daxis, line width=0.9pt] (\ox,\oy) -- (\ox+4.3,\oy) node[right, font=\scriptsize] {$X_I$};
+  \draw[daxis, line width=0.9pt] (\ox,\oy) -- (\ox,\oy+2.7) node[above, font=\scriptsize] {$Y_I$};
+
+  \def\bx{9.2} \def\by{1.4}
+  \draw[dguide] (\bx,\by) -- (\bx,\oy);
+  \node[dsub, font=\scriptsize, anchor=west] at (\bx+0.12,\oy+0.26) {$\dot x = 0$};
+  \robo{\bx,\by}{90}
+  \draw[->, dorange, line width=1.5pt] (\bx,\by) -- (\bx,\by+1.5);
+  \node[dorange, font=\small, anchor=west] at (\bx+0.16,\by+1.05) {$\dot y = 3$};
+  \draw[->, dgreen, line width=1.1pt] (\bx,\by) ++(-28:0.9) arc (-28:62:0.9);
+  \node[dgreen, font=\small, anchor=west] at (\bx+1.0,\by+0.33) {$\dot\theta = 1$};
+
+  \node[dbox, dacc, font=\footnotesize] at (\bx,-0.35) {$\dot\xi_I = (\,0,\ 3,\ 1\,)$};
+
+\end{tikzpicture}
+\end{document}

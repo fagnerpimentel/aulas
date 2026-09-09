@@ -1,0 +1,51 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\R{1.5}
+  \def\del{20}          % ângulo de esterço comum (barra local y girada -\del)
+
+  % ---- corpo do chassi ----
+  \draw[dbody, line width=1pt] (0,0) circle (\R);
+  \fill[black!45] (0,0) circle (0.05);
+
+  % marcador de orientação do chassi (FIXO) no topo, entre as rodas
+  \fill[black!70] (0,\R) -- (-0.15,\R+0.32) -- (0.15,\R+0.32) -- cycle;
+  \node[dsub, font=\scriptsize, anchor=east] at (-0.22,\R+0.24) {frente (fixa)};
+
+  % ---- 3 rodas a 120° (em 30, 150, 270), todas com o MESMO esterço ----
+  \foreach \a in {30,150,270}{
+    \coordinate (p\a) at (\a:\R);
+    \fill[dgreen] (p\a) circle (0.055);
+    \begin{scope}[shift={(\a:\R)}, rotate=-\del]
+      \fill[black!75] (-0.10,-0.30) rectangle (0.10,0.30);
+      \draw[->, dgreen, line width=0.8pt] (-0.28,-0.14) arc (200:20:0.22);
+    \end{scope}
+  }
+
+  % ---- correia de esterço ligando os 3 pivôs ----
+  \draw[dorange, densely dashed, line width=1.1pt]
+    (p30) .. controls (90:0.5*\R) .. (p150)
+    .. controls (210:0.5*\R) .. (p270)
+    .. controls (330:0.5*\R) .. (p30);
+
+  % ---- direção de deslocamento (perpendicular aos eixos = plano das rodas) ----
+  \draw[->, dblue, line width=1.4pt] (0,0) -- ({90-\del}:2.6);
+  \node[dblue, font=\scriptsize, anchor=south west] at ({90-\del}:2.4) {desloca-se nesta direção};
+
+  % ---- as rodas esterçam (o corpo não) ----
+  \draw[<->, black!45, line width=0.7pt] (255:\R+0.5) arc (255:300:\R+0.5);
+  \node[dsub, font=\scriptsize, anchor=north] at (278:\R+0.95) {as rodas esterçam};
+
+  % ---- legendas ----
+  \node[dorange, font=\scriptsize, align=left, anchor=west] at (2.7,1.0)
+     {\textbf{esterço acoplado} (1 motor)\\ as 3 rodas giram \emph{juntas} $\;\Rightarrow\; \delta_s = 1$};
+  \node[dgreen, font=\scriptsize, align=left, anchor=west] at (2.7,-0.3)
+     {\textbf{tração comum} (1 motor)\\ uma só velocidade $\;\Rightarrow\; \delta_m = 1$};
+  \node[dsub, font=\scriptsize, align=left, anchor=west] at (2.7,-1.6)
+     {$\delta_M = \delta_m + \delta_s = 2$\\
+      chega a qualquer $(x,y)$ --- \textbf{sem girar o corpo}};
+
+\end{tikzpicture}
+\end{document}

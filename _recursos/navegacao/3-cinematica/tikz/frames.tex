@@ -1,0 +1,41 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % referencial global (inercial)
+  \draw[daxis, line width=0.9pt] (0,0) -- (7.2,0) node[right, font=\small] {$X_I$};
+  \draw[daxis, line width=0.9pt] (0,0) -- (0,5.4) node[above, font=\small] {$Y_I$};
+  \node[dsub, anchor=north east, font=\scriptsize] at (-0.05,-0.05) {$O$};
+
+  \def\px{4.3} \def\py{2.7} \def\ang{32}
+
+  % projeções
+  \draw[dguide] (\px,0) -- (\px,\py);
+  \draw[dguide] (0,\py) -- (\px,\py);
+  \node[dsub, anchor=north, font=\scriptsize] at (\px,-0.08) {$x$};
+  \node[dsub, anchor=east, font=\scriptsize] at (-0.08,\py) {$y$};
+
+  % chassi do robô
+  \begin{scope}[shift={(\px,\py)}, rotate=\ang]
+    \draw[dbody, rounded corners=1pt] (-0.75,-0.55) rectangle (0.75,0.55);
+    \fill[black!55] (-0.55,0.55) circle (0.16);
+    \fill[black!55] (-0.55,-0.55) circle (0.16);
+    \fill[dblue] (0,0) circle (0.09);
+    % referencial local
+    \draw[->, dblue, line width=1pt] (0,0) -- (2.1,0) node[right, font=\small] {$X_R$};
+    \draw[->, dblue, line width=1pt] (0,0) -- (0,1.8) node[above, font=\small] {$Y_R$};
+  \end{scope}
+  \node[font=\small] at (\px+0.14,\py-0.5) {$P$};
+
+  % ângulo theta
+  \draw[dguide] (\px,\py) -- ++(2.4,0);
+  \draw[->, black!55, line width=0.7pt] (\px+1.7,\py) arc (0:\ang:1.7);
+  \node[font=\small] at (\px+2.0,\py+0.5) {$\theta$};
+
+  % pose
+  \node[dbox, dacc, font=\footnotesize] at (1.7,4.5)
+     {$\xi_I = \begin{bmatrix} x \\ y \\ \theta \end{bmatrix}$};
+
+\end{tikzpicture}
+\end{document}

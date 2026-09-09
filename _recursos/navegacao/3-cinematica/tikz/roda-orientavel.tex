@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (4.4,0) node[right, font=\small] {$X_R$};
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (0,3.4) node[above, font=\small] {$Y_R$};
+  \node[font=\small, anchor=north east] at (-0.05,-0.05) {$P$};
+
+  \def\aA{34} \def\lA{3.0}
+  \coordinate (A) at (\aA:\lA);
+  \draw[black!60, line width=0.8pt] (0,0) -- (A);
+  \node[dsub, font=\small] at (\aA-5:\lA/2) {$l$};
+
+  % eixo vertical de esterçamento (passa pelo centro e pelo contato)
+  \fill[dgreen] (A) circle (0.06);
+  % roda a beta(t), com posições fantasma
+  \foreach \ph in {40,58,76}{
+    \begin{scope}[shift={(A)}, rotate=\aA+\ph]
+      \draw[black!25, line width=0.5pt] (-0.55,0) rectangle (0.55,0.14);
+    \end{scope}}
+  \begin{scope}[shift={(A)}, rotate=\aA+58]
+    \fill[black!70] (-0.55,-0.14) rectangle (0.55,0.14);
+    \draw[->, dgreen, line width=1pt] (0,0.6) arc (90:35:0.6);
+  \end{scope}
+  \node[dgreen, font=\small] at ($(A)+(0.95,0.55)$) {$\beta(t)$};
+  \node[font=\small, anchor=south west] at ($(A)+(0.1,0.18)$) {$A$};
+  \node[dsub, font=\scriptsize, anchor=west] at ($(A)+(0.7,-0.55)$) {$\varphi,\ r$};
+
+  % distinção beta-ponto vs phi-ponto
+  \node[dbox, dacc, font=\scriptsize, align=left, text width=6.6cm] at (10.6,2.4)
+     {\textbf{restrições instantâneas} = iguais às da roda fixa\\
+      \scriptsize (com $\beta \rightarrow \beta(t)$)};
+  \node[dbox, draw=dorange, font=\scriptsize, align=left, text width=6.6cm] at (10.6,0.2)
+     {$\dot\varphi$ (giro): afeta \textbf{diretamente} o movimento\\
+      $\dot\beta$ (esterço): afeta a mobilidade \textbf{só ao integrar} no tempo};
+
+\end{tikzpicture}
+\end{document}

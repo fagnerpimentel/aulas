@@ -1,0 +1,66 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=2.1cm,y=2.1cm]
+
+  % robô omnidirecional (corpo redondo + 3 rodas + nariz)
+  \newcommand{\omnirobo}[3]{% #1=pos  #2=rot(nariz)  #3=1 fantasma / 0 sólido
+    \begin{scope}[shift={(#1)}, rotate=#2]
+      \ifnum#3=1
+        \draw[draw=black!45, fill=black!4, line width=0.9pt] (0,0) circle (0.2);
+        \foreach \a in {30,150,270}{ \draw[black!40, line width=1.6pt] (\a:0.2) -- (\a:0.30); }
+        \fill[dblue!45] (0.2,0) -- (0.34,0.07) -- (0.34,-0.07) -- cycle;
+      \else
+        \draw[dbody, line width=1pt] (0,0) circle (0.2);
+        \foreach \a in {30,150,270}{ \draw[black!70, line width=1.8pt] (\a:0.2) -- (\a:0.30); }
+        \fill[dblue] (0.2,0) -- (0.34,0.07) -- (0.34,-0.07) -- cycle;
+      \fi
+      \fill[black!55] (0,0) circle (0.03);
+    \end{scope}}
+
+  \coordinate (I)  at (0,0);
+  \coordinate (F)  at (-1.143,-0.990);
+  \coordinate (C)  at (-0.571,-0.495);   % ICR
+
+  % eixos globais
+  \draw[daxis, line width=0.8pt] (-1.85,0) -- (0.75,0) node[right, font=\scriptsize] {$X_I$};
+  \draw[daxis, line width=0.8pt] (0,-1.55) -- (0,0.7) node[above, font=\scriptsize] {$Y_I$};
+
+  % ICR + raios
+  \draw[black!70, line width=0.8pt] ($(C)+(-0.06,-0.06)$) -- ($(C)+(0.06,0.06)$)
+                                   ($(C)+(-0.06,0.06)$) -- ($(C)+(0.06,-0.06)$);
+  \node[dsub, font=\scriptsize, anchor=north] at ($(C)+(0,-0.07)$) {ICR};
+  \draw[dguide] (C) -- (I);
+  \draw[dguide] (C) -- (F);
+
+  % caminho de P: meia circunferência (horário) de I ate F
+  \draw[->, dcurve, densely dashed, line width=1.1pt] (C) ++(40.9:0.756) arc (40.9:-139.1:0.756);
+
+  % ---- robô inicial em I, nariz +X (theta=0) ----
+  \omnirobo{0,0}{0}{1}
+  % vetor velocidade no referencial do robô (NAO segue o nariz)
+  \draw[->, dorange, line width=1.3pt] (I) -- ++(-49.1:0.62);
+  \node[dorange, font=\scriptsize, anchor=north west] at ($(I)+(-49.1:0.66)$) {$\dot\xi_R$};
+  % arquinho: nariz x velocidade
+  \draw[black!55, line width=0.5pt] (I) ++(0:0.42) arc (0:-49.1:0.42);
+  \node[dsub, font=\tiny] at ($(I)+(-24:0.55)$) {$\approx 49^\circ$};
+  % giro horario
+  \draw[->, dgreen, line width=1pt] (I) ++(120:0.34) arc (120:210:0.34);
+  \node[dgreen, font=\scriptsize, anchor=south east] at ($(I)+(150:0.5)$) {$\dot\theta<0$};
+  \node[dsub, font=\scriptsize, align=left, anchor=west] at ($(I)+(0.30,0.34)$)
+     {\textbf{início} ($t=0$)\\ $(0,\ 0,\ 0^\circ)$};
+
+  % ---- robô final em F, nariz -X (theta = -180) ----
+  \omnirobo{-1.143,-0.990}{180}{0}
+  \node[dsub, font=\scriptsize, align=left, anchor=north east] at ($(F)+(0.15,-0.26)$)
+     {\textbf{fim} ($t=\tfrac{3\pi}{7}$)\\ $(-1{,}14,\ -0{,}99,\ -180^\circ)$};
+
+  % caixa resumo
+  \node[dbox, dacc, font=\scriptsize, align=center, text width=8.4cm] at (-0.55,-2.15)
+     {3 rodas suecas de $90^\circ$, $\dot\varphi=(4,1,2)$, $l=r=1$
+      $\;\Rightarrow\; \dot\xi_R=\bigl(\tfrac{2}{\sqrt3},\,-\tfrac43,\,-\tfrac73\bigr)$ (constante no robô)\\[2pt]
+      omnidirecional ($\delta_m=3$): $\dot\xi_R$ \textbf{não segue o nariz} --- o robô \textbf{anda de lado} enquanto gira;
+      $P$ percorre um círculo de raio $R=\lvert v\rvert/\lvert\omega\rvert\approx 0{,}76$};
+
+\end{tikzpicture}
+\end{document}

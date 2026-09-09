@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % referencial global
+  \draw[daxis, line width=0.9pt] (0,0) -- (4.6,0) node[right, font=\small] {$X_I$};
+  \draw[daxis, line width=0.9pt] (0,0) -- (0,4.6) node[above, font=\small] {$Y_I$};
+
+  \def\px{2.4} \def\py{2.2}
+  \begin{scope}[shift={(\px,\py)}, rotate=90]
+    \draw[dbody, rounded corners=1pt] (-0.7,-0.5) rectangle (0.7,0.5);
+    \fill[black!55] (-0.5,0.5) circle (0.15);
+    \fill[black!55] (-0.5,-0.5) circle (0.15);
+    \draw[->, dblue, line width=1pt] (0,0) -- (1.9,0) node[above right, font=\small] {$X_R$};
+    \draw[->, dblue, line width=1pt] (0,0) -- (0,1.6) node[above, font=\small] {$Y_R$};
+  \end{scope}
+  \draw[->, black!55, line width=0.7pt] (\px+1.45,\py) arc (0:90:1.45);
+  \node[font=\small, anchor=south west] at (\px+1.15,\py+1.15) {$\theta = \pi/2$};
+
+  % matrizes
+  \node[dbox, dacc, font=\footnotesize, align=center] at (9.3,3.2)
+     {$\dot\xi_R = R(\theta)\,\dot\xi_I$\\[4pt]
+      $R(\theta)=\begin{bmatrix} \cos\theta & \sin\theta & 0\\ -\sin\theta & \cos\theta & 0\\ 0 & 0 & 1\end{bmatrix}$};
+
+  \node[dbox, font=\footnotesize, align=center] at (9.3,0.7)
+     {$R(\pi/2)=\begin{bmatrix} 0 & 1 & 0\\ -1 & 0 & 0\\ 0 & 0 & 1\end{bmatrix}$};
+
+\end{tikzpicture}
+\end{document}

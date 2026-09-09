@@ -1,0 +1,72 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\S{2.5}
+  \def\icy{0.42}   % centro vertical do ícone
+  \tikzset{nm/.style={font=\scriptsize\bfseries, align=center}}
+
+  % caixas
+  \foreach \i/\c in {0/dblue!70, 1/dblue!70, 2/dgreen, 3/dgreen, 4/dgreen}{
+    \draw[rounded corners=3pt, line width=1pt, draw=\c]
+       ({\i*\S-1.15},-1.05) rectangle ({\i*\S+1.15},1.25);
+  }
+
+  % 1. Padrão fixa
+  \begin{scope}[shift={(0,\icy)}]
+    \draw[dguide] (-0.55,0) -- (0.55,0);
+    \fill[black!70] (-0.4,-0.11) rectangle (0.4,0.11);
+    \fill[black!14] (-0.13,0.11) rectangle (0.13,0.34);
+    \draw[black!50, line width=0.7pt] (-0.16,0.34) -- (0.16,0.34);
+  \end{scope}
+  \node[nm] at (0,-0.62) {Padrão\\fixa};
+
+  % 2. Padrão orientável
+  \begin{scope}[shift={(\S,\icy)}]
+    \foreach \a in {-24,24}{ \draw[black!22, line width=0.5pt, rotate=\a] (-0.4,-0.095) rectangle (0.4,0.095); }
+    \fill[black!70] (-0.4,-0.1) rectangle (0.4,0.1);
+    \fill[dgreen] (0,0) circle (0.045);
+    \draw[->, dgreen, line width=1pt] (0,0.44) arc (90:14:0.44);
+  \end{scope}
+  \node[nm] at (\S,-0.62) {Padrão\\orientável};
+
+  % 3. Castor
+  \begin{scope}[shift={(2*\S,\icy)}]
+    \fill[dgreen] (-0.34,0) circle (0.05);
+    \draw[dblue, line width=1.4pt] (-0.34,0) -- (0.30,0);
+    \node[dsub, font=\tiny] at (-0.02,0.15) {$d$};
+    \begin{scope}[shift={(0.30,0)}, rotate=64]
+      \fill[black!70] (-0.28,-0.1) rectangle (0.28,0.1);
+    \end{scope}
+    \fill[dorange] (0.30,0) circle (0.045);
+    \draw[->, dgreen, line width=0.7pt] (-0.34,0.3) arc (90:28:0.3);
+  \end{scope}
+  \node[nm] at (2*\S,-0.62) {Castor};
+
+  % 4. Sueca (Mecanum)
+  \begin{scope}[shift={(3*\S,\icy)}]
+    \draw[black!75, line width=1pt] (0,0) circle (0.36);
+    \foreach \k in {0,45,...,315}{ \draw[dorange, line width=1.2pt] (\k:0.36) -- ++(\k+55:0.2); }
+    \fill[black!55] (0,0) circle (0.04);
+  \end{scope}
+  \node[nm] at (3*\S,-0.62) {Sueca\\(Mecanum)};
+
+  % 5. Esférica
+  \begin{scope}[shift={(4*\S,\icy)}]
+    \draw[black!75, line width=1pt] (0,0) circle (0.36);
+    \draw[black!35, line width=0.5pt] (0,0) ellipse (0.36 and 0.13);
+    \draw[black!35, line width=0.5pt] (0,0) ellipse (0.13 and 0.36);
+    \foreach \d in {0,45,...,315}{ \draw[->, dgreen, line width=0.55pt] (0,0) -- (\d:0.53); }
+    \fill[black!55] (0,0) circle (0.04);
+  \end{scope}
+  \node[nm] at (4*\S,-0.62) {Esférica};
+
+  % legenda
+  \fill[dblue!70] (1.15,-1.62) rectangle ++(0.22,0.22);
+  \node[font=\scriptsize, anchor=west] at (1.45,-1.51) {impõe restrição cinemática};
+  \fill[dgreen] (5.55,-1.62) rectangle ++(0.22,0.22);
+  \node[font=\scriptsize, anchor=west] at (5.85,-1.51) {não impõe (grau de liberdade interno)};
+
+\end{tikzpicture}
+\end{document}

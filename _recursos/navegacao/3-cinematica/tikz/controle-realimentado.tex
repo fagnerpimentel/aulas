@@ -1,0 +1,57 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % referencial do objetivo (na origem)
+  \draw[daxis] (-0.5,0) -- (3.2,0) node[right, font=\small] {$X_G = X_I$};
+  \draw[daxis] (0,-0.5) -- (0,2.6) node[above, font=\small] {$Y_G = Y_I$};
+  \fill[dorange] (0,0) circle (0.1);
+  \node[dorange, font=\small, anchor=south east] at (-0.15,0.1) {objetivo};
+
+  % robô
+  \def\rx{-5.0} \def\ry{-3.0} \def\rang{58}
+  \begin{scope}[shift={(\rx,\ry)}, rotate=\rang]
+    \draw[dbody, rounded corners=1pt] (-0.7,-0.55) rectangle (0.7,0.55);
+    \fill[black!60] (-0.45,0.55) circle (0.15); \fill[black!60] (-0.45,-0.55) circle (0.15);
+    \draw[->, dblue, line width=0.9pt] (0,0) -- (2.6,0) node[right, font=\small] {$X_R$};
+    \draw[->, dorange, line width=1.1pt] (0,0) -- (1.4,0);
+    \node[dorange, font=\small] at (1.35,-0.38) {$v$};
+    \draw[->, dgreen, line width=1.1pt] (148:1.05) arc (148:212:1.05);
+    \node[dgreen, font=\small] at (-1.45,0) {$\omega$};
+  \end{scope}
+
+  % rho (robô -> objetivo)
+  \draw[dcurve, line width=1.1pt] (\rx,\ry) -- (0,0);
+  \node[dblue, font=\small\bfseries] at (-3.05,-2.15) {$\rho$};
+
+  % theta (X_I -> X_R) medido no robô
+  \draw[dguide] (\rx,\ry) -- ++(3.4,0);
+  \draw[->, black!55, line width=0.6pt] ($(\rx,\ry)+(0:3.0)$) arc (0:\rang:3.0);
+  \node[font=\small] at ($(\rx,\ry)+(15:3.35)$) {$\theta$};
+  % alpha entre X_R e rho (rho aponta ao longo da própria linha robô->objetivo)
+  \pgfmathsetmacro\rhoang{atan2(-\ry,-\rx)}
+  \draw[->, black!55, line width=0.6pt] ($(\rx,\ry)+(\rang:1.7)$) arc (\rang:\rhoang:1.7);
+  \node[font=\small] at ($(\rx,\ry)+({(\rang+\rhoang)/2}:2.0)$) {$\alpha$};
+  % beta no objetivo (entre -X_G e a linha de volta ao robô)
+  \draw[->, black!55, line width=0.6pt] (-1.2,0) arc (180:180+\rhoang:1.2);
+  \node[font=\small] at ({180+\rhoang/2}:1.5) {$\beta$};
+
+  % --- quadro de fórmulas (raiz desenhada: o glyph \sqrt não sobrevive ao dvisvgm) ---
+  \node[font=\scriptsize] (ftitle) at (7.4,2.35) {coordenadas polares:};
+  \node[font=\scriptsize, inner sep=1.2pt, below=6pt of ftitle] (frad) {$\Delta x^{2} + \Delta y^{2}$};
+  \node[font=\scriptsize, inner sep=0pt, left=7pt of frad] (flhs) {$\rho \;=$};
+  \draw[line width=0.5pt]
+    ([xshift=-4pt,yshift=3pt]frad.south west) --
+    ([xshift=-1pt,yshift=-3pt]frad.south west) --
+    ([xshift=2pt,yshift=2pt]frad.north west) --
+    ([xshift=2pt,yshift=2pt]frad.north east);
+  \node[font=\scriptsize, below=4pt of frad, inner sep=1pt] (fa)
+     {$\alpha = -\theta + \mathrm{atan2}(\Delta y,\, \Delta x)$};
+  \node[font=\scriptsize, below=2pt of fa, inner sep=1pt] (fb) {$\beta = -\theta - \alpha$};
+  \begin{scope}[on background layer]
+    \node[dbox, dacc, fit=(ftitle)(flhs)(frad)(fa)(fb), inner sep=5pt] {};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

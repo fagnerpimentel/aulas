@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (4.0,0) node[right, font=\small] {$X_R$};
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (0,3.0) node[above, font=\small] {$Y_R$};
+  \node[font=\small, anchor=north east] at (-0.05,-0.05) {$P$};
+
+  \def\aA{34} \def\lA{2.4}
+  \coordinate (A) at (\aA:\lA);
+  \draw[black!60, line width=0.8pt] (0,0) -- (A);
+  \node[dsub, font=\small] at (\aA-7:\lA/2) {$l$};
+
+  % esfera
+  \draw[black!75, line width=1pt] (A) circle (0.55);
+  \draw[black!35, line width=0.5pt] (A) ellipse (0.55 and 0.2);
+  \draw[black!35, line width=0.5pt] (A) ellipse (0.2 and 0.55);
+  \fill[black!70] (A) circle (0.05);
+  \node[font=\small, anchor=north east] at ($(A)+(-0.55,-0.1)$) {$A$};
+  % direções livres
+  \foreach \d in {0,45,...,315}{ \draw[->, dgreen, line width=0.7pt] (A) -- ++(\d:0.95); }
+
+  \node[dbox, draw=dgreen, font=\scriptsize, align=left, text width=6.8cm] at (10.4,1.4)
+     {sem eixo principal de rotação $\Rightarrow$ \textbf{nenhuma} restrição de rolamento ou deslizamento --- rola em \textbf{qualquer} direção};
+
+\end{tikzpicture}
+\end{document}

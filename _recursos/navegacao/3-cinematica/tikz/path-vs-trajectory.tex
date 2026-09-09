@@ -1,0 +1,82 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+
+\newcommand{\robot}[3]{% x, y, angulo(graus)
+  \begin{scope}[shift={(#1,#2)}, rotate=#3]
+    \draw[dbody, rounded corners=1.5pt] (-0.20,-0.15) rectangle (0.20,0.15);
+    \fill[dblue] (0.20,-0.09) -- (0.33,0) -- (0.20,0.09) -- cycle;
+  \end{scope}}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ================= Painel A: a manobra (a mesma para os dois robos) =================
+  \begin{scope}[shift={(0,0)}]
+    \draw[daxis] (0,0) -- (3.4,0) node[right, font=\scriptsize] {$X_I$};
+    \draw[daxis] (0,0) -- (0,3.4) node[above, font=\scriptsize] {$Y_I$};
+
+    % fase 1 -- anda 1 m ao longo de X
+    \draw[dtrans] (0.78,0.6) -- (1.78,0.6);
+    \node[dsub, font=\scriptsize\bfseries] at (1.28,0.30) {1};
+    % fase 2 -- gira 90 graus no lugar
+    \draw[dtrans] (2.47,0.36) arc (-30:120:0.48);
+    \node[dsub, font=\scriptsize\bfseries] at (2.80,1.02) {2};
+    % fase 3 -- anda 1 m ao longo de Y
+    \draw[dtrans] (2.05,1.08) -- (2.05,2.30);
+    \node[dsub, font=\scriptsize\bfseries] at (1.79,1.72) {3};
+
+    \robot{0.48}{0.6}{0}
+    \robot{2.05}{0.6}{90}
+    \robot{2.05}{2.66}{90}
+    \node[dsub, font=\scriptsize, anchor=west] at (0.20,1.15) {início};
+    \node[dblue, font=\scriptsize\bfseries] at (2.05,3.30) {objetivo};
+  \end{scope}
+
+  \draw[black!15, line width=0.6pt] (4.0,-1.6) -- (4.0,3.5);
+
+  % ================= Painel B: linha de tempo (caminho + tempo) =================
+  \begin{scope}[shift={(4.7,0)}]
+    \def\yO{2.35}   % faixa: omnidirecional
+    \def\yT{0.55}   % faixa: two-steer
+    \def\hh{0.34}   % meia-altura dos blocos
+
+    % ---- Omnidirecional : 3 fases (3 s) ----
+    \node[dsub, font=\scriptsize\bfseries, align=right, anchor=east] at (2.00,\yO)
+      {Omnidirecional\\3 fases $=$ 3 s};
+    \foreach \n/\xa/\xb/\lbl in {%
+        1/2.20/3.65/{move em $X_I$\\1 s},
+        2/3.65/5.10/{gira $90^\circ$\\1 s},
+        3/5.10/6.55/{move em $Y_I$\\1 s}} {
+      \draw[dblue, line width=0.9pt, fill=dblue!12, rounded corners=1.5pt]
+        (\xa,\yO-\hh) rectangle (\xb,\yO+\hh);
+      \node[font=\scriptsize, align=center, text=black!70] at ({(\xa+\xb)/2},\yO) {\lbl};
+      \node[dsub, font=\scriptsize\bfseries] at ({(\xa+\xb)/2},\yO+\hh+0.24) {\n};
+    }
+
+    % ---- Two-Steer : 5 fases (as 2 extras sao esperas) ----
+    \node[dsub, font=\scriptsize\bfseries, align=right, anchor=east] at (2.00,\yT)
+      {Two-Steer\\5 fases ($+2$ esperas)};
+    % blocos de movimento
+    \foreach \n/\xa/\xb/\lbl in {%
+        1/2.20/3.65/{move em $X_I$\\1 s},
+        3/4.45/5.90/{gira $90^\circ$\\1 s},
+        5/6.70/8.15/{move em $Y_I$\\1 s}} {
+      \draw[dblue, line width=0.9pt, fill=dblue!12, rounded corners=1.5pt]
+        (\xa,\yT-\hh) rectangle (\xb,\yT+\hh);
+      \node[font=\scriptsize, align=center, text=black!70] at ({(\xa+\xb)/2},\yT) {\lbl};
+      \node[dsub, font=\scriptsize\bfseries] at ({(\xa+\xb)/2},\yT+\hh+0.24) {\n};
+    }
+    % blocos de espera (robo parado enquanto as rodas estercam)
+    \foreach \n/\xa/\xb/\lbl in {%
+        2/3.65/4.45/{esterça\\$-50^\circ/50^\circ$},
+        4/5.90/6.70/{esterça\\$50^\circ/-50^\circ$}} {
+      \draw[black!50, line width=0.7pt, dashed, fill=black!8, rounded corners=1.5pt]
+        (\xa,\yT-\hh) rectangle (\xb,\yT+\hh);
+      \node[dsub, font=\tiny, align=center] at ({(\xa+\xb)/2},\yT) {robô\\parado};
+      \node[dsub, font=\tiny, align=center] at ({(\xa+\xb)/2},\yT-\hh-0.30) {\lbl};
+      \node[dsub, font=\scriptsize\bfseries] at ({(\xa+\xb)/2},\yT+\hh+0.24) {\n};
+    }
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

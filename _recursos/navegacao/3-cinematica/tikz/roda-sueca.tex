@@ -1,0 +1,47 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (4.3,0) node[right, font=\small] {$X_R$};
+  \draw[->, dblue, line width=0.9pt] (0,0) -- (0,4.2) node[above, font=\small] {$Y_R$};
+  \node[font=\small, anchor=north east] at (-0.05,-0.05) {$P$};
+
+  % posição da roda
+  \coordinate (A) at (44:2.8);
+  \draw[black!60, line width=0.8pt] (0,0) -- (A);
+  \node[dsub, font=\small] at (32:1.4) {$l$};
+  \node[font=\small, anchor=north] at ($(A)+(-0.05,-1.05)$) {$A$};
+
+  % roda principal + roletes
+  \def\R{0.75}
+  \begin{scope}[shift={(A)}]
+    \draw[black!75, line width=1pt] (0,0) circle (\R);
+    \foreach \k in {0,40,...,320}{
+      \draw[dorange, line width=1.4pt] (\k:\R) -- ++(\k+55:0.32);
+    }
+    \fill[black!55] (0,0) circle (0.05);
+  \end{scope}
+
+  % direções -- rótulos curtos, fora da roda
+  \def\dirP{120}\def\dirR{86}
+  \draw[->, black!70, line width=1pt] (A) -- ($(A)+(\dirP:1.45)$);
+  \node[font=\scriptsize, anchor=south east] at ($(A)+(\dirP:1.55)$) {principal};
+  \draw[->, dorange, line width=1pt] (A) -- ($(A)+(\dirR:1.45)$);
+  \node[dorange, font=\scriptsize, anchor=south west] at ($(A)+(\dirR:1.55)$) {rolete};
+
+  \draw[->, black!55, line width=0.6pt] ($(A)+(\dirR:1.05)$) arc (\dirR:\dirP:1.05);
+  \node[font=\small] at ($(A)+(103:1.30)$) {$\gamma$};
+
+  % restrições
+  \node[dbox, dacc, font=\scriptsize, align=left, text width=6.8cm] at (10.4,2.9)
+     {rolamento vale na direção de \textbf{velocidade nula do rolete} (defasada de $\gamma$); ortogonal a ela o movimento é \textbf{livre}};
+  \node[dbox, draw=dgreen, font=\scriptsize, align=left, text width=6.8cm] at (10.4,0.7)
+     {$\gamma = 0$ (roda sueca de 90$^\circ$) $\Rightarrow$ movimento \textbf{desacoplado}, omnidirecional --- \textbf{não impõe restrição}};
+
+  % legenda das direções
+  \node[dsub, font=\scriptsize, anchor=west] at (0.1,-0.9)
+     {\textcolor{black!70}{— principal}: eixo do cubo \quad \textcolor{dorange}{— rolete}: eixo dos roletes};
+
+\end{tikzpicture}
+\end{document}
