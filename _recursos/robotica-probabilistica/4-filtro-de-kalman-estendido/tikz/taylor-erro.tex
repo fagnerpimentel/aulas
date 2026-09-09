@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\a{2.3}
+  \pgfmathsetmacro\fa{0.4 + 0.20*\a*\a}
+  \pgfmathsetmacro\sl{0.40*\a}
+
+  \draw[daxis] (-0.2,0) -- (6.7,0) node[right, dsub] {$x$};
+  \draw[daxis] (0,-0.2) -- (0,5.6);
+
+  % curva f
+  \draw[dblue, line width=1.4pt, samples=140, domain=0.2:6.1, smooth, variable=\x]
+    plot (\x, {0.4 + 0.20*\x*\x});
+  \node[dblue, font=\footnotesize, anchor=east] at (2.3,4.6) {$f(x)$};
+
+  % reta tangente em a (Taylor 1a ordem)
+  \draw[dgreen, line width=1.1pt, domain=0.6:6.0, variable=\x]
+    plot (\x, {\fa + \sl*(\x-\a)});
+  \node[dgreen, font=\footnotesize, anchor=north west] at (3.9,{\fa + \sl*(3.9-\a) - 0.15})
+     {tangente em $a$};
+
+  % ponto de linearizacao
+  \draw[dguide] (\a,0) -- (\a,\fa);
+  \fill[black!70] (\a,\fa) circle (1.6pt);
+  \node[dsub] at (\a,-0.34) {$a$};
+
+  % erro num ponto x bem afastado de a
+  \def\xu{5.4}
+  \pgfmathsetmacro\fu{0.4 + 0.20*\xu*\xu}
+  \pgfmathsetmacro\lu{\fa + \sl*(\xu-\a)}
+  \draw[dguide] (\xu,0) -- (\xu,\lu);
+  \node[dsub] at (\xu,-0.34) {$x$};
+  \draw[<->, dred, line width=1pt] (\xu,\lu) -- (\xu,\fu);
+  \node[dred, font=\footnotesize, anchor=east] at ({\xu-0.16},{(\lu+\fu)/2}) {erro};
+
+\end{tikzpicture}
+\end{document}

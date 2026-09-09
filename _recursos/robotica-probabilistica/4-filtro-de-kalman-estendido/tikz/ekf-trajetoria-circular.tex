@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % centro do arco
+  \coordinate (O) at (0,-0.4);
+  \def\R{3.6}
+
+  % arco da trajetória
+  \draw[dblue, line width=1.4pt] ([shift=(200:\R)]O) arc[start angle=200, end angle=320, radius=\R];
+
+  % poses ao longo do arco
+  \foreach \a in {205,235,265,295,315}{
+    \coordinate (P) at ($(O)+(\a:\R)$);
+    \fill[dorange] (P) circle (2pt);
+    \draw[dorange, line width=0.9pt, ->] (P) -- ++({\a-90}:0.9);
+  }
+
+  % raio de curvatura + rótulo omega
+  \draw[dguide] (O) -- ($(O)+(205:\R)$);
+  \draw[dguide] (O) -- ($(O)+(315:\R)$);
+  \fill[black!55] (O) circle (1pt);
+  \node[dsub] at ($(O)+(0,-0.35)$) {$v/\omega$};
+
+  \node[dblue, font=\small] at (0,-4.6)
+     {velocidade $v$ e rotação $\omega$ constantes $\Rightarrow$ trajetória circular};
+\end{tikzpicture}
+\end{document}

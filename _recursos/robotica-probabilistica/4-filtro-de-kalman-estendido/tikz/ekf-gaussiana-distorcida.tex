@@ -1,0 +1,52 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\muv{3.0}
+  \pgfmathsetmacro\gmu{0.6 + 0.16*\muv*\muv}   % = 2.04
+  \pgfmathsetmacro\slope{0.32*\muv}            % = 0.96
+
+  % eixos
+  \draw[daxis] (-0.2,0) -- (6.4,0) node[right, dsub] {$x_{t-1}$};
+  \draw[daxis] (0,-0.2) -- (0,5.0) node[above, dsub] {$x_t$};
+
+  % função não linear g
+  \draw[dblue, line width=1.4pt, samples=120, domain=0.2:6.0, smooth, variable=\x]
+    plot (\x, {0.6 + 0.16*\x*\x});
+  \node[dblue, font=\footnotesize, anchor=west] at (1.7,4.5) {$g(u_t,x_{t-1})$};
+
+  % reta tangente em mu
+  \draw[dgreen, line width=1pt, dashed, domain=1.0:5.6, variable=\x]
+    plot (\x, {\gmu + \slope*(\x-\muv)});
+  \node[dgreen, font=\footnotesize, anchor=west] at (4.5,3.15) {reta tangente};
+
+  % guias
+  \draw[dguide] (\muv,0) -- (\muv,\gmu) -- (0,\gmu);
+  \fill[black!70] (\muv,\gmu) circle (1.6pt);
+  \node[dsub] at (\muv,-0.34) {$\mu_{t-1}$};
+  \node[dsub, anchor=east] at (-0.15,\gmu) {$g(\mu_{t-1})$};
+
+  % gaussiana de entrada (abaixo do eixo x)
+  \draw[dorange, line width=1pt, samples=100, domain=0.6:5.4, smooth, variable=\x]
+    plot (\x, {-0.4 - 1.9*2.5066*gauss(\x,\muv,0.7)});
+  \node[dorange, font=\footnotesize] at (\muv,-1.9) {entrada $\sim \mathcal{N}(\mu_{t-1},\Sigma_{t-1})$};
+
+  % ---- saídas: à esquerda do eixo y ----
+  % exata (assimétrica): ramo superior largo, ramo inferior estreito
+  \draw[dorange, line width=1.3pt, samples=90, domain=\gmu:4.7, smooth, variable=\y]
+    plot ({-0.2 - 1.9*2.5066*gauss(\y,\gmu,1.30)}, \y);
+  \draw[dorange, line width=1.3pt, samples=90, domain=0.15:\gmu, smooth, variable=\y]
+    plot ({-0.2 - 1.9*2.5066*gauss(\y,\gmu,0.55)}, \y);
+
+  % linearizada (gaussiana simétrica)
+  \draw[dgreen, line width=1.2pt, dashed, samples=100, domain=0.1:4.2, smooth, variable=\y]
+    plot ({-0.2 - 1.9*2.5066*gauss(\y,\gmu,0.72)}, \y);
+
+  \node[dorange, font=\footnotesize, align=right, anchor=east] at (-2.55,4.4)
+    {saída exata\\(\emph{não} gaussiana)};
+  \node[dgreen, font=\footnotesize, align=right, anchor=east] at (-2.15,0.55)
+    {saída via tangente\\(gaussiana)};
+
+\end{tikzpicture}
+\end{document}

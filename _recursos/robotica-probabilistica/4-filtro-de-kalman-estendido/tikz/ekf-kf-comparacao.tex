@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cA{5.4}\def\cB{9.8}\def\rh{1.3}
+  \def\midx{7.6}
+
+  \node[font=\small\bfseries, dblue]   at (\cA,{2*\rh}) {Filtro de Kalman};
+  \node[font=\small\bfseries, dorange] at (\cB,{2*\rh}) {EKF};
+
+  \node[font=\footnotesize, anchor=east, align=right] at (3.1,\rh)
+     {predição de estado\\(linha 2)};
+  \node[font=\small] at (\cA,\rh) {$A_t\,\mu_{t-1} + B_t\,u_t$};
+  \node[font=\small] at (\cB,\rh) {$g(u_t,\mu_{t-1})$};
+
+  \node[font=\footnotesize, anchor=east, align=right] at (3.1,0)
+     {correção de estado\\(linha 5)};
+  \node[font=\small] at (\cA,0) {$C_t\,\bar\mu_t$};
+  \node[font=\small] at (\cB,0) {$h(\bar\mu_t)$};
+
+  \draw[black!30, line width=0.6pt] (3.3,{1.55*\rh}) -- (11.6,{1.55*\rh});
+  \draw[black!30, line width=0.6pt] (3.3,{0.5*\rh})  -- (11.6,{0.5*\rh});
+  \draw[black!30, line width=0.6pt] (3.3,{-0.55*\rh})-- (11.6,{-0.55*\rh});
+  \draw[black!30, line width=0.6pt] (\midx,{1.95*\rh}) -- (\midx,{-0.55*\rh});
+
+  \node[dsub, align=center] at (7.4,-1.7)
+     {predições lineares $\longrightarrow$ generalizações não lineares;\\
+      Jacobianas $G_t \leftrightarrow (A_t,B_t)$ \quad e \quad $H_t \leftrightarrow C_t$};
+
+\end{tikzpicture}
+\end{document}

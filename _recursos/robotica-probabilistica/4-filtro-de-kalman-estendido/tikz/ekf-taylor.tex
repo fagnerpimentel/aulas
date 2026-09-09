@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\muv{3.0}
+  \pgfmathsetmacro\gmu{0.5 + 0.18*\muv*\muv}
+  \pgfmathsetmacro\slope{0.36*\muv}
+
+  \draw[daxis] (-0.2,0) -- (6.2,0) node[right, dsub] {$x_{t-1}$};
+  \draw[daxis] (0,-0.2) -- (0,4.8);
+
+  \draw[dblue, line width=1.4pt, samples=120, domain=0.2:5.7, smooth, variable=\x]
+    plot (\x, {0.5 + 0.18*\x*\x});
+  \node[dblue, font=\footnotesize, anchor=east] at (2.2,4.2) {$g(u_t,x_{t-1})$};
+
+  \draw[dgreen, line width=1.1pt, domain=1.0:5.2, variable=\x]
+    plot (\x, {\gmu + \slope*(\x-\muv)});
+
+  % triângulo de inclinação
+  \pgfmathsetmacro\xa{4.0}
+  \pgfmathsetmacro\ya{\gmu + \slope*(\xa-\muv)}
+  \draw[dgreen, line width=0.7pt] (\muv,\gmu) -- (\xa,\gmu) -- (\xa,\ya);
+  \node[dgreen, font=\footnotesize] at ({(\muv+\xa)/2},{\gmu-0.35}) {$1$};
+  \node[dgreen, font=\footnotesize, anchor=west] at ({\xa+0.1},{(\gmu+\ya)/2}) {$G_t$};
+
+  \draw[dguide] (\muv,0) -- (\muv,\gmu);
+  \fill[black!70] (\muv,\gmu) circle (1.6pt);
+  \node[dsub] at (\muv,-0.32) {$\mu_{t-1}$};
+
+  \node[font=\footnotesize, black!80, anchor=north] at (3.0,-1.05)
+    {$g(u_t,x_{t-1}) \approx g(u_t,\mu_{t-1}) + {\color{dgreen}G_t}\,(x_{t-1}-\mu_{t-1})$};
+
+\end{tikzpicture}
+\end{document}

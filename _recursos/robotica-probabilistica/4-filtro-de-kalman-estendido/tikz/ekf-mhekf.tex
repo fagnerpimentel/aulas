@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\gp}[5]{%
+    \draw[#1, line width=#2, #3, samples=140, domain=-0.2:6.4, smooth, variable=\x]
+      plot (\x, {2.2*2.5066*gauss(\x,#4,#5)});}
+
+  % EKF simples: uma gaussiana
+  \begin{scope}
+    \draw[daxis] (-0.3,0) -- (6.6,0) node[right, dsub] {$x$};
+    \gp{dblue}{1.3pt}{solid}{3.0}{1.4}
+    \node[align=center, dlbl] at (3.1,-1.15)
+      {EKF padrão:\\uma única gaussiana};
+  \end{scope}
+
+  % MHEKF: mistura de gaussianas
+  \begin{scope}[shift={(8.4,0)}]
+    \draw[daxis] (-0.3,0) -- (6.6,0) node[right, dsub] {$x$};
+    \gp{dorange}{0.7pt}{densely dashed}{1.6}{0.6}
+    \gp{dorange}{0.7pt}{densely dashed}{4.4}{0.7}
+    \draw[dgreen, line width=1.5pt, samples=200, domain=-0.2:6.4, smooth, variable=\x]
+      plot (\x, {2.2*2.5066*(0.55*gauss(\x,1.6,0.6) + 0.45*gauss(\x,4.4,0.7))});
+    \node[align=center, dlbl] at (3.1,-1.15)
+      {MHEKF: mistura de gaussianas\\$bel(x)=a_1\,\mathcal{N}_1 + a_2\,\mathcal{N}_2 + \cdots$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

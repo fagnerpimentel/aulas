@@ -1,0 +1,264 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Filtro de Kalman Estendido (EKF)"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/4-filtro-de-kalman-estendido
+header-includes: |
+  <style>
+  /* divisória vertical entre colunas: classe .col-div na 2ª coluna */
+  .reveal .slides .columns > .column.col-div {
+    border-left: 1px solid rgba(0,0,0,0.18);
+    padding-left: 1.1rem;
+  }
+  </style>
+---
+
+# Filtro de Kalman Estendido
+
+::: {.esquerda}
+Capítulo 3 (seção 3.3) do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## Por que estender o Filtro de Kalman? {.smaller}
+
+- As premissas de **transição linear** e **medição linear** com ruído gaussiano raramente valem na prática
+
+::: columns
+::: {.column width="52%"}
+- Exemplo: um robô com velocidade translacional e rotacional constantes descreve uma **trajetória circular** 
+  - não representável por $x_t = A_t x_{t-1} + B_t u_t$
+:::
+::: {.column width="48%"}
+![](images/ekf-trajetoria-circular.svg){fig-align="center" width="80%"}
+:::
+:::
+
+- Isso, somado à hipótese de crença **unimodal**, torna o KF puro inaplicável a quase todos os problemas de robótica não triviais
+- O **EKF** supera a premissas da **linearidade**
+
+
+## Modelo Não Linear {.smaller}
+
+$$
+x_t = g(u_t, x_{t-1}) + \varepsilon_t
+\qquad\qquad
+z_t = h(x_t) + \delta_t
+$$
+
+- $g$ substitui as matrizes $A_t$ e $B_t$ 
+- $h$ substitui a matriz $C_t$
+- Generaliza estritamente o modelo linear gaussiano do KF
+- Ruídos $\varepsilon_t \sim \mathcal{N}(0, R_t)$ e $\delta_t \sim \mathcal{N}(0, Q_t)$
+- Com $g$ e $h$ **arbitrárias**, a crença **deixa de ser gaussiana** — e o Filtro de Bayes **não** tem solução em forma fechada
+
+![](images/ekf-modelo-nao-linear.svg){fig-align="center" width="96%"}
+
+## A Ideia Central: Linearização {.smaller}
+
+::: columns
+::: {.column width="40%"}
+- O EKF calcula uma **aproximação** da crença verdadeira, e a representa por uma **gaussiana** $(\mu_t, \Sigma_t)$
+- Herda do KF a representação da crença — mas agora ela é **aproximada**, não exata
+- **Linearização**: aproxima $g$ por uma função linear **tangente** a $g$ na média da gaussiana
+- Projetada a gaussiana por essa reta, a posterior volta a ser gaussiana
+- Uma vez linearizado, o resto da mecânica é **idêntico ao KF**
+:::
+::: {.column width="60%"}
+![](images/ekf-gaussiana-distorcida.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Expansão de Taylor {.smaller}
+
+- Toda função **suave** $f$, perto de um ponto $a$, pode ser reescrita como um **polinômio** nas potências de $(x-a)$:
+
+$$
+f(x) = f(a) + f'(a)(x-a) + \tfrac{1}{2}f''(a)(x-a)^2 + \cdots
+$$
+
+:::: columns
+::: {.column width="60%"}
+
+- cada termo usa uma derivada de ordem maior; mais termos ⇒ melhor aproximação **perto de $a$**
+- **1ª ordem** = corta tudo a partir de $(x-a)^2$ → sobra a **reta tangente** a $f$ em $a$:
+$$
+f(x) \approx f(a) + f'(a)(x-a)
+$$
+
+- o que se descarta ($\tfrac{1}{2}f''(a)(x-a)^2 + \cdots$) é o **erro de linearização**
+- o erro cresce com a **curvatura** ($f''$) e com a **distância** $|x-a|$; é **zero** se $f$ já for uma reta
+
+:::
+::: {.column width="40%"}
+![](images/taylor-erro.svg){fig-align="center" width="80%"}
+:::
+::::
+
+## A matriz Jacobiana {.smaller}
+
+:::: columns
+::: {.column width="50%"}
+- Para $f:\mathbb{R}\to\mathbb{R}$, a inclinação da tangente é a **derivada** $f'(a)$ — **um número**
+- Para $g:\mathbb{R}^n\to\mathbb{R}^m$ (várias entradas **e** várias saídas), o análogo é a **Jacobiana**: a matriz de **todas** as derivadas parciais de 1ª ordem
+
+$$
+J_g = \begin{bmatrix}
+\dfrac{\partial g_1}{\partial x_1} & \cdots & \dfrac{\partial g_1}{\partial x_n} \\[1.2ex]
+\vdots & \ddots & \vdots \\[0.6ex]
+\dfrac{\partial g_m}{\partial x_1} & \cdots & \dfrac{\partial g_m}{\partial x_n}
+\end{bmatrix}\quad (m\times n)
+$$
+:::
+::: {.column width="50%"}
+- entrada $(i,j) = \partial g_i/\partial x_j$: quanto a saída $g_i$ muda quando **só** a entrada $x_j$ varia
+- avaliada num ponto $a$ → vira uma **matriz de números**, que muda de ponto para ponto
+- é a **melhor aproximação linear** de $g$ perto de $a$ (Taylor de 1ª ordem vetorial):
+
+$$
+g(x) \approx g(a) + J_g\big|_a\,(x-a)
+$$
+
+- no EKF: 
+  - $G_t = J_g$ ($n\times n$, estado→estado)
+  - $H_t = J_h$ ($k\times n$, estado→medição)
+:::
+::::
+
+## Linearização da Previsão {.smaller}
+
+::: columns
+::: {.column width="48%"}
+- Não podemos propagar uma gaussiana por uma $g$ **curva**
+  - trocamos $g$ pela sua **reta tangente** no ponto mais provável ($\mu_{t-1}$)
+
+![](images/ekf-taylor.svg){fig-align="center" width="70%"}
+
+:::
+::: {.column width="50%" .col-div}
+
+- **Taylor até 1ª ordem** em torno de $x_{t-1} = \mu_{t-1}$: mantém **valor + inclinação**, descarta curvatura e termos de ordem maior
+
+- $G_t = \dfrac{\partial g(u_t,x_{t-1})}{\partial x_{t-1}}\Big|_{\mu_{t-1}}$ — **Jacobiana** $n\times n$ (derivadas parciais $\partial g_i/\partial x_j$); faz o papel de $A_t$
+- depende de $u_t$ e $\mu_{t-1}$ → **recalculada a cada passo**
+- agora $g$ é **afim** em $x_{t-1}$ → gaussiana projetada por ela **volta a ser gaussiana**; boa só **perto de $\mu_{t-1}$** (pior quanto mais curva $g$ e maior a incerteza)
+
+:::
+:::
+
+## Linearização da Medição {.smaller}
+
+- A **correção** também exige um modelo linear → aplica-se a **mesma** expansão de Taylor a $h$
+- Ponto de linearização: $\bar\mu_t$, a média **já predita** (linha 2 do algoritmo)
+$$
+h(x_t) \approx h(\bar\mu_t) + H_t\,(x_t - \bar\mu_t)
+\qquad
+H_t = \frac{\partial h(x_t)}{\partial x_t}\bigg|_{\bar\mu_t}
+$$
+
+- $H_t$: Jacobiana de $h$ ($k \times n$, com $k$ = nº de medições) — faz o papel de $C_t$
+- na correção: a **inovação** vira $z_t - h(\bar\mu_t)$, e $K_t$ e $\Sigma_t$ usam $H_t$ no lugar de $C_t$
+- feitas as **duas** linearizações ($G_t$ e $H_t$), predição e correção ficam **idênticas às do KF**
+
+## O Algoritmo do EKF {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entrada**: $\mu_{t-1}, \Sigma_{t-1}$, controle $u_t$, medição $z_t$
+- **Saída**: $\mu_t, \Sigma_t$
+- Linhas 2–3: **predição** (usa $g$ e a Jacobiana $G_t$)
+- Linhas 4–6: **correção** (usa $h$ e a Jacobiana $H_t$)
+- Comparado ao KF: 
+  - as predições lineares viram $g(\cdot)$ e $h(\cdot)$
+  - $A_t, B_t, C_t$ viram $G_t, H_t$
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF}\,\bigl(\mu_{t-1},\ \Sigma_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar\mu_t = g(u_t, \mu_{t-1}) \\
+\text{3:}\quad \bar\Sigma_t = G_t\,\Sigma_{t-1}\,G_t^{\top} + R_t \\
+\text{4:}\quad K_t = \bar\Sigma_t\,H_t^{\top}\,(H_t\,\bar\Sigma_t\,H_t^{\top} + Q_t)^{-1} \\
+\text{5:}\quad \mu_t = \bar\mu_t + K_t\,(z_t - h(\bar\mu_t)) \\
+\text{6:}\quad \Sigma_t = (I - K_t\,H_t)\,\bar\Sigma_t \\
+\text{7:}\quad \textbf{retornar } \mu_t,\ \Sigma_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## KF × EKF: o que muda {.smaller}
+
+![](images/ekf-kf-comparacao.svg){fig-align="center" width="82%"}
+
+- As **predições lineares** do KF são substituídas por suas **generalizações não lineares** no EKF
+- As **Jacobianas** $G_t$ e $H_t$ entram no lugar das matrizes $A_t, B_t, C_t$
+
+## O Ciclo do EKF {.smaller}
+
+![](images/ekf-ciclo.svg){fig-align="center" width="100%"}
+
+Mesma estrutura do KF: predição (linearização de $g$) seguida de correção (linearização de $h$).
+
+## Considerações Práticas {.smaller}
+
+::: columns
+::: {.column width="62%"}
+- O EKF é a ferramenta **mais popular** para estimação de estado em robótica
+- Forças: **simplicidade** e **eficiência computacional**
+  - cada atualização custa $\mathcal{O}(k^{2.8} + n^2)$ <br> ($k = \dim z_t$, $n = \dim x_t$)
+- A eficiência vem de representar a crença por **uma única gaussiana**
+  - um palpite anotado com uma elipse de incerteza
+- Aplicado com sucesso a problemas com espaços de estado com **1000+ dimensões** (aulas posteriores)
+:::
+::: {.column width="38%"}
+![](images/fotos/rover-curiosity.jpg){fig-align="center" width="100%"}
+[Rover Curiosity (autorretrato) — NASA/JPL-Caltech/MSSS, domínio público]{.credito}
+:::
+:::
+
+## Limitações e Alternativas {.smaller}
+
+::: columns
+::: {.column width="52%"}
+- O EKF (na forma descrita) **não** representa crenças multimodais
+- Extensão: **misturas de gaussianas** → *multi-hypothesis EKF* (MHEKF)
+:::
+::: {.column width="48%"}
+![](images/ekf-mhekf.svg){fig-align="center" width="80%"}
+:::
+:::
+
+$$
+bel(x) = \sum_j a_j\;\mathcal{N}(x;\ \mu_{j,t},\ \Sigma_{j,t}),
+\qquad a_j \ge 0,\ \textstyle\sum_j a_j = 1
+$$
+
+::: columns
+::: {.column width="52%"}
+- Taylor não é a única linearização; alternativas frequentemente **superiores**:
+  - **Unscented Kalman Filter (UKF)** — sonda a função em pontos selecionados
+  - **Moments matching** — preserva média e covariância verdadeiras da posterior
+:::
+::: {.column width="48%"}
+![](images/fotos/rover-trilhas.jpg){fig-align="center" width="80%"}
+[Trilhas de rodas do rover Curiosity em Marte — NASA/JPL-Caltech/MSSS, domínio público]{.credito}
+:::
+:::
+
+## Resumo {.smaller}
+
+- **EKF = KF + linearização** por expansão de Taylor de 1ª ordem das funções não lineares $g$ e $h$
+- Jacobianas $G_t$ e $H_t$ recalculadas **a cada passo**
+- A crença permanece gaussiana (**aproximada**), propagada como $(\mu_t, \Sigma_t)$
+- Melhor desempenho quando: não linearidade **suave** + incerteza **pequena**
+- Próxima aula: o **dual** do Filtro de Kalman — o **Filtro de Informação**

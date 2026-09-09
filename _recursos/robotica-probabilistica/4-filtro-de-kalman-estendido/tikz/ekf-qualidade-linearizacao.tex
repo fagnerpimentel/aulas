@@ -1,0 +1,58 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\panel}[4]{% #1 shift x  #2 sigma entrada  #3 escala das densidades de saída  #4 rótulo
+   \begin{scope}[shift={(#1,0)}]
+    \def\muv{3.0}
+    \pgfmathsetmacro\gmu{0.5 + 0.2*\muv*\muv}   % g(mu)
+    \pgfmathsetmacro\slp{0.4*\muv}              % g'(mu)
+    \pgfmathsetmacro\sL{\slp*#2}                % desvio da saída linearizada
+    \pgfmathsetmacro\lo{max(0.9, \muv-3*#2)}
+    \pgfmathsetmacro\hi{min(5.4, \muv+3*#2)}
+    \pgfmathsetmacro\yoA{max(0.2, \gmu-2.3*\sL)}
+    \pgfmathsetmacro\yoB{min(6.1, \gmu+2.3*\sL)}
+
+    \draw[daxis] (-3.0,0) -- (6.0,0) node[right, dsub] {$x_{t-1}$};
+    \draw[daxis] (0,-2.0) -- (0,6.5) node[above, dsub] {$x_t = g(x_{t-1})$};
+
+    % g e sua reta tangente em mu
+    \draw[dblue, line width=1.3pt, samples=130, domain=0.2:5.4, smooth, variable=\x]
+      plot (\x, {0.5 + 0.2*\x*\x});
+    \draw[dgreen, line width=1pt, dashed, domain=1.1:5.4, variable=\x]
+      plot (\x, {\gmu + \slp*(\x-\muv)});
+
+    % ponto de linearização
+    \draw[dguide] (\muv,0) -- (\muv,\gmu) -- (0,\gmu);
+    \fill[black!70] (\muv,\gmu) circle (1.4pt);
+    \node[dsub, anchor=north] at (\muv,-0.08) {$\mu_{t-1}$};
+
+    % entrada: gaussiana abaixo do eixo (altura fixa) + faixa +-2 sigma
+    \draw[dorange, line width=1pt, samples=140, domain=0.2:5.8, smooth, variable=\x]
+      plot (\x, {-0.32 - 1.1*(#2*2.5066)*gauss(\x,\muv,#2)});
+    \pgfmathsetmacro\la{\muv-2*#2}\pgfmathsetmacro\lb{\muv+2*#2}
+    \draw[dorange, line width=0.9pt, <->] (\la,-0.14) -- (\lb,-0.14);
+    \node[dorange, font=\scriptsize, anchor=north] at (\muv,-1.75) {$\pm 2\sigma$ na entrada};
+
+    % saída LINEARIZADA: gaussiana (pontilhada, à esquerda do eixo y)
+    \draw[dgreen, line width=1pt, dash pattern=on 1pt off 1.6pt, samples=120,
+          domain=\yoA:\yoB, variable=\y]
+      plot ({-#3*gauss(\y,\gmu,\sL)}, \y);
+
+    % saída VERDADEIRA: densidade transportada por g (laranja cheia, à esquerda do eixo y)
+    \draw[dorange, line width=1.4pt, samples=150, domain=\lo:\hi, smooth, variable=\x]
+      plot ({-#3*gauss(\x,\muv,#2)/(0.4*\x)}, {0.5 + 0.2*\x*\x});
+
+    \node[align=center, dlbl, font=\footnotesize] at (1.0,-3.1) {#4};
+   \end{scope}}
+
+  \panel{0}{0.32}{1.7}{\textbf{incerteza pequena}\\saída verdadeira (laranja) $\approx$ linearizada}
+  \panel{10.8}{1.40}{7.0}{\textbf{incerteza grande}\\saída verdadeira fica \textbf{assimétrica}}
+
+  % legenda das duas densidades de saída
+  \node[dorange, font=\scriptsize, anchor=west] at (-2.6,5.7) {— verdadeira};
+  \node[dgreen,  font=\scriptsize, anchor=west] at (-2.6,5.25) {$\cdots$ linearizada (gaussiana)};
+
+\end{tikzpicture}
+\end{document}

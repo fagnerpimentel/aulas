@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % --- transição ---
+  \node[dstate, minimum size=12mm] (xp) at (0,0) {$x_{t-1}$};
+  \node[dbox, minimum width=1.7cm, minimum height=1.0cm] (g) at (2.7,0) {$g(u_t,\cdot)$};
+  \node[dop] (s1) at (4.9,0) {$+$};
+  \node[dorange, font=\footnotesize] (e) at (4.9,1.6) {$\varepsilon_t \sim \mathcal{N}(0,R_t)$};
+  \node[dstate, minimum size=12mm, dacc] (x) at (7.0,0) {$x_t$};
+  \node[dblue, font=\footnotesize] (u) at (2.7,1.6) {$u_t$};
+
+  \draw[dtrans] (xp) -- (g);
+  \draw[dtrans] (u) -- (g);
+  \draw[dtrans] (g) -- (s1);
+  \draw[dmeas] (e) -- (s1);
+  \draw[dtrans, line width=1.1pt] (s1) -- (x);
+
+  % --- medição ---
+  \node[dbox, minimum width=1.4cm, minimum height=1.0cm] (h) at (9.4,0) {$h(\cdot)$};
+  \node[dop] (s2) at (11.4,0) {$+$};
+  \node[dorange, font=\footnotesize] (d) at (11.4,1.6) {$\delta_t \sim \mathcal{N}(0,Q_t)$};
+  \node[dobs, minimum size=12mm, dacc] (z) at (13.4,0) {$z_t$};
+
+  \draw[dtrans] (x) -- (h);
+  \draw[dtrans] (h) -- (s2);
+  \draw[dmeas] (d) -- (s2);
+  \draw[dmeas, line width=1.1pt] (s2) -- (z);
+
+\end{tikzpicture}
+\end{document}
