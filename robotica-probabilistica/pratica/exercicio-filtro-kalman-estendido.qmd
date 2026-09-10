@@ -1,0 +1,262 @@
+---
+title: "Exercício: Filtro de Kalman Estendido"
+subtitle: "Localização 2D de um robô com marco"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Duração estimada:** 1h30
+- **Pré-requisitos:**
+   - ROS 2 (Humble ou mais recente)
+   - Gazebo
+   - pacotes `turtlebot3*`
+   - Python (`numpy`, `matplotlib`)
+   - Exercício anterior (Filtro de Kalman) concluído
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Explicar por que a **trajetória em arco** ($v$ e $\omega$ constantes) e a medição de **distância + ângulo** a um marco **quebram** as premissas de linearidade do Filtro de Kalman.
+- Escrever o **modelo de movimento de velocidade** $g(u_t, x_{t-1})$ e o **modelo de medição** $h(x_t)$ para o estado $x = [x,\;y,\;\theta]^\top$.
+- Calcular as **Jacobianas** $G_t = \partial g/\partial x$ e $H_t = \partial h/\partial x$ e avaliá-las num ponto.
+- Executar **um ciclo completo** do EKF à mão (predição com $g$/$G_t$, correção com $h$/$H_t$) e explicar o papel de cada matriz.
+- Implementar o EKF em Python dentro de um nó **ROS 2** que consome os tópicos do **TurtleBot3 Burger simulado no Gazebo** e comparar a estimativa com a pose real.
+- Discutir **quando** a linearização é boa e o que acontece quando a incerteza cresce.
+
+---
+
+## Cenário
+
+O TurtleBot3 Burger parte de uma pose conhecida e dirige com **velocidade linear e angular constantes** ($v$, $\omega$), descrevendo um **arco de círculo**. Há um **marco** (um caixote) numa posição conhecida $m = (m_x, m_y)$ do mapa. O estado a estimar é a **pose completa**
+
+$$
+x_t = \begin{bmatrix} x_t \\ y_t \\ \theta_t \end{bmatrix},
+\qquad
+(x_t, y_t) = \text{posição no plano (m)}, \quad
+\theta_t = \text{orientação (rad)}.
+$$
+
+- **Predição** — **modelo de movimento de velocidade**: dado $u_t = (v, \omega)$ aplicado por $\Delta t$, com $\omega \neq 0$,
+$$
+g(u_t, x_{t-1}) =
+\begin{bmatrix}
+x + \dfrac{v}{\omega}\big(-\sin\theta + \sin(\theta + \omega\,\Delta t)\big) \\[2ex]
+y + \dfrac{v}{\omega}\big(\ \cos\theta - \cos(\theta + \omega\,\Delta t)\big) \\[2ex]
+\theta + \omega\,\Delta t
+\end{bmatrix}.
+$$
+
+- **Correção** — o **LiDAR** (`/scan`) fornece a **distância** $r$ e o **ângulo relativo** $\alpha$ até o marco:
+$$
+h(x_t) =
+\begin{bmatrix} r \\ \alpha \end{bmatrix} =
+\begin{bmatrix}
+\sqrt{(m_x - x)^2 + (m_y - y)^2} \\[1ex]
+\operatorname{atan2}(m_y - y,\ m_x - x) - \theta
+\end{bmatrix}.
+$$
+
+- **Referência (verdade)** — a pose real do robô no Gazebo (tópico `/odom` do simulador).
+
+::: {.callout-note}
+Ambos $g$ e $h$ são **não lineares** na pose: $g$ tem senos/cossenos de $\theta$; $h$ tem raiz e `atan2`. Não existem matrizes $A_t$, $C_t$ que reproduzam isso — daí o EKF.
+:::
+
+---
+
+## Parte 0 — Preparação do ambiente
+
+1. Rode o ambiente simulado no Docker:
+
+   ```bash
+   cd .devcontainer
+   docker compose up
+   ```
+   Para os próximos passos abra um terminal dentro do container (ou use `docker exec -it ros-env bash`).
+
+2. Compile o workspace ROS 2:
+
+   ```bash
+   source /opt/ros/jazzy/setup.bash
+   colcon build
+   source install/setup.bash
+   ```
+
+3. Suba o simulador do TurtleBot3 com o caixote-marco:
+
+   ```bash
+   ros2 launch ambientes one_box.launch.py
+   ```
+   Anote a posição $m = (m_x, m_y)$ do caixote no mundo (parâmetro do `.launch.py`).
+
+4. Rode o `teleop_keyboard` para controlar o robô:
+
+   ```bash
+   ros2 run turtlebot3_teleop teleop_keyboard
+   ```
+   Envie um comando **constante** de $v \approx 0{,}15$ m/s **e** $\omega \approx 0{,}30$ rad/s (o robô deve fazer uma curva suave, com o marco sempre visível).
+
+5. Inicie o nó do Filtro de Kalman Estendido (ainda não implementado):
+
+   ```bash
+   ros2 run robotica_probabilistica ekf_node
+   ```
+
+6. Inicie o nó do plot do gráfico:
+
+   ```bash
+   ros2 run robotica_probabilistica plot_node
+   ```
+
+---
+
+## Parte 1 — Fundamentação teórica (sem código)
+
+1. Escreva as **cinco linhas** do EKF para o estado $x = [x,\;y,\;\theta]^\top$ (predição de $\bar\mu_t$, predição de $\bar\Sigma_t$, ganho $K_t$, correção de $\mu_t$, correção de $\Sigma_t$). Identifique $g$, $h$, $G_t$, $H_t$, $R_t$, $Q_t$ e as **dimensões** de cada objeto.
+
+2. **Jacobiana do movimento.** Derive $G_t = \dfrac{\partial g}{\partial x}\Big|_{\mu_{t-1}}$. Mostre que
+
+$$
+G_t =
+\begin{bmatrix}
+1 & 0 & \dfrac{v}{\omega}\big(-\cos\theta + \cos(\theta + \omega\Delta t)\big) \\[2ex]
+0 & 1 & \dfrac{v}{\omega}\big(-\sin\theta + \sin(\theta + \omega\Delta t)\big) \\[2ex]
+0 & 0 & 1
+\end{bmatrix}.
+$$
+Por que a **terceira coluna** não é trivial, mas as duas primeiras sim?
+
+3. **Jacobiana da medição.** Sendo $\Delta = (m_x - x,\ m_y - y)$ e $q = \Delta_x^2 + \Delta_y^2$, mostre que
+
+$$
+H_t = \frac{\partial h}{\partial x}\bigg|_{\bar\mu_t} =
+\begin{bmatrix}
+-\dfrac{\Delta_x}{\sqrt{q}} & -\dfrac{\Delta_y}{\sqrt{q}} & 0 \\[2ex]
+\dfrac{\Delta_y}{q} & -\dfrac{\Delta_x}{q} & -1
+\end{bmatrix}.
+$$
+Explique fisicamente o **$-1$** na posição $(2,3)$: por que uma variação de $\theta$ muda o ângulo medido, mas não a distância medida?
+
+4. **Premissas.** O EKF supera **uma** das premissas do KF. Qual? Quais continuam valendo (e podem falhar na prática)? O que acontece com $h$ se o robô passar **muito perto** do marco ($q \to 0$)?
+
+5. **Linearização.** A qualidade da aproximação depende de dois fatores. Cite-os. Para este cenário, dê um exemplo concreto de situação em que a linearização de $g$ fica **ruim**.
+
+6. **Ruído de processo (opcional).** No modelo "de livro", o ruído entra no espaço de **controle** $(v, \omega)$ e é mapeado ao estado por $V_t M_t V_t^\top$, com $V_t = \partial g/\partial u$. Aqui usaremos $R_t$ **aditivo no estado** (mais simples). Comente uma limitação dessa simplificação.
+
+---
+
+## Parte 2 — Cálculo manual com um trecho de log
+
+O filtro roda a cada $\Delta t = 0{,}5$ s, com controle constante $v = 0{,}15$ m/s e $\omega = 0{,}30$ rad/s (logo $v/\omega = 0{,}5$ m e $\omega\Delta t = 0{,}15$ rad). O marco está em $m = (2{,}0,\ 1{,}0)$. Use:
+
+$$
+R_t = \begin{bmatrix} 0{,}01 & 0 & 0 \\ 0 & 0{,}01 & 0 \\ 0 & 0 & 0{,}005 \end{bmatrix}, \qquad
+Q_t = \begin{bmatrix} 0{,}05^2 & 0 \\ 0 & 0{,}03^2 \end{bmatrix} = \begin{bmatrix} 0{,}0025 & 0 \\ 0 & 0{,}0009 \end{bmatrix},
+$$
+
+$$
+\mu_0 = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}, \qquad
+\Sigma_0 = \begin{bmatrix} 0{,}10 & 0 & 0 \\ 0 & 0{,}10 & 0 \\ 0 & 0 & 0{,}05 \end{bmatrix}.
+$$
+
+Medições do LiDAR ao marco (com a pose real do simulador para conferência):
+
+| ciclo $t$ | $r_t$ medido (m) | $\alpha_t$ medido (rad) | pose real $(x, y, \theta)$ |
+|:--:|:--:|:--:|:--:|
+| 1 | $2{,}19$ | $0{,}341$ | $(0{,}075,\ 0{,}006,\ 0{,}150)$ |
+| 2 | $2{,}07$ | $0{,}187$ | $(0{,}148,\ 0{,}022,\ 0{,}300)$ |
+| 3 | $2{,}03$ | $0{,}049$ | $(0{,}217,\ 0{,}050,\ 0{,}450)$ |
+
+**Tarefa:** para $t = 1, 2, 3$, calcule e monte a tabela com
+
+$$
+\bar\mu_t,\quad G_t,\quad \bar\Sigma_t,\quad \hat z_t = h(\bar\mu_t),\quad H_t,\quad S_t = H_t\bar\Sigma_t H_t^\top + Q_t,\quad K_t,\quad \mu_t,\quad \Sigma_t.
+$$
+
+Mostre o passo $t = 1$ **completo**, com todas as multiplicações de matrizes escritas. Atenção: a **inovação** é $z_t - h(\bar\mu_t)$ (não $z_t - C_t\bar\mu_t$), e o **ângulo** da inovação deve ser normalizado para $(-\pi, \pi]$.
+
+<!-- Gabarito t=1: bar_mu ≈ (0.07472, 0.00561, 0.150); hat_z ≈ (2.1669, 0.3267);
+     inovação ≈ (0.0231, 0.0143); mu_1 ≈ (0.084, 0.020, 0.155) -->
+
+---
+
+## Parte 3 — Implementação: nó ROS 2 com EKF
+
+Implementar o EKF em Python dentro de um nó ROS 2 que consome os tópicos do TurtleBot3 simulado. O nó faz a predição da pose a partir de $u_t = (v, \omega)$ (comando enviado) e a correção com $(r, \alpha)$ do marco extraídos do `/scan`.
+
+**Esqueleto:**
+
+```python
+import numpy as np
+
+def wrap(a):
+    """normaliza um ângulo para (-pi, pi]"""
+    return (a + np.pi) % (2 * np.pi) - np.pi
+
+class EKFLocalization:
+
+    def __init__(self, dt, landmark, R, Q, mu0, Sigma0):
+        self.dt = float(dt)
+        self.m  = np.asarray(landmark, dtype=float).reshape(2)   # (mx, my)
+        self.R  = np.asarray(R, dtype=float).reshape(3, 3)       # ruído de processo (estado)
+        self.Q  = np.asarray(Q, dtype=float).reshape(2, 2)       # ruído do LiDAR (r, alpha)
+        self.mu = np.asarray(mu0, dtype=float).reshape(3)
+        self.Sigma = np.asarray(Sigma0, dtype=float).reshape(3, 3)
+
+    def g(self, mu, u):
+        """modelo de movimento de velocidade -> pose predita"""
+        x, y, th = mu
+        v, w = u
+        # TODO: tratar w ~ 0 (modelo em linha reta) e w != 0 (arco)
+        # TODO: retornar np.array([x_, y_, th_])
+        ...
+
+    def G(self, mu, u):
+        """Jacobiana de g em relação a (x, y, theta) -> 3x3"""
+        # TODO
+        ...
+
+    def h(self, mu):
+        """modelo de medição -> (r, alpha) previstos para o marco self.m"""
+        # TODO: dx, dy, q = ... ; retornar np.array([r, wrap(alpha)])
+        ...
+
+    def H(self, mu):
+        """Jacobiana de h em relação a (x, y, theta) -> 2x3"""
+        # TODO
+        ...
+
+    def ekf_step(self, mu, Sigma, u, z):
+        # --- predição ---
+        # TODO: _mu    
+        # TODO: _Sigma 
+
+        # --- correção ---
+        # TODO: Kt    
+        # TODO: mu    
+        # TODO: Sigma 
+        
+        return mu, Sigma
+```
+
+**Tarefas:**
+
+1. Implemente `g`, `G`, `h`, `H` e `ekf_step`. Cuide do caso $\omega \approx 0$ (use o limite: $\Delta x = v\,\Delta t\cos\theta$, $\Delta y = v\,\Delta t\sin\theta$).
+2. **Valide** o filtro reproduzindo numericamente a tabela da Parte 2 (rode `ekf_step` com aqueles $u$ e $z$ fora do ROS; os valores devem bater até a 3ª casa decimal).
+3. No nó ROS 2: use o comando $(v, \omega)$ publicado em `/cmd_vel` como $u_t$ da predição; extraia $(r, \alpha)$ do `/scan` (menor distância dentro de uma janela angular apontada ao marco) para a correção; leia `/odom` só como **referência**.
+4. Dirija o robô em **arco** ($v \approx 0{,}15$ m/s, $\omega \approx 0{,}30$ rad/s) mantendo o marco no campo do LiDAR.
+5. **Gráficos**: num mesmo eixo de tempo, analise:
+   (a) trajetória estimada $(\hat x_t, \hat y_t)$, a de referência e o marco $m$ no plano $xy$;
+   (b) $\hat\theta_t$ e a orientação de referência;
+   (c) $\sqrt{\Sigma_{xx,t}}$, $\sqrt{\Sigma_{yy,t}}$ e $\sqrt{\Sigma_{\theta\theta,t}}$ ao longo do tempo.
+<!-- 6. Compare com o KF do exercício anterior: rode o mesmo trajeto forçando g/h lineares (A, C fixos) e mostre o erro crescer. -->
+<!-- 7. Perda de marco: pare de chamar a correção por 3 s e observe as elipses de covariância crescerem; ao retomar, a estimativa "salta". -->
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas), incluindo as derivações de $G_t$ e $H_t$.
+- **Parte 2:** os cálculos manuais dos 3 ciclos (passo $t = 1$ completo, com as multiplicações de matrizes).
+- **Parte 3:** o nó ROS 2 (`ekf_node`) e os **3 gráficos** do trajeto em arco.
