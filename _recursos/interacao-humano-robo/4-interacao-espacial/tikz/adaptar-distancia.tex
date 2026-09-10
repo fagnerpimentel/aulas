@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, text width=3.0cm, minimum height=1.1cm, font=\footnotesize, align=center}]
+
+  \node[st, dacc] (m) at (0,0)   {\textbf{medir sinais}\\\scriptsize recuo, postura, olhar, expressão};
+  \node[st]       (e) at (4.2,0) {\textbf{estimar}\\\textbf{desconforto}};
+  \node[st, draw=dgreen] (a) at (8.4,0) {\textbf{ajustar}\\a distância / orientação};
+
+  \draw[dtrans] (m) -- (e);
+  \draw[dtrans] (e) -- (a);
+  \draw[dmeas, line width=1pt]
+     (a.south) .. controls +(0,-1.3) and +(0,-1.3) ..
+     node[below, dsub, font=\scriptsize] {continuamente, durante toda a interação} (m.south);
+
+  \node[dsub, font=\scriptsize, align=center, text width=11cm] at (4.2,-2.4)
+     {a distância confortável é \textbf{negociada} e \textbf{dinâmica} --- e o robô também tem um ``espaço pessoal'' que as pessoas respeitam};
+
+\end{tikzpicture}
+\end{document}

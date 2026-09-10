@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   st/.style={dbox, minimum width=3.0cm, minimum height=1.0cm, font=\footnotesize, align=center}]
+
+  \node[st, dacc] (s) at (-4.4,0)  {\textbf{sentir}\\\scriptsize sinais espaciais};
+  \node[st]       (m) at (-1.5,2.0){\textbf{modelar}\\\scriptsize conforto, F-formation};
+  \node[st]       (a) at ( 1.5,2.0){\textbf{agir}\\\scriptsize de forma legível};
+  \node[st, draw=dgreen] (d) at (4.4,0) {\textbf{adaptar}\\\scriptsize à resposta da pessoa};
+
+  \draw[dtrans] (s) -- (m);
+  \draw[dtrans] (m) -- (a);
+  \draw[dtrans] (a) -- (d);
+  \draw[dmeas, line width=1.1pt]
+     (d.south) .. controls +(0,-2.2) and +(0,-2.2) .. (s.south);
+
+  \node[dsub, font=\scriptsize, align=center, text width=12cm] at (0,-3.0)
+     {a interação espacial é \textbf{contínua}, \textbf{mútua} e moldada pela \textbf{cultura}};
+
+\end{tikzpicture}
+\end{document}

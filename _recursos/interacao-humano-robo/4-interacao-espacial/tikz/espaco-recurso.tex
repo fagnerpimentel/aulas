@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   p/.style={circle, draw=black!80, fill=dcream, line width=1pt, minimum size=1.0cm, font=\scriptsize}]
+
+  % agente de tela
+  \node[dbox, minimum width=1.6cm, minimum height=1.1cm, font=\scriptsize] (scr) at (0,0) {tela};
+  \node[p] (u1) at (2.2,0) {pessoa};
+  \draw[dtrans] (scr) -- (u1);
+  \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (1.1,-1.4)
+     {agente de tela:\\ \textbf{não} compartilha o espaço físico};
+
+  \draw[black!15, line width=0.6pt] (4.4,-1.9) -- (4.4,2.2);
+
+  % robô + pessoa no mesmo espaço
+  \draw[dguide, rounded corners=6pt] (5.2,-1.2) rectangle (10.0,1.6);
+  \node[dbox, dacc, minimum size=0.9cm, font=\scriptsize] (rob) at (6.4,0.2) {robô};
+  \node[p, draw=dblue] (u2) at (8.8,0.2) {pessoa};
+  \draw[<->, dblue, line width=1pt] (rob) -- node[above, font=\scriptsize] {distância} (u2);
+  \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (7.6,-1.8)
+     {robô: \textbf{compartilha} o espaço\\ $\Rightarrow$ precisa \textbf{gerenciá-lo}};
+
+  % o que está em jogo
+  \node[dbox, draw=dgreen, font=\scriptsize, align=center, text width=6.4cm] at (13.6,0.2)
+     {em jogo: \textbf{conforto}, \textbf{legibilidade}, \textbf{segurança}, \textbf{aceitação social}};
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (6.0,-2.6)
+     {base: \textbf{proxêmica} (antropologia) $\cdot$ psicologia ambiental $\cdot$ \textbf{F-formations} (sociologia)};
+
+\end{tikzpicture}
+\end{document}

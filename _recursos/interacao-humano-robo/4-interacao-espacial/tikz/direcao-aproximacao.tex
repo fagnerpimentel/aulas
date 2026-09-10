@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % pessoa (vista de cima), frente para cima (+y)
+  \fill[black!12, draw=black!70, line width=1pt] (0,0) circle (0.55);
+  \fill[black!70] (0,0.55) -- (-0.2,0.85) -- (0.2,0.85) -- cycle;
+  \node[dsub, font=\scriptsize, anchor=west] at (0.75,0.95) {frente da pessoa};
+
+  % frente -> iniciar conversa
+  \draw[->, dgreen, line width=1.5pt] (0,3.2) -- (0,1.0);
+  \node[dgreen, font=\scriptsize, align=center, anchor=south] at (0,3.25)
+     {\textbf{frente}\\preferida para \emph{iniciar conversa}\\(Dautenhahn et al., 2006; Satake et al., 2009)};
+
+  % frente ao entregar objeto -> pior
+  \draw[->, dorange, line width=1.1pt] (3.2,2.6) -- (0.9,0.7);
+  \node[dorange, font=\scriptsize, align=left, anchor=west] at (3.3,2.6)
+     {ao \textbf{entregar um objeto}: a frente é\\ \emph{menos} preferida --- mais falhas\\(Shi et al., 2013)};
+
+  % por trás
+  \draw[->, dred, line width=1.5pt] (-3.0,-2.7) -- (-0.75,-0.75);
+  \node[dred, font=\scriptsize, align=right, anchor=east] at (-3.1,-2.7)
+     {\textbf{por trás}\\sensação de ser ``perseguido''\\(drone Joggobot)};
+
+  \node[dsub, font=\scriptsize, align=center, text width=11cm] at (0.5,-3.6)
+     {a trajetória de aproximação precisa ser \textbf{eficaz} \emph{e} \textbf{aceitável} --- e depende do \textbf{contexto} e da \textbf{tarefa}};
+
+\end{tikzpicture}
+\end{document}

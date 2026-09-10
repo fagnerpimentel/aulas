@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (0,0.30) -- (-0.14,0.46) -- (0.14,0.46) -- cycle; \end{scope}}
+
+  % conversa: não passar entre as pessoas (o-space)
+  \fill[dred!22, draw=dred, line width=0.8pt] (2.0,0) circle (0.75);
+  \perso{1.15}{0}{90} \perso{2.85}{0}{-90}
+  \draw[->, dred, line width=1.2pt] (2.0,1.6) -- (2.0,0.9);
+  \node[dred, font=\scriptsize, anchor=south, align=center] at (2.0,1.65) {\textbf{não passar entre}\\pessoas em conversa};
+
+  % obstáculo -> não surpreender aparecendo de trás
+  \fill[black!12, draw=black!45] (6.4,-0.6) rectangle (7.6,1.4);
+  \node[dsub, font=\scriptsize] at (7.0,0.4) {obstáculo};
+  \draw[dcurve, densely dashed, line width=1.1pt] (5.2,-1.8) .. controls (6.0,-0.9) and (6.2,1.6) .. (7.0,2.2);
+  \draw[->, dorange, line width=1pt] (7.4,2.0) .. controls (8.2,1.2) .. (8.0,0.2);
+  \node[dorange, font=\scriptsize, anchor=west, align=left, text width=3.4cm] at (8.1,1.0)
+     {não \textbf{surpreender} aparecendo de trás de um obstáculo};
+  \perso{9.6}{-0.2}{200}
+
+  \node[dsub, font=\scriptsize, align=center, text width=12.5cm] at (5.0,-2.6)
+     {o planejador considera se a pessoa está \textbf{sentada} ou \textbf{em pé} e mantém distância da \textbf{zona íntima} (Sisbot et al., 2007; Pacchierotti et al., 2006)};
+
+\end{tikzpicture}
+\end{document}

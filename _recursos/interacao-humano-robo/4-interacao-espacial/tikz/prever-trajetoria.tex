@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.28);
+      \fill[black!75] (0.28,0) -- (0.42,0.12) -- (0.42,-0.12) -- cycle; \end{scope}}
+
+  \perso{0.6}{0}
+  \draw[->, black!70, line width=1pt] (1.0,-0.15) -- (2.6,-0.55) node[below, dsub, font=\scriptsize] {velocidade atual};
+
+  \fill[dorange!18] (1.0,0) -- (5.6,1.9) -- (6.6,1.4) -- (6.2,-0.3) -- (5.0,-0.7) -- cycle;
+  \node[dorange, font=\scriptsize] at (4.2,1.8) {caminho \textbf{previsto} da pessoa};
+  \foreach \k in {1,2,3}{ \fill[black!25] ({0.6+\k*1.7},{\k*0.35}) circle (0.18); }
+
+  \draw[dcurve, densely dashed, line width=1.2pt]
+     (0.4,-2.4) .. controls (2.4,-1.8) and (3.2,-1.6) .. (5.2,-1.4)
+     .. controls (7.0,-1.2) and (7.4,0.4) .. (7.6,1.2);
+  \node[dblue, font=\scriptsize, anchor=west] at (7.6,1.2) {o robô planeja em torno da \textbf{previsão}};
+
+  \node[dsub, font=\scriptsize, align=center, text width=12cm] at (4.0,-3.1)
+     {DWA (Fox et al., 1997): decidir a velocidade pela \emph{posição futura} $\cdot$
+      modelo probabilístico do pedestre $\Rightarrow$ trajetória segura de drone (Fisac et al., 2018)};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,48 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\perso}[2]{
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (-0.30,0) -- (-0.46,0.13) -- (-0.46,-0.13) -- cycle;
+    \end{scope}}
+
+  % chão
+  \draw[line width=1pt, black!35] (-0.4,0) -- (8.4,0);
+
+  % --- pessoa + espaço pessoal ---
+  \perso{5.7}{1.0}
+  \draw[dorange!55, dashed, line width=0.7pt] (5.7,1.0) circle (1.15);
+  \node[dsub, font=\scriptsize, anchor=west] at (6.05,0.30) {espaço pessoal};
+  % mão (alvo da entrega)
+  \fill[black!55] (4.5,1.0) circle (0.06);
+  \node[dsub, font=\tiny, anchor=east] at (4.4,1.15) {mão};
+
+  % --- braço robótico (base à esquerda) ---
+  \draw[line width=5pt, black!25, line cap=round]
+     (0.7,0.2) -- (0.7,1.9) -- (2.1,2.5) -- (3.0,1.7);
+  \fill[black!45] (0.7,1.9) circle (0.11);
+  \fill[black!45] (2.1,2.5) circle (0.11);
+  \fill[black!20, draw=black!55, line width=0.8pt] (0.25,-0.02) rectangle (1.15,0.55);
+  % garra com o objeto
+  \draw[black!55, line width=1.4pt] (2.92,1.62) -- (3.12,1.42);
+  \draw[black!55, line width=1.4pt] (3.12,1.85) -- (3.32,1.65);
+  \fill[dcream, draw=black!60, line width=0.7pt] (3.02,1.5) rectangle (3.26,1.74);
+  \node[dsub, font=\tiny, anchor=south] at (3.14,1.8) {objeto};
+
+  % --- trajetória direta (eficiente, invade) ---
+  \draw[dred, line width=1.2pt, dashed, -{Stealth[length=2.2mm]}]
+     (3.35,1.55) -- (4.42,1.03);
+  \node[dred, font=\scriptsize, anchor=north east, align=center, text width=3.4cm] at (4.3,0.7)
+     {\textbf{direta}: curta, mas entra no espaço pessoal};
+
+  % --- trajetória social (arco largo, sai por cima) ---
+  \draw[dgreen, line width=1.4pt, -{Stealth[length=2.4mm]}]
+     (3.3,1.85) .. controls (3.9,3.15) and (4.9,2.7) .. (4.62,1.22);
+  \node[dgreen, font=\scriptsize, anchor=south, align=center, text width=3.8cm] at (4.5,3.0)
+     {social: arco mais \textbf{longo}, aproxima-se por fora --- avaliada como melhor};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.28);
+      \fill[black!75] (0,0.28) -- (-0.13,0.42) -- (0.13,0.42) -- cycle; \end{scope}}
+  \newcommand{\robo}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \draw[dbody, dacc, rounded corners=1pt] (-0.3,-0.3) rectangle (0.3,0.3);
+      \fill[dblue] (0,0.3) -- (-0.13,0.44) -- (0.13,0.44) -- cycle; \end{scope}}
+
+  % (a) manter a formação
+  \begin{scope}[shift={(0,0)}]
+    \draw[black!20] (-0.4,-1.8) rectangle (5.6,1.8);
+    \node[dsub, anchor=north, font=\scriptsize\bfseries] at (2.6,1.7) {manter distância e orientação};
+    \robo{0.8}{0}{60}
+    \perso{2.6}{1.0}{-120}
+    \perso{4.0}{-0.6}{160}
+    \draw[->, dorange, line width=1pt] (2.7,0.7) .. controls (3.4,0.2) .. (3.8,-0.35);
+    \draw[->, dblue, line width=1pt] (1.0,0.2) .. controls (1.6,0.8) .. (2.1,0.9);
+    \node[dsub, font=\scriptsize] at (2.6,-1.5) {pessoa se move $\rightarrow$ robô \textbf{acompanha} e reorienta};
+  \end{scope}
+
+  % (b) referência espacial / dêixis
+  \begin{scope}[shift={(7.4,0)}]
+    \draw[black!20] (-0.4,-1.8) rectangle (5.6,1.8);
+    \node[dsub, anchor=north, font=\scriptsize\bfseries] at (2.6,1.7) {referência espacial (dêixis)};
+    \robo{0.8}{-0.4}{35}
+    \perso{2.2}{-0.4}{35}
+    \fill[dgreen!30, draw=dgreen] (4.6,0.9) rectangle (5.2,1.5);
+    \draw[->, dblue, densely dashed, line width=1pt] (1.1,-0.1) -- (4.5,1.0);
+    \draw[->, black!60, densely dashed, line width=1pt] (2.5,-0.1) -- (4.5,1.0);
+    \node[dsub, font=\scriptsize] at (2.6,-1.5) {apontar + ``ali'' $\rightarrow$ \textbf{atenção conjunta}};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

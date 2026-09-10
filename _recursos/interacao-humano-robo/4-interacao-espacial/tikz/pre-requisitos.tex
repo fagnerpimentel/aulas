@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   c/.style={dbox, text width=4.2cm, minimum height=3.0cm, font=\scriptsize, align=left, inner sep=7pt}]
+
+  \node[c, dacc] (a) at (0,0)
+     {\textbf{Localizar-se}\\[3pt]
+      a odometria \textbf{perde precisão} $\rightarrow$ construir um \textbf{mapa} e cruzar com laser / câmera\\[3pt]
+      $\Rightarrow$ \textbf{SLAM} (Thrun et al., 2005)};
+
+  \node[c] (b) at (5.0,0)
+     {\textbf{Detectar pessoas}\\[3pt]
+      $\bullet$ câmeras 2D e de \textbf{profundidade} (curto alcance) $\rightarrow$ braços, pernas, cabeça\\
+      $\bullet$ \textbf{LiDAR} (longo alcance)\\
+      $\bullet$ sensores no \textbf{ambiente} (Brščić et al., 2013)};
+
+  \node[c, draw=dorange] (d) at (10.0,0)
+     {\textbf{Navegar}\\[3pt]
+      $\bullet$ \textbf{DWA} (Fox et al., 1997) --- curto prazo\\
+      $\bullet$ \textbf{planejamento de caminho} --- longo prazo\\[3pt]
+      \emph{mas} os algoritmos padrão são \textbf{socialmente inadequados} perto de pessoas};
+
+  \draw[dtrans] (a) -- (b);
+  \draw[dtrans] (b) -- (d);
+
+\end{tikzpicture}
+\end{document}

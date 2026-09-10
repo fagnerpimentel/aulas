@@ -22,3 +22,4 @@ listing:
 
 - [Filtro de Bayes para localização de robôs](pratica/exercicio-filtro-bayes.qmd)
 - [Filtro de Kalman com o TurtleBot3 no Gazebo](pratica/exercicio-filtro-kalman.qmd)
+- [Filtro de Kalman Estendido: localização com marco](pratica/exercicio-filtro-kalman-estendido.qmd)

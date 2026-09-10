@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \fill[dblue!3, draw=dblue!35, line width=0.7pt] (0,0) circle (5.4);
+  \fill[dblue!7, draw=dblue!45, line width=0.8pt] (0,0) circle (3.9);
+  \fill[dblue!12, draw=dblue!60, line width=0.9pt] (0,0) circle (2.3);
+  \fill[dblue!22, draw=dblue, line width=1pt]     (0,0) circle (1.0);
+
+  \fill[black!75] (0,0) circle (0.16);
+
+  \node[font=\scriptsize\bfseries, dblue] at (0,0.60) {íntima};
+  \node[font=\scriptsize] at (0,-0.60) {0--0{,}5\,m};
+
+  \node[font=\scriptsize\bfseries] at (0,1.65) {pessoal};
+  \node[font=\scriptsize] at (0,2.02) {0{,}5--1{,}2\,m};
+
+  \node[font=\scriptsize\bfseries] at (0,3.05) {social};
+  \node[font=\scriptsize] at (0,3.42) {1{,}2--3{,}7\,m};
+
+  \node[font=\scriptsize\bfseries] at (0,4.55) {pública};
+  \node[font=\scriptsize] at (0,4.92) {$>$ 3{,}7\,m};
+
+  \node[dsub, font=\scriptsize, align=center, text width=9cm] at (0,-6.1)
+     {Hall et al.\ (1968) --- \textbf{íntima} + \textbf{pessoal} = o ``espaço pessoal'';\\ os valores variam muito com a \textbf{cultura}};
+
+\end{tikzpicture}
+\end{document}

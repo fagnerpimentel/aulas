@@ -1,0 +1,57 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{
+    pcap/.style={black!60, font=\scriptsize\bfseries, align=center},
+    frm/.style={draw=black!15, line width=0.6pt, rounded corners=2pt}}
+
+  % pessoa: \perso{x}{y}{angulo}  (nariz aponta +y quando angulo=0)
+  \newcommand{\perso}[3]{
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (0,0.30) -- (-0.14,0.46) -- (0.14,0.46) -- cycle;
+    \end{scope}}
+  % pessoa em (#1,#2) olhando para o centro (#3,#4)
+  \newcommand{\persoC}[4]{
+    \pgfmathsetmacro\pcr{atan2(#4-#2, #3-#1) - 90}
+    \perso{#1}{#2}{\pcr}}
+
+  \def\W{4.2}
+
+  % vis-à-vis
+  \begin{scope}[shift={(0,0)}]
+    \draw[frm] (-0.2,-1.5) rectangle (3.6,1.6);
+    \node[pcap, anchor=north] at (1.7,1.5) {vis-à-vis};
+    \fill[dblue!12] (1.7,0) ellipse (0.55 and 0.4);
+    \persoC{0.7}{0}{1.7}{0}
+    \persoC{2.7}{0}{1.7}{0}
+  \end{scope}
+  % L-shape
+  \begin{scope}[shift={(\W,0)}]
+    \draw[frm] (-0.2,-1.5) rectangle (3.6,1.6);
+    \node[pcap, anchor=north] at (1.7,1.5) {L (cotovelo)};
+    \fill[dblue!12] (1.9,-0.2) ellipse (0.5 and 0.45);
+    \persoC{1.0}{-0.2}{1.9}{-0.2}
+    \persoC{1.9}{0.9}{1.9}{-0.2}
+  \end{scope}
+  % lado a lado
+  \begin{scope}[shift={(2*\W,0)}]
+    \draw[frm] (-0.2,-1.5) rectangle (3.6,1.6);
+    \node[pcap, anchor=north] at (1.7,1.5) {lado a lado};
+    \fill[dblue!12] (1.7,0.85) ellipse (0.7 and 0.32);
+    \persoC{1.25}{-0.15}{1.7}{0.85}
+    \persoC{2.15}{-0.15}{1.7}{0.85}
+  \end{scope}
+  % circular
+  \begin{scope}[shift={(3*\W,0)}]
+    \draw[frm] (-0.2,-1.5) rectangle (3.6,1.6);
+    \node[pcap, anchor=north] at (1.7,1.5) {circular (grupo)};
+    \fill[dblue!12] (1.7,0) circle (0.5);
+    \persoC{1.7}{0.95}{1.7}{0}
+    \persoC{0.85}{-0.5}{1.7}{0}
+    \persoC{2.55}{-0.5}{1.7}{0}
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

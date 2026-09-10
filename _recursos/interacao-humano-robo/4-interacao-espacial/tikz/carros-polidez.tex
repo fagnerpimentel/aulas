@@ -1,0 +1,53 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % carro virado para +x : \carro{x}{y}{cor da borda}{rótulo}
+  \newcommand{\carro}[4]{
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[black!6, draw=#3, line width=1pt, rounded corners=2pt] (-0.45,-0.24) rectangle (0.45,0.24);
+      \draw[#3, line width=0.7pt] (0.08,-0.24) -- (0.08,0.24);
+      \fill[#3] (0.45,-0.11) -- (0.62,0) -- (0.45,0.11) -- cycle;
+      \node[font=\tiny, black!70] at (-0.18,0) {#4};
+    \end{scope}}
+
+  \newcommand{\cena}[1]{% desenha a via com merge
+    \begin{scope}[shift={(#1,0)}]
+      \draw[line width=1pt, black!35] (0,-0.05) -- (6.4,-0.05);
+      \draw[line width=1pt, black!35] (0,1.05) -- (6.4,1.05);
+      \draw[line width=1pt, black!35] (0,2.05) -- (3.2,2.05);
+      \draw[line width=1pt, black!35] (3.2,2.05) -- (4.4,1.05);
+      \draw[dguide] (0,0.5) -- (6.4,0.5);
+    \end{scope}}
+
+  % ================= (a) só ótimo =================
+  \begin{scope}[shift={(0,0)}]
+    \node[font=\scriptsize\bfseries, black!70] at (3.2,2.8) {só trajetória ótima};
+    \cena{0}
+    \carro{3.3}{0.5}{dblue}{AV}
+    \carro{2.1}{0.5}{black!55}{B}
+    \draw[dblue, line width=1pt, dashed, -{Stealth[length=2mm]}] (2.6,1.4) .. controls (3.1,1.2) .. (3.3,0.55);
+    \draw[<->, dred, line width=0.7pt] (2.55,0.5) -- (2.85,0.5);
+    \node[dred, font=\normalsize\bfseries] at (2.1,1.15) {!};
+    \node[dsub, font=\scriptsize, align=center, text width=5.2cm] at (3.2,-0.8)
+       {corta com \textbf{folga mínima} $\rightarrow$ assusta os outros};
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (7.0,-1.2) -- (7.0,3.0);
+
+  % ================= (b) + polidez =================
+  \begin{scope}[shift={(7.8,0)}]
+    \node[font=\scriptsize\bfseries, black!70] at (3.2,2.8) {+ polidez no critério};
+    \cena{0}
+    \carro{2.4}{0.5}{black!55}{B}
+    \carro{3.4}{1.5}{dblue}{AV}
+    \draw[dblue, line width=1pt, dashed, -{Stealth[length=2mm]}] (3.9,1.4) .. controls (4.6,1.0) .. (5.0,0.55);
+    \draw[<->, dgreen, line width=0.8pt] (2.95,0.5) -- (4.5,0.5);
+    \node[dgreen, font=\scriptsize, anchor=south] at (3.75,0.55) {folga confortável};
+    \node[dsub, font=\scriptsize, align=center, text width=5.2cm] at (3.2,-0.8)
+       {espera e \textbf{deixa espaço} $\rightarrow$ socialmente aceitável};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

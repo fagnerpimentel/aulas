@@ -1,0 +1,55 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\persoC}[4]{
+    \pgfmathsetmacro\pcr{atan2(#4-#2,#3-#1)-90}
+    \begin{scope}[shift={(#1,#2)}, rotate=\pcr]
+      \fill[black!12, draw=black!75, line width=0.7pt] (0,0) circle (0.26);
+      \fill[black!75] (0,0.26) -- (-0.12,0.40) -- (0.12,0.40) -- cycle;
+    \end{scope}}
+  \tikzset{frm/.style={draw=black!20, line width=0.7pt, rounded corners=3pt}}
+
+  % ===== A: loja de câmeras (dados) =====
+  \begin{scope}[shift={(0,0)}]
+    \node[frm, minimum width=4.2cm, minimum height=3.4cm] at (1.9,1.0) {};
+    \node[font=\scriptsize\bfseries, black!70, anchor=north] at (1.9,2.55) {loja de câmeras};
+    \draw[fill=dcream, draw=black!45, line width=0.7pt] (0.5,-0.3) rectangle (3.3,0.1);
+    \fill[dblue!12] (1.9,1.05) ellipse (0.55 and 0.35);
+    \persoC{1.3}{1.05}{1.9}{1.05}
+    \persoC{2.5}{1.05}{1.9}{1.05}
+    \node[dsub, font=\scriptsize] at (1.4,1.75) {atendente};
+    \node[dsub, font=\scriptsize] at (2.7,1.75) {cliente};
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm, anchor=north] at (1.9,0.45)
+      {grava \textbf{movimento} e \textbf{fala}};
+  \end{scope}
+
+  \draw[dtrans, line width=1.2pt] (4.4,1.0) -- (5.4,1.0);
+
+  % ===== B: aprendizado de máquina =====
+  \node[dbox, dacc, font=\scriptsize, align=left, text width=3.7cm, minimum height=2.0cm] (ml) at (7.4,1.0)
+     {\textbf{aprendizado de máquina}\\[3pt]
+      $\bullet$ formações espaciais\\
+      $\bullet$ fala típica};
+
+  \draw[dtrans, line width=1.2pt] (9.4,1.0) -- (10.4,1.0);
+
+  % ===== C: robô balconista =====
+  \begin{scope}[shift={(11.0,0)}]
+    \node[frm, minimum width=4.0cm, minimum height=3.4cm] at (1.9,1.0) {};
+    \node[font=\scriptsize\bfseries, black!70, anchor=north] at (1.9,2.55) {robô atendente};
+    \draw[fill=dcream, draw=black!45, line width=0.7pt] (0.5,-0.3) rectangle (3.3,0.1);
+    \fill[dblue!12] (1.9,1.05) ellipse (0.55 and 0.35);
+    \begin{scope}[shift={(1.3,1.05)}]
+      \fill[black!5, draw=dblue, line width=1pt, rounded corners=1.5pt] (-0.24,-0.24) rectangle (0.24,0.24);
+      \fill[dblue] (0.24,-0.12) -- (0.40,0) -- (0.24,0.12) -- cycle;
+      \node[font=\tiny, black!55] at (0.02,0) {R};
+    \end{scope}
+    \persoC{2.5}{1.05}{1.9}{1.05}
+    \node[dsub, font=\scriptsize, align=center, text width=3.6cm, anchor=north] at (1.9,0.45)
+      {reproduz a mesma \textbf{aproximação}};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

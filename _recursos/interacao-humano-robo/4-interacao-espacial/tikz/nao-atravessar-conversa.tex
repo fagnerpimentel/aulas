@@ -1,0 +1,43 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\perso}[3]{
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (0,0.30) -- (-0.14,0.46) -- (0.14,0.46) -- cycle;
+    \end{scope}}
+  \newcommand{\persoC}[4]{\pgfmathsetmacro\pcr{atan2(#4-#2,#3-#1)-90}\perso{#1}{#2}{\pcr}}
+  \newcommand{\robo}[3]{
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!5, draw=black!80, line width=0.9pt, rounded corners=1.5pt] (-0.28,-0.22) rectangle (0.28,0.22);
+      \fill[dblue] (0,0.22) -- (-0.14,0.40) -- (0.14,0.40) -- cycle;
+      \node[font=\tiny, black!55] at (0,0) {R};
+    \end{scope}}
+
+  % dupla em conversa (vis-à-vis) + o-space
+  \fill[dblue!12, draw=dblue!35, line width=0.6pt] (0,0) ellipse (0.95 and 0.55);
+  \persoC{-1.5}{0}{0}{0}
+  \persoC{ 1.5}{0}{0}{0}
+
+  % robô e objetivo (lados opostos da dupla)
+  \robo{0}{-2.7}{0}
+  \fill[dorange] (0,2.7) circle (0.09);
+  \node[dorange, font=\scriptsize, anchor=west] at (0.16,2.7) {objetivo};
+
+  % caminho ruim: reto, atravessa a conversa
+  \draw[dred, line width=1.2pt, dashed] (0,-2.35) -- (0,2.35);
+  \draw[dred, line width=1.5pt] (-0.26,-0.26) -- (0.26,0.26);
+  \draw[dred, line width=1.5pt] (-0.26,0.26) -- (0.26,-0.26);
+  \node[dred, font=\scriptsize\bfseries, anchor=west] at (0.4,-1.4) {atravessa a conversa};
+
+  % caminho bom: contorna
+  \draw[dgreen, line width=1.5pt, ->] (-0.28,-2.45) .. controls (-3.0,-1.4) and (-3.0,1.4) .. (-0.28,2.45);
+  \node[dgreen, font=\scriptsize\bfseries, anchor=east] at (-3.05,0) {contorna};
+
+  \node[dsub, font=\scriptsize, align=center, text width=8.4cm] at (0,-3.35)
+    {há espaço livre dos dois lados --- ainda assim, passar entre quem conversa é \textbf{inadequado}};
+
+\end{tikzpicture}
+\end{document}

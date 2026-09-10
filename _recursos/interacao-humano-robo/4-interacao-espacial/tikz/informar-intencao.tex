@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   c/.style={dbox, text width=5.6cm, minimum height=1.7cm, font=\scriptsize, align=left, inner sep=6pt}]
+
+  \node[c, dacc] (a) at (0,1.4)
+     {\textbf{trajetória} como sinal\\ passar devagar a alguns metros $\rightarrow$ ``estou disponível'' (Hayashi et al., 2012); robôs de limpeza e drones expressam a intenção (Szafir et al., 2015)};
+
+  \node[c] (b) at (6.6,1.4)
+     {\textbf{handover legível}\\ o gesto mais eficiente em energia pode ser \emph{incompreensível} --- melhor um movimento fácil de interpretar (Dragan et al., 2013)};
+
+  \node[c, draw=dgreen] (d) at (3.3,-1.2)
+     {\textbf{tomada de perspectiva espacial}\\ saber o que a pessoa \emph{vê} e \emph{alcança} (Trafton et al., 2005); resolver ``me passa \textbf{aquilo}'' com modelos geométricos (Lemaignan et al., 2017)};
+
+\end{tikzpicture}
+\end{document}

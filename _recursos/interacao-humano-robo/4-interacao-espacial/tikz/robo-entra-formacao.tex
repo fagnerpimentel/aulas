@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (0,0.30) -- (-0.14,0.46) -- (0.14,0.46) -- cycle; \end{scope}}
+  \newcommand{\persoC}[4]{\pgfmathsetmacro\pcr{atan2(#4-#2,#3-#1)-90}\perso{#1}{#2}{\pcr}}
+  \newcommand{\robo}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \draw[dbody, dacc, rounded corners=1pt] (-0.3,-0.3) rectangle (0.3,0.3);
+      \fill[dblue] (0,0.3) -- (-0.13,0.44) -- (0.13,0.44) -- cycle; \end{scope}}
+
+  % ---- antes ----
+  \begin{scope}[shift={(0,0)}]
+    \fill[dblue!5, draw=dblue!35] (1.7,0) circle (2.0);
+    \fill[dblue!14, draw=dblue] (1.7,0) circle (0.7);
+    \persoC{0.7}{0}{1.7}{0} \persoC{2.7}{0}{1.7}{0}
+    \robo{1.7}{3.0}{180}
+    \draw[->, dorange, line width=1pt] (1.7,2.4) .. controls (3.4,1.8) .. (3.6,0.2);
+    \node[dsub, font=\scriptsize, anchor=west, align=left, text width=3.4cm] at (3.7,0.9) {aproxima pelo \textbf{r-space} (sem cruzar o o-space)};
+    \node[dsub, font=\scriptsize] at (1.7,-2.6) {antes};
+  \end{scope}
+
+  \draw[dtrans, line width=1.2pt] (7.2,0) -- (8.6,0);
+
+  % ---- depois ----
+  \begin{scope}[shift={(9.6,0)}]
+    \fill[dblue!5, draw=dblue!35] (1.7,-0.2) circle (2.0);
+    \fill[dblue!14, draw=dblue] (1.7,-0.2) circle (0.7);
+    \persoC{0.85}{0.4}{1.7}{-0.2} \persoC{2.55}{0.4}{1.7}{-0.2}
+    \robo{1.7}{-1.4}{0}
+    \node[dsub, font=\scriptsize, anchor=west] at (3.9,-0.2) {toma lugar no \textbf{p-space}, orientado para o \textbf{o-space}; todos \textbf{reorientam}};
+    \node[dsub, font=\scriptsize] at (1.7,-2.8) {depois};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

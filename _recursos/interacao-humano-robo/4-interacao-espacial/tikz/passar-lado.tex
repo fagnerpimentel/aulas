@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.26);
+      \fill[black!75] (-0.26,0) -- (-0.40,0.12) -- (-0.40,-0.12) -- cycle; \end{scope}}
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=1pt] (-0.28,-0.28) rectangle (0.28,0.28);
+      \fill[dblue] (0.42,0) -- (0.28,0.12) -- (0.28,-0.12) -- cycle; \end{scope}}
+
+  % ---- (a) decide cedo -> passagem suave ----
+  \begin{scope}[shift={(0,0)}]
+    \draw[black!25] (-0.2,-1.2) rectangle (6.2,1.2);
+    \node[dsub, anchor=north, font=\scriptsize\bfseries] at (3.0,1.15) {(a) decidir o lado \textbf{cedo}};
+    \draw[dcurve, line width=1.1pt] (0.4,0.4) .. controls (2.0,0.4) and (2.4,-0.6) .. (5.6,-0.6);
+    \robo{0.4}{0.4}
+    \draw[dcurve, dorange, line width=1.1pt] (5.6,0.4) .. controls (3.6,0.4) and (3.2,-0.6) .. (0.4,-0.6);
+    \perso{5.6}{0.4}
+    \node[dsub, font=\scriptsize] at (3.0,-1.0) {cada um pela \textbf{direita} $\rightarrow$ passagem suave};
+  \end{scope}
+
+  % ---- (b) a "dança" ----
+  \begin{scope}[shift={(7.6,0)}]
+    \draw[black!25] (-0.2,-1.2) rectangle (6.2,1.2);
+    \node[dsub, anchor=north, font=\scriptsize\bfseries] at (3.0,1.15) {(b) a ``dança''};
+    \draw[dcurve, densely dotted, line width=1pt] (0.4,0.1) .. controls (1.6,0.6) and (2.2,-0.5) .. (2.8,0.3);
+    \robo{2.8}{0.3}
+    \draw[dcurve, dorange, densely dotted, line width=1pt] (5.6,-0.1) .. controls (4.4,0.5) and (3.8,-0.5) .. (3.3,0.2);
+    \perso{3.3}{0.2}
+    \node[dred, font=\scriptsize] at (3.0,-1.0) {os dois espelham o desvio $\rightarrow$ \textbf{impasse}};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

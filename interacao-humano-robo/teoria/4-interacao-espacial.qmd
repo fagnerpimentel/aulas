@@ -1,0 +1,304 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Interação Espacial"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/4-interacao-espacial
+---
+
+# Interação Espacial
+
+::: {.esquerda}
+Capítulo 5 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- A importância da **colocação espacial** de agentes na interação social
+- **Proxêmica** — como as pessoas administram o espaço em relação às outras
+- Como um robô **administra o espaço** à sua volta: **aproximar-se**, **iniciar** a interação, **manter distância** e **navegar** entre pessoas
+- Como as propriedades da interação espacial podem servir de **pistas** para robôs
+
+![](images/espaco-recurso.svg){fig-align="center" width="92%"}
+
+## O drone Joggobot {.smaller}
+
+:::: columns
+::: {.column width="58%"}
+- **Joggobot** (2012, Exertion Games Labs) — um drone companheiro de corrida (um Parrot AR.Drone que segue uma camiseta com marcador)
+- Os desenvolvedores estudaram **onde** o drone deveria voar (acima, atrás, à frente, ao lado) e a que **distância**, para **maximizar a motivação** (Graether & Mueller, 2012)
+- Voar **atrás** fazia o corredor se sentir **perseguido** → reduzia o prazer; as pessoas preferiam ser quem **persegue**
+- Drones baratos ficaram onipresentes → **proxêmica em interação humano-drone** é hoje um campo ativo (Baytas et al., 2019; Johal et al., 2022)
+:::
+::: {.column width="42%"}
+![](images/joggobot.jpg){fig-align="center" width="80%"}
+
+[Joggobot (2012) — Exertion Games Lab, RMIT · usada com autorização]{.credito}
+:::
+::::
+
+# Uso do Espaço na Interação Humana
+
+## Normas de distância {.smaller}
+
+- Quando há **espaço disponível**, espera-se que a pessoa respeite as normas de distância social
+  - é inadequado um estranho sentar ao seu lado num ônibus **vazio**
+- No horário de pico, somos **forçados** a entrar no espaço pessoal alheio — e ficamos desconfortáveis
+- Reação típica: **evitar o contato visual** e **se afastar** assim que abre espaço
+
+:::: columns
+::: {.column width="50%"}
+![](images/metro-lotado.jpg){fig-align="center" width="86%"}
+
+[Metrô lotado, Tóquio — paranoidnotandroid / Wikimedia Commons, CC BY 2.0]{.credito}
+:::
+::: {.column width="50%"}
+![](images/plataforma-pico.jpg){fig-align="center" width="86%"}
+
+[Plataforma no horário de pico, Yūrakuchō (Tóquio) — nesnad / Wikimedia Commons, CC BY 3.0]{.credito}
+:::
+::::
+
+## Proxêmica: as zonas de Hall {.smaller}
+
+:::: columns
+::: {.column width="52%"}
+- **Proxêmica** (Hall et al., 1968) — como as pessoas usam o espaço em relação às outras
+- Quatro **zonas de distância**; indicam a **proximidade psicológica** entre as pessoas
+- Em **HRI**, a maioria prefere o robô à distância **pessoal** ou **social** — alguns, mais perto (Walters et al., 2005)
+:::
+::: {.column width="48%"}
+![](images/zonas-hall.svg){fig-align="center" width="100%"}
+:::
+::::
+
+## Cultura e contexto {.smaller}
+
+- O uso do espaço é uma **dimensão da experiência cultural** frequentemente ignorada (Hall, 1968)
+  - **Culturas de alto contato** (América do Sul) — entrar no espaço pessoal e **tocar** é comum
+  - **Culturas de baixo contato** (EUA) — tocar um estranho pode ser lido como **agressão**
+- Não só a **distância**, mas o **posicionamento**: sentar ao lado → cooperação; em frente → competição; conversas se dão em **ângulo** (Cook, 1970)
+- **COVID-19** — o distanciamento de 1,5 m tornou desconfortáveis distâncias antes normais (Mehta, 2020)
+
+## Dinâmica espacial de grupo {.smaller}
+
+- A **orientação** das pessoas num grupo pode **convidar** novos membros ou **manter outros de fora**
+- Numa festa, uma roda **fechada** é difícil de entrar; se o grupo percebe alguém querendo entrar e **abre espaço**, isso é lido como um **convite**
+- Útil para um robô **decidir quais grupos abordar** em locais públicos (museus, *shoppings*) ou se deve se juntar a um
+
+![](images/grupo-orientacao.svg){fig-align="center" width="80%"}
+
+## F-formations {.smaller}
+
+- Adam **Kendon**: a "*facing formation*" ou **F-formation** — "aquela a que os participantes têm acesso **igual, direto e exclusivo**" (Kendon, 1990, p. 209)
+- Formada quando as pessoas se posicionam de modo que as **áreas de espaço** que encaram e para as quais dirigem a atenção **se sobrepõem**
+
+![](images/f-formation-espacos.svg){fig-align="center" width="60%"}
+
+::: {.esquerda}
+**o-space** — o espaço interno; os participantes ocupam o **p-space**, cercados pelo **r-space**. As pessoas ajustam a posição para manter esse espaço — ou para **incluir** um novo participante.
+:::
+
+## Configurações da F-formation {.smaller}
+
+![](images/f-formation-arranjos.svg){fig-align="center" width="100%"}
+
+- **face a face**, **L** e **lado a lado** — para duas pessoas
+- **circular** e outras formas — para grupos maiores
+- Usadas para estudar a interação com tecnologia (Marshall et al., 2011) e com robôs (Hüttenrauch et al., 2006; Yamaoka et al., 2010)
+
+## Não passar entre pessoas em conversa {.smaller}
+
+:::: columns
+::: {.column width="46%"}
+- Na navegação entre pessoas, o robô precisa estar **ciente do movimento** delas
+- E **não caminhar entre** pessoas que conversam — **mesmo que haja espaço** suficiente (Pérez-Hurtado et al., 2016)
+:::
+::: {.column width="54%"}
+![](images/nao-atravessar-conversa.svg){fig-align="center" width="94%"}
+:::
+::::
+
+# Interação Espacial para Robôs
+
+## O robô compartilha o espaço {.smaller}
+
+- Robôs móveis (chão ou ar) e robôs com **braços** ocupam e percorrem o mesmo espaço das pessoas
+- Robôs que **não respeitam** o espaço pessoal → reações negativas, **rejeição**, afastamento
+- Aumentar a aceitação: manter uma **distância apropriada** (se o robô souber **codificar** o que é "apropriado" a cada instante) e **ajustar** a posição para uma experiência adequada
+- Ex.: um robô de **segurança** mantém distância educada e, em certo momento, **entra no espaço íntimo** para intimidar
+
+![](images/adaptar-distancia.svg){fig-align="center" width="84%"}
+
+## Navegação social: o que o robô precisa perceber {.smaller}
+
+![](images/pre-requisitos.svg){fig-align="center" width="100%"}
+
+## Mapas humanamente cientes {.smaller}
+
+- A localização diz o **tipo de espaço** (sala, banheiro), mas não **onde** estão as pessoas
+- **Spexard et al. (2006)** — aprender lugares novos por **diálogo** com o usuário
+- **Morales Saiki et al. (2011)** — mapa cognitivo de **perspectiva humana** → instruções de rota que as pessoas compreendem
+- **Kollar et al. (2010)** — interpretar o **lugar mencionado** por um usuário
+- **Zhou et al. (2022)** — mediram como as pessoas se cruzam e implementaram a navegação num **Pepper** → as pessoas ficaram **mais à vontade**
+
+![](images/mapas-humanos.svg){fig-align="center" width="88%"}
+
+## Posicionamento socialmente apropriado {.smaller}
+
+- Corredor de escritório: se o robô trata a pessoa como **obstáculo**, segue reto até quase colidir e só então desvia
+- As pessoas fazem diferente: **cedem bem antes do tempo**, sinalizam **de que lado** vão passar e não invadem o espaço pessoal
+- Esperar até o **último instante** parece **confronto**, mesmo sem colisão
+
+![](images/navegacao-social-requisitos.svg){fig-align="center" width="94%"}
+
+## Distância de interação {.smaller}
+
+:::: columns
+::: {.column width="56%"}
+- Uma das perguntas centrais da proxêmica em IHR:
+  - quão **perto** as pessoas preferem ficar de um robô?
+  - quão perto o robô pode **chegar** antes de ser rude ou incomodar?
+- **Walters et al. (2005)** — a maioria prefere a distância **pessoal** ou **social**; alguns, mais perto
+- **Hüttenrauch et al. (2006)** — as pessoas preferem o robô a distâncias **derivadas da proxêmica humana**
+:::
+::: {.column width="44%"}
+![](images/zonas-hall.svg){fig-align="center" width="100%"}
+:::
+::::
+
+## O que muda a distância preferida {.smaller}
+
+![](images/fatores-distancia.svg){fig-align="center" width="92%"}
+
+## Orientação do corpo {.smaller}
+
+- **Kuzuoka et al. (2010)** — um robô consegue **mudar a F-formation** de um grupo mudando a **orientação do próprio corpo**
+- Mover o **corpo todo** é mais eficaz do que mover só a **cabeça**
+
+![](images/robo-entra-formacao.svg){fig-align="center" width="96%"}
+
+## Guiar, seguir e andar lado a lado {.smaller}
+
+![](images/guiar-seguir.svg){fig-align="center" width="100%"}
+
+## Robôs guias de museu {.smaller}
+
+- **RHINO** (1997) e **Minerva** (1998) — primeiros guias autônomos em museus lotados
+- Desafios espaciais de **liderar um grupo**:
+  - regular o **ritmo** pelo visitante mais lento
+  - **olhar para trás** e verificar se o grupo continua junto
+  - **reagrupar** quem fica para trás; sinalizar as transições entre obras
+  - abrir caminho em **multidões** de forma segura e legível
+
+![](images/robo-guia-museu.svg){fig-align="center" width="96%"}
+
+## Segurança percebida ≠ calculada {.smaller}
+
+- O que **parece** seguro para a pessoa não é o que o robô **calcula** como seguro
+- **Passagem em corredor** — o robô precisa manter distância suficiente para não invadir a **zona íntima** (Pacchierotti et al., 2006)
+- Alternativa: **imitar** como as pessoas se desviam — modelos de pedestre com evitação de colisão (Luber et al., 2012; Shiomi et al., 2014)
+
+![](images/passar-lado.svg){fig-align="center" width="100%"}
+
+## Conforto no planejamento de caminho {.smaller}
+
+- **Sisbot et al. (2007)** — um planejador que evita situações que **incomodam**: considera se a pessoa está **sentada ou em pé** e se o robô pode **surpreendê-la** aparecendo de trás de um obstáculo
+
+![](images/custo-espaco-pessoal.svg){fig-align="center" width="90%"}
+
+## Prever a trajetória da pessoa {.smaller}
+
+- Planejar em torno da **posição atual** não basta — a pessoa se move
+- **DWA** (Fox et al., 1997) decide a velocidade a partir da **posição futura**
+- **Fisac et al. (2018)** — modelo **probabilístico** do caminho da pessoa → trajetória **segura** para um drone (Figura 5.6)
+
+![](images/prever-trajetoria.svg){fig-align="center" width="88%"}
+
+## Quando só o braço entra no espaço pessoal {.smaller}
+
+- Robô industrial colaborando com uma pessoa numa tarefa: o caminho do **efetuador** (pegar ou **entregar** um objeto) deve levar em conta a **distância socialmente apropriada** (Kulic & Croft, 2005)
+- O movimento fica **menos eficiente** do ponto de vista funcional...
+- ...mas leva a uma **avaliação mais positiva** da interação (Cakmak et al., 2011)
+
+![](images/braco-espaco-pessoal.svg){fig-align="center" width="72%"}
+
+# Iniciar a Interação
+
+## Aproximação para robôs {.smaller}
+
+- Trivial para uma pessoa; para o robô, exige **design cuidadoso** (estudado desde cedo em IHR)
+
+![](images/aproximacao-fases.svg){fig-align="center" width="100%"}
+
+## A direção da aproximação {.smaller}
+
+- **Satake et al. (2009)** — um robô que oferece informações sobre lojas num *shopping* **falha** em iniciar a interação se a aproximação é **mal planejada**
+
+![](images/direcao-aproximacao.svg){fig-align="center" width="72%"}
+
+## Aprender a aproximação {.smaller}
+
+- **Liu et al. (2016)** — comportamento de aproximação de um robô "**balconista**" gerado por **análise automatizada** do comportamento humano
+- Gravaram como as pessoas se moviam e falavam numa loja de câmeras → **aprendizado de máquina** extraiu a fala típica e as **formações espaciais** → transferidas ao robô
+- Estudo com usuários: o comportamento aprendido foi considerado **socialmente apropriado**
+
+![](images/aprender-aproximacao.svg){fig-align="center" width="96%"}
+
+## Carros autônomos e polidez {.smaller}
+
+- Conta-se que os primeiros carros autônomos do Google seguiam **trajetórias ótimas** pelo código de trânsito
+- Mas **assustavam** os outros na via — chegando perto demais ou "fechando"
+- Só quando **"polidez"** foi adicionada como **critério de otimização** é que passaram a dirigir de forma **socialmente aceitável**
+
+![](images/carros-polidez.svg){fig-align="center" width="90%"}
+
+# Informar a Intenção do Robô
+
+## A trajetória comunica a intenção {.smaller}
+
+- O **movimento** do robô é usado para transmitir sua **meta** e **intenção**
+
+![](images/informar-intencao.svg){fig-align="center" width="100%"}
+
+## Handover legível e perspectiva {.smaller}
+
+- Na **entrega** de um objeto, a pessoa prefere um robô **legível** — que deixe entender a meta (Koay et al., 2007a)
+- Trabalhar perto de alguém exige entender **como a pessoa percebe o espaço** ao seu redor
+- "**Me passa aquilo**" — o referente é óbvio se há **um** objeto; com vários, usamos olhar, orientação do corpo, contexto e conhecimento — difícil para o robô, que recorre a **modelos geométricos** de quem vê e alcança o quê (Lemaignan et al., 2017; Ros et al., 2010)
+
+![](images/dinamica-espacial.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que torna a interação espacial difícil {.smaller}
+
+- Inspira-se na **proxêmica humana**, mas os efeitos **nem sempre** são os mesmos
+- Normas que para nós são **automáticas** — e das quais nem temos mais consciência — não são triviais de codificar num robô
+  - ajustar a distância na conversa é **imediato** para pessoas; para o robô, é **cálculo cuidadoso**
+- A dificuldade cresce quando é preciso **combinar**: aproximar-se + **manter a formação** durante a conversa + **navegar junto** com a pessoa em movimento
+- Importa para uma IHR **aceitável** e para que as pessoas **entendam a intenção** do robô e interajam com **segurança**
+
+![](images/ciclo-espacial.svg){fig-align="center" width="86%"}
+
+## Para pensar {.smaller}
+
+- Lembre uma situação em que **alguém violou** o seu espaço pessoal. Como você percebeu? Qual foi a sua reação?
+- Você é um engenheiro construindo um robô para o **Japão**, o **México** e os **EUA**. O produto será o mesmo em todos os países? Os comportamentos de **navegação espacial** vão diferir? Como?
+- Um robô em situações do dia a dia (casa, escritório, trem lotado): como adaptar a **navegação espacial** a cada contexto? Que fatores considerar?
+
+- **No seu projeto:** descreva, para o robô que a sua equipe está projetando —
+  - **onde** ele se posiciona em relação ao usuário (distância e orientação do corpo), usando as zonas de proxêmica e as **F-formations**;
+  - como ele **inicia** a interação (direção de aproximação) e como **sinaliza** para onde vai;
+  - o que faz ao encontrar pessoas **paradas, em conversa ou em grupo**, e ao passar por elas num corredor;
+  - **um ajuste** desse comportamento para um contexto de uso diferente do principal.
+
+## Leituras futuras {.smaller}
+
+- **Choset et al. (2005)** — *Principles of Robot Motion* — técnicas básicas de navegação de robôs
+- **Kruse et al. (2013)** — *Human-aware robot navigation: A survey*
+- **Mumm & Mutlu (2011)** — proxêmica humano-robô: distanciamento físico e psicológico
+- **Satake et al. (2009)** — como abordar humanos: estratégias para robôs sociais iniciarem a interação
+- **Walters et al. (2009)** — um *framework* empírico para proxêmica humano-robô

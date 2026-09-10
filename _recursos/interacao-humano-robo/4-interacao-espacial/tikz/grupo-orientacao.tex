@@ -1,0 +1,58 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\perso}[3]{
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!12, draw=black!75, line width=0.8pt] (0,0) circle (0.30);
+      \fill[black!75] (0,0.30) -- (-0.14,0.46) -- (0.14,0.46) -- cycle;
+    \end{scope}}
+  \newcommand{\personA}[2]{% angulo no circulo, raio  -> pessoa virada para o centro
+    \pgfmathsetmacro\ppx{#2*cos(#1)}\pgfmathsetmacro\ppy{#2*sin(#1)}\pgfmathsetmacro\ppr{#1+90}
+    \perso{\ppx}{\ppy}{\ppr}}
+  \newcommand{\personO}[3]{% angulo, raio, inclinacao para fora
+    \pgfmathsetmacro\ppx{#2*cos(#1)}\pgfmathsetmacro\ppy{#2*sin(#1)}\pgfmathsetmacro\ppr{#1+90+#3}
+    \perso{\ppx}{\ppy}{\ppr}}
+  \newcommand{\robo}[3]{
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!5, draw=black!80, line width=0.9pt, rounded corners=1.5pt] (-0.28,-0.22) rectangle (0.28,0.22);
+      \fill[dblue] (0,0.22) -- (-0.14,0.40) -- (0.14,0.40) -- cycle;
+      \node[font=\tiny, black!55] at (0,0) {R};
+    \end{scope}}
+
+  \def\R{1.65}
+
+  % ================= roda fechada =================
+  \begin{scope}[shift={(0,0)}]
+    \node[font=\scriptsize\bfseries] at (0,2.7) {roda fechada};
+    \fill[dblue!12] (0,0) circle (0.95);
+    \foreach \a in {90,162,234,306,18}{ \personA{\a}{\R} }
+    \robo{0}{-3.05}{0}
+    \draw[dorange, line width=1pt, dashed] (0,-2.7) -- (0,-2.05);
+    \draw[dred, line width=1.3pt] (-0.20,-2.02) -- (0.20,-1.66);
+    \draw[dred, line width=1.3pt] (-0.20,-1.66) -- (0.20,-2.02);
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,-3.9)
+       {sem brecha --- difícil de entrar};
+  \end{scope}
+
+  \draw[black!12, line width=0.6pt] (3.4,-4.3) -- (3.4,3.1);
+
+  % ================= grupo abre espaco =================
+  \begin{scope}[shift={(7.0,0)}]
+    \node[font=\scriptsize\bfseries] at (0,2.7) {grupo abre espaço};
+    \fill[dblue!12] (0,0) circle (0.95);
+    \foreach \a in {90,152,28}{ \personA{\a}{\R} }
+    \personO{206}{\R}{22}
+    \personO{334}{\R}{-22}
+    \draw[dgreen, line width=0.8pt, ->] (200:1.15) arc (200:176:1.15);
+    \draw[dgreen, line width=0.8pt, ->] (340:1.15) arc (340:364:1.15);
+    \robo{0}{-2.6}{0}
+    \draw[dblue, line width=1.2pt, ->] (0,-2.2) -- (0,-1.1);
+    \node[dgreen, font=\scriptsize\bfseries, anchor=west] at (0.95,-1.5) {convite};
+    \node[dsub, font=\scriptsize, align=center, text width=4.2cm] at (0,-3.9)
+       {abrem a brecha e viram para fora = convite};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

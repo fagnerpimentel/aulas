@@ -1,0 +1,60 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\seg}[2]{% visitante seguindo (nariz para -x)
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.7pt] (0,0) circle (0.27);
+      \fill[black!75] (-0.27,-0.12) -- (-0.43,0) -- (-0.27,0.12) -- cycle;
+    \end{scope}}
+  \newcommand{\pes}[3]{% transeunte parado
+    \begin{scope}[shift={(#1,#2)}, rotate=#3]
+      \fill[black!8, draw=black!55, line width=0.7pt] (0,0) circle (0.27);
+      \fill[black!55] (0,0.27) -- (-0.12,0.42) -- (0.12,0.42) -- cycle;
+    \end{scope}}
+  \newcommand{\robo}[2]{
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[black!5, draw=black!80, line width=1pt, rounded corners=1.5pt] (-0.28,-0.28) rectangle (0.28,0.28);
+      \fill[dblue] (-0.28,-0.14) -- (-0.50,0) -- (-0.28,0.14) -- cycle;
+      \node[font=\scriptsize, black!55] at (0.03,0) {R};
+    \end{scope}}
+
+  % ---- sala + obra ----
+  \draw[line width=1.1pt, black!30] (-0.3,0) -- (11.2,0);
+  \draw[line width=1.1pt, black!22] (-0.3,4.7) -- (11.2,4.7);
+  \fill[dcream] (0.7,4.2) rectangle (2.1,4.7);
+  \draw[black!45, line width=0.7pt] (0.7,4.2) rectangle (2.1,4.7);
+  \node[dsub, font=\scriptsize] at (1.4,3.95) {obra};
+
+  % ---- linha-guia do passeio (direita -> esquerda), contorna a multidao ----
+  \draw[dguide, line width=0.7pt]
+     (10.3,1.4) .. controls (9.2,1.4) and (8.9,2.7) .. (7.9,2.7)
+     .. controls (6.9,2.7) and (6.6,1.4) .. (1.7,1.4);
+
+  % ---- robo guia, apresentando a obra ----
+  \robo{1.5}{1.4}
+  \draw[dblue, line width=0.9pt, dashed] (1.5,1.7) -- (1.4,3.9);
+
+  % ---- olhar para tras ----
+  \draw[dorange, line width=1.1pt, dashed, -{Stealth[length=2.2mm]}]
+     (1.9,1.85) .. controls (3.2,3.5) and (5.4,3.5) .. (6.6,2.0);
+  \node[dorange, font=\scriptsize, anchor=south] at (4.2,3.35) {olha para trás e confere o grupo};
+
+  % ---- grupo que segue (linha diagonal) ----
+  \seg{3.4}{1.55} \seg{4.1}{1.15} \seg{4.35}{1.95}
+
+  % ---- retardatario + ritmo + reagrupar ----
+  \seg{7.3}{1.35}
+  \node[dsub, font=\scriptsize, anchor=west] at (7.7,1.35) {mais lento};
+  \draw[<->, black!45, line width=0.6pt] (5.0,0.8) -- (6.9,0.8);
+  \node[dsub, font=\footnotesize, anchor=north] at (5.95,0.72) {ajusta o ritmo ao mais lento};
+  \draw[dgreen, line width=1.1pt, -{Stealth[length=2.2mm]}] (6.85,1.5) -- (5.4,1.75);
+  \node[dgreen, font=\footnotesize, anchor=south] at (5.95,1.6) {reagrupar};
+
+  % ---- multidao contornada ----
+  \pes{8.3}{2.55}{205} \pes{8.85}{2.15}{-50}
+  \node[dsub, font=\scriptsize, anchor=south] at (8.9,3.0) {abre caminho na multidão};
+
+\end{tikzpicture}
+\end{document}
