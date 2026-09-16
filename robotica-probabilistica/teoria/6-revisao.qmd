@@ -1,0 +1,293 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Revisão"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/1-introducao
+  - ../../_recursos/robotica-probabilistica/2-estimacao-estado-recursiva
+  - ../../_recursos/robotica-probabilistica/3-filtro-de-kalman
+  - ../../_recursos/robotica-probabilistica/4-filtro-de-kalman-estendido
+  - ../../_recursos/robotica-probabilistica/5-filtro-de-informacao
+---
+
+# Revisão
+
+::: {.esquerda}
+Revisão das cinco primeiras aulas — Capítulos 1 a 3 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**. Preparação para a P1.
+:::
+
+![](images/mapa-livro.svg){fig-align="center" width="78%"}
+
+## O Caminho até Aqui {.smaller}
+
+1. **Introdução** — incerteza em robótica; a ideia-chave da robótica probabilística
+2. **Estimação de Estado Recursiva** — estado, crença, e o **Filtro de Bayes**
+3. **Filtro de Kalman** — implementação exata do Filtro de Bayes para sistemas **lineares gaussianos**
+4. **Filtro de Kalman Estendido** — generaliza o KF para modelos **não lineares**, via **linearização**
+5. **Filtro de Informação** — o **dual** do KF: mesma gaussiana, representação **canônica**
+
+**Todos** esses algoritmos são casos particulares (ou aproximações) do **Filtro de Bayes**.
+
+# Aula 1 — Introdução
+
+## Por que Incerteza Importa {.smaller}
+
+- Robôs saem da fábrica **estruturada** para ambientes **não estruturados** 
+  - (casas, ruas, hospitais)
+- **Cinco fontes de incerteza**: ambiente, sensores, atuação, modelos, computação
+  - Tradicionalmente ignorada — mas em ambientes não estruturados, lidar com ela é **crítico**
+
+![](images/cinco-fontes-incerteza.svg){fig-align="center" width="100%"}
+
+## A Ideia-Chave da Robótica Probabilística {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- Em vez de um **único palpite**, representar a informação por uma **distribuição de probabilidade** sobre todo o espaço de hipóteses
+:::
+::: {.column width="50%"}
+![](images/palpite-vs-distribuicao.svg){fig-align="center" width="100%"}
+:::
+:::
+- Decisões baseadas nessa distribuição **degradam suavemente** diante da incerteza
+- **Conjectura central**: um robô que carrega uma noção da própria incerteza, e age de acordo, é **superior** a um que não o faz
+- **O preço**: ineficiência computacional e a necessidade de **aproximar** (mundos são contínuos, posterior exata é inviável)
+
+# Aula 2 — Estimação de Estado Recursiva
+
+## Estado, Dados e Crença {.smaller}
+
+::: columns
+::: {.column width="52%"}
+- **Estado** $x_t$: tudo que pode impactar o futuro (pose, velocidade, marcos, etc.); geralmente **incompleto** na prática
+- **Dados de controle** $u_t$ (tendem a **aumentar** a incerteza) e **dados de medição** $z_t$ (tendem a **diminuí-la**)
+- **Crença**: $bel(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$ — distribuição sobre hipóteses de estado, calculada **após** $z_t$
+- **Predição**: $\overline{bel}(x_t) = p(x_t \mid z_{1:t-1}, u_{1:t})$ — **antes** de incorporar $z_t$
+:::
+::: {.column width="48%"}
+![](images/duas-probabilidades.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## O Filtro de Bayes {.smaller}
+
+::: columns
+::: {.column width="40%"}
+- Algoritmo **recursivo** geral: $bel(x_t)$ calculado a partir de $bel(x_{t-1})$
+- **Predição** (linha 2) — usa o controle $u_t$
+- **Correção** (linha 3) — usa a medição $z_t$, normalizada por $\eta$
+- Todos os filtros desta disciplina (KF, EKF, IF) são **casos especiais** deste algoritmo
+:::
+::: {.column width="60%"}
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de Bayes}\;\bigl(bel(x_{t-1}),\ u_t,\ z_t\bigr) \\
+\hline
+\text{1:}\quad \textbf{para todo } x_t \textbf{ faça} \\
+\text{2:}\qquad \overline{bel}(x_t) = \int p(x_t \mid u_t, x_{t-1})\, bel(x_{t-1})\, dx \\
+\text{3:}\qquad bel(x_t) = \eta \, p(z_t \mid x_t)\, \overline{bel}(x_t) \\
+\text{4:}\quad \textbf{fim para} \\
+\text{5:}\quad \textbf{retornar } bel(x_t) \\
+\hline
+\end{array}
+$$
+
+![](images/filtro-bayes-passos.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Relembrando: a Porta {.smaller}
+
+::: columns
+::: {.column width="55%"}
+- Robô estima se uma porta está **aberta** ou **fechada**, com sensor ruidoso e ação "empurrar"
+- Duas iterações de predição + correção levaram a $bel(\text{aberta}) \approx 98{,}3\%$
+- **Lição**: mesmo uma crença alta não é certeza — em decisões de alto custo (colisão), a cauda da distribuição **importa**
+:::
+::: {.column width="45%"}
+![](images/resultado-final-porta.svg){fig-align="center" width="90%"}
+:::
+:::
+
+- **Limitação prática do Filtro de Bayes**: só é diretamente implementável com integração em forma fechada, ou espaços de estado **finitos** — daí a necessidade das próximas aulas
+
+# Aula 3 — Filtro de Kalman
+
+## Filtros Gaussianos: a Família {.smaller}
+
+::: columns
+::: {.column width="48%"}
+- Primeira família **tratável** de implementações do Filtro de Bayes para estados **contínuos**
+- Crença representada por uma **gaussiana multivariada** $(\mu, \Sigma)$
+- Duas representações duais: **momentos** $(\mu,\Sigma)$ → **KF**; **canônica** $(\xi,\Omega)$ → **Filtro de Informação**
+:::
+::: {.column width="52%"}
+![](images/familia-gaussianos.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## As Três Premissas do KF {.smaller}
+
+1. **Transição linear**: $x_t = A_t x_{t-1} + B_t u_t + \varepsilon_t$
+2. **Medição linear**: $z_t = C_t x_t + \delta_t$
+3. **Crença inicial gaussiana**: $(\mu_0, \Sigma_0)$
+
+- Juntas, garantem que $bel(x_t)$ é gaussiana em **todo** instante $t$ 
+  - basta propagar $\mu_t$ e $\Sigma_t$.
+
+![](images/kf-premissas.svg){fig-align="center" width="100%"}
+
+## O Algoritmo do KF {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Predição** (2–3): desloca a crença pelo controle; a incerteza **cresce** ($+R_t$)
+- **Ganho de Kalman** (4): $Q_t$ grande $\Rightarrow K_t\to 0$ (confia na predição); $\bar\Sigma_t$ grande $\Rightarrow K_t\to 1$ (confia na medição)
+- **Correção** (5–6): ajusta $\mu_t$ pela **inovação** $z_t - C_t\bar\mu_t$; a incerteza **diminui**
+:::
+::: {.column width="58%"}
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de Kalman}\,\bigl(\mu_{t-1},\ \Sigma_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar\mu_t = A_t\,\mu_{t-1} + B_t\,u_t \\
+\text{3:}\quad \bar\Sigma_t = A_t\,\Sigma_{t-1}\,A_t^{\top} + R_t \\
+\text{4:}\quad K_t = \bar\Sigma_t\,C_t^{\top}\,(C_t\,\bar\Sigma_t\,C_t^{\top} + Q_t)^{-1} \\
+\text{5:}\quad \mu_t = \bar\mu_t + K_t\,(z_t - C_t\,\bar\mu_t) \\
+\text{6:}\quad \Sigma_t = (I - K_t\,C_t)\,\bar\Sigma_t \\
+\hline
+\end{array}
+$$
+
+![](images/kf-incerteza-ciclo.svg){fig-align="center" width="86%"}
+:::
+:::
+
+## Por que uma Medição de Posição Corrige a Velocidade? {.smaller}
+
+- No Exemplo 2 (estado $= [p,\,v]^\top$), o GPS media **só** a posição — mesmo assim o filtro estimava a **velocidade**
+- A matriz $A_t$ **acopla** posição e velocidade na predição → surge uma **covariância cruzada** $\Sigma_{pv}$
+- Um erro sistemático de posição é evidência **indireta** de erro de velocidade, e o ganho de Kalman propaga essa correção
+- **Custo computacional**: domina o termo $\mathcal{O}(n^2)$ (correção com $\mathcal{O}(k^{2{,}8})$, $k=\dim z_t \ll n=\dim x_t$ em robótica)
+
+# Aula 4 — Filtro de Kalman Estendido (EKF)
+
+## Por que Estender o KF {.smaller}
+
+- Transição e medição lineares **raramente** valem na prática
+- Ex.: um robô com $v,\omega$ constantes percorre um **arco** — não representável por $x_t = A_tx_{t-1}+B_tu_t$
+- Modelo geral: $x_t = g(u_t,x_{t-1})+\varepsilon_t$, $z_t = h(x_t)+\delta_t$ — com $g,h$ **não lineares**, o Filtro de Bayes deixa de ter solução em forma fechada
+
+![](images/ekf-trajetoria-circular.svg){fig-align="center" width="80%"}
+
+## Linearização por Expansão de Taylor {.smaller}
+
+- O EKF aproxima $g$ e $h$ pela **reta/plano tangente** no ponto mais provável 
+  - Taylor de 1ª ordem
+- A generalização multivariada da derivada é a **Jacobiana**: $G_t = \partial g/\partial x\,|_{\mu_{t-1}}$ (no papel de $A_t$ e $B_t$), $H_t = \partial h/\partial x\,|_{\bar\mu_t}$ (no papel de $C_t$)
+- **Recalculadas a cada passo** — dependem do ponto de linearização
+
+![](images/ekf-kf-comparacao.svg){fig-align="center" width="100%"}
+
+## O Algoritmo do EKF {.smaller}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF}\,\bigl(\mu_{t-1},\ \Sigma_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar\mu_t = g(u_t, \mu_{t-1}) \\
+\text{3:}\quad \bar\Sigma_t = G_t\,\Sigma_{t-1}\,G_t^{\top} + R_t \\
+\text{4:}\quad K_t = \bar\Sigma_t\,H_t^{\top}\,(H_t\,\bar\Sigma_t\,H_t^{\top} + Q_t)^{-1} \\
+\text{5:}\quad \mu_t = \bar\mu_t + K_t\,(z_t - h(\bar\mu_t)) \\
+\text{6:}\quad \Sigma_t = (I - K_t\,H_t)\,\bar\Sigma_t \\
+\hline
+\end{array}
+$$
+
+- Idêntico ao KF, trocando $A_t,B_t,C_t$ por $g,h,G_t,H_t$ — e a inovação por $z_t - h(\bar\mu_t)$
+- **Melhor desempenho quando**: não linearidade **suave** + incerteza **pequena** (menos "curvatura" dentro da região onde a gaussiana tem massa)
+- **Limitação**: continua **unimodal** — para multimodalidade, misturas de gaussianas (*multi-hypothesis EKF*) ou alternativas (UKF)
+
+# Aula 5 — Filtro de Informação
+
+## O Dual do Filtro de Kalman {.smaller}
+
+- Mesmas premissas do KF — muda **como** a gaussiana é representada:
+  - **matriz de informação** $\Omega = \Sigma^{-1}$
+  - **vetor de informação** $\xi = \Sigma^{-1}\mu$
+- O que é **caro** numa representação é **barato** na outra
+
+![](images/if-dualidade.svg){fig-align="center" width="100%"}
+
+## Algoritmo e a Complexidade Invertida {.smaller}
+
+::: columns
+::: {.column width="46%"}
+$$
+\begin{array}{l}
+\hline
+\text{2:}\;\; \bar\Omega_t = (A_t\Omega_{t-1}^{-1}A_t^{\top}+R_t)^{-1} \\
+\text{3:}\;\; \bar\xi_t = \bar\Omega_t(A_t\Omega_{t-1}^{-1}\xi_{t-1}+B_tu_t) \\
+\text{4:}\;\; \Omega_t = C_t^{\top}Q_t^{-1}C_t + \bar\Omega_t \\
+\text{5:}\;\; \xi_t = C_t^{\top}Q_t^{-1}z_t + \bar\xi_t \\
+\hline
+\end{array}
+$$
+
+- **IF**: predição inverte **2** matrizes $n\times n$ ($\approx\mathcal{O}(n^{2{,}8})$); correção é **aditiva** ($\le\mathcal{O}(n^2)$)
+- **KF**: exatamente o **oposto**
+:::
+::: {.column width="54%"}
+![](images/if-complexidade-dual.svg){fig-align="center" width="100%"} 
+:::
+:::
+
+## Quando Usar o Filtro de Informação {.smaller}
+
+- **Incerteza global** trivial: basta $\Omega=0$
+- **Multirrobô**: em forma logarítmica, integrar informação vira **soma** de $\xi$ e $\Omega$ 
+  - comutativa → totalmente **descentralizado**
+- **Mapeamento** com $\Omega$ **esparsa** (interações locais entre variáveis) 
+  - vira um grafo, algoritmos eficientes
+- **Limitação**: o EIF precisa **recuperar o estado** ($\mu=\Omega^{-1}\xi$) para avaliar $g,h$ 
+  - por isso o **EKF é muito mais popular** que o EIF, exceto em nichos como estes
+
+# Síntese Geral
+
+## Panorama Comparativo {.smaller}
+
+| | **KF** | **EKF** | **Filtro de Informação** |
+|---|---|---|---|
+| Representação | momentos $(\mu,\Sigma)$ | momentos $(\mu,\Sigma)$ | canônica $(\xi,\Omega)$ |
+| $g$, $h$ | lineares ($A,B,C$) | não lineares, linearizadas ($G_t,H_t$) | lineares ($A,B,C$) |
+| Predição | aditiva, $\mathcal{O}(n^2)$ | aditiva + Jacobiana | 2 inversões, $\mathcal{O}(n^{2{,}8})$ |
+| Correção | 1 inversão, $\mathcal{O}(k^{2{,}8})$ | 1 inversão + Jacobiana | aditiva, $\mathcal{O}(n^2)$ |
+| Crença | unimodal (exata) | unimodal (aproximada) | unimodal (exata) |
+| Uso típico | fusão de sensores linear | localização/SLAM (o mais usado) | multirrobô, mapas esparsos |
+
+![](images/resumo-gaussianos.svg){fig-align="center" width="80%"}
+
+## O que Fica desta Unidade {.smaller}
+
+- **Tudo deriva do Filtro de Bayes**:
+  - predição (usa $u_t$, aumenta incerteza) + correção (usa $z_t$, diminui incerteza)
+- **Filtros gaussianos** trocam generalidade por eficiência: representam a crença inteira por **dois parâmetros** ($\mu,\Sigma$ ou $\xi,\Omega$)
+- **Linearidade** é a premissa crítica
+  - quando falha, **linearizar** (EKF) tem um custo: a crença vira **aproximada**, e a qualidade depende de não linearidade suave + incerteza pequena
+- **Momentos × canônica** são *duais* em complexidade computacional 
+  - a escolha depende de qual operação (predição ou correção) você precisa fazer com mais frequência, e da estrutura do problema (denso × esparso, centralizado × multirrobô)
+- **Limitação comum a todos**: 
+  - unimodalidade — problema para localização **global** ou *kidnapped robot* (motivará o filtro de Bayes discreto e o filtro de partículas nas próximas aulas)
+
+## Perguntas para Revisar {.smaller}
+
+Antes da prova, tente responder sem consultar o material:
+
+1. Escreva as duas equações que definem o Filtro de Bayes e explique, em uma frase cada, o que a predição e a correção fazem à incerteza.
+2. Quais são as três premissas do Filtro de Kalman? Dê um exemplo de robô/sensor em que **cada uma** delas é violada na prática.
+3. Por que uma Jacobiana aparece no EKF e não no KF? O que ela aproxima, e por que precisa ser recalculada a cada passo?
+4. Em que situação você preferiria o Filtro de Informação ao Filtro de Kalman? E o contrário?
+5. Cite duas limitações que **KF, EKF e Filtro de Informação compartilham**, apesar de suas diferenças.
