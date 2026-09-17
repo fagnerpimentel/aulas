@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   v/.style={dbox, text width=4.4cm, font=\footnotesize, align=center}]
+
+  % triangulo guia
+  \draw[dguide] (0,3.6) -- (-4.6,-2.4) -- (4.6,-2.4) -- cycle;
+
+  \node[dbox, dacc, minimum size=1.9cm, font=\bfseries] (ux) at (0,0.3) {UX};
+
+  \node[v] (inst) at (0,4.4)
+    {\textbf{Além do instrumental}\\\scriptsize holística, estética e hedônica};
+
+  \node[v, draw=dorange] (emo) at (-5.2,-3.1)
+    {\textbf{Emoção e afeto}\\\scriptsize subjetiva, positiva, antecedente e consequente};
+
+  \node[v, draw=dgreen] (exp) at (5.2,-3.1)
+    {\textbf{Experiencial}\\\scriptsize dinâmica, complexa, única, situada e temporalmente delimitada};
+
+  \draw[dguide] (inst) -- (ux);
+  \draw[dguide] (emo) -- (ux);
+  \draw[dguide] (exp) -- (ux);
+
+\end{tikzpicture}
+\end{document}

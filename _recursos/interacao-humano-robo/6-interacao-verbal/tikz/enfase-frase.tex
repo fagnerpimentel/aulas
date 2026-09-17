@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\versao}[3]{\begin{scope}[shift={(0,#1)}]
+      \node[font=\small, anchor=west] at (0,0) {#2};
+      \node[dsub, font=\scriptsize, anchor=west, align=left, text width=6.5cm] at (7.2,0) {#3};
+      \end{scope}}
+
+  \versao{3.6}{\textbf{\color{dblue}Ela} disse que ela não pegou o dinheiro dele.}{outra pessoa disse o contrário}
+  \versao{2.4}{Ela \textbf{\color{dblue}disse} que ela não pegou o dinheiro dele.}{mas alguém a viu pegando}
+  \versao{1.2}{Ela disse que \textbf{\color{dblue}ela} não pegou o dinheiro dele.}{foi outra pessoa que pegou}
+  \versao{0}{Ela disse que ela \textbf{\color{dblue}não} pegou o dinheiro dele.}{negação enfática}
+  \versao{-1.2}{Ela disse que ela não \textbf{\color{dblue}pegou} o dinheiro dele.}{talvez tenha feito outra coisa com ele}
+  \versao{-2.4}{Ela disse que ela não pegou \textbf{\color{dblue}o dinheiro} dele.}{pegou outra coisa}
+  \versao{-3.6}{Ela disse que ela não pegou o dinheiro \textbf{\color{dblue}dele}.}{pegou dinheiro de outra pessoa}
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (5.5,-5.3)
+     {A mesma frase, com a ênfase em uma palavra diferente a cada vez, muda o \textbf{significado inferido} pelo ouvinte};
+
+\end{tikzpicture}
+\end{document}

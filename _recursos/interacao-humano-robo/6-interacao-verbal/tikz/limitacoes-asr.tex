@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\circulo}[3]{\begin{scope}[shift={(#1,0)}]
+      \fill[dshade, draw=dred, line width=1pt] (0,0) circle (1.0);
+      #3
+      \node[font=\small, align=center, text width=2.8cm] at (0,-1.5) {#2};
+      \end{scope}}
+
+  \circulo{0}{Sotaques e dialetos}{
+    \draw[dred, line width=1.3pt] (-0.45,-0.15) .. controls (-0.2,0.4) and (0.2,-0.5) .. (0.45,0.05);
+    \draw[dred, line width=0.9pt, ->] (-0.15,0.55) arc (30:150:0.18);
+  }
+  \circulo{3.6}{Ambientes ruidosos}{
+    \draw[dred, line width=1.1pt] (-0.35,-0.35) -- (0.35,0.35);
+    \draw[dred, line width=1.1pt] (-0.35,0.35) -- (0.35,-0.35);
+    \draw[dred, line width=0.9pt] (0,-0.55) arc (250:-70:0.55);
+  }
+  \circulo{7.2}{Nomes próprios}{
+    \node[font=\large\bfseries, dred] at (0,0.15) {``?''};
+    \node[dsub, font=\scriptsize] at (0,-0.35) {Margaret};
+  }
+  \circulo{10.8}{Fala atípica}{
+    \draw[dred, line width=1.2pt] plot[domain=-0.5:0.5,samples=30] (\x,{0.3*sin(6*180*\x)+0.15*sin(13*180*\x)});
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (5.4,-2.6)
+     {Restringir o vocabulário esperado (dígitos, comandos simples) melhora bastante o desempenho --- mas limita o que a pessoa pode dizer};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.0cm, minimum height=1.6cm, dacc] (robo)  at (0,0)   {robô\\[-1pt]\footnotesize (software)};
+  \node[dbox, minimum width=3.0cm, minimum height=1.6cm] (mundo) at (7.5,0) {mundo físico\\[-1pt]\footnotesize (ambiente)};
+
+  \draw[dmeas, line width=1.2pt, bend left=30] (mundo.north west) to
+     node[above, dorange, font=\footnotesize] {\textbf{sensores} --- percepção} (robo.north east);
+  \draw[dtrans, line width=1.2pt, bend left=30] (robo.south east) to
+     node[below, dblue, font=\footnotesize] {\textbf{atuadores} --- ação} (mundo.south west);
+
+  \node[dsub, align=center] at (3.75,-2.4)
+    {sistema situado no mundo físico:\\percebe por sensores, manipula por coisas que se movem};
+
+\end{tikzpicture}
+\end{document}

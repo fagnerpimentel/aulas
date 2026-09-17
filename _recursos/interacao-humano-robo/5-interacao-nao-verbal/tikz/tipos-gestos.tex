@@ -1,0 +1,56 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\painel}[3]{\begin{scope}[shift={(#1,0)}]
+      \draw[dguide, rounded corners=2pt] (-1.5,-2.5) rectangle (1.5,2.2);
+      #3
+      \node[font=\bfseries\small, align=center, text width=2.9cm] at (0,-2.9) {#2};
+      \end{scope}}
+
+  % Dêitico: figura apontando
+  \painel{0}{Dêitico\\[-1pt]{\footnotesize\color{black!45}aponta para algo}}{
+    \fill[black!12, draw=black!75, line width=0.9pt] (0,0.9) circle (0.30);
+    \draw[black!75, line width=1.2pt] (0,0.6) -- (0,-0.5);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (-0.28,-1.3);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (0.28,-1.3);
+    \draw[dblue, line width=1.4pt] (0,0.35) -- (1.1,-0.1);
+    \draw[dblue, line width=1.0pt] (1.1,-0.1) -- (1.35,-0.30);
+    \draw[dblue, line width=1.0pt] (1.1,-0.1) -- (1.40,0.05);
+  }
+
+  % Icônico: mãos moldando um objeto (bola)
+  \painel{3.6}{Icônico\\[-1pt]{\footnotesize\color{black!45}ilustra a fala}}{
+    \fill[black!12, draw=black!75, line width=0.9pt] (0,0.9) circle (0.30);
+    \draw[black!75, line width=1.2pt] (0,0.6) -- (0,-0.5);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (-0.28,-1.3);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (0.28,-1.3);
+    \draw[dblue, line width=1.2pt] (0,0.30) -- (-0.55,0.05);
+    \draw[dblue, line width=1.2pt] (0,0.30) -- (0.55,0.05);
+    \draw[dorange, line width=1pt, dashed] (0,-0.15) circle (0.42);
+  }
+
+  % Simbólico: aceno de mão
+  \painel{7.2}{Simbólico\\[-1pt]{\footnotesize\color{black!45}significado próprio}}{
+    \fill[black!12, draw=black!75, line width=0.9pt] (0,0.9) circle (0.30);
+    \draw[black!75, line width=1.2pt] (0,0.6) -- (0,-0.5);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (-0.28,-1.3);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (0.28,-1.3);
+    \draw[dblue, line width=1.4pt] (0,0.30) -- (0.55,0.95);
+    \draw[dblue, line width=0.9pt] (0.30,1.15) arc (200:340:0.22);
+    \node[font=\small] at (0.9,1.35) {?};
+  }
+
+  % Batimento: mão marcando ritmo
+  \painel{10.8}{Batimento\\[-1pt]{\footnotesize\color{black!45}acompanha o ritmo}}{
+    \fill[black!12, draw=black!75, line width=0.9pt] (0,0.9) circle (0.30);
+    \draw[black!75, line width=1.2pt] (0,0.6) -- (0,-0.5);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (-0.28,-1.3);
+    \draw[black!75, line width=1.2pt] (0,-0.5) -- (0.28,-1.3);
+    \draw[dblue, line width=1.3pt] (0,0.30) -- (0.45,0.55);
+    \draw[dblue, line width=1.3pt, densely dashed] (0,0.30) -- (0.20,0.85);
+    \draw[dblue, line width=1.3pt, densely dashed] (0,0.30) -- (0.65,0.15);
+  }
+
+\end{tikzpicture}
+\end{document}

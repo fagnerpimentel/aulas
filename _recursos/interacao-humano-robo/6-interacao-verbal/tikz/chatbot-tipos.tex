@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.2,-2.6) rectangle (2.2,2.2);
+    \node[font=\bfseries\small, align=center] at (0,1.8) {Baseado em regras};
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,0.6)
+       {regras escritas à mão ou banco de respostas prontas};
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,-1.6)
+       {tópico \textbf{restrito} (ex.: suporte técnico de um site)};
+  \end{scope}
+
+  \begin{scope}[shift={(5.4,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.2,-2.6) rectangle (2.2,2.2);
+    \node[font=\bfseries\small, align=center] at (0,1.8) {Aprendido de dados};
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,0.6)
+       {treinado com conversas reais (ex.: Tay)};
+    \node[dred, font=\scriptsize, align=center, text width=3.8cm] at (0,-1.6)
+       {risco: aprende respostas \textbf{inapropriadas}};
+  \end{scope}
+
+  \begin{scope}[shift={(10.8,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.2,-2.6) rectangle (2.2,2.2);
+    \node[font=\bfseries\small, align=center] at (0,1.8) {LLM de propósito geral};
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,0.6)
+       {conversa aberta, mantém estado (ex.: ChatGPT)};
+    \node[dgreen, font=\scriptsize, align=center, text width=3.8cm] at (0,-1.6)
+       {mas ainda unimodal e sem entendimento real};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=16cm] at (5.4,-3.6)
+     {Robôs são \textbf{multimodais} (câmeras, microfones, sensores) --- combinar chatbots (em geral unimodais, só texto) com robôs ainda é um desafio};
+
+\end{tikzpicture}
+\end{document}

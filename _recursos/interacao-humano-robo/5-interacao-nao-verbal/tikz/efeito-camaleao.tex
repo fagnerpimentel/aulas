@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\sentado}[3]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0.55) circle (0.26);
+      \draw[black!75, line width=1.1pt] (0,0.29) -- (0,-0.35);
+      \draw[black!75, line width=1.1pt] (0,-0.35) -- (-0.55,-0.35);
+      #3
+      \end{scope}}
+
+  % Pessoa 1: perna cruzada
+  \sentado{0}{0}{\draw[dblue, line width=1.3pt] (0,-0.35) -- (0.55,-0.55) -- (0.30,-0.90);}
+  \node[dsub, font=\scriptsize] at (0,-1.4) {perna cruzada};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}, dashed] (1.6,0.3) .. controls (2.6,0.9) .. (3.6,0.3)
+      node[midway, above, dsub, font=\scriptsize] {imita (com atraso)};
+
+  % Pessoa 2: espelha a postura
+  \sentado{5.2}{0}{\draw[dblue, line width=1.3pt] (0,-0.35) -- (-0.55,-0.55) -- (-0.30,-0.90);}
+  \node[dsub, font=\scriptsize] at (5.2,-1.4) {espelha sem perceber};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (6.8,0.1) -- (8.6,0.1);
+
+  \node[dbox, text width=3.4cm, font=\small] at (10.6,0.1)
+     {\textbf{mais persuasão}\\ maior chance de concordar / comprar};
+
+\end{tikzpicture}
+\end{document}

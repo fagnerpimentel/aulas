@@ -1,0 +1,330 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Interação Não Verbal"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/5-interacao-nao-verbal
+---
+
+# Interação Não Verbal
+
+::: {.esquerda}
+Capítulo 6 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- O papel da comunicação **não verbal** nas interações entre pessoas e com robôs
+
+::: {.columns}
+::: {.column width="40%"}
+- Os principais **canais**: 
+  - olhar
+  - gestos 
+  - imitação
+  - toque
+  - postura
+  - ritmo
+:::
+
+::: {.column width="60%"}
+![](images/canais-nao-verbais.svg){fig-align="center" width="82%"}
+:::
+:::
+
+- Como um robô pode **perceber** pistas não verbais das pessoas
+- Como um robô pode **gerar** suas próprias pistas não verbais
+
+
+## Falar sem palavras {.smaller}
+
+- Imagine conversar com alguém sem poder **olhar** para a pessoa ou usar **gestos**
+- Além de desconfortável, fica mais difícil captar o **sentido pretendido** e criar uma **conexão**, principalmente com um estranho
+- Pessoas com **autismo**, que têm dificuldade em notar pistas não verbais, vivenciam esse desafio de forma constante
+
+![](images/falar-sem-palavras.svg){fig-align="center" width="100%"}
+
+# Funções da Comunicação Não Verbal
+
+## O que a comunicação não verbal faz {.smaller}
+
+- Comunica informação "**nas entrelinhas**" 
+  - uma camada além do conteúdo linguístico
+- Sinaliza **entendimento mútuo**, **objetivos compartilhados** e **terreno comum**
+- Comunica **pensamentos**, **emoções** e **atenção**, de forma mais **sutil** e **indireta** que a fala
+- É produzida em grande parte de forma **automática e inconsciente**
+  - é vista como mais **genuína**, revelando a atitude "verdadeira" da pessoa
+
+![](images/camada-nao-verbal.svg){fig-align="center" width="100%"}
+
+## Robôs sociais pioneiros já usavam pistas não verbais {.smaller}
+
+- **Kismet** (um dos primeiros robôs sociais) usava pistas posturais --- recuar, inclinar-se para frente --- para expressar afeto e engajar as pessoas (Breazeal, 2003)
+- **Keepon**, um robô social minimalista, usa **olhar** e **movimento reativo** para expressar atenção e afeto (Kozima et al., 2009)
+- Muitos robôs também usam **atenção conjunta** para sinalizar engajamento com o usuário e com uma tarefa compartilhada
+
+:::: columns
+::: {.column width="50%"}
+![](images/kismet.jpg){fig-align="center" width="65%"}
+
+[Kismet (1993–2000), no MIT Museum — Polimerek / Wikimedia Commons, CC BY-SA 2.5]{.credito}
+:::
+::: {.column width="50%"}
+![](images/keepon.jpg){fig-align="center" width="70%"}
+
+[Hideki Kozima com o Keepon, Wired NextFest 2007 — Matt Schley / Wikimedia Commons, CC BY-SA 3.0]{.credito}
+:::
+::::
+
+## Contexto cultural e social {.smaller}
+
+- A comunicação não verbal sempre ocorre num **contexto específico**, que a torna apropriada ou não
+- Ocidente: cumprimenta-se com **aperto de mão**; Japão: uma **reverência respeitosa**
+- Uma conversa "ocidental" típica inclui **contato visual contínuo** e **toque físico** --- em outro contexto cultural, isso pode soar **ameaçador** ou rude
+- Pesquisa recente busca **IHR culturalmente sensível**: robôs de cuidado culturalmente competentes, com representações de conhecimento cultural e execução culturalmente apropriada (Bruno et al., 2017)
+
+:::: columns
+::: {.column width="50%"}
+![](images/aperto-de-mao.jpg){fig-align="center" width="88%"}
+
+[Aperto de mão — perzon seo / Wikimedia Commons, CC BY 2.0]{.credito}
+:::
+::: {.column width="50%"}
+![](images/reverencia-japao.jpg){fig-align="center" width="88%"}
+
+[Reverência no santuário Meiji, Tóquio — Maya-Anaïs Yataghène / Wikimedia Commons, CC BY 2.0]{.credito}
+:::
+::::
+
+## Também vale para IHR {.smaller}
+
+- Pistas não verbais das **pessoas** ao interagir com um robô indicam se estão gostando da interação --- podem guiar o **comportamento do robô**
+- Verbal e não verbal podem ser **contraditórios**: 
+  - elogiar algo em voz alta enquanto o corpo mostra tensão ou ansiedade
+- A interação também fica **estranha** quando os gestos do robô não combinam com o **ritmo** ou o **significado** da fala, ou quando ele não responde às pistas não verbais das pessoas
+- A pesquisa inicial em IHR focava a **fala**; hoje, pistas não verbais são vistas como **pré-requisito** para uma interação bem-sucedida
+
+# Tipos de Interação Não Verbal
+
+![](images/canais-nao-verbais.svg){fig-align="center" width="82%"}
+
+## Olhar e movimento ocular {.smaller}
+ 
+::: .columns
+::: {.column width="45%"}
+- **Olhar** é uma pista sutil e importante para administrar a interação social: sinaliza **interesse**, **compreensão**, **atenção** e a capacidade e vontade de **acompanhar** a conversa
+- Facilita interações **funcionais**: entregar um objeto, chamar a atenção para a próxima ferramenta de uma tarefa
+- Pode ser usado para **solicitar e manter** a atenção de outra pessoa, e para gerenciar a **alternância de turnos** --- olhar de um para outro sugere de quem é a vez de falar
+::: 
+::: {.column width="55%"}
+![](images/funcoes-olhar.svg){fig-align="center" width="100%"}
+::: 
+:::
+## Atenção conjunta {.smaller}
+
+- **Atenção conjunta**: parceiros da interação atendem à **mesma área ou objeto** ao mesmo tempo
+- Fundamental no desenvolvimento humano: atender ao mesmo objeto que um cuidador é pré-requisito para aprender **palavras e comportamentos** (Yu \& Smith, 2013); a incapacidade de fazê-lo está ligada a dificuldades de desenvolvimento (Charman et al., 2000)
+- Em adultos, sinaliza **interesse** e **envolvimento profundo**; importante para tarefas colaborativas, nas quais é preciso coordenar as ações
+
+![](images/atencao-conjunta.svg){fig-align="center" width="78%"}
+
+## Olhar em IHR {.smaller}
+
+- **Imai et al. (2003)** usaram atenção conjunta para dar suporte a uma comunicação mais fluida, com e sem fala
+- Estudada como capacidade fundamental para robôs que aprendem com pessoas, sobretudo **humanoides** (Scassellati, 1999); também usada para ajudar crianças com autismo a desenvolver essa habilidade social
+- As pupilas também comunicam: a **dilatação pupilar** é controlada pelo sistema nervoso autônomo e sinaliza atração --- pode ser reproduzida em robôs para dar a impressão de que o robô está **atraído** pelo usuário
+
+![](images/pupila-dilatacao.svg){fig-align="center" width="100%"}
+
+## Olhar em interações com múltiplas pessoas {.smaller}
+
+
+- Modelos de olhar derivados do comportamento humano permitem que um robô leve pessoas a assumir papéis conversacionais diferentes: **endereçado**, **espectador** ou **não participante** (Mutlu et al., 2012)
+- Numa interação com várias pessoas, o robô pode usar o olhar para controlar **quem falará em seguida** (Mutlu et al., 2009)
+- **Andrist et al. (2014)** usaram rastreamento facial para gerar olhar mútuo e desvios propositais de olhar, tornando o robô mais **intencional** e **ponderado**
+- Pessoas com quem o robô manteve contato visual ao contar uma história **lembraram mais detalhes** do conteúdo (Mutlu et al., 2006)
+
+![](images/papeis-conversacionais.svg){fig-align="center" width="100%"}
+
+## Gestos {.smaller}
+
+- Depois da fala, gestos são talvez a forma mais evidente de fornecer informação numa interação
+- Podem substituir a fala ou acompanhá-la; classificados pelo **papel** que desempenham na comunicação
+
+![](images/tipos-gestos.svg){fig-align="center" width="100%"}
+
+## Gestos em IHR {.smaller}
+
+- Forma, **timing**, naturalidade e suavidade dos gestos afetam a percepção e a compreensão das pessoas (Bremner et al., 2009)
+- **Salem et al. (2013)**: gestos junto com a fala tornaram o ASIMO mais **antropomórfico** e **simpático**, com mais disposição das pessoas para interagir de novo depois
+- Achado interessante: gestos **incongruentes** com a fala levaram a avaliações ainda **mais positivas** do robô --- mas **pioraram** o desempenho da tarefa
+
+![](images/congruencia-gestos.svg){fig-align="center" width="86%"}
+
+## Gerar gestos de fala automaticamente {.smaller}
+
+- A geração de gestos que acompanham a fala (*co-speech gestures*) para personagens artificiais e robôs é feita hoje majoritariamente por **aprendizado de máquina**
+- O software é treinado com **centenas de horas** de vídeo de pessoas falando e gesticulando
+- Os modelos ainda nem sempre acertam o **gesto que combina** com o que está sendo dito --- mas a **dinâmica** dos gestos gerados já é praticamente indistinguível da humana (Yoon et al., 2022)
+
+![](images/pepper-gestos.jpg){fig-align="center" width="46%"}
+
+[Pepper (SoftBank Robotics), robô social com braços articulados para gestos de fala — Nesnad / Wikimedia Commons, CC BY 3.0]{.credito}
+
+## Mímica e imitação {.smaller}
+
+- **Mímica**: réplica **inconsciente** do comportamento de outra pessoa.
+- **Imitação**: réplica **consciente** do comportamento de outra pessoa.
+- Base neurológica: os **neurônios-espelho**, que disparam tanto ao executar uma ação quanto ao **observar** outra pessoa executá-la (Rizzolatti \& Craighero, 2004)
+
+![](images/mimica-neuronios.svg){fig-align="center" width="100%"}
+
+## Funções da mímica e da imitação {.smaller}
+
+- Na infância, ajudam a aprender **novos comportamentos** e normas sociais culturalmente relevantes; crianças imitam o sotaque ou as expressões da família
+- Adultos usam a imitação para se **integrar** a um grupo social ou cultural --- gesticular mais ao falar italiano, por exemplo
+- A mímica sinaliza **afeto positivo** de forma indireta: quando duas pessoas adotam gestos ou posturas parecidas numa conversa, geralmente é porque estabeleceram uma **relação positiva**
+- Quando as pistas não verbais estão **fora de sincronia**, sente-se que a comunicação não está fluindo bem
+
+## O efeito camaleão {.smaller}
+
+- A mímica pode ser usada deliberadamente como **ferramenta de persuasão**
+- No "**efeito camaleão**", mimetizar sutilmente os gestos e a postura de alguém aumenta a chance de essa pessoa **concordar** com você (Chartrand \& Bargh, 1999)
+- Efeito **dependente do tempo**: se a mímica é óbvia demais ou chega tarde, as intenções soam **manipuladoras** ou insinceras
+
+![](images/efeito-camaleao.svg){fig-align="center" width="100%"}
+
+## Mímica e imitação em robôs {.smaller}
+
+- Ampla literatura sobre **aprendizado por imitação**: robôs que registram e reproduzem ações humanas (Argall et al., 2009; Mostafaoui et al., 2022)
+- **Riek et al. (2010)** desenvolveram um robô que mimetizava gestos de cabeça das pessoas --- contribuição positiva para a interação, embora os gestos nem sempre fossem claros para os participantes
+- **Wills et al. (2016)**: um robô que mimetizava expressões faciais e exibia poses de cabeça contingentes recebeu **mais doações** que um robô sem esse comportamento
+
+![](images/imitacao-robo.svg){fig-align="center" width="100%"}
+
+## Toque {.smaller}
+
+- Pista não verbal frequente em interações **próximas** --- entre amigos, ou entre cuidador e paciente
+- Usado **deliberadamente** (acalmar alguém agitado) ou de forma **incidental** (tocar quem nos atrai) --- ambos podem gerar efeitos positivos, sobretudo dentro do mesmo grupo social
+- Efeitos **nem sempre positivos**: entre grupos sociais diferentes, o toque pode gerar sentimentos mais negativos
+
+## Toque em IHR: riscos de segurança {.smaller}
+
+- Interação física com robôs ainda é **incomum**: falta de segurança em interações hápticas (abraçar, segurar, apertar a mão) é uma preocupação real
+- Muitos robôs sociais têm **pontos de risco** (dedos podem ficar presos sob os braços, nos quadris) --- o toque físico foi, em muitos casos, um "**depois-pensamento**" no design
+
+![](images/espectro-toque.svg){fig-align="center" width="100%"}
+
+## Toque em IHR: Paro e Haptic Creature {.smaller}
+
+- Robôs animal-like como **Paro** e a **Haptic Creature** mostram que o toque tátil reduz **estresse e ansiedade** quando é a pessoa quem o inicia (Shibata, 2012; Yohanan \& MacLean, 2012)
+
+![](images/paro.jpg){fig-align="center" width="42%"}
+
+[Paro, robô-foca terapêutico — Aaron Biggs / Wikimedia Commons, CC BY-SA 2.0]{.credito}
+
+## Toque em IHR: afetivo × funcional {.smaller}
+
+- **Chen et al. (2014)**: toque **afetivo** (confortar) avaliado mais positivamente que toque **funcional** (limpar o braço) num cenário de enfermagem
+
+![](images/toque-afetivo-funcional.svg){fig-align="center" width="70%"}
+
+## Postura e movimento {.smaller}
+
+- Postura corporal e a forma de se **mover** comunicam o estado emocional: movimentos lentos e ombros caídos sugerem desânimo; movimentos rápidos e postura ereta, atitude positiva
+- Especialmente importantes quando o **rosto não está visível** --- mas também complementam a expressão facial
+- Braços abertos convidam ao **engajamento**; braços à frente do corpo sinalizam **postura defensiva**
+- Orientação em relação à outra pessoa também informa: joelhos voltados um para o outro → engajamento; tronco virado para longe → desejo de encerrar a interação
+
+![](images/postura-sinais.svg){fig-align="center" width="100%"}
+
+## Postura e movimento em robôs {.smaller}
+
+- Quando o robô **não tem** rosto expressivo, o corpo pode ser a via **principal** de expressão emocional
+- **Beck et al. (2010)**: posturas afetivas melhoram a compreensão das pessoas sobre o estado emocional do robô, afetando também as emoções de quem observa
+- **Xu et al. (2014)**: as pessoas não só interpretam as posturas afetivas do robô como também **adotam** as emoções que acham que ele está exibindo
+- **Micromovimentos** --- perturbações pequenas e quase imperceptíveis --- transmitem a impressão de que o robô está "**vivo**" (Yamaoka et al., 2005; Ishiguro, 2007; Sakamoto et al., 2007)
+
+![](images/micro-movimentos.svg){fig-align="center" width="90%"}
+
+## Ritmo e timing da interação {.smaller}
+
+- O **timing** das pistas comunicativas carrega significado próprio; na comunicação verbal, chamamos isso de **alternância de turnos**
+- Pistas não verbais (olhar, gesto) dão suporte a essa alternância, guiando a atenção para o parceiro certo ou sinalizando o fim de um turno
+- **Ritmicidade** e **sincronia**: para duas pessoas se comunicarem bem, precisam ficar "entrelaçadas ritmicamente" --- não necessariamente fazendo a mesma coisa ao mesmo tempo, mas na **mesma batida** (Warner et al., 1987)
+- Ficar fora de sincronia pode indicar que sinais sociais importantes foram **perdidos**, levando a uma interação pior avaliada
+
+![](images/alternancia-turnos-timing.svg){fig-align="center" width="100%"}
+
+## Ritmo em IHR {.smaller}
+
+- **Michalowski et al. (2007)**: um robô ritmicamente sincronizado (*entrained*) com o parceiro humano é visto como mais **lifelike** que um robô que se move ritmicamente mas fora de sincronia --- e as pessoas interagem por **mais tempo** com ele
+- A ritmicidade também ajuda na **alternância de turnos** e na colaboração em equipe, antecipando comportamentos (Hoffman \& Breazeal, 2007)
+
+![](images/ritmo-sincronia.svg){fig-align="center" width="100%"}
+
+# Interação Não Verbal em Robôs
+
+## Percepção de pistas não verbais {.smaller}
+
+- Técnicas padrão de **reconhecimento de padrões** permitem que robôs percebam e identifiquem pistas não verbais humanas --- postura e reconhecimento de gestos são bem estudados
+- Sistemas típicos usam **câmeras**, câmeras de profundidade ou sensores no corpo da pessoa para gravar séries temporais de dados
+- Hoje é comum treinar um sistema por **aprendizado de máquina**: coletar um banco de dados de gestos rotulados, treinar um **classificador**, e então implantá-lo no robô (Mitra \& Acharya, 2007)
+
+![](images/percepcao-geracao-ciclo.svg){fig-align="center" width="90%"}
+
+## Gerar pistas não verbais em robôs {.smaller}
+
+- Gerar gestos e outras pistas não é trivial: precisam ser **contingentes** à interação (o robô pisca assim que a usuária estala os dedos) e **coordenadas**, em significado e timing, com a fala e entre si
+- Um design importante: gerar comportamento não verbal **inspirado** em como pessoas usam essas pistas ao dialogar --- ex.: Kanda et al. (2007a), que gera aceno de cabeça e movimentos sincronizados dos braços automaticamente
+- *Co-speech gesturing* --- uso de mãos, braços e corpo que coincide com a fala --- tem avançado bastante com **redes neurais profundas** treinadas em vídeos de pessoas falando (Yoon et al., 2022)
+
+## Quadros-chave e animação {.smaller}
+
+- Abordagem mais simples e usada com frequência: **animação por quadros-chave** (*key frames*) --- o designer controla os ângulos de cada junta para fixar uma postura, e o sistema **interpola** entre as posturas
+- GUIs reduzem o esforço de design: **Choregraphe**, para Nao e Pepper; **Lively** (Schoen et al., 2023), que gera movimento *lifelike* considerando obstáculos próximos ao robô
+- Outras técnicas: **motion capture** (grava movimentos humanos precisos para replicar no robô) e linguagens de marcação como **BML** (*Behavior Markup Language*), que especifica gestos em combinação com a fala (Kopp et al., 2006)
+
+![](images/keyframes-interpolacao.svg){fig-align="center" width="100%"}
+
+## Mecanismos cognitivos para robôs {.smaller}
+
+- Outra abordagem: dotar o robô de alguma forma de **cognição artificial**, combinando habilidades cognitivas em vez de programar cada comportamento manualmente
+- **Scassellati (2000)** desenvolveu uma arquitetura cognitiva corporificada que liga percepção do mundo a habilidades cognitivas de alto nível (atenção conjunta, atribuição de intenção, aprendizado social) --- particularmente eficaz no robô **Kismet**
+- **Sugiyama et al. (2007)**: mecanismo cognitivo para replicar a interação **dêitica** humana ("esse", "aquele")
+- **Liu et al. (2013)**: modelo computacional que equilibra **compreensibilidade** e **adequação social** --- evita gestos de apontar impolidos sem perder a clareza
+
+![](images/arquitetura-cognitiva.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- A comunicação não verbal é essencial nas interações humanas --- e igualmente importante em IHR
+- Ela se manifesta em vários **canais** ao mesmo tempo: olhar, gestos, imitação, toque, postura e ritmo
+- Implementar essas pistas em robôs ainda exige **avanço técnico**, pois representam aspectos muito **sutis** da comunicação
+- Muito trabalho ainda é necessário para que robôs ajam e reajam de forma **humanamente natural** no dia a dia
+
+![](images/ciclo-nao-verbal.svg){fig-align="center" width="78%"}
+
+## Para pensar {.smaller}
+
+- Sem convicção de que pistas não verbais importam? Vá agora ter uma conversa com alguém **sem olhar para o rosto** da pessoa. Como foi? Como você se sentiu? Depois, pergunte à outra pessoa o que ela achou do seu comportamento
+- Pense num caso de uso de robô que te interessa. Que aspecto da comunicação não verbal seria mais relevante? Gesto ou olhar ajudariam? E o **timing**?
+- Como saber se um robô está usando pistas não verbais **de forma eficaz**? Existe uma forma de medir a qualidade da interação não verbal?
+
+- **No seu projeto:** para o robô que a sua equipe está projetando ---
+  - escolha **dois canais** não verbais (olhar, gesto, toque, postura, ritmo, imitação) e descreva como o robô os usaria;
+  - explique como o robô **perceberia** as pistas não verbais correspondentes da pessoa;
+  - descreva um caso em que a **falta de coordenação** entre fala e comportamento não verbal quebraria a interação;
+  - proponha **uma pista não verbal exclusiva** do robô (sem equivalente humano direto) que ajudaria na comunicação.
+
+## Leituras futuras {.smaller}
+
+- **Admoni \& Scassellati (2017)** --- *Social eye gaze in human-robot interaction: A review*
+- **Breazeal et al. (2005)** --- efeitos da comunicação não verbal na eficiência e robustez do trabalho em equipe humano-robô
+- **Mavridis (2015)** --- revisão da comunicação interativa verbal e não verbal
+- **Nehaniv et al. (2005)** --- abordagem metodológica para classificar gestos e identificar intenção humana em IHR
+- **Sidner et al. (2005)** --- explorações sobre engajamento entre humanos e robôs

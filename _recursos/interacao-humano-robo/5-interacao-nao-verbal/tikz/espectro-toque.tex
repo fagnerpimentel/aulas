@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dcurve, line width=3pt, dblue!25] (0,0) -- (11,0);
+  \fill[dblue] (0,0) circle (0.09);
+  \fill[dorange] (11,0) circle (0.09);
+
+  \node[font=\bfseries\small, dblue, anchor=north] at (0,-0.25) {funcional};
+  \node[dsub, font=\scriptsize, align=center, text width=3.2cm, anchor=north] at (0,-0.75)
+     {entregar objeto, higienizar};
+
+  \node[font=\bfseries\small, dorange, anchor=north] at (11,-0.25) {afetivo};
+  \node[dsub, font=\scriptsize, align=center, text width=3.2cm, anchor=north] at (11,-0.75)
+     {confortar, abraçar};
+
+  \fill[dshade, draw=black!50, line width=0.7pt] (5.5,0) circle (0.09);
+  \node[dsub, font=\scriptsize, align=center, text width=3.4cm, anchor=south] at (5.5,0.35)
+     {handshake, cumprimento};
+
+  % robô com pontos de risco (pinças)
+  \begin{scope}[shift={(5.5,-3.0)}]
+    \draw[dbody, dacc, rounded corners=2pt] (-0.5,-0.6) rectangle (0.5,0.6);
+    \draw[dbody, dacc] (-0.5,0.1) -- (-1.0,-0.3);
+    \draw[dbody, dacc] (0.5,0.1) -- (1.0,-0.3);
+    \fill[dred] (-0.5,0.1) circle (0.09);
+    \fill[dred] (0.5,0.1) circle (0.09);
+    \node[dred, font=\scriptsize] at (0,-1.1) {pontos de risco (dedos presos)};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (5.5,-4.5)
+     {A interação tátil com robôs ainda é rara: falta de \textbf{segurança} no design (pinças sob os braços, quadris) limita o toque físico};
+
+\end{tikzpicture}
+\end{document}

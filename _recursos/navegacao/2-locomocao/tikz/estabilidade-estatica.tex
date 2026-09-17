@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Estável: COG dentro do triângulo de apoio
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.6,-1.0) rectangle (2.6,3.6);
+    \node[font=\bfseries\small, dgreen] at (0,3.2) {Estável};
+    \fill[dgreen!12, draw=dgreen, line width=1pt] (-1.8,-0.2) -- (1.8,-0.2) -- (0,2.2) -- cycle;
+    \fill[black!70] (-1.8,-0.2) circle (0.06);
+    \fill[black!70] (1.8,-0.2) circle (0.06);
+    \fill[black!70] (0,2.2) circle (0.06);
+    \fill[dorange] (0.1,0.6) circle (0.08);
+    \node[dorange, font=\scriptsize] at (0.9,0.75) {COG};
+    \node[dsub, font=\scriptsize, align=center, text width=4.4cm] at (0,-1.6) {centro de gravidade dentro do apoio};
+  \end{scope}
+
+  % Instável: COG fora
+  \begin{scope}[shift={(6.4,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.6,-1.0) rectangle (2.6,3.6);
+    \node[font=\bfseries\small, dred] at (0,3.2) {Instável};
+    \fill[dred!8, draw=dred, line width=1pt] (-1.8,-0.2) -- (1.8,-0.2) -- (0,2.2) -- cycle;
+    \fill[black!70] (-1.8,-0.2) circle (0.06);
+    \fill[black!70] (1.8,-0.2) circle (0.06);
+    \fill[black!70] (0,2.2) circle (0.06);
+    \fill[dorange] (2.3,1.4) circle (0.08);
+    \node[dorange, font=\scriptsize] at (2.9,1.55) {COG};
+    \node[dsub, font=\scriptsize, align=center, text width=4.4cm] at (0,-1.6) {centro de gravidade fora do apoio $\to$ tomba};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=14.5cm] at (3.2,-2.6)
+     {Estabilidade \textbf{estática}: basta o centro de gravidade estar dentro do polígono de contato --- não é preciso se mover para se equilibrar};
+
+\end{tikzpicture}
+\end{document}

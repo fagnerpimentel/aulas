@@ -1,0 +1,46 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\painel}[3]{\begin{scope}[shift={(#1,0)}]
+      \draw[dguide, rounded corners=2pt] (-1.75,-2.1) rectangle (1.75,2.0);
+      #3
+      \node[font=\bfseries\small, align=center, text width=3.2cm] at (0,-1.55) {#2};
+      \end{scope}}
+
+  \painel{0}{1 perna\\[-1pt]{\footnotesize\color{black!45}Raibert hopper}}{
+    \draw[dbody, dacc] (0,0.9) circle (0.32);
+    \draw[dbody, dacc, line width=1.6pt] (0,0.58) -- (0.35,-0.75);
+    \fill[black!12, draw=black!75] (0.35,-0.85) circle (0.12);
+  }
+
+  \painel{4.0}{2 pernas\\[-1pt]{\footnotesize\color{black!45}Honda P2, WABIAN}}{
+    \draw[dbody, dacc] (0,0.9) circle (0.30);
+    \draw[dbody, dacc, line width=1.5pt] (0,0.60) -- (0,-0.15);
+    \draw[dbody, dacc, line width=1.5pt] (0,-0.15) -- (-0.4,-1.1);
+    \draw[dbody, dacc, line width=1.5pt] (0,-0.15) -- (0.4,-1.1);
+  }
+
+  \painel{8.0}{4 pernas\\[-1pt]{\footnotesize\color{black!45}AIBO, Titan VIII}}{
+    \draw[dbody, dacc, rounded corners=3pt] (-0.65,0.4) rectangle (0.65,0.9);
+    \draw[dbody, dacc, line width=1.3pt] (-0.5,0.4) -- (-0.7,-1.0);
+    \draw[dbody, dacc, line width=1.3pt] (0.5,0.4) -- (0.7,-1.0);
+    \draw[dbody, dacc, line width=1.3pt] (-0.2,0.4) -- (-0.35,-1.0);
+    \draw[dbody, dacc, line width=1.3pt] (0.2,0.4) -- (0.35,-1.0);
+  }
+
+  \painel{12.0}{6 pernas\\[-1pt]{\footnotesize\color{black!45}Genghis, Lauron}}{
+    \draw[dbody, dacc, rounded corners=3pt] (-0.9,0.4) rectangle (0.9,0.9);
+    \draw[dbody, dacc, line width=1.2pt] (-0.7,0.4) -- (-1.2,-0.6);
+    \draw[dbody, dacc, line width=1.2pt] (0,0.4) -- (-0.3,-0.9);
+    \draw[dbody, dacc, line width=1.2pt] (0.7,0.4) -- (1.2,-0.6);
+    \draw[dbody, dacc, line width=1.2pt] (-0.7,0.9) -- (-1.2,1.8);
+    \draw[dbody, dacc, line width=1.2pt] (0,0.9) -- (-0.3,1.9);
+    \draw[dbody, dacc, line width=1.2pt] (0.7,0.9) -- (1.2,1.8);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (6.0,-2.9)
+     {Menos pernas: mais simples e leve, mas exige \textbf{equilíbrio ativo} (dinâmico); mais pernas: estabilidade \textbf{estática}, mais complexidade e massa};
+
+\end{tikzpicture}
+\end{document}

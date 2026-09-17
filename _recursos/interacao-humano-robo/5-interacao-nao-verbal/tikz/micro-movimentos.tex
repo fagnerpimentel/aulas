@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Robô estático
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.9,-1.9) rectangle (1.9,2.0);
+    \draw[dbody, dacc, rounded corners=2pt] (-0.5,-0.3) rectangle (0.5,0.7);
+    \fill[dblue] (0,0.7) -- (-0.18,1.0) -- (0.18,1.0) -- cycle;
+    \draw[dbody, dacc] (-0.5,0.5) -- (-0.9,0.1);
+    \draw[dbody, dacc] (0.5,0.5) -- (0.9,0.1);
+    \node[font=\bfseries\small] at (0,-2.3) {Estático};
+    \node[dsub, font=\scriptsize, align=center, text width=3.4cm] at (0,-2.75) {parece desligado};
+  \end{scope}
+
+  % Robô com micromovimentos
+  \begin{scope}[shift={(4.6,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.9,-1.9) rectangle (1.9,2.0);
+    \draw[dbody, dacc, rounded corners=2pt] (-0.5,-0.3) rectangle (0.5,0.7);
+    \fill[dblue] (0,0.7) -- (-0.18,1.0) -- (0.18,1.0) -- cycle;
+    \draw[dbody, dacc] (-0.5,0.5) -- (-0.9,0.1);
+    \draw[dbody, dacc] (0.5,0.5) -- (0.9,0.1);
+    \draw[dorange, line width=0.9pt, ->] (0,1.15) arc (90:170:0.22);
+    \draw[dorange, line width=0.9pt, ->] (-0.9,0.1) arc (200:260:0.18);
+    \draw[dorange, line width=0.9pt, ->] (0.9,0.1) arc (-20:40:0.18);
+    \node[font=\bfseries\small] at (0,-2.3) {Micromovimentos};
+    \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (0,-2.75) {pequenas perturbações aleatórias --- parece vivo};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

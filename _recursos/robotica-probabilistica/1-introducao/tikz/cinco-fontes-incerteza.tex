@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=3.3cm, minimum height=1.2cm, font=\footnotesize] (a) at (-6.6,2.0)
+     {\textbf{1. Ambientes}\\imprevisíveis};
+  \node[dbox, minimum width=3.3cm, minimum height=1.2cm, font=\footnotesize] (b) at (-3.3,2.0)
+     {\textbf{2. Sensores}\\alcance + ruído};
+  \node[dbox, minimum width=3.3cm, minimum height=1.2cm, font=\footnotesize] (c) at (0,2.0)
+     {\textbf{3. Atuação}\\ruído, desgaste};
+  \node[dbox, minimum width=3.3cm, minimum height=1.2cm, font=\footnotesize] (d) at (3.3,2.0)
+     {\textbf{4. Modelos}\\imperfeitos};
+  \node[dbox, minimum width=3.3cm, minimum height=1.2cm, font=\footnotesize] (e) at (6.6,2.0)
+     {\textbf{5. Computação}\\tempo real};
+
+  \node[dbox, dacc, minimum width=3.4cm, minimum height=1.1cm] (u) at (0,-1.2) {\textbf{Incerteza}};
+
+  \foreach \n in {a,b,c,d,e}{ \draw[->, black!50, line width=0.9pt] (\n) -- (u); }
+
+\end{tikzpicture}
+\end{document}

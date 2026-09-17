@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % robô SEM noção de incerteza
+  \begin{scope}
+    \node[circle, draw=black!75, fill=dcream, minimum size=9mm] (r1) at (0,0) {};
+    \fill[dred] (0,0) circle (1.6pt);
+    \node[dsub, align=center] at (0,-1.4) {sem noção da\\própria incerteza};
+    \node[dsub, align=center] at (0,1.4) {um único palpite};
+  \end{scope}
+
+  \node[font=\Large, dblue] at (3.4,0) {$>$};
+
+  % robô COM noção de incerteza
+  \begin{scope}[shift={(6.8,0)}]
+    \fill[dblue!12] (0,0) ellipse [x radius=1.5, y radius=0.95];
+    \draw[dblue!45, line width=0.7pt] (0,0) ellipse [x radius=1.5, y radius=0.95];
+    \node[circle, draw=black!75, fill=dcream, minimum size=9mm] (r2) at (0,0) {};
+    \fill[dred] (0,0) circle (1.6pt);
+    \node[dsub, align=center] at (0,-1.6) {carrega e age conforme\\a própria incerteza};
+    \node[dsub, align=center] at (0,1.5) {palpite + incerteza};
+  \end{scope}
+
+  \node[black!70, font=\small, align=center] at (3.4,-3.0)
+    {\emph{um robô que carrega uma noção da própria incerteza e age de acordo}\\
+     \emph{é superior a um que não o faz}};
+
+\end{tikzpicture}
+\end{document}

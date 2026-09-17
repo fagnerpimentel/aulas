@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis] (0,0) -- (0,4.6);
+  \node[dsub, font=\scriptsize, rotate=90] at (-0.9,2.3) {taxa de erro (\%)};
+
+  \fill[dorange!55, draw=black!60, line width=0.7pt] (0.6,0) rectangle (2.2,4.06);
+  \node[font=\bfseries\small] at (1.4,4.4) {5{,}8\%};
+  \node[dsub, font=\scriptsize, align=center, text width=2.6cm] at (1.4,-0.7) {transcritores humanos};
+
+  \fill[dblue!55, draw=black!60, line width=0.7pt] (3.0,0) rectangle (4.6,0.98);
+  \node[font=\bfseries\small] at (3.8,1.35) {1{,}4\%};
+  \node[dsub, font=\scriptsize, align=center, text width=2.6cm] at (3.8,-0.7) {reconhecimento automático (ASR)};
+
+  \node[dsub, font=\scriptsize, align=center, text width=11.5cm] at (2.6,-1.8)
+     {Em um teste específico, o reconhecimento automático de fala já supera transcritores humanos (Zhang et al., 2022) --- mas ainda falha com sotaques, ruído e fala atípica};
+
+\end{tikzpicture}
+\end{document}

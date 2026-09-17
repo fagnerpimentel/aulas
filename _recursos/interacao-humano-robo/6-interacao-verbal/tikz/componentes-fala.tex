@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dguide, rounded corners=3pt, fill=dcream] (-4.6,-2.7) rectangle (4.6,2.3);
+  \node[font=\bfseries\small, dblue] at (0,1.85) {enunciado (utterance)};
+  \node[dsub, font=\scriptsize] at (0,1.4) {ex.: ``quero uma pizza, uhm, de calabresa''};
+
+  \draw[dguide, rounded corners=3pt, fill=white] (-3.6,-2.2) rectangle (0.0,0.9);
+  \node[font=\small] at (-1.8,0.55) {\textbf{palavras}};
+
+  \draw[dguide, rounded corners=3pt, fill=dcream] (-2.9,-0.55) rectangle (-0.7,0.15);
+  \node[font=\scriptsize] at (-1.8,-0.05) {\textbf{fonemas}: [p][a][t]};
+
+  \node[dsub, font=\scriptsize, align=center, text width=3.2cm] at (-1.8,-1.5) {menor unidade de \textbf{significado}};
+
+  \draw[dguide, rounded corners=3pt, fill=white] (0.3,-2.2) rectangle (4.2,0.9);
+  \node[font=\small, align=center, text width=3.7cm] at (2.25,0.5) {\textbf{marcadores conversacionais}};
+  \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (2.25,-1.0) {``uh-huh'', ``sei'' --- mantêm a conversa fluindo, sem conteúdo próprio};
+
+\end{tikzpicture}
+\end{document}

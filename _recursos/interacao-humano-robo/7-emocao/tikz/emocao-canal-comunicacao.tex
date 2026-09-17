@@ -1,0 +1,44 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[3]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0) circle (0.30);
+      \draw[black!75, line width=1.1pt] (0,-0.30) -- (0,-1.0);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (-0.26,-1.5);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (0.26,-1.5);
+      \node[dsub, font=\scriptsize] at (0,-2.0) {#3};
+      \end{scope}}
+
+  % Medo
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.9,-2.5) rectangle (5.4,2.0);
+    \node[font=\bfseries\small] at (1.75,1.6) {Expressão de medo};
+    \perso{-1.0}{0}{pessoa};
+    \node[dorange, font=\Large] at (2.2,0.1) {!};
+    \draw[dguide, rounded corners=2pt, draw=dorange] (2.2,-0.3) ellipse (1.0 and 0.55);
+    \node[dsub, font=\scriptsize] at (2.2,-0.3) {ameaça};
+    \perso{4.6}{0}{outra pessoa};
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (-0.5,0.1) -- (1.0,0.1);
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (3.4,0.1) -- (4.1,0.1);
+    \node[dsub, font=\scriptsize, align=center, text width=4.8cm] at (1.75,-2.1) {alerta o outro sobre um perigo, antes mesmo de gritar};
+  \end{scope}
+
+  % Raiva
+  \begin{scope}[shift={(8.2,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.9,-2.5) rectangle (5.4,2.0);
+    \node[font=\bfseries\small] at (1.75,1.6) {Expressão de raiva};
+    \perso{-1.0}{0}{pessoa};
+    \draw[dred, line width=1.3pt] (1.7,0.35) -- (2.7,0.15);
+    \draw[dred, line width=1.3pt] (2.7,0.35) -- (1.7,0.15);
+    \perso{4.6}{0}{outra pessoa};
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (-0.5,0.1) -- (1.5,0.1);
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (2.9,0.1) -- (4.1,0.1);
+    \node[dsub, font=\scriptsize, align=center, text width=4.8cm] at (1.75,-2.1) {sinaliza resposta agressiva --- o outro pode recuar};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (5.2,-3.3)
+     {A comunicação bem-sucedida de emoções favorece a \textbf{sobrevivência}, fortalece laços sociais e reduz o risco de rejeição e agressão (Keltner \& Kring, 1998)};
+
+\end{tikzpicture}
+\end{document}

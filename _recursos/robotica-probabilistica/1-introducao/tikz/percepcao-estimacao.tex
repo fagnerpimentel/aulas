@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, minimum width=2.8cm, minimum height=1.1cm, font=\footnotesize] (s) at (0,0)
+     {dados de\\sensores};
+  \node[dbox, minimum width=3.2cm, minimum height=1.1cm, font=\footnotesize, dacc] (e) at (4.4,0)
+     {estimação de\\estado};
+  \node[dbox, minimum width=3.0cm, minimum height=1.1cm, font=\footnotesize] (b) at (8.9,0)
+     {$bel(x)$\\\footnotesize crença};
+
+  \draw[dtrans, line width=1.1pt] (s) -- (e);
+  \draw[dtrans, line width=1.1pt] (e) -- (b);
+
+  \node[dsub] at (4.4,-1.1) {algoritmo: \textbf{filtro de Bayes}};
+
+  \node[dbox, minimum width=3.4cm, minimum height=1.0cm, font=\footnotesize] (a) at (8.9,-2.6)
+     {seleção de ação};
+  \draw[dmeas, line width=1pt, ->] (b) -- (a)
+     node[midway, right, dsub] {considera a incerteza \emph{plena}};
+  \node[dsub, anchor=west] at (-1.0,-2.6) {exploração $\leftrightarrow$ explotação};
+  \draw[black!40, line width=0.7pt, ->] (2.7,-2.6) -- (a);
+
+\end{tikzpicture}
+\end{document}

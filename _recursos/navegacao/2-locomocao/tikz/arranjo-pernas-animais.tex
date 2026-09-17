@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\corpo}[3]{\begin{scope}[shift={(#1,0)}]
+      \draw[dbody, dacc, rounded corners=6pt] (-1.1,-0.2) rectangle (1.1,0.5);
+      #3
+      \node[font=\bfseries\small, align=center, text width=3.4cm] at (0,-1.6) {#2};
+      \end{scope}}
+
+  \corpo{0}{Mamíferos\\[-1pt]{\footnotesize\color{black!45}2 ou 4 pernas}}{
+    \draw[dbody, dacc] (-0.7,-0.2) -- (-0.7,-1.0);
+    \draw[dbody, dacc] (0.7,-0.2) -- (0.7,-1.0);
+  }
+
+  \corpo{4.6}{Répteis\\[-1pt]{\footnotesize\color{black!45}4 pernas}}{
+    \draw[dbody, dacc] (-0.8,-0.2) -- (-1.1,-1.0);
+    \draw[dbody, dacc] (-0.3,-0.2) -- (-0.5,-1.0);
+    \draw[dbody, dacc] (0.3,-0.2) -- (0.5,-1.0);
+    \draw[dbody, dacc] (0.8,-0.2) -- (1.1,-1.0);
+  }
+
+  \corpo{9.2}{Insetos\\[-1pt]{\footnotesize\color{black!45}6 ou mais pernas}}{
+    \draw[dbody, dacc] (-0.9,-0.1) -- (-1.5,-0.9);
+    \draw[dbody, dacc] (0,-0.2) -- (-0.5,-1.0);
+    \draw[dbody, dacc] (0.9,-0.1) -- (1.5,-0.9);
+    \draw[dbody, dacc] (-0.9,0.1) -- (-1.5,0.9);
+    \draw[dbody, dacc] (0,0.2) -- (-0.5,1.0);
+    \draw[dbody, dacc] (0.9,0.1) -- (1.5,0.9);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (4.6,-2.6)
+     {Mais pernas facilita a \textbf{estabilidade estática}, mas exige mais coordenação de marcha (\textit{gait})};
+
+\end{tikzpicture}
+\end{document}

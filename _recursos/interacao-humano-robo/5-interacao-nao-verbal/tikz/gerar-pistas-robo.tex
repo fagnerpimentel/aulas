@@ -1,0 +1,50 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0) circle (0.30);
+      \draw[black!75, line width=1.1pt] (0,-0.30) -- (0,-1.0);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (-0.26,-1.5);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (0.26,-1.5);
+      \end{scope}}
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=2pt] (-0.32,-0.32) rectangle (0.32,0.32);
+      \fill[dblue] (0,0.32) -- (-0.13,0.48) -- (0.13,0.48) -- cycle;
+      \end{scope}}
+
+  % Painel A: contingente e coordenado
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.2,-3.15) rectangle (2.2,2.3);
+    \node[font=\bfseries\small, align=center, text width=4.0cm] at (0,1.95) {Contingente e coordenado};
+
+    \draw[dtrans, -{Stealth[length=2.4mm]}] (-0.55,0.85) -- (0.55,0.85);
+    \node[dsub, font=\scriptsize, align=center, text width=2.4cm] at (0,1.35) {quase sem atraso};
+
+    \perso{-0.9}{0}
+    \draw[dorange, line width=1.1pt] (-1.20,-0.10) -- (-1.02,-0.20);
+    \draw[dorange, line width=1.1pt] (-1.20,-0.20) -- (-1.02,-0.10);
+    \node[dorange, font=\scriptsize, align=center, text width=2.0cm] at (-0.9,-1.75) {estala os dedos};
+
+    \robo{0.9}{0}
+    \draw[dblue, line width=1.4pt] (0.76,0.06) -- (1.04,0.06);
+    \node[dsub, font=\scriptsize, align=center, text width=2.0cm] at (0.9,-0.75) {robô pisca};
+
+    \node[dsub, font=\scriptsize, align=center, text width=3.8cm] at (0,-2.7) {gesto e fala do robô também precisam estar \textbf{sincronizados} entre si};
+  \end{scope}
+
+  % Painel B: aprendizado a partir de vídeo
+  \begin{scope}[shift={(6.6,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.4,-3.15) rectangle (2.4,2.3);
+    \node[font=\bfseries\small, align=center, text width=4.6cm] at (0,1.95) {Aprendizado a partir de vídeo};
+
+    \node[dbox, text width=2.6cm, font=\scriptsize] (v) at (0,0.9) {vídeos de pessoas falando e gesticulando};
+    \node[dbox, text width=2.6cm, font=\scriptsize] (r) at (0,-0.4) {rede neural profunda};
+    \node[dbox, text width=2.9cm, font=\scriptsize, draw=dgreen] (g) at (0,-1.7) {gestos do robô coordenados com a fala};
+
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (v.south) -- (r.north);
+    \draw[dtrans, -{Stealth[length=2.2mm]}] (r.south) -- (g.north);
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

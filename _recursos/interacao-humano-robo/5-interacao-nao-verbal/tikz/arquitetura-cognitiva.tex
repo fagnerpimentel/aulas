@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=2.6cm, font=\small] (p) at (0,0) {\textbf{Percepção}\\ objetos, pessoas salientes};
+  \node[dbox, text width=2.6cm, font=\small] (a) at (4.2,0) {\textbf{Atenção conjunta}\\ o que olhar};
+  \node[dbox, text width=2.6cm, font=\small] (i) at (8.4,0) {\textbf{Atribuição de intenção}\\ o que o outro quer};
+  \node[dbox, text width=2.6cm, font=\small] (s) at (12.6,0) {\textbf{Aprendizado social}\\ imitar, aprender com pessoas};
+  \node[dstate, minimum size=20mm, font=\scriptsize, align=center] (o) at (6.3,-3.4) {comportamento\\ não verbal};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (p.east) -- (a.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- (i.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (i.east) -- (s.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.south) .. controls (5,-1.8) .. (o.north west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (i.south) .. controls (9,-1.8) .. (o.north east);
+
+  \node[dsub, font=\scriptsize, align=center, text width=14.5cm] at (6.3,-5.2)
+     {Combinar mecanismos cognitivos --- em vez de programar cada gesto manualmente --- gera comportamento mais \textbf{natural} (Scassellati, 2000; Kismet)};
+
+\end{tikzpicture}
+\end{document}

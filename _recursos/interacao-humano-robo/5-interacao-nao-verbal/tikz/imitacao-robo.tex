@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0) circle (0.30);
+      \draw[black!75, line width=1.1pt] (0,-0.30) -- (0,-1.0);
+      \draw[black!75, line width=1.1pt] (0,-0.15) -- (-0.4,0.15);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (-0.26,-1.5);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (0.26,-1.5);
+      \end{scope}}
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=2pt] (-0.32,-0.32) rectangle (0.32,0.32);
+      \draw[dbody, dacc] (0,-0.15) -- (-0.4,0.15);
+      \draw[dbody, dacc] (0,-0.32) -- (0,-1.0);
+      \draw[dbody, dacc] (0,-1.0) -- (-0.26,-1.5);
+      \draw[dbody, dacc] (0,-1.0) -- (0.26,-1.5);
+      \end{scope}}
+
+  \perso{0}{0}
+  \node[dsub, font=\scriptsize] at (0,0.7) {gesto/pose da pessoa};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (1.0,-0.3) -- (3.2,-0.3)
+     node[midway, above, dsub, font=\scriptsize] {robô imita};
+
+  \robo{4.2}{0}
+  \node[dsub, font=\scriptsize] at (4.2,0.7) {postura espelhada};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (5.2,-0.3) -- (7.4,-0.3);
+
+  \node[dbox, text width=3.6cm, font=\small] at (9.6,-0.1)
+     {\textbf{efeito positivo}\\ mais doações e simpatia percebida};
+
+\end{tikzpicture}
+\end{document}

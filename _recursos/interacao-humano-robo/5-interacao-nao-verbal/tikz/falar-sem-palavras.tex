@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0) circle (0.30);
+      \draw[black!75, line width=1.1pt] (0,-0.30) -- (0,-1.0);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (-0.26,-1.5);
+      \draw[black!75, line width=1.1pt] (0,-1.0) -- (0.26,-1.5);
+      \end{scope}}
+
+  % Painel A: com pistas não verbais
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.1,-2.2) rectangle (2.1,1.5);
+    \node[font=\bfseries\small, dgreen] at (0,1.1) {Com olhar e gestos};
+    \perso{-1.1}{-0.3}
+    \perso{1.1}{-0.3}
+    \draw[dgreen, line width=1pt] (-0.8,0.0) -- (0.8,0.0);
+    \draw[dgreen, line width=1.3pt] (-1.1,-0.5) -- (-0.5,-0.7);
+    \draw[dgreen, line width=1.3pt] (1.1,-0.5) -- (0.5,-0.7);
+    \draw[dgreen, line width=1.6pt, line cap=round] (-0.10,0.32) -- (-0.02,0.22) -- (0.16,0.46);
+    \node[dgreen, font=\small, align=center, text width=4cm] at (0,-2.6) {sentido claro, conexão};
+  \end{scope}
+
+  % Painel B: sem pistas não verbais
+  \begin{scope}[shift={(5.6,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.1,-2.2) rectangle (2.1,1.5);
+    \node[font=\bfseries\small, dred] at (0,1.1) {Sem olhar nem gestos};
+    \perso{-1.1}{-0.3}
+    \perso{1.1}{-0.3}
+    \draw[dred, line width=1pt] (-0.8,0.0) -- (0.8,0.0);
+    \draw[dred, line width=1.3pt] (-0.15,-0.22) -- (0.15,0.22);
+    \draw[dred, line width=1.3pt] (-0.15,0.22) -- (0.15,-0.22);
+    \node[dred, font=\Large] at (0,0.55) {?};
+    \node[dred, font=\small, align=center, text width=4.4cm] at (0,-2.6) {difícil captar o sentido, criar conexão};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

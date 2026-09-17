@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=2pt] (-0.4,-0.4) rectangle (0.4,0.4);
+      \fill[dblue] (0,0.4) -- (-0.16,0.62) -- (0.16,0.62) -- cycle;
+      \end{scope}}
+
+  \robo{0}{0}
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (1.0,0.5) -- (3.2,1.6)
+     node[midway, above, dsub, font=\scriptsize] {voz masculina};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (1.0,-0.5) -- (3.2,-1.6)
+     node[midway, below, dsub, font=\scriptsize] {voz feminina};
+
+  \node[dbox, text width=4.2cm, font=\small] at (6.6,1.6)
+     {antropomorfizado e avaliado \textbf{mais favoravelmente por homens}};
+  \node[dbox, text width=4.2cm, font=\small] at (6.6,-1.6)
+     {antropomorfizado e avaliado \textbf{mais favoravelmente por mulheres}};
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (3.4,-3.2)
+     {O \textbf{tipo de voz} muda a percepção social do robô (Eyssel et al., 2012a) --- a escolha da voz também deve combinar com o \textbf{tamanho e a aparência} do robô};
+
+\end{tikzpicture}
+\end{document}

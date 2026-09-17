@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Domínio do tempo (onda)
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.6) rectangle (7.4,1.6);
+    \node[font=\bfseries\small] at (3.5,2.0) {Domínio do tempo};
+    \draw[daxis] (0,0) -- (7.0,0) node[right, dsub, font=\scriptsize] {tempo};
+    \draw[dblue, line width=1pt] plot[domain=0:7,samples=140]
+       (\x,{0.9*sin(320*\x)*exp(-0.15*(\x-3.5)*(\x-3.5))+0.25*sin(900*\x)*exp(-0.15*(\x-3.5)*(\x-3.5))});
+    \node[dsub, font=\scriptsize] at (3.5,-2.1) {amplitude a cada instante};
+  \end{scope}
+
+  % Domínio da frequência (espectrograma simplificado)
+  \begin{scope}[shift={(9.0,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.6) rectangle (7.4,1.6);
+    \node[font=\bfseries\small] at (3.5,2.0) {Domínio da frequência};
+    \draw[daxis] (0,-1.3) -- (7.0,-1.3) node[right, dsub, font=\scriptsize] {tempo};
+    \draw[daxis] (0,-1.3) -- (0,1.3) node[above, dsub, font=\scriptsize] {freq.};
+    \foreach \x/\ylo/\yhi/\op in {0.6/-1.0/-0.3/0.85, 1.6/-0.6/0.4/0.55, 2.6/-1.0/0.0/0.9,
+                                   3.6/-0.3/1.0/0.6, 4.6/-1.0/-0.2/0.85, 5.6/-0.5/0.7/0.5, 6.4/-1.0/0.1/0.7} {
+      \fill[dblue, opacity=\op] (\x-0.35,\ylo) rectangle (\x+0.35,\yhi);
+    }
+    \node[dsub, font=\scriptsize] at (3.5,-2.1) {energia de cada frequência ao longo do tempo};
+  \end{scope}
+
+  \draw[dtrans, -{Stealth[length=3mm]}] (7.7,0) -- (8.7,0)
+     node[midway, above, dsub, font=\scriptsize] {transformação};
+
+  \node[dsub, font=\scriptsize, align=center, text width=16cm] at (7.5,-3.1)
+     {Fonemas têm ``assinaturas'' diferentes no domínio da frequência --- por isso o reconhecimento de fala converte o áudio antes de identificar palavras};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: pista percebida a tempo
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.9) rectangle (8.4,2.2);
+    \node[font=\bfseries\small, dgreen] at (4.0,1.85) {Pista percebida a tempo};
+    \draw[daxis] (0,0) -- (8.0,0) node[right, dsub, font=\scriptsize] {tempo};
+
+    \fill[dblue!45] (0.3,0.1) rectangle (4.6,0.7);
+    \node[dsub, font=\scriptsize] at (2.45,1.05) {pessoa A fala};
+
+    \draw[dorange, line width=1.3pt, ->] (3.8,-0.15) -- (4.5,-0.55);
+    \node[dorange, font=\scriptsize, align=center, text width=2.3cm] at (2.9,-0.95) {olhar sinaliza fim do turno};
+
+    \fill[dgreen!45] (4.7,-1.2) rectangle (7.7,-0.6);
+    \node[dsub, font=\scriptsize] at (6.2,-1.5) {pessoa B começa --- transição suave};
+  \end{scope}
+
+  % Painel B: pista perdida
+  \begin{scope}[shift={(9.4,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.9) rectangle (8.4,2.2);
+    \node[font=\bfseries\small, dred] at (4.0,1.85) {Pista perdida};
+    \draw[daxis] (0,0) -- (8.0,0) node[right, dsub, font=\scriptsize] {tempo};
+
+    \fill[dblue!45] (0.3,0.1) rectangle (4.6,0.7);
+    \node[dsub, font=\scriptsize] at (2.45,1.05) {pessoa A fala};
+
+    \draw[dred, line width=1.3pt] (3.9,-0.25) -- (4.3,0.05);
+    \draw[dred, line width=1.3pt] (3.9,0.05) -- (4.3,-0.25);
+    \node[dred, font=\scriptsize] at (4.1,-0.55) {sinal ignorado};
+
+    \fill[black!12] (4.7,-1.2) rectangle (6.6,-0.6);
+    \node[dsub, font=\scriptsize] at (5.65,-1.5) {silêncio incômodo};
+    \fill[dred!25] (6.6,-1.2) rectangle (7.7,-0.6);
+    \node[dred, font=\scriptsize, align=center, text width=1.8cm] at (7.15,-0.35) {ou fala sobreposta};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

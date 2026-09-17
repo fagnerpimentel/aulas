@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[font=\Large] at (0,0) {O robô};
+  \node[font=\Large] at (2.2,0) {trouxe};
+  \node[font=\Large] at (4.3,0) {a};
+  \node[dbox, draw=dblue, line width=1.2pt, font=\Large\bfseries, text=dblue] at (5.4,0) {?};
+
+  \node[dsub, font=\scriptsize] at (5.4,-1.0) {próxima palavra};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (5.4,-1.6) -- (5.4,-2.4);
+
+  \node[dbox, text width=3.2cm, font=\small] at (0,-4.3) {\textbf{água} \\ {\footnotesize\color{black!45}0{,}41}};
+  \node[dbox, text width=3.2cm, font=\small] at (3.6,-4.3) {\textbf{pizza} \\ {\footnotesize\color{black!45}0{,}22}};
+  \node[dbox, text width=3.2cm, font=\small] at (7.2,-4.3) {\textbf{cadeira} \\ {\footnotesize\color{black!45}0{,}01}};
+
+  \draw[dtrans, -{Stealth[length=2mm]}] (5.4,-2.4) -- (0,-3.6);
+  \draw[dtrans, -{Stealth[length=2mm]}] (5.4,-2.4) -- (3.6,-3.6);
+  \draw[dtrans, -{Stealth[length=2mm]}, dashed] (5.4,-2.4) -- (7.2,-3.6);
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (3.6,-5.6)
+     {Um LLM prevê a \textbf{próxima palavra} a partir do contexto --- essa tarefa simples, em escala, acaba codificando muito do significado da linguagem};
+
+\end{tikzpicture}
+\end{document}

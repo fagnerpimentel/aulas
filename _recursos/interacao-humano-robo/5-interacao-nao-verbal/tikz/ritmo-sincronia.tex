@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel 1: fora de sincronia
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.3) rectangle (6.6,1.5);
+    \node[font=\bfseries\small] at (3.1,1.9) {Fora de sincronia};
+    \draw[dblue, line width=1.3pt] plot[domain=0:6,samples=60] (\x,{0.75*sin(140*\x)});
+    \draw[dorange, line width=1.3pt, densely dashed] plot[domain=0:6,samples=60] (\x,{0.75*sin(140*\x+70)});
+    \node[dred, font=\scriptsize] at (3.1,-1.7) {turnos perdidos, menos natural};
+  \end{scope}
+
+  % Painel 2: entrainment
+  \begin{scope}[shift={(8.4,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.4,-1.3) rectangle (6.6,1.5);
+    \node[font=\bfseries\small] at (3.1,1.9) {Entrainment (sincronizado)};
+    \draw[dblue, line width=1.3pt] plot[domain=0:6,samples=60] (\x,{0.75*sin(140*\x)});
+    \draw[dorange, line width=1.3pt, densely dashed] plot[domain=0:6,samples=60] (\x,{0.70*sin(140*\x+10)});
+    \node[dgreen, font=\scriptsize] at (3.1,-1.7) {mais natural, interação mais longa};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize] at (0.3,1.05) {pessoa};
+  \node[dsub, font=\scriptsize] at (0.3,-1.0) {robô};
+
+\end{tikzpicture}
+\end{document}

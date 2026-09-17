@@ -1,0 +1,77 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\canal}[3]{%
+    % #1 = posição (x,y), #2 = rótulo, #3 = ícone (macro)
+    \begin{scope}[shift={(#1)}]
+      \fill[dcream, draw=dblue, line width=1pt] (0,0) circle (1.05);
+      #3
+      \node[font=\small, align=center, text width=3.0cm] at (0,-1.5) {#2};
+    \end{scope}}
+
+  % Ícone: olhar (olho + pupila)
+  \newcommand{\iconOlhar}{
+    \draw[dbody, line width=1pt] (-0.62,0) .. controls (-0.3,0.42) and (0.3,0.42) .. (0.62,0)
+                                  .. controls (0.3,-0.42) and (-0.3,-0.42) .. (-0.62,0);
+    \fill[dblue] (0,0) circle (0.20);
+    \fill[white] (0.06,0.06) circle (0.06);
+  }
+  % Ícone: gesto (apenas a mão aberta, cinco dedos -- "oi"/"pare")
+  \newcommand{\iconGesto}{
+    \begin{scope}[shift={(0,-0.15)}]
+      % punho
+      \fill[dblue!12, draw=dblue, line width=1pt] (-0.13,-0.62) rectangle (0.13,-0.32);
+      % palma
+      \fill[dblue!12, draw=dblue, line width=1.1pt, rounded corners=5pt] (-0.36,-0.34) rectangle (0.36,0.06);
+      % polegar (para o lado, mais curto)
+      \draw[dblue, line width=3.0pt, line cap=round] (-0.34,-0.05) -- (-0.56,0.20);
+      % quatro dedos (para cima, alturas variadas)
+      \draw[dblue, line width=2.6pt, line cap=round] (-0.24,0.04) -- (-0.30,0.48);
+      \draw[dblue, line width=2.6pt, line cap=round] (-0.08,0.06) -- (-0.09,0.62);
+      \draw[dblue, line width=2.6pt, line cap=round] (0.08,0.06) -- (0.11,0.58);
+      \draw[dblue, line width=2.6pt, line cap=round] (0.24,0.04) -- (0.30,0.42);
+    \end{scope}
+  }
+  % Ícone: imitação (duas figuras espelhadas)
+  \newcommand{\iconImitacao}{
+    \fill[black!12, draw=black!75, line width=0.7pt] (-0.30,0.28) circle (0.16);
+    \draw[black!75, line width=1.1pt] (-0.30,0.12) -- (-0.30,-0.28);
+    \draw[black!75, line width=1.1pt] (-0.30,-0.28) -- (-0.44,-0.05);
+    \fill[dblue!70, draw=dblue, line width=0.7pt] (0.30,0.28) circle (0.16);
+    \draw[dblue, line width=1.1pt] (0.30,0.12) -- (0.30,-0.28);
+    \draw[dblue, line width=1.1pt] (0.30,-0.28) -- (0.44,-0.05);
+    \draw[dsub, {Stealth[length=1.6mm]}-{Stealth[length=1.6mm]}, dashed] (-0.10,0.0) -- (0.10,0.0);
+  }
+  % Ícone: toque (duas mãos/pontos se tocando)
+  \newcommand{\iconToque}{
+    \fill[dblue!25, draw=dblue, line width=0.9pt] (-0.38,0) circle (0.30);
+    \fill[dorange!25, draw=dorange, line width=0.9pt] (0.38,0) circle (0.30);
+    \fill[black!70] (0,0) circle (0.05);
+  }
+  % Ícone: postura (figura de corpo inteiro, braços abertos)
+  \newcommand{\iconPostura}{
+    \fill[black!12, draw=black!75, line width=0.8pt] (0,0.42) circle (0.18);
+    \draw[black!75, line width=1.3pt] (0,0.24) -- (0,-0.45);
+    \draw[black!75, line width=1.3pt] (0,0.10) -- (-0.42,0.30);
+    \draw[black!75, line width=1.3pt] (0,0.10) -- (0.42,0.30);
+    \draw[black!75, line width=1.3pt] (0,-0.45) -- (-0.24,-0.85);
+    \draw[black!75, line width=1.3pt] (0,-0.45) -- (0.24,-0.85);
+  }
+  % Ícone: ritmo (onda)
+  \newcommand{\iconRitmo}{
+    \draw[dblue, line width=1.3pt] plot[domain=-0.65:0.65,samples=40]
+       (\x,{0.30*sin(4*180*\x)});
+    \draw[dorange, line width=1.1pt, densely dashed] plot[domain=-0.65:0.65,samples=40]
+       (\x,{0.30*sin(4*180*\x+40)});
+  }
+
+  \canal{0,1.9}{\textbf{Olhar}\\[1pt]{\footnotesize\color{black!45}atenção conjunta}}{\iconOlhar}
+  \canal{3.6,1.9}{\textbf{Gestos}\\[1pt]{\footnotesize\color{black!45}dêiticos, icônicos...}}{\iconGesto}
+  \canal{7.2,1.9}{\textbf{Imitação}\\[1pt]{\footnotesize\color{black!45}mímica, cópia}}{\iconImitacao}
+  \canal{0,-1.9}{\textbf{Toque}\\[1pt]{\footnotesize\color{black!45}funcional, afetivo}}{\iconToque}
+  \canal{3.6,-1.9}{\textbf{Postura}\\[1pt]{\footnotesize\color{black!45}corpo, movimento}}{\iconPostura}
+  \canal{7.2,-1.9}{\textbf{Ritmo}\\[1pt]{\footnotesize\color{black!45}sincronia, timing}}{\iconRitmo}
+
+\end{tikzpicture}
+\end{document}

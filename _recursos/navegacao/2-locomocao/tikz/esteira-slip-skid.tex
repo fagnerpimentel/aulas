@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dbody, dacc, rounded corners=6pt] (-2.2,-1.0) rectangle (2.2,1.0);
+  \draw[dbody, dacc, rounded corners=4pt, fill=black!8] (-2.4,-1.5) rectangle (-1.6,1.5);
+  \draw[dbody, dacc, rounded corners=4pt, fill=black!8] (1.6,-1.5) rectangle (2.4,1.5);
+  \foreach \y in {-1.1,-0.55,0,0.55,1.1} {\draw[black!35, line width=0.6pt] (-2.4,\y) -- (-1.6,\y);}
+  \foreach \y in {-1.1,-0.55,0,0.55,1.1} {\draw[black!35, line width=0.6pt] (1.6,\y) -- (2.4,\y);}
+
+  \draw[dmeas, line width=1pt, ->] (-2.0,-1.9) -- (-1.0,-1.9);
+  \node[dmeas, font=\scriptsize] at (-1.5,-2.25) {esteira esq. lenta};
+  \draw[dtrans, line width=1.2pt, ->] (1.2,-1.9) -- (2.6,-1.9);
+  \node[dblue, font=\scriptsize] at (1.9,-2.25) {esteira dir. rápida};
+
+  \draw[dorange, line width=1.2pt, ->] (0,0) .. controls (2.0,1.6) and (3.2,0.6) .. (3.0,-1.3);
+  \node[dorange, font=\scriptsize, align=center, text width=3.4cm] at (4.3,-1.0) {giro com \textbf{deslizamento} (skid) --- raio incerto};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (0.5,-3.4)
+     {Grande área de contato $\Rightarrow$ boa tração em terreno solto, mas girar exige \textbf{deslizar} contra o chão --- odometria pouco confiável (ex.: Nanokhod)};
+
+\end{tikzpicture}
+\end{document}

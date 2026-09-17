@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\perso}[2]{\begin{scope}[shift={(#1,#2)}]
+      \fill[black!12, draw=black!75, line width=0.9pt] (0,0) circle (0.32);
+      \draw[black!75, line width=1.2pt] (0,-0.32) -- (0,-1.05);
+      \draw[black!75, line width=1.2pt] (0,-1.05) -- (-0.28,-1.6);
+      \draw[black!75, line width=1.2pt] (0,-1.05) -- (0.28,-1.6);
+      \end{scope}}
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=2pt] (-0.34,-0.34) rectangle (0.34,0.34);
+      \fill[dblue] (0,0.34) -- (-0.14,0.55) -- (0.14,0.55) -- cycle;
+      \end{scope}}
+
+  \perso{0}{0}
+  \draw[dred, line width=1.2pt] (-0.16,-0.18) .. controls (-0.06,-0.05) and (0.06,-0.05) .. (0.16,-0.18);
+  \node[dsub, font=\scriptsize] at (0,0.9) {pessoa triste};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (1.0,-0.3) -- (3.2,-0.3)
+     node[midway, above, dsub, font=\scriptsize] {robô reconhece};
+
+  \robo{4.2}{0}
+  \node[dsub, font=\scriptsize] at (4.2,0.9) {estado detectado: tristeza};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (5.2,-0.3) -- (7.4,-0.3)
+     node[midway, above, dsub, font=\scriptsize] {robô espelha};
+
+  \robo{8.4}{0}
+  \draw[dred, line width=1.1pt] (8.24,-0.15) .. controls (8.34,-0.02) and (8.46,-0.02) .. (8.56,-0.15);
+  \node[dsub, font=\scriptsize, align=center, text width=2.8cm] at (8.4,0.9) {sobrancelhas baixas, tom mais suave};
+
+  \node[dred, font=\small\bfseries] at (4.2,-2.0) {exceção: raiva};
+  \node[dsub, font=\scriptsize, align=center, text width=9cm] at (4.2,-2.6) {gritar de volta raramente ajuda a resolver o conflito};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (4.2,-3.8)
+     {\textbf{Mimetizar} a emoção captada é a estratégia mais simples --- exige apenas reconhecer, sem formular uma resposta elaborada};
+
+\end{tikzpicture}
+\end{document}

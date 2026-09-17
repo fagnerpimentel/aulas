@@ -1,0 +1,52 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\painel}[3]{\begin{scope}[shift={(#1,0)}]
+      \draw[dguide, rounded corners=2pt] (-1.85,-2.5) rectangle (1.85,1.9);
+      #3
+      \node[font=\small, align=center, text width=3.5cm] at (0,-1.9) {#2};
+      \end{scope}}
+  \newcommand{\rodaM}[2]{\fill[black!70, draw=black!85, line width=0.6pt] (#1-0.28,#2-0.09) rectangle (#1+0.28,#2+0.09);}
+  \newcommand{\rodaL}[2]{\draw[dbody, dacc] (#1,#2) circle (0.12);}
+
+  \painel{0}{Diferencial\\[-1pt]{\footnotesize\color{black!45}2 motrizes + apoio}}{
+    \draw[dbody] (-1.1,-1.3) rectangle (1.1,1.1);
+    \rodaM{-0.9}{0.9} \rodaM{0.9}{0.9}
+    \rodaL{0}{-1.0}
+  }
+
+  \painel{4.2}{Triciclo\\[-1pt]{\footnotesize\color{black!45}1 motriz+direção, 2 livres}}{
+    \draw[dbody] (-1.1,-1.3) rectangle (1.1,1.1);
+    \rodaM{0}{0.9}
+    \draw[dorange, line width=0.8pt, ->] (0,1.15) arc (90:60:0.5);
+    \rodaL{-0.8}{-1.0} \rodaL{0.8}{-1.0}
+  }
+
+  \painel{8.4}{Ackerman (carro)\\[-1pt]{\footnotesize\color{black!45}2 dianteiras esterçam}}{
+    \draw[dbody] (-1.1,-1.3) rectangle (1.1,1.1);
+    \rodaM{-0.8}{-1.0} \rodaM{0.8}{-1.0}
+    \rodaM{-0.8}{0.9} \rodaM{0.8}{0.9}
+    \draw[dorange, line width=0.8pt, ->] (-0.8,1.15) arc (90:65:0.35);
+    \draw[dorange, line width=0.8pt, ->] (0.8,1.15) arc (90:115:0.35);
+  }
+
+  \painel{12.6}{Omnidirecional\\[-1pt]{\footnotesize\color{black!45}4 rodas suecas}}{
+    \draw[dbody] (-1.1,-1.1) rectangle (1.1,1.1);
+    \rodaM{-0.8}{0.8} \rodaM{0.8}{0.8}
+    \rodaM{-0.8}{-0.8} \rodaM{0.8}{-0.8}
+  }
+
+  \painel{17.0}{Synchro drive\\[-1pt]{\footnotesize\color{black!45}3 rodas, giram juntas}}{
+    \draw[dbody] (0,0) circle (1.2);
+    \rodaM{0}{1.0}
+    \rodaM{-0.87}{-0.5}
+    \rodaM{0.87}{-0.5}
+    \draw[dorange, line width=0.7pt, ->] (0.3,1.0) arc (0:60:0.3);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=19.5cm] at (8.4,-3.2)
+     {Vista de topo de cinco configurações comuns (Tabela 2.1) --- rodas motrizes em cinza escuro, rodas livres/apoio em contorno};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis] (0,0) -- (10.5,0) node[right, dsub, font=\scriptsize] {velocidade};
+  \draw[daxis] (0,0) -- (0,6.2) node[above, dsub, font=\scriptsize, align=center] {potência\\ específica};
+
+  \draw[dcurve, line width=1.3pt] (0.3,0.4) .. controls (4,0.6) .. (10.0,1.0);
+  \node[dblue, font=\scriptsize] at (9.6,1.35) {trilho (ferrovia)};
+
+  \draw[dcurveb, line width=1.3pt] (0.3,1.4) .. controls (5,2.6) .. (9.0,4.6);
+  \node[dorange, font=\scriptsize] at (7.6,5.0) {pneu em solo mole};
+
+  \draw[dgreen, line width=1.3pt] (0.3,1.9) .. controls (4,2.6) .. (8.5,3.5);
+  \node[dgreen, font=\scriptsize] at (8.6,3.85) {corrida};
+
+  \draw[dred, line width=1.3pt] (0.3,2.6) .. controls (3.5,3.2) .. (7,3.9);
+  \node[dred, font=\scriptsize] at (6.6,4.25) {rastejar};
+
+  \node[dsub, font=\scriptsize, align=center, text width=16.5cm] at (5.2,-1.4)
+     {Em piso \textbf{duro e plano}, rodas são 1--2 ordens de magnitude mais eficientes que pernas --- mas a eficiência das rodas \textbf{cai muito} em solo mole (adaptado de Siegwart \& Nourbakhsh, 2004)};
+
+\end{tikzpicture}
+\end{document}

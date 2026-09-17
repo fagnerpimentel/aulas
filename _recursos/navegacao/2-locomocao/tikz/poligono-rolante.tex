@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\poligono}[3]{% x, n lados, raio
+    \begin{scope}[shift={(#1,1.7)}]
+      \draw[dguide, rounded corners=2pt] (-2.3,-2.1) rectangle (2.3,2.5);
+      \draw[dbody, dacc] (90:#3) \foreach \i in {1,...,#2} { -- ({90+360/#2*\i}:#3) } -- cycle;
+      \fill[black!70] (0,0) circle (0.045);
+      \node[dsub, font=\scriptsize, anchor=south west] at (0.05,0.05) {$O$};
+      \draw[dorange, line width=1pt] (0,0) -- (90:#3);
+      \draw[dgreen, line width=1.1pt] (90:#3) -- ({90-360/#2}:#3);
+    \end{scope}}
+
+  \poligono{0}{6}{1.7}
+  \node[dsub, font=\scriptsize] at (0,-2.4) {passo grande --- hexágono};
+  \node[dorange, font=\scriptsize] at (0.35,2.3) {$l$};
+
+  \poligono{6.0}{10}{1.7}
+  \node[dsub, font=\scriptsize] at (6.0,-2.4) {passo menor --- mais lados};
+
+  \begin{scope}[shift={(12.0,1.7)}]
+    \draw[dguide, rounded corners=2pt] (-2.3,-2.1) rectangle (2.3,2.5);
+    \draw[dbody, dacc] (0,0) circle (1.7);
+    \fill[black!70] (0,0) circle (0.045);
+  \end{scope}
+  \node[dsub, font=\scriptsize] at (12.0,-2.4) {limite: a roda};
+
+  \draw[dtrans, -{Stealth[length=3mm]}] (2.6,1.7) -- (3.4,1.7);
+  \draw[dtrans, -{Stealth[length=3mm]}] (8.6,1.7) -- (9.4,1.7);
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (6.0,-3.2)
+     {A marcha bípede é aproximada por um \textbf{polígono rolante} de raio $l$ (a perna) e lado $d$ (o passo, em \textcolor{dgreen!70!black}{verde}) --- quando o passo encolhe, o polígono tende a um \textbf{círculo}};
+
+\end{tikzpicture}
+\end{document}

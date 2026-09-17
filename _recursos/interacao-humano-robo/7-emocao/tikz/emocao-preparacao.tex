@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=2.8cm, font=\small] (a) at (0,0) {\textbf{Situação}\\ alguém fura a fila};
+  \node[dbox, text width=2.8cm, font=\small] (b) at (4.4,0) {\textbf{Avaliação}\\ (\textit{appraisal})};
+  \node[dbox, text width=2.8cm, font=\small] (c) at (8.8,0) {\textbf{Emoção}\\ raiva};
+  \node[dbox, text width=3.2cm, font=\small] (d) at (13.4,0) {\textbf{Resposta}\\ adrenalina, expressão de confronto};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- (b.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (b.east) -- (c.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (c.east) -- (d.west);
+
+  \node[dsub, font=\scriptsize, align=center, text width=16.5cm] at (6.5,-1.8)
+     {A emoção \textbf{prepara o corpo} para agir e \textbf{sinaliza} à outra pessoa que um limite foi ultrapassado (Lang et al., 1997; Bonanno et al., 2008)};
+
+\end{tikzpicture}
+\end{document}

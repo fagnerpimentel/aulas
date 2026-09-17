@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dbody, dacc, line width=1pt] (0,4.0) -- (-4.2,-2.5) -- (4.2,-2.5) -- cycle;
+  \node[font=\bfseries\small] at (0,4.4) {Estabilidade};
+  \node[font=\bfseries\small] at (-4.9,-2.9) {Manobrabilidade};
+  \node[font=\bfseries\small] at (4.9,-2.9) {Controlabilidade};
+
+  \fill[dblue] (2.6,1.0) circle (0.09);
+  \node[dblue, font=\scriptsize, align=left, anchor=west] at (2.75,1.0) {Ackerman (carro)};
+
+  \fill[dorange] (0,-0.6) circle (0.09);
+  \node[dorange, font=\scriptsize, align=center] at (0,-1.1) {diferencial};
+
+  \fill[dgreen] (-2.3,1.2) circle (0.09);
+  \node[dgreen, font=\scriptsize, align=right, anchor=east] at (-2.45,1.2) {omnidirecional};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (0,-4.3)
+     {Não existe uma configuração ``ideal'': ganhar \textbf{manobrabilidade} (ex.: rodas suecas) costuma custar \textbf{controlabilidade} --- mais processamento, mais deslizamento acumulado};
+
+\end{tikzpicture}
+\end{document}

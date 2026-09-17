@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=20mm, font=\scriptsize, align=center] (r) at (5.6,2.4) {reações\\ valoradas};
+
+  \node[dbox, text width=3.0cm, font=\small] (a) at (0,0) {\textbf{consequências de eventos}\\ ex.: alívio, esperança, medo};
+  \node[dbox, text width=3.0cm, font=\small] (b) at (5.6,0) {\textbf{ações de agentes}\\ ex.: orgulho, vergonha, reprovação};
+  \node[dbox, text width=3.0cm, font=\small] (c) at (11.2,0) {\textbf{aspectos de objetos}\\ ex.: gostar, desgostar};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (a.north);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (b.north);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (c.north);
+
+  \node[dsub, font=\scriptsize, align=center, text width=16.5cm] at (5.6,-1.8)
+     {O modelo \textbf{OCC} (Ortony, Clore \& Collins, 1988) define 22 categorias de emoção, cada uma com uma \textbf{intensidade} calculável --- complexo, mas útil para representar emoção em software};
+
+\end{tikzpicture}
+\end{document}

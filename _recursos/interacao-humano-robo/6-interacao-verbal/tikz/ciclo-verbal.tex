@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=22mm, font=\small, align=center] (c) at (0,0) {Diálogo};
+
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n1) at (90:3.8) {Ouvir\\ ASR};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n2) at (18:3.8) {Entender\\ significado};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n3) at (-54:3.8) {Decidir\\ diálogo};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n4) at (-126:3.8) {Falar\\ TTS};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n5) at (162:3.8) {Coordenar\\ timing};
+
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n1) -- (n2);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n2) -- (n3);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n3) -- (n4);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n4) -- (n5);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n5) -- (n1);
+
+  \foreach \n in {n1,n2,n3,n4,n5} {\draw[dsub, line width=0.7pt] (\n) -- (c);}
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.6)
+     {A interação verbal fluida exige que \textbf{todo esse ciclo} funcione junto, em tempo real --- ainda distante da fala humana, livre, rápida e cheia de emoção};
+
+\end{tikzpicture}
+\end{document}

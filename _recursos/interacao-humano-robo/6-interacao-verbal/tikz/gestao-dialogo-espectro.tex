@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dcurve, line width=3pt, dblue!25] (0,0) -- (12,0);
+  \fill[dblue] (0,0) circle (0.09);
+  \fill[dshade, draw=black!50, line width=0.7pt] (6,0) circle (0.09);
+  \fill[dorange] (12,0) circle (0.09);
+
+  \node[font=\bfseries\small, dblue, anchor=north] at (0,-0.25) {system-initiative};
+  \node[dsub, font=\scriptsize, align=center, text width=3.4cm, anchor=north] at (0,-0.75)
+     {restrito: o sistema pergunta, a pessoa responde};
+
+  \node[font=\bfseries\small, anchor=north] at (6,-0.25) {mixed-initiative};
+  \node[dsub, font=\scriptsize, align=center, text width=3.4cm, anchor=north] at (6,-0.75)
+     {combina os dois};
+
+  \node[font=\bfseries\small, dorange, anchor=north] at (12,-0.25) {user-initiative};
+  \node[dsub, font=\scriptsize, align=center, text width=3.4cm, anchor=north] at (12,-0.75)
+     {livre: a pessoa conduz a conversa};
+
+  \node[dsub, font=\scriptsize, anchor=south] at (0,0.35) {FSM};
+  \node[dsub, font=\scriptsize, anchor=south] at (6,0.35) {planejador};
+  \node[dsub, font=\scriptsize, anchor=south] at (12,0.35) {LLM};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (6,-2.2)
+     {A maioria dos diálogos em HRI ainda é \textbf{linear e restrita} (Berzuk \& Young, 2022) --- fácil de controlar, mas pouco flexível};
+
+\end{tikzpicture}
+\end{document}

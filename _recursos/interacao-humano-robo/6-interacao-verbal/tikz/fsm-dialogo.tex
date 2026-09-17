@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=17mm, font=\scriptsize, align=center] (s0) at (0,0) {cumpri-\\ mentar};
+  \node[dstate, minimum size=17mm, font=\scriptsize, align=center] (s1) at (4.2,0) {perguntar\\ tamanho};
+  \node[dstate, minimum size=17mm, font=\scriptsize, align=center] (s2) at (8.4,0) {perguntar\\ recheio};
+  \node[dstate, minimum size=17mm, font=\scriptsize, align=center] (s3) at (12.6,0) {confirmar\\ pedido};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (s0) -- (s1) node[midway, above, dsub, font=\scriptsize] {``oi''};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (s1) -- (s2) node[midway, above, dsub, font=\scriptsize] {``grande''};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (s2) -- (s3) node[midway, above, dsub, font=\scriptsize] {``calabresa''};
+
+  \draw[dmeas, -{Stealth[length=2.2mm]}] (s2.south) .. controls +(0,-1.3) and +(0,-1.3) .. (s1.south)
+       node[midway, below, dorange, font=\scriptsize] {``que horas são?'' (evento)};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (6.3,-3.0)
+     {Um \textbf{FSM} simples segue um roteiro linear; sistemas \textbf{orientados a eventos} permitem interrupções não lineares, como uma pergunta fora do roteiro};
+
+\end{tikzpicture}
+\end{document}

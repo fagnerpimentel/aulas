@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=3.0cm, font=\small] (a) at (0,0) {\textbf{texto transcrito}\\ ``pode trazer água?''};
+  \node[dbox, text width=3.0cm, font=\small] (b) at (5.0,1.4) {\textbf{análise de sentimento}\\ tom positivo/negativo};
+  \node[dbox, text width=3.0cm, font=\small] (c) at (5.0,-1.4) {\textbf{reconhecimento de intenção}\\ comando: trazer(água)};
+  \node[dbox, text width=3.4cm, font=\small] (d) at (10.2,0) {\textbf{modelos de linguagem (LLMs)}\\ respostas fluentes e flexíveis};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- ++(0.6,0) |- (b.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- ++(0.6,0) |- (c.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (b.east) -- ++(0.6,0) |- (d.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (c.east) -- ++(0.6,0) |- (d.west);
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (5.0,-2.6)
+     {Abordagens diferentes extraem \textbf{diferentes níveis} de significado do texto --- de um escalar de afeto a uma conversa aberta};
+
+\end{tikzpicture}
+\end{document}

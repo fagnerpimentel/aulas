@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.4,-2.2) rectangle (2.4,2.2);
+    \node[font=\bfseries\small] at (0,1.8) {Só o rosto};
+    \draw[dbody, line width=1pt] (0,0.2) circle (1.15);
+    \fill[black!75] (-0.4,0.4) circle (0.08);
+    \fill[black!75] (0.4,0.4) circle (0.08);
+    \draw[dorange, line width=1.3pt] (-0.5,-0.2) .. controls (-0.2,-0.5) and (0.2,0.1) .. (0.5,-0.2);
+    \node[dred, font=\small\bfseries] at (0,-1.75) {ambíguo: ponto ou perda?};
+  \end{scope}
+
+  \begin{scope}[shift={(6.0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.4,-2.2) rectangle (2.4,2.2);
+    \node[font=\bfseries\small, align=center, text width=4.6cm] at (0,1.8) {Rosto + corpo + contexto};
+    \draw[dbody, line width=1pt] (0,0.9) circle (0.55);
+    \draw[dbody, line width=1pt] (0,0.35) -- (0,-0.6);
+    \draw[dgreen, line width=1.2pt] (0,0.05) -- (-0.7,0.55);
+    \draw[dgreen, line width=1.2pt] (0,0.05) -- (0.7,0.55);
+    \draw[dbody, line width=1pt] (0,-0.6) -- (-0.3,-1.4);
+    \draw[dbody, line width=1pt] (0,-0.6) -- (0.3,-1.4);
+    \node[dgreen, font=\small\bfseries] at (0,-1.9) {mais claro: comemorando};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (3.0,-3.1)
+     {É quase impossível ler emoções apenas pela imagem estática do rosto (Aviezer et al., 2012) --- corpo, movimento e contexto aumentam bastante a precisão};
+
+\end{tikzpicture}
+\end{document}

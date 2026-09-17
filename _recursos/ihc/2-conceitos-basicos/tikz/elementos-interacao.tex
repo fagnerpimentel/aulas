@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % contexto de uso (envoltoria)
+  \draw[dguide, rounded corners=6pt] (-5.6,-2.9) rectangle (5.6,2.7);
+  \node[dlbl, anchor=north west, font=\small\bfseries, dblue] at (-5.5,2.85) {contexto de uso};
+  \node[dsub, anchor=north west, text width=6.5cm] at (-5.5,2.35) {inclui tempo e ambiente físico, social e cultural};
+
+  % objetivo
+  \node[dsub, font=\small\itshape] (obj) at (0,1.7) {objetivo};
+  \draw[dguide, ->] (obj) -- (0,0.55);
+
+  % usuario e sistema
+  \node[dbox, minimum width=3.2cm, minimum height=1.6cm] (usr) at (-3.2,-1.0) {\textbf{usuário}};
+  \node[dbox, dacc, minimum width=3.4cm, minimum height=1.9cm] (sys) at (3.2,-1.0) {};
+  \node[dlbl, font=\small\bfseries, dblue, anchor=north] at (sys.north) {sistema};
+  \node[dsub, text width=3.0cm, align=center, anchor=south] at (sys.south) {interface com usuário};
+
+  % processo de interacao
+  \draw[dtrans, line width=1.2pt] ([yshift=4pt]usr.east) -- ([yshift=4pt]sys.west);
+  \draw[dtrans, line width=1.2pt] ([yshift=-4pt]sys.west) -- ([yshift=-4pt]usr.east);
+  \node[dlbl, font=\small\bfseries, align=center] at (0,-0.55) {processo de\\interação};
+
+\end{tikzpicture}
+\end{document}

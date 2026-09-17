@@ -1,0 +1,31 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.7,-2.4) rectangle (2.7,2.4);
+    \node[font=\bfseries\small] at (0,2.0) {Rosto expressivo};
+    \draw[dbody, line width=1pt] (0,0.35) circle (1.15);
+    \fill[black!75] (-0.4,0.55) circle (0.09);
+    \fill[black!75] (0.4,0.55) circle (0.09);
+    \draw[dgreen, line width=1.3pt] (-0.5,0.05) .. controls (-0.25,-0.25) and (0.25,-0.25) .. (0.5,0.05);
+    \node[dsub, font=\scriptsize, align=center, text width=4.6cm] at (0,-1.75) {Kismet, iCat, eMuu, Eddie --- imitam músculos faciais};
+  \end{scope}
+
+  \begin{scope}[shift={(6.4,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.7,-2.4) rectangle (2.7,2.4);
+    \node[font=\bfseries\small, align=center, text width=5cm] at (0,2.0) {Não antropomórfico};
+    \draw[dbody, dacc, rounded corners=3pt] (-0.9,-0.3) rectangle (0.9,0.5);
+    \fill[dorange] (-0.55,0.65) circle (0.08);
+    \fill[dgreen] (0,0.65) circle (0.08);
+    \fill[dblue] (0.55,0.65) circle (0.08);
+    \draw[dtrans, dashed, -{Stealth[length=2mm]}] (-0.9,0.1) .. controls (-1.6,0.6) .. (-1.9,-0.4);
+    \node[dsub, font=\scriptsize, align=center, text width=4.6cm] at (0,-1.75) {luzes, cor, trajetória e velocidade de movimento (Bethel \& Murphy, 2008)};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (3.2,-3.4)
+     {Robôs sem rosto também comunicam afeto --- um robô de limpeza ou um drone podem expressar emoção só pela \textbf{trajetória} de movimento};
+
+\end{tikzpicture}
+\end{document}

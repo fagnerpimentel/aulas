@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=3.0cm, font=\small] (a) at (0,0) {\textbf{Observar}\\ a ação de alguém};
+  \node[dbox, text width=3.0cm, font=\small] (b) at (5.2,0) {\textbf{Neurônios-espelho}\\ disparam como se a ação fosse própria};
+  \node[dbox, text width=3.0cm, font=\small] (c) at (10.4,0) {\textbf{Replicar}\\ a ação (mímica)};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- (b.west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (b.east) -- (c.west);
+
+  \node[dsub, font=\scriptsize] at (0,-1.3) {automático, inconsciente};
+  \node[dsub, font=\scriptsize, align=center, text width=3.2cm] at (5.2,-1.3) {base neurológica (Rizzolatti \& Craighero, 2004)};
+  \node[dsub, font=\scriptsize] at (10.4,-1.3) {\textit{mimicry}};
+
+\end{tikzpicture}
+\end{document}

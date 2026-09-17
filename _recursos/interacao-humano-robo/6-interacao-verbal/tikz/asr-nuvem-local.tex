@@ -1,0 +1,38 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\robo}[2]{\begin{scope}[shift={(#1,#2)}]
+      \draw[dbody, dacc, rounded corners=2pt] (-0.4,-0.4) rectangle (0.4,0.4);
+      \fill[dblue] (0,0.4) -- (-0.16,0.62) -- (0.16,0.62) -- cycle;
+      \end{scope}}
+
+  \robo{0}{0}
+  \node[dsub, font=\scriptsize] at (0,-0.9) {robô};
+
+  % nuvem
+  \begin{scope}[shift={(6.2,1.6)}]
+    \fill[dblue!12, draw=dblue, line width=1pt] (0,0) ellipse (1.5 and 0.8);
+    \fill[dblue!12, draw=dblue, line width=1pt] (-0.9,0.25) circle (0.55);
+    \fill[dblue!12, draw=dblue, line width=1pt] (0.95,0.3) circle (0.6);
+    \node[font=\small] at (0,0.02) {nuvem};
+  \end{scope}
+
+  \draw[dtrans, -{Stealth[length=2.6mm]}] (0.6,0.5) .. controls (2.5,1.9) .. (4.7,1.9)
+      node[midway, above, dsub, font=\scriptsize] {áudio};
+  \draw[dtrans, -{Stealth[length=2.6mm]}] (4.7,1.3) .. controls (2.5,0.6) .. (0.6,0.1)
+      node[midway, below, dsub, font=\scriptsize] {texto};
+
+  \node[dbox, text width=3.4cm, font=\small] at (6.2,-0.4)
+     {\textbf{nuvem}\\ melhor desempenho, custo por uso, precisa de internet};
+
+  \draw[dbody, dacc, rounded corners=2pt] (10.4,-0.4) rectangle (11.2,0.4);
+  \node[dbox, text width=3.6cm, font=\small] at (11.9,1.9)
+     {\textbf{a bordo}\\ funciona offline, mas com desempenho bem inferior};
+  \draw[dtrans, -{Stealth[length=2mm]}, dashed] (10.8,0.5) -- (11.5,1.35);
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (5.6,-2.4)
+     {A maioria dos serviços de reconhecimento hoje é baseada em \textbf{nuvem}; o processamento local existe, mas ainda com desempenho limitado};
+
+\end{tikzpicture}
+\end{document}

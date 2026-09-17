@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=24mm, font=\small, align=center] (c) at (0,0) {Interação\\ bem-sucedida};
+
+  \foreach \ang/\lbl in {90/Olhar, 30/Gestos, -30/Imitação, -90/Toque, -150/Postura, 150/Ritmo} {
+    \node[dobs, minimum size=15mm, font=\scriptsize, align=center] (n\ang) at (\ang:3.6) {\lbl};
+    \draw[dtrans, -{Stealth[length=2mm]}] (n\ang) -- (c);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (0,-5.3)
+     {A comunicação não verbal só funciona quando os canais se \textbf{combinam e se coordenam} com a fala --- e a implementação em robôs ainda exige avanços técnicos importantes};
+
+\end{tikzpicture}
+\end{document}

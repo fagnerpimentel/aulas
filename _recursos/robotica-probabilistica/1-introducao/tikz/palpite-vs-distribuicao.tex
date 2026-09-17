@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---- abordagem clássica: um único palpite ----
+  \begin{scope}
+    \draw[daxis] (-0.2,0) -- (5.4,0) node[right, dsub] {$x$};
+    \draw[dblue, line width=1.2pt, ->] (2.6,2.0) -- (2.6,0.15);
+    \fill[dblue] (2.6,0) circle (2pt);
+    \node[dblue, font=\footnotesize] at (2.6,2.35) {``melhor palpite''};
+    \node[align=center, dlbl] at (2.6,-1.0) {abordagem clássica:\\um único valor};
+  \end{scope}
+
+  % ---- abordagem probabilística: distribuição ----
+  \begin{scope}[shift={(7.6,0)}]
+    \draw[daxis] (-0.2,0) -- (5.4,0) node[right, dsub] {$x$};
+    \draw[dorange, line width=1.4pt, samples=160, domain=-0.2:5.4, smooth, variable=\x]
+      plot (\x, {2.3*(0.6*gauss(\x,1.6,0.5) + gauss(\x,3.0,0.55) + 0.5*gauss(\x,4.4,0.45))});
+    \node[dorange, font=\footnotesize] at (2.7,2.6) {distribuição de crença};
+    \node[align=center, dlbl] at (2.6,-1.0)
+      {abordagem probabilística:\\prob.\ sobre \emph{todas} as hipóteses};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

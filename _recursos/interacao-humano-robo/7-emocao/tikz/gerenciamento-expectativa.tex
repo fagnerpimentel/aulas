@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=4.0cm, font=\small] (a) at (0,0) {\textbf{noite anterior}\\ usuário conta ao robô sobre uma reunião estressante};
+  \node[dbox, text width=4.0cm, font=\small] (b) at (6.0,0) {\textbf{manhã seguinte}\\ robô diz apenas ``bom dia, tenha um ótimo dia!''};
+  \node[dbox, text width=4.2cm, font=\small] (c) at (12.2,0) {\textbf{expectativa quebrada}\\ ``ele nem lembrou da reunião...''};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- (b.west);
+  \draw[dmeas, -{Stealth[length=2.4mm]}] (b.east) -- (c.west);
+
+  \node[dsub, font=\scriptsize, align=center, text width=16.5cm] at (6.1,-1.9)
+     {Um robô percebido como \textbf{emocionalmente responsivo} passa a ser avaliado também por outras normas sociais --- sua responsividade precisa condizer com o que ele realmente consegue cumprir};
+
+\end{tikzpicture}
+\end{document}

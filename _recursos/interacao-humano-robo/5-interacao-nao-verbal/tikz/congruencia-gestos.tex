@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\barra}[3]{% x, altura, cor
+    \fill[#3, draw=black!60, line width=0.6pt] (#1,0) rectangle (#1+0.7,#2);
+  }
+
+  % Painel 1: gestos congruentes
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.0,-0.9) rectangle (4.1,5.0);
+    \node[font=\bfseries\small] at (1.55,4.6) {Gestos congruentes};
+    \draw[daxis] (0,0) -- (0,4.2);
+    \barra{0.3}{2.6}{dblue!55}
+    \barra{1.9}{3.7}{dorange!55}
+    \node[dsub, font=\scriptsize, align=center, text width=1.4cm] at (0.65,-0.55) {simpatia};
+    \node[dsub, font=\scriptsize, align=center, text width=1.4cm] at (2.25,-0.55) {desempenho};
+  \end{scope}
+
+  % Painel 2: gestos incongruentes
+  \begin{scope}[shift={(6.0,0)}]
+    \draw[dguide, rounded corners=2pt] (-1.0,-0.9) rectangle (4.1,5.0);
+    \node[font=\bfseries\small] at (1.55,4.6) {Gestos incongruentes};
+    \draw[daxis] (0,0) -- (0,4.2);
+    \barra{0.3}{4.0}{dblue!55}
+    \barra{1.9}{1.9}{dorange!55}
+    \node[dsub, font=\scriptsize, align=center, text width=1.4cm] at (0.65,-0.55) {simpatia};
+    \node[dsub, font=\scriptsize, align=center, text width=1.4cm] at (2.25,-0.55) {desempenho};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (3.0,-2.2)
+     {Gestos \textbf{incongruentes} com a fala tornaram o ASIMO \textbf{mais simpático}, mas \textbf{pioraram} o desempenho da tarefa (Salem et al., 2013)};
+
+\end{tikzpicture}
+\end{document}

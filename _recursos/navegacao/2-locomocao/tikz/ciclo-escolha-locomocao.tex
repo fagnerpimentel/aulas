@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=24mm, font=\small, align=center] (c) at (0,0) {Escolha do\\ mecanismo};
+
+  \foreach \ang/\lbl in {90/Terreno, 30/Eficiência, -30/Estabilidade, -90/Manobrabilidade, -150/Controlabilidade, 150/Complexidade} {
+    \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n\ang) at (\ang:3.9) {\lbl};
+    \draw[dtrans, -{Stealth[length=2mm]}] (n\ang) -- (c);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.6)
+     {Não existe locomoção ``universal'' --- cada mecanismo é uma escolha de \textbf{compromissos} adequada a um ambiente e a uma tarefa};
+
+\end{tikzpicture}
+\end{document}

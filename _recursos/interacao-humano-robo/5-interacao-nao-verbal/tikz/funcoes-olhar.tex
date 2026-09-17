@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=20mm, font=\small, align=center] (c) at (0,0) {Olhar};
+
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n1) at (90:3.6) {interesse,\\ compreensão};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n2) at (18:3.6) {interação\\ funcional};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n3) at (-54:3.6) {alternância\\ de turnos};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n4) at (-126:3.6) {solicitar/manter\\ atenção};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n5) at (162:3.6) {acompanhar\\ a conversa};
+
+  \foreach \n in {n1,n2,n3,n4,n5} {\draw[dtrans, -{Stealth[length=2mm]}] (\n) -- (c);}
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.2)
+     {O olhar é uma pista sutil, mas central para \textbf{administrar} a interação social --- muito além de simplesmente ``olhar para alguém''};
+
+\end{tikzpicture}
+\end{document}

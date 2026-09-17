@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % eixos 3D simplificados (isométrico)
+  \draw[daxis] (0,0) -- (0,4.0) node[above, dsub, font=\scriptsize] {Arousal (A)};
+  \draw[daxis] (0,0) -- (4.6,-1.8) node[right, dsub, font=\scriptsize] {Pleasure (P)};
+  \draw[daxis] (0,0) -- (-4.0,-1.4) node[left, dsub, font=\scriptsize] {Dominance (D)};
+
+  \fill[dblue] (1.6,1.7) circle (0.07);
+  \node[font=\small, anchor=west] at (1.7,1.8) {exuberante};
+  \draw[dsub, dashed, line width=0.6pt] (1.6,1.7) -- (1.6,0);
+  \draw[dsub, dashed, line width=0.6pt] (1.6,1.7) -- (0,0.55);
+
+  \fill[dorange] (-2.2,1.1) circle (0.07);
+  \node[font=\small, anchor=east] at (-2.3,1.2) {hostil};
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (0,-3.0)
+     {Uma versão estendida do modelo dimensional acrescenta a \textbf{dominância} --- usada, por exemplo, para modelar o estado emocional do Kismet (Mehrabian, 1980; Breazeal, 2003)};
+
+\end{tikzpicture}
+\end{document}

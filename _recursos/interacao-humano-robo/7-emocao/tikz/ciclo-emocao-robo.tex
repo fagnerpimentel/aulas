@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=22mm, font=\small, align=center] (c) at (0,0) {Interação\\ afetiva};
+
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n1) at (90:3.8) {Perceber\\ rosto, voz, pele};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n2) at (18:3.8) {Interpretar\\ categorias/dimensões};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n3) at (-54:3.8) {Responder\\ mimetizar, agir};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n4) at (-126:3.8) {Expressar\\ face, corpo, luz};
+  \node[dobs, minimum size=17mm, font=\scriptsize, align=center] (n5) at (162:3.8) {Gerenciar\\ expectativas};
+
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n1) -- (n2);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n2) -- (n3);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n3) -- (n4);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n4) -- (n5);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (n5) -- (n1);
+
+  \foreach \n in {n1,n2,n3,n4,n5} {\draw[dsub, line width=0.7pt] (\n) -- (c);}
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.6)
+     {Expressar uma emoção não é o mesmo que \textbf{sentir} uma emoção --- a afetividade genuína e completa ainda está distante dos robôs atuais};
+
+\end{tikzpicture}
+\end{document}

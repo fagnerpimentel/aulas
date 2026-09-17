@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dguide, rounded corners=2pt] (-6.0,-2.6) rectangle (-0.3,2.2);
+  \node[font=\bfseries\small, dblue] at (-3.15,1.8) {Primárias (básicas)};
+  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,0.9)
+     {\textbf{universais} entre culturas, respostas rápidas e viscerais};
+  \node[font=\small, align=center, text width=5.0cm] at (-3.15,-0.6)
+     {raiva, tristeza, felicidade,\\ medo, nojo, surpresa};
+  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,-2.0) {Ekman \& Friesen (1975)};
+
+  \draw[dguide, rounded corners=2pt] (0.3,-2.6) rectangle (6.0,2.2);
+  \node[font=\bfseries\small, dorange] at (3.15,1.8) {Secundárias (reativas)};
+  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,0.9)
+     {\textbf{variam} entre culturas, respostas mais reflexivas};
+  \node[font=\small, align=center, text width=5.0cm] at (3.15,-0.6)
+     {orgulho, remorso, culpa, vergonha};
+  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,-2.0) {Kemper (1987)};
+
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (0,-3.6)
+     {Não há consenso sobre a lista exata --- alguns pesquisadores contestam até a existência de emoções ``básicas'' (Ortony \& Turner, 1990)};
+
+\end{tikzpicture}
+\end{document}

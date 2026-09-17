@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   p/.style={dbox, text width=5.0cm, minimum height=2.6cm, font=\footnotesize}]
+
+  \node[p, dacc] (sistema) at (0,2.6)
+    {\textbf{Sistema}\\[2pt] usuário $\approx$ máquina\\\scriptsize transmissão de dados; linguagem de comando};
+
+  \node[p, draw=dorange] (discurso) at (7.2,2.6)
+    {\textbf{Parceiro de discurso}\\[2pt] sistema $\approx$ pessoa\\\scriptsize conversa em linguagem natural};
+
+  \node[p, draw=dgreen] (ferramenta) at (0,-1.0)
+    {\textbf{Ferramenta}\\[2pt] sistema instrumento de trabalho\\\scriptsize manipulação direta e automática};
+
+  \node[p, draw=dred] (midia) at (7.2,-1.0)
+    {\textbf{Mídia}\\[2pt] sistema como canal de comunicação\\\scriptsize entre pessoas (e com o designer)};
+
+\end{tikzpicture}
+\end{document}

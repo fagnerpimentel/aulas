@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis, line width=1pt] (-0.3,0) -- (15.2,0);
+
+  \foreach \x/\yr/\lbl in {
+      0/1921/{\v{C}apek cunha\\``robô''},
+      2.3/1940s/{Asimov: ``robótica''\\+ 3 leis},
+      4.6/1960s/{filtro de\\Kalman},
+      7.0/1970s/{abordagem\\clássica (modelos)},
+      9.4/1980s/{abordagem reativa\\+ SLAM com KF},
+      11.8/1990s/{abordagens\\híbridas},
+      14.2/fim~1990s/{robótica\\probabilística}} {
+    \fill[dblue] (\x,0) circle (2pt);
+    \draw[dguide] (\x,0) -- (\x,0.5);
+    \node[black!70, font=\footnotesize] at (\x,-0.45) {\yr};
+    \node[align=center, dlbl, font=\footnotesize] at (\x,1.15) {\lbl};
+  }
+
+\end{tikzpicture}
+\end{document}

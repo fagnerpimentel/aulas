@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.1,-2.2) rectangle (2.1,2.4);
+    \node[font=\bfseries\small, align=center] at (0,2.0) {Paramétrica};
+    \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (0,0.9)
+       {modelo dos sons da fala gera parâmetros};
+    \node[dgreen, font=\scriptsize] at (0,-0.3) {+ flexível};
+    \node[dred, font=\scriptsize, align=center, text width=3.4cm] at (0,-1.4) {soa como a pessoa que treinou o modelo};
+  \end{scope}
+
+  \begin{scope}[shift={(5.0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.1,-2.2) rectangle (2.1,2.4);
+    \node[font=\bfseries\small, align=center] at (0,2.0) {Concatenativa};
+    \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (0,0.9)
+       {monta pedaços de fala pré-gravada};
+    \node[dgreen, font=\scriptsize] at (0,-0.3) {soa mais natural};
+    \node[dred, font=\scriptsize, align=center, text width=3.4cm] at (0,-1.4) {só na voz de quem gravou};
+  \end{scope}
+
+  \begin{scope}[shift={(10.0,0)}]
+    \draw[dguide, rounded corners=2pt] (-2.1,-2.2) rectangle (2.1,2.4);
+    \node[font=\bfseries\small, align=center] at (0,2.0) {Neural (vocoder)};
+    \node[dsub, font=\scriptsize, align=center, text width=3.6cm] at (0,0.9)
+       {modelo generativo treinado em fala humana (ex.: WaveNet)};
+    \node[dgreen, font=\scriptsize, align=center, text width=3.4cm] at (0,-0.3) {quase indistinguível da voz humana};
+    \node[dred, font=\scriptsize, align=center, text width=3.4cm] at (0,-1.4) {ainda soa ``lido'', não emotivo};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=16cm] at (5.0,-3.4)
+     {A modulação de \textbf{emoção} em tempo real ainda não está disponível nas soluções comerciais mais usadas};
+
+\end{tikzpicture}
+\end{document}

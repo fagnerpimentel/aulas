@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=3.2cm, font=\small] (q) at (0,3.6) {Terreno é plano e firme?};
+
+  \node[dbox, text width=3.0cm, font=\small] (rodas) at (-4.4,0.8) {\textbf{Rodas}\\ simples, eficientes};
+  \node[dbox, text width=3.0cm, font=\small] (irreg) at (4.4,0.8) {Precisa de alta adaptabilidade?};
+
+  \node[dbox, text width=3.0cm, font=\small] (pernas) at (2.2,-2.2) {\textbf{Pernas}\\ contatos pontuais};
+  \node[dbox, text width=3.2cm, font=\small] (hibrido) at (6.6,-2.2) {\textbf{Híbrido roda-perna}\\ ex.: Shrimp, Sojourner};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (q.west) -- ++(-0.6,0) |- (rodas.north) node[pos=0.25, above, dsub, font=\scriptsize] {sim};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (q.east) -- ++(0.6,0) |- (irreg.north) node[pos=0.25, above, dsub, font=\scriptsize] {não};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (irreg.south) -- ++(0,-0.6) -| (pernas.north) node[pos=0.25, above, dsub, font=\scriptsize] {sim};
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (irreg.south) -- ++(0,-0.6) -| (hibrido.north) node[pos=0.75, above, dsub, font=\scriptsize] {parcial};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (1.2,-4.0)
+     {Uma primeira triagem prática --- eficiência energética contra terreno e adaptabilidade continuam sendo o par de critérios mais decisivo};
+
+\end{tikzpicture}
+\end{document}

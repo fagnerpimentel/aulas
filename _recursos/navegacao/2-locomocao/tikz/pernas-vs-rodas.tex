@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=20mm, font=\small, align=center] (c) at (0,0) {Locomoção};
+
+  \node[dbox, text width=4.4cm, font=\small] (a) at (-5.4,3.2) {\textbf{Pernas}\\ contatos pontuais; adapta-se a terrenos irregulares};
+  \node[dbox, text width=4.4cm, font=\small] (b) at (5.4,3.2) {\textbf{Rodas}\\ mais simples e eficiente em terreno plano};
+
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.south) -- (c.north west);
+  \draw[dtrans, -{Stealth[length=2.4mm]}] (b.south) -- (c.north east);
+
+  \node[dsub, font=\scriptsize, align=center, text width=6cm] at (-5.4,1.1) {maior complexidade mecânica --- graus de liberdade por perna};
+  \node[dsub, font=\scriptsize, align=center, text width=6cm] at (5.4,1.1) {1--2 ordens de magnitude mais eficiente em piso duro};
+
+  \node[dsub, font=\scriptsize, align=center, text width=14.5cm] at (0,-2.2)
+     {A natureza favorece pernas (terreno irregular); ambientes construídos pelo ser humano favorecem rodas};
+
+\end{tikzpicture}
+\end{document}
