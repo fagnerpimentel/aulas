@@ -1,0 +1,221 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Emoção"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/7-emocao
+---
+
+# Emoção
+
+::: {.esquerda}
+Capítulo 9 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- A diferença entre **afeto**, **emoções** e **humor**
+- Que papéis as emoções cumprem na interação com outras pessoas e com robôs
+- Modelos básicos de emoção
+- Os desafios do processamento de emoção em HRI
+
+## Como você está se sentindo agora? {.smaller}
+
+- Feliz? Entediado? Um pouco autoconsciente? Seja qual for o caso, é pouco provável que você não esteja sentindo **absolutamente nada**
+- Estados de sentimento e as emoções relacionadas são um aspecto central da nossa experiência do dia a dia e das nossas interações com outras pessoas
+- Emoções **motivam** e **modulam** o comportamento, e são parte necessária da cognição humana
+- Podem se espalhar por experiência vicária (assistir a um filme de suspense) e por interação social direta (ver seu melhor amigo feliz)
+- Robôs sociais são frequentemente projetados para **interpretar** emoção humana, **expressar** emoções e, às vezes, ter alguma forma de emoção sintética guiando seu comportamento
+
+# O que São Emoções, Humor e Afeto?
+
+## Emoções sob a perspectiva evolutiva {.smaller}
+
+- Emoções são necessárias para a **sobrevivência**: ajudam a responder a fatores ambientais que promovem ou ameaçam o indivíduo (Lang et al., 1997)
+- Preparam o corpo para a resposta comportamental, ajudam na tomada de decisão e facilitam a interação interpessoal
+- Emoções surgem como uma **avaliação** (*appraisal*) de situações que as pessoas encontram e nos preparam para uma resposta (Gross, 2007; Lazarus, 1991)
+
+![](images/emocao-preparacao.svg){fig-align="center" width="100%"}
+
+## Afeto, emoções e humores {.smaller}
+
+- **Afeto**: termo abrangente que engloba todo o espectro de respostas carregadas emocionalmente --- de reações rápidas e subconscientes a humores complexos e duradouros, como o amor
+- **Emoções**: têm uma causa **identificável**, geralmente um evento ou a emoção de outra pessoa; são externalizadas e direcionadas a um objeto ou pessoa específica; têm vida **curta** (Beedie et al., 2005)
+- **Humores**: mais **difusos** e internos; muitas vezes sem causa ou objeto claro; resultam de uma interação entre processos ambientais, incidentais e cognitivos (Ekkekakis, 2013; Russell \& Barrett, 1999)
+
+![](images/afeto-emocao-humor.svg){fig-align="center" width="100%"}
+
+## Emoção e interação {.smaller}
+
+- Emoções não são só internas --- são também um **canal de comunicação universal**, importante para a nossa sobrevivência como espécie
+- Suas emoções informam o mundo exterior sobre seu estado afetivo interno, de duas formas: (1) transmitem informação sobre você e suas ações futuras; (2) podem transmitir informação sobre o **ambiente**
+- Raiva e frustração sinalizam preparo para uma resposta agressiva; medo pode alertar outras pessoas sobre uma ameaça, antes mesmo de você conseguir gritar
+- A comunicação bem-sucedida de emoções promove a sobrevivência, fortalece laços sociais e minimiza o risco de rejeição social e agressão física interpessoal (Andersen \& Guerrero, 1998)
+
+![](images/emocao-canal-comunicacao.svg){fig-align="center" width="100%"}
+
+## Conceituando emoções humanas {.smaller}
+
+- Desde a Antiguidade, as pessoas dão nomes às várias emoções que sentimos --- Aristóteles listou 14; mais recentemente, Ekman listou 15 emoções básicas, incluindo orgulho, alívio e vergonha (Ekman, 1999)
+- É impossível oferecer uma lista definitiva: emoções variam entre pessoas e culturas, a linguagem não mapeia perfeitamente as emoções, e algumas se sobrepõem
+- Ekman \& Friesen (1975) listaram seis **expressões faciais** reconhecidas entre culturas --- frequentemente confundidas com um conjunto fechado de emoções, quando na verdade descreviam apenas as expressões faciais básicas
+
+![](images/emocoes-basicas-secundarias.svg){fig-align="center" width="100%"}
+
+## O modelo dimensional de Russell {.smaller}
+
+- Russell (1980) argumentou que emoções são interpretações cognitivas de sensações produzidas por **dois sistemas neurofisiológicos independentes**: excitação (*arousal*) e valência
+- Nessa visão, emoções se distribuem por um **continuum bidimensional**, em vez de serem categorias discretas e independentes
+- Amplamente estudado e confirmado entre línguas e culturas (Russell et al., 1989; Larsen \& Diener, 1992) --- embora uma meta-análise mostre que nem todo estado afetivo relatado se encaixa perfeitamente nas regiões esperadas (Remington et al., 2000)
+
+![](images/circumplex-russell.svg){fig-align="center" width="100%"}
+
+## A hipótese do feedback facial {.smaller}
+
+- Expressar emoções não serve apenas para informar os outros --- pode também informar **você mesmo** sobre como está se sentindo
+- A **hipótese do feedback facial** propõe que o movimento facial influencia a emoção que experimentamos: forçar um sorriso (segurando um lápis entre os dentes) faz as pessoas acharem uma piada mais engraçada; segurar o lápis entre os lábios (forçando uma careta) faz acharem menos engraçada (Strack et al., 1988)
+- De forma semelhante, aplicar Botox (que paralisa músculos faciais) reduz a intensidade com que as emoções são experimentadas (Davis et al., 2010)
+
+![](images/retroalimentacao-facial.svg){fig-align="center" width="100%"}
+
+# Quando as Emoções Dão Errado
+
+## A importância fica clara quando falha {.smaller}
+
+- A importância das emoções na interação social fica especialmente clara quando um dos parceiros **falha** em entender ou responder com a emoção adequada
+- Até pequenas falhas na resposta emocional podem ter consequências sérias --- interpretar sarcasmo como uma fala genuína pode gerar mal-entendidos e mágoas
+- A situação piora quando alguém é **consistentemente incapaz** de perceber, expressar ou responder a estados afetivos
+
+## Três exemplos de responsividade emocional prejudicada {.smaller}
+
+- **Depressão**: mesmo entendendo como os outros se sentem, pessoas com depressão têm resposta emocional reduzida a estímulos positivos, alimentando isolamento social e solidão (Joormann \& Gotlib, 2010)
+- **Espectro do autismo**: dificuldade em interpretar corretamente expressões de emoção em outras pessoas (Rutherford \& Towns, 2008; Blair, 2005) --- o robô **Kaspar** é usado em terapia para autismo justamente por ser "minimamente expressivo"
+- **AVC**: músculos faciais podem ficar impedidos, dificultando que parceiros de interação infiram o estado interno da pessoa
+
+![](images/quando-da-errado.svg){fig-align="center" width="100%"}
+
+# Emoções para Robôs
+
+## Emoção como canal de comunicação em HRI {.smaller}
+
+- Quando um robô expressa emoção, as pessoas tendem a lhe atribuir um nível de **agência social** (Breazeal, 2004a; Novikova \& Watts, 2015)
+- Mesmo que o robô **não** tenha sido projetado para expressar emoções, os usuários podem interpretar seu comportamento como se fosse motivado por estados emocionais
+- Um robô que não é programado para compartilhar, entender ou expressar emoções corre o risco de ser interpretado como **desinteressado, frio ou rude**
+
+![](images/robo-agencia-social.svg){fig-align="center" width="100%"}
+
+## Mímica como estratégia de interação {.smaller}
+
+- A forma mais direta de programar responsividade emocional é através da **mímica**: o robô só precisa reconhecer a emoção da pessoa e refleti-la de volta
+- Isso evita a tarefa complicada de formular uma resposta apropriada --- e mimetizar cria uma sensação de realidade compartilhada (Stel et al., 2008)
+- **Exceção: raiva.** Por melhor que pareça retribuir na hora, gritar de volta com uma pessoa irritada raramente ajuda a resolver o conflito
+
+![](images/estrategia-mimica.svg){fig-align="center" width="100%"}
+
+## Gerenciamento de expectativas {.smaller}
+
+- Quando os usuários percebem o robô como emocionalmente responsivo, tendem a estender essa percepção para **expectativas sobre outras normas sociais**
+- Um usuário pode esperar que o robô se lembre de perguntar sobre uma reunião tensa da noite anterior; se o robô só diz "tenha um ótimo dia!", ele pode se decepcionar com as habilidades sociais do robô
+- A responsividade emocional do robô precisa **condizer** com sua capacidade real de cumprir outras expectativas sociais
+
+![](images/gerenciamento-expectativa.svg){fig-align="center" width="100%"}
+
+## Percepção artificial de emoções {.smaller}
+
+- Robôs precisam registrar uma grande variedade de pistas emocionais, algumas explícitas e outras sutis, antes de conseguir interagir emocionalmente
+- A abordagem mais comum é usar **visão computacional** para extrair emoções de pistas faciais --- com aprendizado profundo, sistemas conseguem extrair um leque de expressões faciais a partir de imagens rotuladas (LeCun et al., 2015)
+- Um exemplo famoso: a detecção de sorriso já implementada em câmeras de consumo
+- **Prosódia** na fala (tom, ritmo, altura) e **condutância da pele** (ligada à excitação) são canais adicionais --- mas com sucesso ainda limitado em HRI (Bethel et al., 2007)
+
+![](images/percepcao-artificial-emocao.svg){fig-align="center" width="100%"}
+
+## Expressando emoções com robôs {.smaller}
+
+- A abordagem mais comum é **imitar** a forma como as pessoas exibem emoções através de expressões faciais
+- O **FACS** (*Facial Action Coding System*, Ekman \& Friesen, 1978) descreve emoções como combinações de **unidades de ação** (AUs) --- músculos específicos do rosto
+- Um rosto robótico com pele de borracha macia e 19 atuadores pneumáticos (Hashimoto et al., 2013) ativa as AUs correspondentes para expressar felicidade (AU6 + AU12)
+- Muitos outros robôs usam interpretações simplificadas dos rostos humanos: **Kismet**, **Eddie**, **iCat**, **eMuu**
+
+![](images/facs-unidades-acao.svg){fig-align="center" width="100%"}
+
+## Robôs não antropomórficos também expressam emoção {.smaller}
+
+- Robôs podem expressar emoção por movimentos corporais e prosódia --- mas mesmo robôs **sem rosto** podem expressar afeto ajustando sua trajetória de navegação
+- Um robô de limpeza (Saerbeck \& Bartneck, 2010) e um robô voador (Sharma et al., 2013) mostraram conseguir exibir afeto adaptando seus padrões de movimento
+- Outras formas: velocidade de movimento, postura corporal, som, cor e orientação (Bethel \& Murphy, 2008) --- o robô **Cozmo**, da Anki, usa luzes e expressões faciais complexas para parecer ter personalidade própria
+
+![](images/robos-expressivos.svg){fig-align="center" width="100%"}
+
+## Modelos de emoção: o modelo OCC {.smaller}
+
+- Psicólogos tentaram capturar emoções humanas em **modelos formais** (Plutchik \& Conte, 1997; Scherer, 1984) --- útil porque representa emoção numericamente, o que se presta bem a computadores e robôs
+- O **modelo OCC** (Ortony, Clore \& Collins, 1988) especifica **22 categorias** de emoção, baseadas em reações valoradas a eventos, ações de agentes ou aspectos de objetos
+- Também oferece uma estrutura para variáveis --- como a probabilidade de um evento ou a familiaridade de um objeto --- que determinam a **intensidade** dos tipos de emoção
+- Poucos robôs conseguem expressar as 22 categorias; muitos designers optam por reduzir para as **seis expressões básicas** de Ekman, universalmente reconhecidas (Ekman, 1992)
+
+![](images/occ-modelo-simplificado.svg){fig-align="center" width="100%"}
+
+## Modelos dimensionais: de 2D a 3D {.smaller}
+
+- Talvez mais populares que o OCC sejam os modelos que representam a emoção como um **ponto num espaço multidimensional**
+- O espaço 2D de Russell (excitação $\times$ valência, Figura anterior) é um dos modelos mais simples, mas com poder expressivo suficiente para HRI
+- Um problema: o modelo 2D original coloca "com raiva" e "com medo" lado a lado, embora a maioria diria que são emoções bem diferentes
+- A extensão para 3D --- o modelo **PAD** (*pleasure*, *arousal*, *dominance*; Mehrabian, 1980) --- acrescenta a dimensão de **dominância**; foi usado para modelar o estado emocional do usuário e do próprio robô no **Kismet** (Breazeal, 2003)
+
+![](images/pad-modelo-3d.svg){fig-align="center" width="82%"}
+
+# Desafios em HRI Afetiva
+
+## É difícil ler emoção só pelo rosto {.smaller}
+
+- É praticamente impossível ler emoções corretamente **só** a partir de informação facial --- se pessoas já têm dificuldade, robôs certamente também terão
+- Acrescentar mais informação --- contexto da interação, expressões **animadas** (em vez de estáticas) e **linguagem corporal** --- aumenta bastante a taxa de reconhecimento, tanto para pessoas quanto para algoritmos
+- Um estudo mostrou que as pessoas erram ao tentar ler emoções fortes só pelo rosto estático de um tenista --- mas acertam quando veem apenas a postura do corpo (Aviezer et al., 2012)
+
+![](images/desafios-leitura-emocao.svg){fig-align="center" width="100%"}
+
+## O problema dos dados de treino {.smaller}
+
+- Quase todos os algoritmos de reconhecimento de emoção são treinados com emoções **atuadas por atores** --- exageradas, e pouco parecidas com as emoções que sentimos e expressamos no dia a dia
+- Isso significa que a maioria dos softwares só reconhece bem emoções exibidas com **intensidade exagerada**
+- A precisão do reconhecimento cai drasticamente para expressões emocionais **sutis** (Pantic et al., 2007; Bartneck \& Reichenbach, 2005)
+- A maioria dos softwares também só retorna probabilidades para as seis emoções básicas de Ekman, ou um ponto num espaço 2D/3D --- uma visão bastante limitada, que deixa de lado orgulho, vergonha, culpa ou aborrecimento
+
+![](images/atores-exagero.svg){fig-align="center" width="90%"}
+
+## Diferenças individuais e o limite da responsividade genuína {.smaller}
+
+- Mesmo expressando emoções universais, nem todas as pessoas o fazem com a mesma intensidade, no mesmo tipo de contexto, ou com o mesmo significado
+- Interpretar o estado emocional de alguém exige sensibilidade às suas **peculiaridades afetivas individuais** --- algo que pessoas desenvolvem ao longo de anos de convivência
+- Robôs ainda decodificam emoções principalmente a partir de **instantâneos momentâneos**, sem construir modelos de longo prazo do afeto do parceiro de interação
+- Por fim, a responsividade emocional de um robô pode enganar o usuário: o robô **não** experimenta emoções genuínas --- apenas exibe estados emocionais em resposta a um modelo computacional
+
+## Conclusão {.smaller}
+
+- Emoções são um aspecto essencial da interação social --- cumprem funções **intrapessoais** (avaliar a situação, motivar a ação) e **interpessoais** (informar os outros sobre nosso estado mental e o comportamento que podem esperar de nós)
+- Para uma interação fluida entre humano e robô, o robô precisa tanto **reconhecer** as emoções exibidas pela pessoa quanto **gerar** emoções próprias, ajudando o usuário a entender seu estado interno
+- A cognição afetiva completa --- expressar e reconhecer todo o repertório socioemocional, para diferentes usuários e contextos --- ainda é uma meta distante
+
+![](images/ciclo-emocao-robo.svg){fig-align="center" width="78%"}
+
+## Para pensar {.smaller}
+
+- Faça uma lista de 10 emoções e tente exibi-las de forma não verbal para um amigo. Ele consegue adivinhar qual emoção você está mostrando?
+- Faça um jogo de papéis: imagine ser incapaz de sentir ou processar qualquer informação envolvendo emoção. Converse com um amigo (avise-o antes sobre o experimento) tentando não responder nem mostrar nenhum retorno emocional. O que acontece?
+- Existem tarefas para as quais um robô **deveria** ou **não deveria** ter emoção? É uma boa ideia implementar emoção num carro autônomo, por exemplo? Se não, quais seriam os problemas potenciais?
+
+- **No seu projeto:** para o robô que a sua equipe está projetando ---
+  - escolha um **modelo de emoção** (categorias básicas, OCC ou dimensional) e justifique a escolha para o seu caso de uso;
+  - descreva **como** o robô perceberia o estado emocional do usuário, e por quais canais (rosto, voz, outro);
+  - defina **quando** o robô deve mimetizar a emoção da pessoa e **quando não deve** (pense na exceção da raiva);
+  - identifique um risco de **gerenciamento de expectativas** que sua equipe precisa considerar.
+
+## Leituras futuras {.smaller}
+
+- **Bartneck \& Lyons (2009)** --- análise, modelagem e síntese de expressão facial: superando os limites da IA com a arte do possível
+- **Breazeal (2004b)** --- interações sociais em HRI: a visão do robô
+- **Calvo, D'Mello, Gratch \& Kappas (2015)** --- *The Oxford Handbook of Affective Computing*
+- **Picard (1997)** --- *Affective Computing*
+- **Trappl, Petta \& Payr (2003)** --- *Emotions in Humans and Artifacts*

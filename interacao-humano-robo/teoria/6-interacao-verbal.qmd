@@ -1,0 +1,279 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Interação Verbal"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/6-interacao-verbal
+---
+
+# Interação Verbal
+
+::: {.esquerda}
+Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- As complexidades e desafios da interação verbal humana
+  - Os componentes da fala em humanos e em HRI
+  - Os princípios básicos do **reconhecimento de fala** e sua aplicação em HRI
+  - Sistemas de **gestão de diálogo** em HRI
+  - Interação em **linguagem natural**, incluindo o uso de chatbots
+
+![](images/pipeline-verbal.svg){fig-align="center" width="100%"}
+
+## Um robô frustrante {.smaller}
+
+- Imagine um robô numa loja de eletrônicos que diz "Olá" e pergunta o que você procura. Você responde de forma natural --- "ah, não sei, talvez uma câmera para minha filha, umas pilhas, só olhando mesmo, sabe" --- e o robô fica em silêncio, depois repete a pergunta pedindo que você fale mais devagar e mais perto
+- Por que conversar com robôs costuma ser **frustrante**?
+- A fala é o modo de comunicação mais **natural** entre pessoas --- rápido e de baixo esforço --- mas **produzir** fala num robô é muito mais simples que **entender** a fala humana
+- Esse desequilíbrio entre a expectativa das pessoas e a capacidade real do robô é a raiz de boa parte da frustração
+
+# Interação Verbal entre Humanos
+
+## Fala: rápida, natural e ambígua {.smaller}
+
+- Na comunicação humana, a fala serve tanto para **transmitir informação** quanto para criar **atenção conjunta** e uma realidade compartilhada
+- É extremamente **complexa** e aberta a múltiplas interpretações --- um simples deslocamento de ênfase muda o significado da frase inteira
+
+![](images/enfase-frase.svg){fig-align="center" width="100%"}
+
+## Componentes da fala {.smaller}
+
+- **Enunciado** (*utterance*): a menor unidade da língua falada, geralmente menos gramatical que uma frase escrita
+- **Palavras**: menores unidades que carregam significado; **fonemas**: menores unidades de som que compõem as palavras --- trocar um fonema muda a palavra inteira ("pat" $\to$ "bat")
+- **Marcadores conversacionais** (*fillers*): não se referem a um conceito específico, mas mantêm a conversa fluindo --- "uh-huh" sinaliza atenção, compreensão, surpresa, sem interromper o fluxo
+
+![](images/componentes-fala.svg){fig-align="center" width="100%"}
+
+## Texto escrito vs. língua falada {.smaller}
+
+- Texto escrito exige adesão **rígida** à gramática e à sintaxe --- é preparado com precisão, pois não pode ser ajustado depois de entregue
+- A fala permite **corrigir** mal-entendidos e ambiguidades **enquanto** a mensagem é entregue --- as pessoas percebem rápido quando não foram compreendidas e ajustam a fala na hora
+- Uma interação natural e fluida costuma ser **crucial** para HRI --- mas exige que várias capacidades técnicas estejam em vigor: transcrever a fala em palavras, entender as palavras, gerar respostas e produzir fala
+
+# Reconhecimento de Fala
+
+## O que é reconhecimento de fala {.smaller}
+
+- **Reconhecimento automático de fala** (ASR) ou *speech-to-text* (STT): transforma uma gravação digital de fala em uma representação **escrita**
+- Reconhecer a fala **não é** entendê-la --- o ASR apenas converte áudio em texto, pronto para processamento posterior
+- Desenvolvido sobretudo para controle de dispositivos por voz e ditado, o que traz suposições que muitas vezes **não valem** em HRI: ambiente sem ruído, microfone direcional treinado numa única pessoa
+- Em HRI, a pessoa costuma estar a certa **distância** do robô, o que piora a gravação; ruído ambiente, outras pessoas falando e o próprio robô atrapalham --- por isso microfones de lapela (*close miking*) são frequentemente usados
+
+## Do áudio ao texto {.smaller}
+
+- A gravação está no **domínio do tempo** (amplitude a cada instante) --- mas fonemas são mais fáceis de reconhecer no **domínio da frequência**, onde cada som tem uma "assinatura" própria
+
+![](images/tempo-frequencia.svg){fig-align="center" width="100%"}
+
+## Da estatística ao aprendizado profundo {.smaller}
+
+- Até 2010, motores de ASR usavam **modelos ocultos de Markov** e misturas gaussianas --- modelos probabilísticos de como fonemas e palavras se encadeiam (sabem que "robô" é mais provável que "lobô")
+- Hoje, essas abordagens foram substituídas por **aprendizado profundo**, com redes neurais de sequência-a-sequência
+- O desempenho é notável: motores atuais lidam melhor com ruído, ambientes cheios de gente, fala malformada e sotaques
+- Motores baseados em nuvem já **superam** transcritores humanos em testes específicos
+
+![](images/wer-comparativo.svg){fig-align="center" width="86%"}
+
+## Limitações do reconhecimento de fala {.smaller}
+
+- Sotaques locais ou falantes não nativos ainda são um desafio quando o modelo não foi bem treinado nesses casos
+- O ambiente acústico continua determinante: ruído, reverberação e espaços cheios de gente pioram o desempenho
+- Nomes próprios são frequentemente mal reconhecidos
+- **Restringir** o que precisa ser reconhecido (dígitos, comandos simples) melhora o desempenho --- mas limita o que a pessoa pode dizer
+
+![](images/limitacoes-asr.svg){fig-align="center" width="100%"}
+
+## O McGurk effect: até nós usamos mais que áudio {.smaller}
+
+- Para sermos justos com os robôs, as pessoas também não usam apenas o áudio no reconhecimento da própria fala
+- O **efeito McGurk** é uma ilusão auditiva: o mesmo som ("baa") é percebido como "faa" ou "baa" dependendo do formato da boca de quem fala --- **percepção multimodal**
+- Também usamos **conhecimento de contexto**: se você não ouviu bem se a sugestão foi "pêssego" ou "piscina", saber o que costuma fazer com essa pessoa ajuda a deduzir
+
+## Prática em HRI: nuvem ou a bordo {.smaller}
+
+- ASR baseado em **nuvem** é hoje o mais comum: o áudio é enviado a um servidor e a transcrição volta quase instantaneamente --- melhor desempenho, mas exige internet e tem custo por uso
+- Grandes empresas (Baidu, Google, IBM, Microsoft, Nuance, OpenAI) oferecem serviços pagos por uso; há alternativas livres, como o **Common Voice**/DeepSpeech, da Mozilla
+- Quando não há internet confiável, existem soluções **a bordo** do robô --- com desempenho bem inferior ao da nuvem
+
+![](images/asr-nuvem-local.svg){fig-align="center" width="100%"}
+
+## Linguagens artificiais para HRI {.smaller}
+
+- É mais difícil para um humano aprender uma nova língua do que para um computador --- mas há línguas **construídas** para reduzir esses problemas
+- **ROILA** (*RObot Interaction LAnguage*) foi criada especificamente para facilitar o reconhecimento de fala: as palavras soam o mais **distintas** possível entre si (Stedeman et al., 2011)
+- Em ROILA, "ir em frente" é "kanek koloke"; "voltar" é "kanek nole"
+
+## Detecção de atividade vocal (VAD) {.smaller}
+
+- Em ambientes ruidosos, o reconhecimento completo é difícil --- mas o robô ainda pode reagir de forma limitada usando **VAD** (*voice-activity detection*)
+- VAD distingue fala de silêncio (e de outros eventos acústicos, como música) --- dá a impressão de que o robô está **ouvindo**, mesmo sem entender o conteúdo
+- Combinado com **localização sonora** (várias microfones), o robô pode até **olhar** para quem está falando
+
+![](images/vad-deteccao.svg){fig-align="center" width="100%"}
+
+# Interagindo com Linguagem
+
+## Reconhecer não é entender {.smaller}
+
+- Um equívoco comum: reconhecer a fala também significa que ela foi "**entendida**" pelo computador --- não é o caso
+- Extrair o significado semântico do texto transcrito é tratado como um problema **separado**, com abordagens que vão do conteúdo amplo a instruções bem específicas
+
+![](images/extracao-significado-niveis.svg){fig-align="center" width="100%"}
+
+## Análise de sentimento e reconhecimento de intenção {.smaller}
+
+- **Análise de sentimento**: retorna um valor escalar indicando o quão negativa ou positiva é uma mensagem --- na fala, prosódia e amplitude também ajudam a captar o afeto
+- **Reconhecimento de intenção**: tenta entender o que a pessoa **quer**, extraindo elementos como comando, local, pessoa, evento ou data --- é assim que assistentes digitais interpretam "me lembre de buscar as crianças às 19h"
+- Quem usa assistentes digitais com frequência aprende a **falar de um jeito** que o sistema entende melhor
+
+## Palavras como vetores {.smaller}
+
+- Palavras podem ser convertidas em uma série de números --- um **vetor** --- usando redes como **word2vec**, que aprendem associações a partir de grandes quantidades de texto
+- Palavras com significado semelhante têm vetores mais **próximos**; essa técnica foi em grande parte superada pelos **modelos de linguagem (LLMs)**
+
+![](images/word2vec-espaco.svg){fig-align="center" width="80%"}
+
+## Modelos de linguagem (LLMs) {.smaller}
+
+- Em essência, LLMs fazem uma coisa só: **prever uma palavra desconhecida** a partir das palavras ao redor
+- Treinados em grandes corpora de texto (como a Wikipédia inteira); a elegância está na simplicidade da tarefa **e** na disponibilidade de dados de treino
+- Foi uma surpresa (por volta de 2020) o quanto significado estava escondido na **co-ocorrência** de palavras --- modelos cada vez maiores (transformers, bilhões de parâmetros) passaram de curiosidade acadêmica a fenômeno mundial
+- **Cuidado:** LLMs não entendem de fato o texto que geram e não sabem avaliar se ele está correto ou completo --- melhor checar uma fonte confiável
+
+![](images/llm-previsao-palavra.svg){fig-align="center" width="90%"}
+
+## De LLM a classificador de intenção {.smaller}
+
+- **Transferência de aprendizado** (*transfer learning*): uma rede treinada numa tarefa geral (prever a próxima palavra) é reaproveitada para uma tarefa específica, com um conjunto menor de dados de exemplo
+- Para reconhecimento de intenção, um passo final de **ajuste fino** (*fine-tuning*) transforma o modelo num classificador --- ex.: distinguir "posso ajudar?" (oferecer ajuda) de "vá embora" (pedir distância)
+- LLMs hoje alimentam assistentes de texto e centrais de atendimento --- mas, para HRI, oferecem uma entrada em linguagem natural ainda **limitada**; a maioria das aplicações quer uma conversa mais fluente e interativa
+
+## Quando o robô entende tudo ao pé da letra {.smaller}
+
+- Mesmo percebendo rapidamente que um robô não entende figuras de linguagem, as pessoas ainda demoram a descobrir **como formular** o pedido de um jeito que o robô compreenda
+- Diálogo real com um robô garçom programado para levar tudo ao pé da letra (Williams et al., 2018):
+
+::: {.esquerda}
+**Participante:** Posso ter uma água?\
+**Robô:** Sim, isso é permitido.\
+**Participante:** Ótimo.\
+**Robô:** Por favor, me diga o seu pedido.\
+**Participante:** Posso ter uma água?\
+**Robô:** Sim, isso é permitido.\
+**Participante:** Ótimo, vou querer uma água.
+:::
+
+## Gestão de diálogo {.smaller}
+
+- **Gestão de diálogo** é o processo que mantém uma conversa fluindo entre computador e usuário ao longo de **vários turnos**, não apenas uma instrução isolada
+- O gerenciador de diálogo (DM) precisa manter o **estado** da conversa --- no caso de um pedido de pizza, o tamanho e os recheios já informados
+- DMs variam de sistemas muito **restritos** (ordem rígida de turnos, tarefas fechadas) a sistemas que dão **grande liberdade** à pessoa
+
+![](images/gestao-dialogo-espectro.svg){fig-align="center" width="100%"}
+
+## FSMs e diálogos orientados a eventos {.smaller}
+
+- DMs simples implementam um **script linear**; condições e ramificações dão mais flexibilidade --- em essência, são **máquinas de estados finitos** (FSMs)
+- Sistemas mais avançados permitem que o fluxo seja **interrompido por eventos**, lidando com fluxos não lineares (ex.: perguntar as horas no meio de um pedido de pizza)
+- DMs mais avançados usam um **planejador**, que sabe o que falta no estado da conversa e escolhe as ações (perguntas) necessárias --- sem que o programador precise escrever cada caminho possível
+
+![](images/fsm-dialogo.svg){fig-align="center" width="100%"}
+
+## Chatbots {.smaller}
+
+- Programas pensados para conversar com o usuário, tipicamente por texto --- a aplicação mais popular é em páginas web, respondendo perguntas sobre produtos de uma empresa
+- Chatbots de **regras** são restritos a um domínio; chatbots que **aprendem de dados** podem generalizar mais, mas correm o risco de aprender respostas inapropriadas --- caso do **Tay** (Microsoft), retirado do ar em um dia
+- **LLMs** de propósito geral (como o ChatGPT) sustentam conversas abertas e mantêm **estado**, lembrando informações de turnos anteriores
+
+![](images/chatbot-tipos.svg){fig-align="center" width="100%"}
+
+## Chatbots são indistinguíveis de humanos? {.smaller}
+
+- O objetivo de longa data em IA de um chatbot **indistinguível** de um humano remonta ao **teste de Turing** (Turing, 1950)
+- Até 2020, o **Prêmio Loebner** premiava os chatbots mais convincentes --- mas nunca seguiu de fato o protocolo original de Turing (Temtsin et al., 2022)
+- Chatbots baseados em LLM já passam facilmente em testes de Turing informais --- mas isso não os torna **inteligentes**: eles são muito bons em **atender às expectativas**, sem que "haja alguém em casa"
+- Ligação com o **experimento da sala chinesa**: manipular símbolos sem realmente entender seu significado --- um chatbot pode falar do cheiro de grama recém-cortada, mas nunca sentiu grama
+
+## Prática em HRI: do script ao LLM {.smaller}
+
+- A forma mais simples de implementar interação falada num robô é um **editor de comportamento**/ferramenta visual, que funciona como uma FSM restrita a poucos caminhos
+- Uma análise mostrou que a **maioria** dos diálogos em HRI ainda é linear, e não ramificada ou livre (Berzuk \& Young, 2022)
+- Serviços comerciais de nuvem (Azure, GPT da OpenAI, Alexa) oferecem reconhecimento, gestão de diálogo e síntese de fala **integrados** --- reduzindo bastante o esforço de desenvolvimento
+- LLMs podem receber um **prompt** que define personagem e contexto (ex.: "você é um robô chamado Marvin, com visão pessimista de mundo") --- a conversa fica natural, mas tende a **perder o rumo** depois de alguns turnos; pesquisa atual busca conversas orientadas a objetivo
+
+# Alternância de Turnos em HRI
+
+## Back-channeling {.smaller}
+
+- Diálogo falado convida a pessoa a adotar uma postura mais natural --- exigindo elementos também presentes na interação humana, como o **back-channeling**: respostas do ouvinte ("é mesmo?", "uh-huh") que sinalizam engajamento
+- O robô pode usar sinais verbais (do não-lexical "uh-huh" ao substantivo "conte mais") e complementar com luzes piscando ou um zumbido suave
+- Um dos desafios é **quando** emitir o sinal --- o timing depende de pistas verbais e não verbais de quem fala; um modelo preditivo de back-channel foi preferido por crianças (Park et al., 2017a)
+
+## O papel do timing {.smaller}
+
+- Uma resposta **atrasada** é vista como perturbadora; uma resposta **rápida demais**, como insincera (Sacks et al., 1974; Heldner \& Edlund, 2010)
+- Respostas de "sim/não" são mais rápidas que respostas que exigem uma frase completa; pessoas às vezes **antecipam** a resposta antes mesmo da pergunta terminar
+- Computadores são **muito mais lentos** que pessoas para responder --- o robô pode preencher o silêncio com marcadores conversacionais ou sinais visuais enquanto formula a resposta
+- **Síntese just-in-time** (o robô começa a falar antes de ter todo o plano da frase) e processamento **incremental** do diálogo são caminhos promissores para reduzir esse atraso
+
+![](images/turno-timing.svg){fig-align="center" width="100%"}
+
+# Produção de Fala
+
+## Síntese de fala (TTS) {.smaller}
+
+- O passo final da interação em linguagem natural: converter a resposta escrita do sistema em **fala** --- síntese de fala ou *text-to-speech* (TTS)
+- Progresso impressionante na última década: das vozes metálicas dos anos 1990 (como a de Stephen Hawking) a uma produção de fala quase **indistinguível** da humana
+
+![](images/pipeline-tts.svg){fig-align="center" width="100%"}
+
+## Avanços recentes: o vocoder neural {.smaller}
+
+- Modelos generativos de aprendizado profundo (**vocoders neurais**) superaram as limitações da síntese paramétrica e concatenativa
+- **WaveNet** (van den Oord et al., 2016) foi um dos primeiros modelos neurais treinados com grandes quantidades de fala humana --- aprendeu até a produzir respiração e estalos de língua
+- Ainda assim, a maioria dos modelos não modula **emoção** em tempo real: a voz soa natural, mas o jeito de falar continua "de máquina" --- como se o texto estivesse sendo **lido**, não dito numa conversa real
+
+## Escolher a voz certa {.smaller}
+
+- TTS mais simples tem baixo custo computacional e roda no próprio robô; os motores mais naturais usam aprendizado profundo e costumam ser baseados em nuvem
+- Alguns motores fornecem informação de **timing por fonema**, útil para sincronizar a fala com animações faciais ou gestos do robô
+- A voz precisa **combinar** com o robô: um robô pequeno pede uma voz condizente com seu tamanho, não um barítono grave
+
+![](images/voz-robo-percepcao.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- A linguagem é o modo mais óbvio e natural de comunicação entre pessoas --- mas é extremamente **complexa**, tanto pelo vocabulário quanto pelo significado, que muda conforme o contexto, a relação entre falantes e a prosódia
+- Ferramentas técnicas de análise, síntese e produção de fala já permitem HRI verbal sem que tudo precise ser construído do zero
+- A IA e o aprendizado de máquina estão trazendo a conversa aberta cada vez mais ao alcance dos robôs
+- Mas a interação verbal humana --- livre, rápida, cheia de emoção e riso, e integrada com outras modalidades --- ainda está **bem além** das capacidades técnicas atuais
+
+![](images/ciclo-verbal.svg){fig-align="center" width="72%"}
+
+## Para pensar {.smaller}
+
+- Imagine um robô social que precisa perceber todos os enunciados que você fala em casa todos os dias. Que tamanho precisaria ter o dicionário do ASR para entender suas conversas cotidianas?
+- Pense na diferença entre dizer "sim" de bom grado e dizer "sim" com relutância. Como fazer um robô responder apropriadamente a esses diferentes modos de falar?
+- Que problemas podem surgir por causa do papel do **timing** em interações humano-robô? Como esses problemas são resolvidos em outras interações sociais em que se perdem pistas sociais (ex.: mensagens de texto, ou atraso numa chamada de vídeo)?
+
+- **No seu projeto:** para o robô que a sua equipe está projetando ---
+  - defina se a interação verbal será **restrita** (comandos, FSM) ou **aberta** (LLM/chatbot), e justifique a escolha;
+  - descreva **como** o robô perceberia e lidaria com o timing das respostas (silêncio, marcadores conversacionais);
+  - escolha um tipo de voz (TTS) e explique por que ela **combina** com a aparência e o propósito do robô;
+  - identifique **uma limitação** do reconhecimento de fala (ruído, sotaque, vocabulário) que afetaria seu cenário de uso, e como mitigá-la.
+
+## Leituras futuras {.smaller}
+
+- **Aly \& Tapus (2013)** --- um modelo para sintetizar comportamento verbal e não verbal combinado, a partir de traços de personalidade
+- **Cassell et al. (2000)** --- *Embodied Conversational Agents*
+- **Eyssel et al. (2012b)** --- como características do robô e do usuário moldam a percepção de robôs sociais
+- **Kanda et al. (2010)** --- um robô de comunicação num shopping center
+- **Mavridis (2015)** --- revisão da comunicação interativa verbal e não verbal
+- **Tunstall et al. (2022)** --- *Natural Language Processing with Transformers*
+- **Walters et al. (2008)** --- distâncias de aproximação humana a um robô com diferentes estilos de voz
