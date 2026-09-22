@@ -30,6 +30,7 @@ else
     alternancia-turnos-timing
     ritmo-sincronia
     percepcao-geracao-ciclo
+    gerar-pistas-robo
     keyframes-interpolacao
     arquitetura-cognitiva
     ciclo-nao-verbal

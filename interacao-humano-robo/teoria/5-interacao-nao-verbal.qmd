@@ -281,6 +281,8 @@ Capítulo 6 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - Um design importante: gerar comportamento não verbal **inspirado** em como pessoas usam essas pistas ao dialogar --- ex.: Kanda et al. (2007a), que gera aceno de cabeça e movimentos sincronizados dos braços automaticamente
 - *Co-speech gesturing* --- uso de mãos, braços e corpo que coincide com a fala --- tem avançado bastante com **redes neurais profundas** treinadas em vídeos de pessoas falando (Yoon et al., 2022)
 
+![](images/gerar-pistas-robo.svg){fig-align="center" width="100%"}
+
 ## Quadros-chave e animação {.smaller}
 
 - Abordagem mais simples e usada com frequência: **animação por quadros-chave** (*key frames*) --- o designer controla os ângulos de cada junta para fixar uma postura, e o sistema **interpola** entre as posturas
