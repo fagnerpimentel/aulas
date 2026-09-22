@@ -1,0 +1,204 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Introdução"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/1-introducao
+---
+
+# Introdução
+
+::: {.esquerda}
+Capítulo 1 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que é Robótica {.smaller}
+
+::: columns
+::: {.column width="58%"}
+- **Robótica**: a ciência de perceber e manipular o mundo físico por meio de dispositivos mecânicos controlados por computador
+- Todo sistema robótico está **situado no mundo físico**: percebe o ambiente por **sensores** e o modifica por **coisas que se movem** (atuadores)
+- Exemplos: plataformas de exploração planetária, braços em linhas de montagem, carros autônomos, braços que auxiliam cirurgiões
+:::
+::: {.column width="42%"}
+![](images/robo-mundo.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Da Fábrica ao Cotidiano {.smaller}
+
+::: columns
+::: {.column width="34%"}
+![](images/fotos/robo-cirurgico.jpg){fig-align="center" width="100%"}
+[Sistema cirúrgico da Vinci — Nicoleon, CC BY-SA 4.0]{.credito}
+:::
+::: {.column width="30%"}
+![](images/fotos/robo-servico.jpg){fig-align="center" width="72%"}
+[Robô de serviço Pepper — SoftBank Robotics Europe, CC BY-SA 4.0]{.credito}
+:::
+::: {.column width="36%"}
+- Ontem: manipuladores em linhas de montagem, repetindo a mesma tarefa
+- Amanhã: robôs em ambientes **inerentemente imprevisíveis** — residências, hospitais, ruas
+- A característica marcante dos novos sistemas é operar em ambientes **não estruturados**
+:::
+:::
+
+## Ambientes Cada Vez Menos Estruturados {.smaller}
+
+::: columns
+::: {.column width="33%"}
+![](images/fotos/braco-industrial.jpg){fig-align="center" width="100%"}
+[Braço industrial KUKA — O. Yunakov, CC BY-SA 4.0]{.credito}
+
+Linha de montagem: previsível e controlável
+:::
+::: {.column width="33%"}
+![](images/fotos/carro-autonomo.jpg){fig-align="center" width="100%"}
+[Sensores de um veículo autônomo — Retired electrician, CC0]{.credito}
+
+Rodovias e residências: dinâmicas e imprevisíveis
+:::
+::: {.column width="33%"}
+![](images/fotos/rover-curiosity.jpg){fig-align="center" width="100%"}
+[Rover Curiosity — NASA/JPL-Caltech/MSSS, domínio público]{.credito}
+
+Exploração planetária: ambiente desconhecido
+:::
+:::
+
+A robótica move-se para áreas onde a **entrada de sensores** é cada vez mais importante, e o software precisa ser **robusto** a situações demais para serem antecipadas.
+
+# Incerteza em Robótica
+
+O elemento-chave deste livro. A incerteza surge sempre que o robô carece de informação crítica para executar sua tarefa.
+
+## As Cinco Fontes de Incerteza {.smaller}
+
+1. **Ambientes** — mundos físicos são inerentemente imprevisíveis (pouca incerteza numa linha de montagem; muita numa residência)
+2. **Sensores** — limitados por leis físicas (alcance, resolução) e sujeitos a **ruído**
+3. **Atuação do robô** — motores imprecisos: ruído de controle, desgaste
+4. **Modelos** — são abstrações; modelam apenas parcialmente os processos físicos reais
+5. **Computação** — robôs são sistemas de **tempo real**; muitos algoritmos são aproximados, trocando precisão por resposta rápida
+
+![](images/cinco-fontes-incerteza.svg){fig-align="center" width="92%"}
+
+## Lidar com a Incerteza {.smaller}
+
+- Tradicionalmente, a incerteza foi **ignorada** na robótica
+- Ao sair do chão de fábrica para ambientes não estruturados, a capacidade de **lidar com a incerteza** torna-se crítica para construir robôs bem-sucedidos
+- A robótica está se tornando cada vez mais uma **ciência de software**: desenvolver software robusto o suficiente para os desafios de ambientes dinâmicos
+
+# Robótica Probabilística
+
+Uma abordagem que presta tributo à incerteza na percepção e na ação do robô, representando-a **explicitamente** com o cálculo de probabilidades.
+
+## A Ideia-Chave {.smaller}
+
+::: columns
+::: {.column width="52%"}
+- Em vez de confiar num **único "melhor palpite"**, representa a informação por **distribuições de probabilidade** sobre todo o espaço de hipóteses
+- Assim, representa **ambiguidade** e **grau de crença** de forma matematicamente sólida
+- Decisões de controle baseadas em informação probabilística **degradam suavemente** diante das várias fontes de incerteza
+:::
+::: {.column width="48%"}
+![](images/palpite-vs-distribuicao.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Exemplo Motivador: Localização Global {.smaller}
+
+- **Localização**: estimar as coordenadas do robô num referencial externo, a partir de dados de sensores e de um mapa
+- **Localização global**: o robô é colocado em algum lugar e precisa se localizar **do zero**
+- A estimativa momentânea (a **crença**, *belief*) é uma função densidade de probabilidade sobre o espaço de todas as localizações
+
+## Exemplo Motivador: Localização Global {.smaller}
+
+::: columns
+::: {.column width="46%"}
+- **(a)** *prior* uniforme — incerteza máxima
+- **(b)** percebe "porta" → crença com **três picos**, um por porta (indistinguíveis); locais sem porta ainda têm probabilidade não nula (ruído do sensor)
+- **(c)** o robô se move → crença **deslocada** na direção do movimento e **suavizada** (incerteza do movimento)
+- **(d)** percebe "porta" de novo → massa concentrada perto de **uma** porta; o robô está confiante
+:::
+::: {.column width="54%"}
+![](images/localizacao-global.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Percepção como Estimação de Estado {.smaller}
+
+- Formulado probabilisticamente, o problema de **percepção** do robô é um problema de **estimação de estado**
+- O exemplo de localização usa um algoritmo conhecido como **filtro de Bayes** para estimar a posterior sobre o espaço de localizações
+- Na **seleção de ações**, a abordagem probabilística também considera a incerteza **plena** (não apenas o palpite mais provável) → equilibra **exploração** (coleta de informação) e **explotação**
+
+![](images/percepcao-estimacao.svg){fig-align="center" width="86%"}
+
+# Implicações
+
+## A Conjectura Central {.smaller}
+
+> Um robô que carrega uma noção da própria incerteza e que age de acordo é **superior** a um que não o faz.
+
+![](images/conjectura-central.svg){fig-align="center" width="60%"}
+
+## Vantagens {.smaller}
+
+- Mais **robusto** diante de limitações e ruído de sensores, dinâmica do ambiente etc.
+- **Escala** melhor para ambientes complexos e não estruturados
+- Únicas soluções conhecidas para problemas difíceis:
+  - **kidnapped robot** — recuperar-se de uma falha de localização
+  - construir mapas precisos de ambientes muito grandes, **sem GPS**
+- Exigências **mais fracas** sobre a precisão dos modelos
+- Aprendizado de robô visto como **estimação de longo prazo**
+- Aplicável a praticamente todo problema de percepção e ação no mundo real
+
+## O Preço {.smaller}
+
+::: columns
+::: {.column width="52%"}
+- **Ineficiência computacional**: algoritmos probabilísticos consideram densidades de probabilidade inteiras
+- **Necessidade de aproximar**: mundos robóticos são **contínuos** → a posterior exata tem infinitas dimensões e é inviável de calcular
+  - às vezes cabe um modelo **paramétrico compacto** (gaussiana, distribuição discreta)
+  - em outros casos é preciso uma **representação mais rica**
+:::
+::: {.column width="48%"}
+![](images/preco-aproximar.svg){fig-align="center" width="100%"}
+:::
+:::
+
+# Mapa do Livro e da Disciplina
+
+## Como o Livro Apresenta Cada Algoritmo {.smaller}
+
+Para cada algoritmo principal:
+
+- uma **derivação matemática** completa
+- **pseudocódigo** em linguagem estilo C
+- discussão de **detalhes de implementação** e armadilhas
+- **resultados empíricos** obtidos em sistemas reais
+
+As derivações matemáticas podem ser puladas numa primeira leitura — mas recompensam o estudo.
+
+## As Quatro Partes {.smaller}
+
+![](images/mapa-livro.svg){fig-align="center" width="94%"}
+
+Nesta disciplina, foco na **Parte I** (caps. 2–4): filtro de Bayes, filtros gaussianos (KF, EKF, filtro de informação) e, em seguida, localização.
+
+## Uma Breve Linha do Tempo {.smaller}
+
+![](images/linha-tempo-robotica.svg){fig-align="center" width="100%"}
+
+- **Anos 70** — abordagem clássica/deliberativa: modelos exatos, sem sensoriamento, sem incerteza
+- **Meados dos 80** — abordagem reativa: rejeição de modelos, dependência total dos sensores
+- **Meados dos 90** — abordagens híbridas: reativas em baixo nível, deliberativas em alto nível
+- **Fim dos anos 90** — robótica probabilística; o **filtro de Kalman** é usado em robótica desde os anos 60, e Smith & Cheeseman (meados dos 80) propõem o **SLAM** baseado em KF
+
+## O que a Robótica Probabilística Traz de Novo {.smaller}
+
+- **Combina modelos e percepção** de uma forma inédita
+- **Teoria matemática sólida**, com suposições **claras** → é mais fácil prever modos de falha
+- Aplica-se a **todos os níveis**, do mais baixo ao mais alto — pois a incerteza surge em toda parte
+- Fornece, atualmente, as **melhores soluções conhecidas** para uma série de problemas difíceis de robótica
