@@ -1,0 +1,208 @@
+---
+title: "Navegação"
+subtitle: "Locomoção"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/2-locomocao
+---
+
+# Locomoção
+
+::: {.esquerda}
+Capítulo 2 do livro [**Introduction to Autonomous Mobile Robots**](https://mitpress.mit.edu/9780262015356/introduction-to-autonomous-mobile-robots/) (2ª ed.), de **Roland Siegwart**, **Illah R. Nourbakhsh** e **Davide Scaramuzza** (MIT Press, 2011).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Os principais **mecanismos de locomoção**: pernas e rodas
+- **Robôs com pernas** — configurações, marcha e estabilidade
+- **Robôs com rodas** — tipos de roda e geometrias de chassi
+- Os critérios de projeto: **estabilidade**, **manobrabilidade** e **controlabilidade**
+- Estudos de caso: *synchro drive*, robôs omnidirecionais, esteiras e rodas caminhantes
+
+![](images/pernas-vs-rodas.svg){fig-align="center" width="86%"}
+
+## Como um robô pode se mover {.smaller}
+
+- Um robô móvel precisa de mecanismos de locomoção que o levem, **sem limites**, por todo o ambiente
+- No laboratório, há robôs que andam, saltam, correm, deslizam, nadam, voam e, claro, rolam
+- A maioria desses mecanismos é **inspirada na biologia** --- com uma exceção importante: a **roda ativamente motorizada** é uma invenção humana, sem equivalente direto na natureza
+- Nossa própria marcha bípede pode ser aproximada por um **polígono rolante**
+
+![](images/poligono-rolante.svg){fig-align="center" width="100%"}
+
+## Por que copiar a natureza é difícil {.smaller}
+
+- Sistemas biológicos se saem bem em ambientes hostis --- copiar seus mecanismos de locomoção é tentador, mas difícil por vários motivos:
+  - **complexidade mecânica** é fácil na biologia (divisão celular); em máquinas, cada peça precisa ser fabricada individualmente
+  - a **célula** permite miniaturização extrema, com robustez que ainda não igualamos
+  - sistemas biológicos de armazenamento de energia e atuação muscular/hidráulica superam, de longe, sistemas artificiais em torque, tempo de resposta e eficiência
+- Por isso, robôs móveis geralmente usam **rodas** (tecnologia humana bem conhecida) ou um **pequeno número de pernas articuladas** (a mais simples das abordagens biológicas)
+
+## Eficiência: rodas × pernas {.smaller}
+
+- Em superfícies **planas**, a locomoção com rodas é de **1 a 2 ordens de magnitude** mais eficiente que a locomoção com pernas
+- A ferrovia é o caso ideal: atrito de rolamento mínimo numa superfície dura e plana
+- Mas conforme o solo fica **mais mole**, a eficiência das rodas cai bastante (perda de energia por atrito de rolamento) --- enquanto pernas sofrem menos, pois fazem apenas contatos pontuais
+- Por isso a natureza favorece pernas (terrenos irregulares), e ambientes construídos por humanos favorecem rodas (superfícies projetadas e planas)
+
+![](images/eficiencia-velocidade.svg){fig-align="center" width="100%"}
+
+## Questões-chave da locomoção {.smaller}
+
+Locomoção é o **complemento** da manipulação: no braço robótico, o ambiente se move; na locomoção, o robô se move em relação a um ambiente fixo. Ambas compartilham questões centrais:
+
+- **estabilidade**: número e geometria dos pontos de contato, centro de gravidade, estabilidade estática/dinâmica, inclinação do terreno
+- **características de contato**: tamanho e forma do ponto/trajeto de contato, ângulo, atrito
+- **tipo de ambiente**: estrutura, meio (água, ar, solo mole ou duro)
+
+# Robôs com Pernas
+
+## Locomoção com pernas: vantagens e desvantagens {.smaller}
+
+- Caracterizada por uma série de **contatos pontuais** entre o robô e o solo
+- **Vantagens**: adaptabilidade e manobrabilidade em terreno irregular; a qualidade do solo *entre* os pontos de contato não importa; pode até atravessar buracos maiores que o alcance de uma perna
+- **Desvantagens**: potência e complexidade mecânica --- cada perna sustenta parte do peso do robô e precisa de graus de liberdade suficientes para gerar força em várias direções
+
+## Arranjos de pernas na natureza {.smaller}
+
+- Mamíferos e répteis costumam ter **quatro pernas**; insetos, **seis ou mais**
+- Humanos aperfeiçoaram o equilíbrio em **duas pernas** --- ao custo de um controle ativo bem mais complexo
+- Um ser com **três** pernas pode ter uma pose estática estável, desde que o centro de gravidade fique dentro do tripé de apoio
+
+![](images/arranjo-pernas-animais.svg){fig-align="center" width="90%"}
+
+## Estabilidade estática {.smaller}
+
+- **Estabilidade estática**: o equilíbrio se mantém **sem necessidade de movimento** --- uma pequena perturbação é corrigida passivamente
+- Para **andar** com estabilidade estática o tempo todo, um robô precisa de, no mínimo, **seis pernas**
+- Insetos e aranhas já nascem sabendo caminhar; mamíferos de quatro pernas conseguem ficar em pé facilmente, mas não andam com estabilidade estática; humanos nem sequer conseguem ficar parados com estabilidade estática --- por isso bebês levam meses para aprender
+
+![](images/estabilidade-estatica.svg){fig-align="center" width="100%"}
+
+## Graus de liberdade de uma perna {.smaller}
+
+- Uma lagarta tem **um único** grau de liberdade por perna (pressão hidráulica no corpo); a perna humana tem **mais de sete** graus de liberdade principais, com mais de quinze grupos musculares
+- Robôs com pernas normalmente usam **dois** graus de liberdade (levantar e balançar a perna para frente) ou **três** (com abdução do quadril, para manobras mais complexas)
+- Robôs bípedes recentes acrescentam um **quarto** grau de liberdade no tornozelo, para contato mais consistente com o solo
+- Mais graus de liberdade $\to$ mais manobrabilidade, ao custo de energia, controle e massa
+
+![](images/graus-liberdade-perna.svg){fig-align="center" width="80%"}
+
+## Marcha e coordenação (*gait*) {.smaller}
+
+- O número de eventos possíveis de marcha para um robô com $k$ pernas é $N = (2k-1)!$ --- para um bípede ($k=2$), $N=6$; para um hexápode ($k=6$), $N \approx 4 \times 10^7$
+- A **marcha tripé** é a solução clássica de estabilidade estática com seis pernas: um tripé de três pernas sempre apoiado, enquanto o outro tripé avança
+
+![](images/marcha-tripode.svg){fig-align="center" width="100%"}
+
+## Exemplos de robôs com pernas {.smaller}
+
+- **1 perna**: minimiza massa e dispensa coordenação --- mas exige **estabilidade dinâmica**, com balanço ativo (Raibert hopper; *bow leg hopper*, que recupera 85% da energia do impacto na própria mola)
+- **2 pernas**: Sony SDR-4X, Honda P2/ASIMO, WABIAN --- forma antropomórfica, ótima para pesquisa em HRI, mas exige correção contínua de equilíbrio
+- **4 pernas**: AIBO (Sony) --- popularizou robôs com pernas como companhia; comportamento evolui com o tempo, como um pet
+- **6 pernas**: Genghis (MIT), com servos de hobby --- estabilidade estática reduz bastante a complexidade de controle
+
+![](images/galeria-robos-pernados.svg){fig-align="center" width="100%"}
+
+# Robôs com Rodas
+
+## Por que rodas dominam {.smaller}
+
+- A roda é, disparado, o mecanismo de locomoção mais popular em robótica móvel e em veículos em geral
+- Equilíbrio geralmente **não é** um problema de pesquisa: os robôs de rodas quase sempre mantêm todas as rodas em contato com o solo o tempo todo
+- **Três** rodas bastam para equilíbrio estável (mesmo dois, em certas condições); mais de três rodas exige **suspensão** para lidar com terreno irregular
+- A pesquisa em locomoção com rodas foca em **tração**, **estabilidade**, **manobrabilidade** e **controle**
+
+## Quatro tipos básicos de roda {.smaller}
+
+- **Padrão**: um eixo principal de rotação; direcional --- precisa esterçar para mudar de direção
+- **Castor**: como a padrão, mas o eixo de esterçamento é **deslocado** do ponto de contato --- esterçar impõe força ao chassi
+- **Sueca (Mecanum)**: roda padrão com roletes passivos na periferia --- move-se com pouco atrito em várias direções, não só para frente/trás
+- **Esférica**: verdadeiramente omnidirecional, mas de realização mecânica difícil
+
+![](images/tipos-rodas-quatro.svg){fig-align="center" width="100%"}
+
+## Geometria do chassi: cinco configurações comuns {.smaller}
+
+- Ao contrário dos automóveis (padronizados para a via pavimentada), robôs móveis atendem a ambientes muito variados --- por isso há uma grande variedade de geometrias de chassi (Tabela 2.1 do livro)
+- Poucos robôs móveis usam a configuração **Ackerman** do automóvel, por sua manobrabilidade limitada --- exceto quando o robô é feito para rodar em vias
+
+![](images/configuracoes-topo.svg){fig-align="center" width="100%"}
+
+## Três critérios em tensão {.smaller}
+
+- **Estabilidade**: o número mínimo de rodas para estabilidade estática é, surpreendentemente, **dois** (centro de massa abaixo do eixo) --- mas na prática, três rodas costumam ser necessárias
+- **Manobrabilidade**: robôs omnidirecionais (rodas suecas/esféricas/castor) movem-se em qualquer direção a qualquer momento; a configuração Ackerman tem manobrabilidade baixa, mas ótima estabilidade lateral em curvas rápidas
+- **Controlabilidade**: geralmente **inversa** à manobrabilidade --- controlar um robô omnidirecional exige mais processamento e acumula mais escorregamento (menos precisão de odometria)
+
+![](images/tradeoff-triangulo.svg){fig-align="center" width="80%"}
+
+## Estudo de caso: *synchro drive* {.smaller}
+
+- Configuração popular em robôs de interior: **três** rodas motorizadas e esterçáveis, mas apenas **dois motores** no total
+- Um motor de **tração** define a velocidade das três rodas juntas; um motor de **direção** esterça todas as rodas ao mesmo tempo
+- As rodas esterçam em relação ao **chassi** --- não há como reorientar o chassi diretamente; ele deriva lentamente por escorregamento desigual dos pneus
+
+![](images/synchro-mecanismo.svg){fig-align="center" width="72%"}
+
+## Estudo de caso: locomoção omnidirecional {.smaller}
+
+- Robôs omnidirecionais movem-se em $(x, y, \theta)$ a qualquer instante, **sem** precisar reorientar o chassi primeiro
+- Três realizações clássicas: **3 rodas esféricas** (Tribolo, EPFL) --- simples, mas limitada a superfícies planas e cargas pequenas; **4 rodas suecas** (Uranus, CMU) --- populares em manipulação móvel; **4 rodas castor** motorizadas e esterçáveis (Nomad XR4000) --- excelente manobrabilidade, mas sincronização complexa
+
+![](images/omnidirecional-tres-configs.svg){fig-align="center" width="100%"}
+
+## Estudo de caso: esteiras (*slip/skid*) {.smaller}
+
+- Robôs com esteiras (como um tanque) têm uma área de contato muito **maior** --- boa tração em terreno solto e irregular
+- Para girar, uma esteira precisa **deslizar** contra o solo em velocidade diferente da outra --- daí o nome *slip/skid*
+- O centro de rotação exato é difícil de prever, e a odometria fica pouco confiável; em compensação, a tração em terrenos difíceis é excelente (ex.: o microrover Nanokhod, para a ESA)
+
+![](images/esteira-slip-skid.svg){fig-align="center" width="90%"}
+
+## Estudo de caso: rodas caminhantes (híbridos) {.smaller}
+
+- Combinam a **adaptabilidade** das pernas com a **eficiência** das rodas --- interessante para robótica de campo e espacial
+- **Sojourner** (NASA/JPL) e **Shrimp** (EPFL): suspensão passiva articulada (*bogie*), com rodas dianteira e traseira direcionáveis --- consegue subir obstáculos **maiores que o próprio raio da roda**, inclusive degraus de escada
+- **Personal Rover**: em vez de suspensão passiva, desloca ativamente o **centro de massa** (um braço giratório) para escalar degraus
+
+![](images/rodas-caminhantes-shrimp.svg){fig-align="center" width="90%"}
+
+# Síntese
+
+## Escolhendo um mecanismo de locomoção {.smaller}
+
+- Não existe mecanismo "ideal": cada aplicação impõe restrições próprias, e o projetista escolhe o melhor **compromisso** dentro desse espaço
+- Terreno **plano e estruturado** $\to$ rodas (simples, eficientes); terreno **irregular** $\to$ pernas ou híbridos roda-perna
+- Alta **manobrabilidade** costuma custar **controlabilidade** e estabilidade lateral em velocidade
+- Soluções **híbridas** (roda-perna, esteira-roda) buscam reunir vantagens de mecanismos diferentes para nichos específicos
+
+![](images/arvore-decisao-locomocao.svg){fig-align="center" width="82%"}
+
+## Os critérios em jogo {.smaller}
+
+- Na prática, a escolha raramente se resume a uma única pergunta --- **terreno**, **eficiência**, **estabilidade**, **manobrabilidade**, **controlabilidade** e **complexidade** pesam juntos
+- É esse conjunto de critérios, e não uma tabela fechada, que orienta o projeto do mecanismo de locomoção de cada robô
+
+![](images/ciclo-escolha-locomocao.svg){fig-align="center" width="72%"}
+
+## Para pensar {.smaller}
+
+- Um robô de entrega precisa operar em calçadas (algumas com buracos e degraus) e também dentro de prédios com pisos lisos. Que mecanismo de locomoção você escolheria? Por quê?
+- Compare um chassi **diferencial** com um chassi **Ackerman** para um robô de vigilância em um estacionamento externo. Quais critérios (estabilidade, manobrabilidade, controlabilidade) pesam mais nessa escolha?
+- Por que a maioria dos robôs industriais usa rodas, enquanto boa parte da pesquisa acadêmica em locomoção continua investindo em pernas?
+
+- **No seu projeto:** para o robô que a sua equipe está projetando ---
+  - escolha um mecanismo de locomoção (pernas, rodas ou híbrido) e **justifique** com base no terreno e na tarefa;
+  - se optar por rodas, defina o **tipo de roda** e a **geometria do chassi** (Tabela 2.1) mais adequados;
+  - avalie o compromisso entre **manobrabilidade** e **controlabilidade** para o seu caso de uso;
+  - identifique **um obstáculo do ambiente real** (degrau, tapete, terreno solto) que desafiaria o mecanismo escolhido, e como mitigar isso.
+
+## Leituras futuras {.smaller}
+
+- As referências completas dos robôs e estudos citados nesta aula (Raibert hopper, AIBO, Shrimp, Uranus, e outros) estão na bibliografia do capítulo 2 do livro-texto
+- Veja também o capítulo 3 (**Cinemática de Robôs Móveis**), que formaliza os modelos de movimento das configurações de rodas apresentadas aqui
+- Para um panorama de robôs com pernas e escaladores: [CLAWAR — Climbing and Walking Robots](http://www.uwe.ac.uk/clawar/)

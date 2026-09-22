@@ -1,0 +1,163 @@
+---
+title: "Exercício: Cinemática de Robôs Móveis"
+subtitle: "Modelo direto/inverso, manobrabilidade e controle em malha aberta"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Duração estimada:** 2 horas
+- **Pré-requisitos:**
+  - ROS 2 (Jazzy ou mais recente)
+  - Gazebo
+  - pacotes `turtlebot3*`
+  - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Calcular o **modelo cinemático direto** de um robô diferencial (velocidades das rodas → $\dot\xi_I$).
+- Calcular o **modelo inverso** (velocidade de corpo $v,\omega$ → velocidades das rodas) e verificar os limites físicos de um robô real.
+- Classificar a **manobrabilidade** ($\delta_m$, $\delta_s$, $\delta_M$) de diferentes chassis e localizar o **ICR**.
+- Implementar um **controlador em malha aberta** que executa um percurso pré-planejado no TurtleBot3 Burger simulado.
+- Comparar o caminho **executado** (odometria) com o caminho **planejado** e discutir a origem do erro acumulado.
+
+---
+
+## Parte 0 — Preparação do ambiente
+
+1. Clone o repositório [https://github.com/fagnerpimentel/aprendendo_ros2](https://github.com/fagnerpimentel/aprendendo_ros2).
+
+2. Suba o container do Docker:
+
+   ```bash
+   cd .devcontainer
+   docker compose up
+   ```
+
+3. Em um terminal dentro do container, compile o workspace:
+
+   ```bash
+   docker exec -it ros-env bash
+   source /opt/ros/jazzy/setup.bash
+   colcon build
+   source install/setup.bash
+   ```
+
+4. Suba o simulador do TurtleBot3 Burger:
+
+   ```bash
+   ros2 launch turtlebot3_gazebo empty_world.launch.py
+   ```
+
+::: {.callout-tip}
+Antes de rodar qualquer coisa, **zere a odometria** reiniciando a simulação (ou tome nota da pose inicial reportada em `/odom`) — os cálculos da Parte 2 assumem pose inicial $(0,\ 0,\ 0^\circ)$.
+:::
+
+---
+
+## Parte 1 — Fundamentação teórica (sem código)
+
+1. **Modelo direto.** Um robô diferencial tem $\theta = 0$, $r = 2$, $l = 1$, $\dot\varphi_1 = 4$, $\dot\varphi_2 = 2$. Calcule $\dot\xi_I$ e interprete o movimento resultante (o robô anda em linha reta? faz uma curva? gira no lugar?).
+
+2. **Modelo inverso — TurtleBot3 Burger.** Usando os parâmetros do Burger vistos em aula ($r \approx 33$ mm, $2L \approx 160$ mm, $v_{\max} \approx 0{,}22$ m/s, $\omega_{\max} \approx 2{,}84$ rad/s), calcule as velocidades angulares $\dot\varphi_R, \dot\varphi_L$ das rodas necessárias para comandar $v = 0{,}15$ m/s e $\omega = 0{,}8$ rad/s. Esse comando é **fisicamente realizável** pelo robô? Justifique comparando com $v_{\max}$ e $\omega_{\max}$.
+
+3. **Omnidirecional.** Para um chassi de 3 rodas suecas de 90° com $l = r = 1$, $\theta = 0$ e $\dot\varphi = (4,\ 1,\ 2)$, verifique que $\dot\xi_I = \left[\,2/\sqrt{3},\ -4/3,\ -7/3\,\right]^T$.
+
+4. **Classificação de chassis.** Para o robô **diferencial**, o **carro (Ackerman)** e uma plataforma **Mecanum** (4 rodas suecas), dê a tripla $(\delta_M, \delta_m, \delta_s)$ de cada um, diga se cada chassi é **holonômico** e descreva **onde fica o ICR** (fixo? móvel? em que lugar?).
+
+5. **Diferencial × triciclo.** Ambos têm $\delta_M = 2$, mas o diferencial chega lá com $(\delta_m,\delta_s) = (2,0)$ e o triciclo com $(\delta_m,\delta_s) = (1,1)$. Explique por que o **comportamento** desses dois robôs é diferente ao executar a mesma tarefa (ex.: girar no lugar), apesar de terem a mesma manobrabilidade total.
+
+6. **Malha aberta × realimentada.** Na Parte 3 deste exercício você vai controlar o robô em **malha aberta**. Cite **duas** limitações dessa abordagem (vistas em aula) que **não existiriam** se o controle fosse realimentado, e explique **por que** um controlador realimentado consegue superá-las.
+
+7. **(Opcional) Controle realimentado.** Com ganhos $(k_\rho, k_\alpha, k_\beta) = (3,\ 8,\ -1{,}5)$, verifique se as condições de estabilidade $k_\rho > 0$, $k_\beta < 0$, $k_\alpha - k_\rho > 0$ são satisfeitas, e esboce (à mão, sem simular) o formato do caminho que o robô seguiria a partir de uma pose inicial fora da origem.
+
+---
+
+## Parte 2 — Cálculo manual: percurso em malha aberta
+
+Planeje **à mão** um percurso em "L" para o TurtleBot3 Burger, de $(0,\ 0,\ 0^\circ)$ até $(0{,}5,\ 0{,}3,\ 90^\circ)$, usando **três primitivas** (reta, giro, reta) com $v_a = 0{,}1$ m/s (nas retas) e $\omega_g = 0{,}5$ rad/s (no giro):
+
+| trecho | comando $(v,\omega)$ | duração | rodas $\dot\varphi_R,\dot\varphi_L$ |
+|---|---|---|---|
+| reta $0{,}5$ m | | | |
+| giro $+90°$ | | | |
+| reta $0{,}3$ m | | | |
+
+**Tarefas:**
+
+1. Preencha a tabela: calcule a **duração** de cada trecho (a partir de $v_a$/$\omega_g$ e da distância/ângulo do trecho) e as **velocidades das rodas** correspondentes (modelo inverso).
+2. Verifique que **nenhum** trecho excede $v_{\max}$ ou $\omega_{\max}$ do Burger.
+3. Calcule a **duração total** do percurso.
+4. **Pergunta de reflexão:** se você dobrasse $v_a$ e $\omega_g$ (andando e girando duas vezes mais rápido), a duração total cairia pela metade? O percurso *(x, y, θ)* final seria o mesmo? Justifique.
+
+---
+
+## Parte 3 — Implementação: controlador em malha aberta no TurtleBot3
+
+Implemente um nó ROS 2 que executa uma **sequência de primitivas** (reta/giro) publicando comandos $(v,\omega)$ em `/cmd_vel`, e registra a trajetória real do robô a partir de `/odom`.
+
+**Esqueleto:**
+
+```python
+import math
+import time
+
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+
+
+def yaw_from_quaternion(q):
+    """extrai o angulo theta (yaw) de um quaternion geometry_msgs/msg/Quaternion"""
+    siny_cosp = 2 * (q.w * q.z + q.x * q.y)
+    cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z)
+    return math.atan2(siny_cosp, cosy_cosp)
+
+
+class OpenLoopController(Node):
+
+    def __init__(self, primitivas, taxa_hz=20.0):
+        super().__init__('openloop_node')
+        self.pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.sub = self.create_subscription(Odometry, '/odom', self._odom_cb, 10)
+        self.primitivas = primitivas   # lista de dicts: {'v': ..., 'w': ..., 'dt': ...}
+        self.taxa_hz = taxa_hz
+        self.trajetoria = []           # guarda tuplas (t, x, y, theta) da odometria
+
+    def _odom_cb(self, msg):
+        # TODO: extrair x, y do msg.pose.pose.position
+        # TODO: extrair theta com yaw_from_quaternion(msg.pose.pose.orientation)
+        # TODO: adicionar (tempo_atual, x, y, theta) em self.trajetoria
+        ...
+
+    def _publicar(self, v, w, duracao):
+        # TODO: publicar Twist(v, w) repetidamente na taxa self.taxa_hz durante 'duracao' segundos
+        #       (usar rclpy.spin_once para deixar o callback de odometria rodar)
+        ...
+
+    def executar(self):
+        for p in self.primitivas:
+            self._publicar(p['v'], p['w'], p['dt'])
+        self._publicar(0.0, 0.0, 0.2)  # garante que o robo para no final
+```
+
+**Tarefas:**
+
+1. Complete `_odom_cb` e `_publicar`.
+2. Monte a lista `primitivas` com os três trechos calculados na Parte 2 (mesmos $v$, $\omega$ e durações da tabela).
+3. Rode o nó com o Burger no Gazebo (pose inicial conhecida) e deixe-o executar o percurso completo.
+4. A partir de `self.trajetoria`, calcule a **pose final relatada pela odometria** $(\hat x, \hat y, \hat\theta)$ e compare com a pose final **planejada** $(0{,}5,\ 0{,}3,\ 90°)$:
+   - erro de posição: $e_p = \sqrt{(\hat x - 0{,}5)^2 + (\hat y - 0{,}3)^2}$
+   - erro de orientação: $e_\theta = \hat\theta - 90°$ (normalizado para $(-180°, 180°]$)
+5. **Gráfico**: plote, no mesmo eixo $xy$, o caminho **planejado** (os três segmentos em linha reta/arco, calculados analiticamente a partir das primitivas) e o caminho **executado** (a partir de `self.trajetoria`).
+6. **(Opcional)** Implemente uma rampa trapezoidal simples de $v$ e $\omega$ nas transições entre trechos (subir e descer suavemente em vez de degrau) e verifique se isso muda o erro final ou só a suavidade do movimento.
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas).
+- **Parte 2:** a tabela preenchida com os cálculos do percurso em L, e a resposta da pergunta de reflexão.
+- **Parte 3:** o nó ROS 2 (`openloop_node`), o gráfico comparando caminho planejado × executado, os valores de $e_p$ e $e_\theta$, e um parágrafo explicando a que você atribui o erro observado (com base nos conceitos de malha aberta, restrições de deslizamento e integração de odometria vistos em aula).
