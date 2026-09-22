@@ -1,0 +1,294 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Conceitos Básicos"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/2-conceitos-basicos
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+---
+
+# Conceitos Básicos
+
+::: {.esquerda}
+Capítulo 3 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Os três elementos de toda situação de uso: **interação**, **interface** e **affordance**
+- Quatro **critérios de qualidade** que usamos para avaliar se um sistema é bom de usar:
+  - **usabilidade**
+  - **experiência do usuário (UX)**
+  - **acessibilidade**
+  - **comunicabilidade**
+- Esses conceitos são a base de **todo o resto da disciplina** — vamos usá-los o tempo todo
+
+# Interface, Interação e Affordance
+
+Antes de melhorar a qualidade de um sistema interativo, precisamos identificar **os elementos envolvidos** na interação usuário–sistema.
+
+## Elementos do Processo de Interação {.smaller}
+
+- Um **usuário**, com um **objetivo**, interage com a **interface** de um **sistema**, dentro de um **contexto de uso**
+- Contexto de uso = tudo que é relevante para a interação: **quando** (momento) e **onde** (ambiente físico, social e cultural)
+
+![](images/elementos-interacao.svg){fig-align="center" width="86%"}
+
+## Exemplo: Editor de Slides {.smaller}
+
+O professor Lucas usa o Impress para preparar aulas. Compare três situações de uso:
+
+- **Em casa**, no desktop: objetivo é **criar e editar**; ambiente tranquilo, teclado e mouse, tela grande
+- **No aeroporto**, no smartphone: objetivo passa a ser **visualizar**; tela pequena, digitação pior, muitas interrupções
+- **Na sala de aula**, com notebook e projetor: objetivo é **apresentar**; o ritmo depende da interação com os alunos
+
+Mesmo **sistema equivalente** (editor de slides) — mas o **contexto de uso** muda o objetivo, a interação adequada e os requisitos de interface.
+
+## O que é Interação? {.smaller}
+
+- Definição **evoluiu** ao longo do tempo:
+  - sequência de **estímulo e resposta** (como corpos físicos)
+  - **comunicação** com máquinas, não operação de máquinas (Card et al., 1983)
+  - processo de formular intenção → planejar → agir → perceber → interpretar → avaliar (Norman, 1986)
+  - tudo que acontece quando pessoa e sistema se unem para realizar tarefas visando um objetivo (Hix e Hartson, 1993)
+  - mais recentemente: **comunicação entre pessoas**, mediada por sistemas computacionais (de Souza, 2005)
+- Podemos pensar a interação como **manipulação, comunicação, conversa, troca, influência**...
+
+## Quatro Perspectivas de Interação {.smaller}
+
+Kammersgaard (1988): cada perspectiva atribui papéis diferentes a usuário e sistema.
+
+![](images/quatro-perspectivas.svg){fig-align="center" width="92%"}
+
+## Perspectiva de Sistema {.smaller}
+
+- Usuário $\approx$ **máquina**: interação é transmissão de dados, disciplinada por formatos rígidos
+- Objetivo: **eficiência** — menos tempo, menos erros
+- Exemplos: **terminal de comando** (DOS, Linux); formulários com listas fechadas; atalhos de teclado (`Ctrl+C`/`Ctrl+V`)
+- **Limitação**: exige treinamento — pode ser difícil e tedioso para uso esporádico (ex.: sistemas de linguagem de comando usados por atendentes de companhias aéreas)
+
+## Perspectiva de Parceiro de Discurso {.smaller}
+
+- Sistema participa da interação como se fosse **uma pessoa** — raciocina, infere, decide
+- A interação é entendida como **conversa**, geralmente em linguagem natural
+- Exemplo: um sistema de busca de presentes dialogando com o usuário sobre gostos e opções
+- **Desafio**: construir um bom parceiro de discurso não é trivial — processamento de linguagem natural ainda é uma área de pesquisa ativa
+
+## Perspectiva de Ferramenta {.smaller}
+
+- Sistema é um **instrumento** que auxilia o usuário a realizar tarefas — como um martelo ou um talher
+- O usuário deve poder manipular a ferramenta **automaticamente**, sem pensar sobre a manipulação, e focar no trabalho
+- Predominante em sistemas de propósito geral (Office, editores)
+- Qualidade mais evidente: **relevância das funcionalidades** e **facilidade de uso**
+
+## Perspectiva de Mídia {.smaller}
+
+- Sistema como **canal de comunicação** (como imprensa, TV, telefone) entre pessoas
+- Duas formas: comunicação **entre usuários** (e-mail, fórum, chat, redes sociais) e comunicação **designer → usuário** (ajuda on-line, documentação, ou implícita no próprio design)
+- Qualidade mais evidente: qualidade da comunicação mediada e **entendimento mútuo**
+- **Diferença** da perspectiva de discurso: lá o sistema é *um dos interlocutores*; aqui é só o *meio* pelo qual outros se comunicam
+
+## Perspectivas Convivem num Mesmo Sistema {.smaller}
+
+- Mais de uma perspectiva pode coexistir no **mesmo sistema interativo**
+- Exemplo: site de companhia aérea —
+  - **perspectiva de sistema** na escolha de origem/destino (listas fechadas)
+  - **perspectiva de mídia** na seção "fale conosco"
+- A escolha de qual perspectiva **enfatizar** depende do perfil e das necessidades dos usuários, do contexto de uso e do apoio que queremos oferecer
+
+## O que é Interface? {.smaller}
+
+- A interface é **toda a porção do sistema** com a qual o usuário mantém contato — físico ou conceitual (Moran, 1981)
+- É o **único meio de contato** entre usuário e sistema — por isso, para a maioria dos usuários, a interface *é* o sistema
+- **Contato físico**: dispositivos de entrada (teclado, mouse, câmera...) e de saída (monitor, alto-falante...)
+- **Contato conceitual**: a interpretação que o usuário faz do que percebe, para planejar os próximos passos
+
+## Interface e Interação se Determinam Mutuamente {.smaller}
+
+- Definir como a interação deve ocorrer **restringe** a interface — e vice-versa
+- Exemplo: um processo de compra em 3 passos (produto → endereço → pagamento) exige uma interface que mantenha o usuário informado sobre **em que passo ele está**
+- Contexto, objetivos e características do usuário também moldam a interface adequada:
+  - resposta **sonora** é pouco útil em ambiente barulhento
+  - usuários **daltônicos** podem não distinguir cores usadas para codificar informação
+  - não se pode presumir que um **analfabeto** vá aprender a interface lendo instruções na tela
+
+## Affordance {.smaller}
+
+- As características físicas de um artefato **evidenciam** o que é possível fazer com ele
+- Termo de Gibson (Psicologia), adaptado para IHC por **Norman**: affordance é o conjunto de características que revela ao usuário **quais operações** ele pode realizar (Norman, 1988)
+- Exemplo: a affordance de um botão indica que ele pode ser **pressionado** para acionar uma operação
+- Affordances guiam o usuário sobre **o que** o sistema faz e **como** manipulá-lo
+
+## Falsas Affordances {.smaller}
+
+- Uma **falsa affordance** dá a impressão de que a interface funciona de um jeito, quando na verdade funciona de outro
+- Exemplo clássico: usar uma **caixa de texto** ou um **botão** só para exibir uma mensagem não editável/não acionável
+  - o usuário acredita que pode **editar** o texto, ou que existe um **comando** associado ao botão
+  - de três elementos (caixa de texto, botão, rótulo), só o **rótulo** tem affordance adequada para apresentar informação estática
+- Falsas affordances têm efeitos colaterais **inconvenientes** — os designers devem evitá-las
+
+# Qualidade em IHC
+
+Interface e interação adequadas para quê? Quatro **critérios de qualidade de uso** ajudam a responder essa pergunta.
+
+## Quatro Critérios de Qualidade {.smaller}
+
+- **Usabilidade** — facilidade de aprendizado e uso; o critério mais conhecido (por vezes tratado como sinônimo de "qualidade de uso")
+- **Experiência do usuário (UX)** — as emoções e sentimentos decorrentes do uso
+- **Acessibilidade** — remoção de barreiras que impedem mais pessoas de interagir com o sistema
+- **Comunicabilidade** — a responsabilidade do designer de comunicar ao usuário sua lógica de design
+
+Vamos ver cada um em mais detalhes.
+
+# Usabilidade
+
+## Definindo Usabilidade {.smaller}
+
+- ISO/IEC 9126 (2001): conjunto de atributos relacionados ao **esforço necessário** para usar um sistema e à avaliação individual desse uso
+- ISO 9241-11 (2019): grau em que um produto é usado por usuários específicos para atingir objetivos específicos com **eficácia**, **eficiência** e **satisfação**, em um contexto de uso específico
+  - **eficácia** — o usuário consegue alcançar o objetivo corretamente
+  - **eficiência** — quantos recursos (tempo, esforço) isso exige
+
+## Os Cinco Fatores de Nielsen {.smaller}
+
+- **Facilidade de aprendizado** (*learnability*) — tempo e esforço para aprender a usar com determinado nível de competência
+- **Facilidade de recordação** (*memorability*) — esforço cognitivo para lembrar como interagir, depois de já ter aprendido
+- **Eficiência** (*efficiency*) — tempo necessário para concluir uma atividade já aprendida
+- **Segurança no uso** (*safety*) — proteção contra erros; *undo*/*redo*, evitar botões perigosos perto de botões comuns
+- **Satisfação do usuário** (*satisfaction*) — avaliação subjetiva do efeito do uso sobre emoções e sentimentos
+
+## Usabilidade Exige Prioridades {.smaller}
+
+- É difícil um sistema ser ótimo em **todos** os fatores ao mesmo tempo — geralmente há perdas em algum deles
+- Exemplo: muitos atalhos de teclado → mais **eficiente**, mas mais difícil de **lembrar** para um usuário ocasional
+- Exemplo: muitos tutoriais e explicações → mais fácil de **aprender**, mas pode frustrar um usuário experiente que privilegia **eficiência**
+- Por isso: conhecer as necessidades dos usuários e decidir **quais fatores priorizar** em cada sistema
+
+# Experiência do Usuário (UX)
+
+Termo popular, mas com **muitas definições diferentes** — importante entender as nuances antes de usá-lo.
+
+## Qual o Escopo da UX? {.smaller}
+
+- Norman (Apple, anos 1990): design da experiência vai **além** da tecnologia — inclui processos, serviços e ambientes
+- Distinção importante (Law et al., 2009):
+  - **experiência com a marca** — inclui a empresa e seus serviços; mais ampla que UX; molda a UX antes mesmo do primeiro uso
+  - **experiência de serviço** — pode ser separada da UX do produto (ex.: comprar na Amazon × usar o serviço de assinatura)
+  - **experiência do usuário** — escopo: produtos, sistemas, serviços e objetos com os quais se interage **por meio de uma interface**, mediada por tecnologia
+
+## Três Tipos de Interação com Produtos {.smaller}
+
+Forlizzi e Battarbee (2004):
+
+- **Fluentes** — bem aprendidas e automáticas, não competem pela atenção (ex.: checar notificações)
+- **Cognitivas** — o produto vira foco de atenção; resultam em conhecimento *ou* confusão (ex.: aprender um app novo)
+- **Expressivas** — ajudam o usuário a formar um **relacionamento** com o produto (ex.: customizar o plano de fundo)
+
+Geram três tipos de **experiência**: um fluxo contínuo (*experiência*), um episódio com começo e fim (*uma experiência*), ou uma experiência **compartilhada** (*co-experiência*).
+
+## Facetas da UX {.smaller}
+
+Hassenzahl e Tractinsky (2006) — três perspectivas que, combinadas, caracterizam a UX:
+
+![](images/facetas-ux.svg){fig-align="center" width="84%"}
+
+## Cinco Propriedades da Experiência {.smaller}
+
+Hassenzahl (2010) — a experiência é sempre:
+
+- **Subjetiva** (não objetiva) — resulta de processos psicológicos da pessoa
+- **Holística** (não instrumental) — envolve percepção, ação, motivação e cognição juntas
+- **Situada** (não abstrata) — emerge da integração com o mundo, num lugar e momento específicos
+- **Dinâmica** (não estática) — influenciada pela ordem e pelo *timing* dos eventos
+- **Positiva** (no sentido de "valiosa") — satisfaz necessidades psicológicas universais
+
+## Definindo UX {.smaller}
+
+- ISO (2019), uma das definições mais usadas: UX são **"as percepções e respostas de uma pessoa que resultam do uso ou da antecipação do uso"** de um produto, sistema ou serviço
+- Não podemos **projetar** a UX de alguém (é subjetiva e pessoal) — mas podemos **projetar para** a UX, incorporando características que estimulem boas emoções
+- UX é resultado da interação entre três fatores (Hassenzahl e Tractinsky, 2006):
+  1. o **estado interno** do usuário (expectativas, humor, motivação)
+  2. as **características do sistema** (complexidade, funcionalidade)
+  3. o **contexto** no qual a interação ocorre
+
+## UX e Usabilidade: Qual a Relação? {.smaller}
+
+A área de IHC se desenvolveu em **três ondas** (Bødker, 2006; Roto e Lund, 2013):
+
+- **1ª onda** — foco em **ergonomia**: fazer sistemas fáceis de aprender e usar (contexto de trabalho)
+- **2ª onda** — foco em **usabilidade**: nasce o conceito, ainda para sistemas de escritório
+- **3ª onda** — foco em **experiência**: tecnologia entra no lazer, na educação, na saúde — nem tudo se resume a tarefas e eficiência
+
+UX **não substitui** usabilidade — ela **amplia** o que consideramos qualidade de uso, incluindo emoção, prazer e significado.
+
+# Acessibilidade
+
+## O que é Acessibilidade? {.smaller}
+
+- Relacionada com a **capacidade de acessar** o sistema, sem que a interface imponha obstáculos
+- "A flexibilidade proporcionada para o acesso à informação e à interação, de forma que usuários com diferentes necessidades possam acessar e usar esses sistemas" (Melo e Baranauskas, 2005)
+- Atribui **igual importância** a pessoas com e sem limitações de movimento, percepção, cognição e aprendizado
+- A intenção é **incluir**, não excluir — não se trata de atender só a um grupo especial de usuários
+
+## Limitações Podem Ser Temporárias {.smaller}
+
+- Deficiências podem ser **permanentes** (cegueira, surdez) ou **temporárias/circunstanciais**
+- Exemplo: motorista usando GPS — não pode usar as mãos nem ler a tela **enquanto dirige**; o sistema se adapta com **respostas sonoras**
+- Exemplo real: no site de inscrição do ENEM (2009), o link para se inscrever era uma **imagem sem texto alternativo** — invisível para quem usa leitor de tela
+- A acessibilidade é obrigatória por lei em sites do governo brasileiro (Decreto nº 5.296/2004)
+
+# Comunicabilidade
+
+## O que é Comunicabilidade? {.smaller}
+
+- Conceito da **Engenharia Semiótica** (de Souza, 2005) — veremos essa teoria mais a fundo adiante no curso
+- Capacidade da interface de comunicar ao usuário a **lógica de design**: as intenções do designer e os princípios que regem o comportamento do sistema
+- Entender essa lógica **não exige** conhecimento técnico — é uma compreensão prática de causa e efeito (como dirigir um carro sem entender de mecânica)
+- Usuário que entende a lógica de design faz um uso mais **criativo, eficiente e produtivo** do sistema
+
+## Exemplo: Cancelar uma Cópia de Arquivo {.smaller}
+
+- Maria copia músicas para um pen drive e decide **cancelar** a operação no meio do caminho
+- A interface do Windows não explica o que significa "cancelar": os arquivos já copiados **ficam** ou **são apagados**?
+- Existe mais de uma interpretação **igualmente aceitável** — e a interface não diz qual foi escolhida
+- Resultado: Maria precisa **arriscar** e verificar o resultado na prática — tentativa e erro
+
+## Exemplo: Remover uma Música {.smaller}
+
+- No reprodutor Songbird, Maria clica em "Remover" numa música
+- **Remove da lista de reprodução? Da biblioteca? Apaga o arquivo do computador?**
+- Sem comunicar o significado do comando, a interface deixa o usuário inseguro — e, nesse caso, o erro pode ser **irreversível** (perder o arquivo)
+- Comunicabilidade importa mais quanto mais **crítica** e **difícil de desfazer** for a ação
+
+## Analogias como Recurso de Comunicabilidade {.smaller}
+
+- Analogias ajudam o usuário a formular hipóteses com base em experiências **anteriores** com artefatos parecidos
+- Exemplo que funciona: um reprodutor de música com botões de *play/pause/stop* parecidos com um **CD Player físico**
+- Exemplo que **falha**: uma versão antiga do antivírus Avast usava a mesma estética de CD Player — usuários podiam achar que era um **reprodutor de música**, não um antivírus
+- Analogias devem deixar claros os seus **limites**, para não induzir hipóteses erradas
+
+# Síntese {.smaller}
+
+- **Interação, interface e affordance** são os três elementos básicos de toda situação de uso — sempre dentro de um **contexto**
+- A interação pode ser vista sob quatro **perspectivas** (sistema, discurso, ferramenta, mídia) — muitas vezes coexistindo no mesmo sistema
+- Quatro **critérios de qualidade** guiam a avaliação de um sistema interativo:
+  - **Usabilidade** — fácil de aprender, lembrar, usar com eficiência e segurança, e que satisfaça
+  - **UX** — as emoções e sentimentos decorrentes do uso, antes, durante e depois
+  - **Acessibilidade** — sem barreiras, para o maior número possível de pessoas
+  - **Comunicabilidade** — a interface comunica a lógica de design do sistema
+
+Esses quatro critérios vão **reaparecer o curso inteiro** — em fatores humanos, em abordagens teóricas, em processos de design e, principalmente, nos métodos de avaliação de IHC.
+
+## Exercício: Identificando os Critérios {.smaller}
+
+- Escolha **um app ou site que você usa com frequência** e, para a tela principal:
+
+  1. **Interação** — qual(is) das quatro perspectivas (sistema, discurso, ferramenta, mídia) melhor descrevem essa interface? Justifique com um exemplo concreto da tela.
+  2. **Affordance** — aponte **um elemento** com affordance clara e, se conseguir, **uma falsa affordance** (ou um elemento ambíguo).
+  3. **Qualidade** — dê um exemplo de decisão de design que você associa a **cada** um dos quatro critérios (usabilidade, UX, acessibilidade, comunicabilidade) nessa interface.
+
+- **Entrega:** 1 página (ou ~4 slides) com *prints* anotados, na próxima aula.
