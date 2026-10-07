@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\painel}[2]{\begin{scope}[shift={(#1)}] \draw[daxis] (0,0) -- (6.2,0); \draw[daxis] (0,0) -- (0,3.4); \node[font=\small\bfseries] at (3,4.0) {#2};}
+  \painel{0,0}{sensor ruim, movimento bom}
+  \draw[dorange, line width=1.8pt, domain=0.3:6, samples=60, smooth] plot (\x, {2.0*exp(-((\x-3)*(\x-3))/(2*0.5*0.5))});
+  \draw[dgreen, line width=1.8pt, dashed, domain=0.3:6, samples=60, smooth] plot (\x, {1.7*exp(-((\x-3.2)*(\x-3.2))/(2*0.6*0.6))});
+  \node[dsub, font=\scriptsize, align=center] at (3,-0.8) {proposta $\approx$ alvo: filtro \textbf{eficiente}};
+  \end{scope}
+  \painel{7.8,0}{sensor ótimo, movimento ruim}
+  \draw[dorange, line width=1.8pt, domain=0.3:6, samples=60, smooth] plot (\x, {1.0*exp(-((\x-2.2)*(\x-2.2))/(2*1.3*1.3))});
+  \draw[dgreen, line width=1.8pt, dashed, domain=0.3:6, samples=60, smooth] plot (\x, {3.0*exp(-((\x-4.6)*(\x-4.6))/(2*0.15*0.15))});
+  \node[dsub, font=\scriptsize, align=center] at (3,-0.8) {proposta $\ne$ alvo: filtro \textbf{ineficiente}};
+  \end{scope}
+  \node[dorange, font=\scriptsize] at (3.0,-1.9) {laranja: proposta (movimento)}; \node[dgreen, font=\scriptsize] at (10.8,-1.9) {verde tracejado: alvo (posteriori)};
+\end{tikzpicture}
+\end{document}

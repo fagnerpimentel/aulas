@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\barras}[3]{\draw[daxis] (#1,#2) -- (#1+5.6,#2); \foreach \h [count=\i] in {#3} { \fill[dblue!45, draw=dblue!80, line width=0.3pt] ({#1+0.2+(\i-1)*0.5},#2) rectangle ({#1+0.2+\i*0.5},{#2+\h}); }}
+  \barras{0}{0}{0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5}
+  \node[dlbl, font=\scriptsize, anchor=south] at (2.8,1.6) {$p_{k,t-1}$};
+  \draw[dtrans, line width=1.4pt] (5.9,0.5) -- (7.1,0.5) node[midway, above, font=\scriptsize] {predição};
+  \barras{7.3}{0}{0.4,0.5,0.7,0.9,0.9,0.7,0.5,0.4,0.4,0.4}
+  \node[dlbl, font=\scriptsize, anchor=south] at (10.1,1.6) {$\bar p_{k,t}$};
+  \draw[dmeas, line width=1.4pt] (13.2,0.5) -- (14.4,0.5) node[midway, above, font=\scriptsize] {correção};
+  \barras{14.6}{0}{0.05,0.1,0.2,1.2,1.7,0.5,0.1,0.05,0.05,0.05}
+  \node[dlbl, font=\scriptsize, anchor=south] at (17.4,1.9) {$p_{k,t}$};
+  \node[dbox, rounded corners=5pt, text width=5.4cm, font=\scriptsize, draw=dblue] at (2.8,-1.6) {$\bar p_{k,t}=\sum_i p(x_k\mid u_t,x_i)\,p_{i,t-1}$};
+  \node[dbox, rounded corners=5pt, text width=5.4cm, font=\scriptsize, draw=dorange] at (14.8,-1.6) {$p_{k,t}=\eta\,p(z_t\mid x_k)\,\bar p_{k,t}$};
+\end{tikzpicture}
+\end{document}

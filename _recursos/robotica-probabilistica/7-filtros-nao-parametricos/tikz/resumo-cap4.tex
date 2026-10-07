@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   n/.style={dbox, rounded corners=8pt, text width=5.2cm, minimum height=1.2cm, font=\small}]
+  \node[n, draw=dblue, line width=1.4pt, text width=8cm] (r) at (6.8,5.4) {\textbf{filtros não paramétricos}\\ \scriptsize aproximam a posteriori por um número finito de valores};
+  \node[n, draw=dblue, line width=1.2pt] (h) at (2.6,2.9) {\textbf{filtro de histograma}\\ \scriptsize regiões e probabilidade por região};
+  \node[n, draw=dorange, line width=1.2pt] (p) at (11.0,2.9) {\textbf{filtro de partículas}\\ \scriptsize amostras da posteriori};
+  \draw[dtrans, line width=1.2pt] (r.south) -- ++(0,-0.4) -| (h.north); \draw[dmeas, line width=1.2pt] (r.south) -- ++(0,-0.4) -| (p.north);
+  \node[dbox, rounded corners=5pt, text width=5.4cm, font=\scriptsize, draw=dblue] at (2.6,0.5) {decomposição \textbf{estática} ou \textbf{dinâmica} (árvores de densidade, atualização seletiva)};
+  \node[dbox, rounded corners=5pt, text width=5.4cm, font=\scriptsize, draw=dorange] at (11.0,0.5) {importância e \textbf{reamostragem}; erros: poucas partículas, variância, proposta $\neq$ alvo, privação\\ \textbf{amostrador de baixa variância}};
+\end{tikzpicture}
+\end{document}

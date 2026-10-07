@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\planta}{\draw[dbody, fill=white, line width=1pt] (0,0) rectangle (4.6,3.2);}
+  \begin{scope}
+    \planta \foreach \x/\y in {0.4/0.5,1.1/2.5,1.7/1.2,2.3/2.8,2.8/0.6,3.4/1.9,4.0/0.8,0.8/1.6,3.7/2.7,2.0/0.3,1.4/2.0,3.0/1.5} { \fill[dblue] (\x,\y) circle (0.07); }
+    \node[font=\small\bfseries] at (2.3,3.8) {início: partículas variadas};
+  \end{scope}
+  \begin{scope}[shift={(5.6,0)}]
+    \planta \foreach \x/\y in {1.7/1.2,1.7/1.2,1.7/1.2,3.4/1.9,3.4/1.9,3.4/1.9,3.4/1.9,1.1/2.5,1.1/2.5,1.7/1.2,3.4/1.9,1.7/1.2} { \fill[dblue] (\x,\y) circle (0.07); }
+    \node[font=\small\bfseries] at (2.3,3.8) {após várias reamostragens};
+  \end{scope}
+  \begin{scope}[shift={(11.2,0)}]
+    \planta \foreach \k in {1,...,12} { \fill[dblue] (3.4,1.9) circle (0.07); }
+    \draw[dblue, line width=1pt] (3.4,1.9) circle (0.2);
+    \node[font=\small\bfseries] at (2.3,3.8) {depois: $M$ cópias de uma só};
+  \end{scope}
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (8.1,-0.8) {robô parado e sem sensores: nada deveria mudar na crença, mas a reamostragem aleatória repetida faz a \textbf{diversidade desaparecer}};
+\end{tikzpicture}
+\end{document}

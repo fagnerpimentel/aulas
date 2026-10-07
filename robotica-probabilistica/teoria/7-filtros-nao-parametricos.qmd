@@ -1,0 +1,407 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Filtros Não Paramétricos"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/7-filtros-nao-parametricos
+---
+
+# Filtros Não Paramétricos
+
+::: {.esquerda}
+Capítulo 4 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Duas formas de guardar o que o robô **acredita** sobre onde está
+  - **Filtro de histograma** — dividir o espaço em regiões
+  - **Filtro de partículas** — usar um monte de "palpites" aleatórios
+- O que pode **dar errado** e como melhorar
+
+# Introdução
+
+Como o robô guarda o que ele acredita sobre o mundo?
+
+## Relembrando: a Crença {.smaller}
+
+- O robô nunca tem certeza de onde está: ele só tem uma **crença**, que diz **o quanto cada posição é provável**
+- A crença é atualizada a cada passo, usando tudo o que o robô já **fez** (movimentos) e já **mediu** (sensores)
+- A crença também aparece com o nome **posteriori**: "o que se acredita *depois* de ver as medições"
+- Nas aulas anteriores, a crença era uma **gaussiana** (uma curva em forma de sino, só com um pico)
+  - E se o robô estiver em dúvida entre **dois lugares**? Uma gaussiana só tem um pico...
+
+## Três Formas de Guardar a Crença {.smaller}
+
+- **Gaussiana** — poucos números (centro e largura), mas **só um pico**
+- **Histograma** — divide o espaço em regiões e guarda **um número por região**
+- **Partículas** — guarda um conjunto de **palpites** sobre onde o robô pode estar
+- Os dois últimos são **não paramétricos**: não presumem uma forma fixa e conseguem representar **vários picos**
+
+![](images/tres-representacoes.svg){fig-align="center" width="85%"}
+
+## Por que Usá-los? {.smaller}
+
+- Conseguem representar **várias hipóteses ao mesmo tempo** 
+  - (ex.: "estou no corredor A *ou* no B")
+- Servem bem quando o robô **não sabe onde está**
+- Em troca, **gastam mais processamento**
+- Dá para **ajustar a precisão**: 
+  - mais números (ou mais palpites) = crença mais fiel, porém mais cara
+
+![](images/histograma-vs-particulas.svg){fig-align="center" width="62%"}
+
+# Filtro de Histograma
+
+Dividir o espaço em **regiões** e guardar **uma probabilidade por região**.
+
+## Começando Simples: Poucas Possibilidades {.smaller}
+
+- Exemplo: a **porta** está **aberta** ou **fechada**? São só dois estados possíveis
+- A crença é uma **lista de probabilidades**, uma para cada possibilidade (somam 100%)
+- A cada passo, o filtro faz duas coisas:
+  1. **Prever**: "como o movimento muda as chances?"
+  2. **Corrigir**: "o que o sensor viu torna cada possibilidade mais ou menos provável?"
+- Depois, **normaliza** para que a soma volte a ser 100%
+
+![](images/bayes-discreto.svg){fig-align="center" width="100%"}
+
+## O Algoritmo {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Cada estado possível é um $x_k$ ($k = 1, 2, \dots$); $i$ indica de qual estado o robô **veio** e $k$ para qual ele **foi**
+- $p_{k,t}$ é a probabilidade de estar em $x_k$ no instante $t$
+- **Linha 3 (prever)**: soma as chances de ir de cada estado anterior $x_i$ até $x_k$
+- **Linha 4 (corrigir)**: multiplica pela chance de o sensor ver o que viu; o $\eta$ só **ajusta** para somar 100%
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de Bayes discreto}\,\bigl(\{p_{k,t-1}\},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \textbf{para todo } k \textbf{ faça} \\
+\text{3:}\quad\quad \bar p_{k,t} = \sum_i p(X_t = x_k \mid u_t,\,X_{t-1} = x_i)\ p_{i,t-1} \\
+\text{4:}\quad\quad p_{k,t} = \eta\ p(z_t \mid X_t = x_k)\ \bar p_{k,t} \\
+\text{5:}\quad \textbf{fim} \\
+\text{6:}\quad \textbf{retornar } \{p_{k,t}\} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## E se o Espaço for Contínuo? {.smaller}
+
+- A posição de um robô não é "aberta ou fechada": ela pode ser **qualquer ponto** de um mapa
+- Solução: **dividir o espaço em regiões** (por exemplo, uma grade de quadradinhos)
+- Cada região guarda **uma única probabilidade** — como as barras de um histograma
+- Quanto **menores** as regiões, mais **preciso** o resultado... e mais **caro**
+
+![](images/histograma-constante.svg){fig-align="center" width="62%"}
+
+## Quantas Regiões? Estática ou Dinâmica {.smaller}
+
+- **Grade estática**: todas as regiões do mesmo tamanho, definidas **antes**; fácil de fazer, mas **gasta recursos** até onde não há nada provável
+- **Decomposição dinâmica**: regiões **pequenas onde a probabilidade é alta** e **grandes onde é baixa** (ex.: árvores de densidade)
+  - Menos células para o mesmo resultado: mais **compacta** e mais **rápida**, porém mais difícil de programar
+
+![](images/grade-vs-arvore.svg){fig-align="center" width="62%"}
+
+# O Filtro de Partículas
+
+Usar um monte de **palpites aleatórios** no lugar de uma lista de probabilidades.
+
+## Onde o Robô Está? Corredores Iguais {.smaller}
+
+- Um robô **sem saber onde está**, com o **mapa** conhecido, num lugar onde vários corredores **parecem iguais**: como ele se localiza?
+- Cada mancha amarela é um **palpite** sobre onde ele pode estar
+- Ao **se mover** e medir de novo, vários palpites deixam de fazer sentido; ao passar por uma **porta**, que só existe em alguns lugares, sobra quase um só
+
+::: {.columns}
+
+::: {.column width="33%"}
+![](images/deck/corredor-2-crenca.png){fig-align="center" width="100%"}
+[palpites: onde pode estar]{.credito}
+:::
+
+::: {.column width="33%"}
+![](images/deck/corredor-3-movimento.png){fig-align="center" width="100%"}
+[o robô anda; os palpites andam junto]{.credito}
+:::
+
+::: {.column width="33%"}
+![](images/deck/corredor-5-certeza.png){fig-align="center" width="100%"}
+[ao andar mais, há mais certeza]{.credito}
+:::
+
+:::
+
+## Muitos Palpites sem Gastar Demais {.smaller}
+
+- Guardar **uma probabilidade para cada posição possível** exige uma quantidade enorme de números
+- E se, em vez disso, **sortearmos alguns palpites** ao acaso?
+- Cada palpite é uma **partícula**; o conjunto delas mostra **onde o robô provavelmente está**
+- Onde há **mais partículas**, é **mais provável** que o robô esteja
+
+![](images/pf-amostras.svg){fig-align="center" width="62%"}
+
+## Uma Partícula É um Palpite {.smaller}
+
+- Para um robô, o palpite é uma **pose**: posição $(x,\ y)$ e **direção** $\theta$
+- Cada partícula tem também um **peso** $w$: o quanto **confiamos** naquele palpite
+- Palpites mais prováveis ganham **mais importância**
+- Normalmente se usam **muitas** partículas (ex.: 1.000)
+
+![](images/particula-hipotese.svg){fig-align="center" width="85%"}
+
+## O Filtro em Perguntas e Respostas {.smaller}
+
+| Pergunta | Resposta |
+|---|---|
+| Se o robô **não sabe onde está**, onde colocamos as partículas? | **Espalhadas** pelo mapa |
+| O robô se move: e os palpites? | **Todos se movem** junto |
+| Eles se movem perfeitamente? | Não: cada um anda **com um errinho** (ruído) |
+| Como saber quais palpites são bons? | Compara-se o que o robô **vê** com o que **veria** em cada partícula |
+| E os palpites **ruins**? | São **descartados** |
+| E os **bons**? | Ganham **mais peso** e são **copiados** adicionando um pouco de ruído |
+| Como chegar a **uma** posição final? | Faz-se uma **média ponderada** |
+
+## O Ciclo em Cinco Etapas {.smaller}
+
+1. **Inicialização** — espalhar as partículas pelo mapa
+2. **Previsão** — mover cada partícula como o robô se moveu (com ruído)
+3. **Correção** — medir e dar **mais peso** às partículas que combinam com a medição
+4. **Reamostragem** — **copiar** as de peso alto e **descartar** as de peso baixo
+5. **Estimativa** — calcular a **posição final** (média ponderada)
+
+![](images/pf-cinco-etapas.svg){fig-align="center" width="100%"}
+
+## O Algoritmo do Filtro de Partículas {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entram**: as partículas anteriores, o **movimento** $u_t$ e a **medição** $z_t$
+- **Linha 4 — previsão**: cada partícula **se move** (com ruído)
+- **Linha 5 — correção**: o **peso** é o quanto a medição combina com aquela partícula
+- **Linhas 8–11 — reamostragem**: sorteia $M$ partículas **com reposição**; quanto **maior o peso**, **mais chance** de ser sorteada
+- **Sai**: o novo conjunto de partículas
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Filtro de partículas}\,\bigl(\mathcal{X}_{t-1},\ u_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \bar{\mathcal{X}}_t = \mathcal{X}_t = \emptyset \\
+\text{3:}\quad \textbf{para } m = 1 \textbf{ até } M \textbf{ faça} \\
+\text{4:}\quad\quad \text{mover a partícula } x_{t-1}^{[m]} \text{ (com ruído)} \\
+\text{5:}\quad\quad w_t^{[m]} = p(z_t \mid x_t^{[m]}) \\
+\text{6:}\quad\quad \text{guardar } \langle x_t^{[m]},\,w_t^{[m]}\rangle \\
+\text{7:}\quad \textbf{fim} \\
+\text{8:}\quad \textbf{para } m = 1 \textbf{ até } M \textbf{ faça} \\
+\text{9:}\quad\quad \text{sortear } i \text{ com chance} \propto w_t^{[i]} \\
+\text{10:}\quad\quad \text{adicionar } x_t^{[i]} \text{ a } \mathcal{X}_t \\
+\text{11:}\quad \textbf{fim} \\
+\text{12:}\quad \textbf{retornar } \mathcal{X}_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Um Passo, em Uma Dimensão {.smaller}
+
+- Linha do tempo de um robô num corredor com três portas: o robô vê uma porta
+- (a) palpites espalhados → (b) todos andam → (c) **os que estão perto de portas ganham peso** → (d) **os de peso alto são copiados** e os outros somem
+
+![](images/pf-1d-passo.svg){fig-align="center" width="85%"}
+
+## A Reamostragem: "Sobrevive o Mais Apto" {.smaller}
+
+- Sorteamos $M$ partículas **com reposição**: uma partícula pesada pode ser sorteada **várias vezes** (aparece duplicada)
+- Uma partícula leve pode **não ser sorteada** nenhuma vez (**some**)
+- O número de partículas **continua o mesmo**, mas elas se **concentram onde a medição diz que o robô provavelmente está**
+
+![](images/reamostragem-copias.svg){fig-align="center" width="70%"}
+
+## E se Não Reamostrássemos? {.smaller}
+
+- Só atualizaríamos os **pesos**, sem copiar nem descartar
+- Muitas partículas ficariam em lugares **improváveis**, gastando processamento à toa
+- Seriam necessárias **muito mais partículas** para ter a mesma qualidade
+
+![](images/sem-reamostragem.svg){fig-align="center" width="70%"}
+
+## Qual É a Posição Final? {.smaller}
+
+- Depois de cada ciclo, a posição estimada é a **média ponderada** das partículas: as de **peso maior** contam mais
+
+$$
+\hat x = \frac{\sum_m w^{[m]} x^{[m]}}{\sum_m w^{[m]}}
+\qquad
+\hat y = \frac{\sum_m w^{[m]} y^{[m]}}{\sum_m w^{[m]}}
+$$
+
+- Para a **direção** (um ângulo) a média comum **não serve** 
+- Cuidado: se as partículas formam **vários grupos**, a média cai **entre** os grupos, onde **não há** partículas
+  - Só vale a média quando as partículas já se **concentraram** num grupo
+
+## A Média da Direção (Média Circular) {.smaller}
+
+::: {.columns}
+
+::: {.column width="50%"}
+- Um ângulo **dá a volta**: $350^{\circ}$ e $10^{\circ}$ são quase a mesma direção
+- A média comum erra: $\dfrac{350^{\circ} + 10^{\circ}}{2} = 180^{\circ}$ — a direção **oposta**!
+- Solução: transformar cada ângulo numa **seta** (com $\cos\theta$ e $\sin\theta$), **somar as setas** e ver para onde o conjunto aponta:
+
+$$
+\begin{aligned}
+\hat\theta &= \mathrm{atan2}(S,\ C) \\
+S &= \textstyle\sum_m w^{[m]} \sin\theta^{[m]} \\
+C &= \textstyle\sum_m w^{[m]} \cos\theta^{[m]}
+\end{aligned}
+$$
+
+- $w^{[m]}$ é o peso; $\mathrm{atan2}$ devolve o ângulo da seta $(C,\ S)$, já no quadrante certo
+:::
+
+::: {.column width="50%"}
+![](images/media-circular.svg){fig-align="center" width="100%"}
+
+| | $\theta$ | $\cos\theta$ | $\sin\theta$ |
+|---|:--:|:--:|:--:|
+| partícula 1 | $350^{\circ}$ | $0{,}985$ | $-0{,}174$ |
+| partícula 2 | $10^{\circ}$ | $0{,}985$ | $+0{,}174$ |
+| **soma** | | $1{,}970$ | $0$ |
+
+$\hat\theta = \mathrm{atan2}(0,\ 1{,}970) = 0^{\circ}$
+:::
+
+:::
+
+## Exemplo em um Mapa Real (1/2) {.smaller}
+
+- Partículas (em vermelho) sobre o mapa de um ambiente; o robô começa **sem saber onde está** e repete: **medir → dar pesos → reamostrar → mover**
+
+::: {.columns}
+
+::: {.column width="50%"}
+![](images/deck/mapa-1-inicial.png){fig-align="center" width="100%"}
+[início: partículas por todo o mapa]{.credito}
+:::
+
+::: {.column width="50%"}
+![](images/deck/mapa-2-reamostragem.png){fig-align="center" width="100%"}
+[após medir e reamostrar: restam alguns grupos]{.credito}
+:::
+
+:::
+
+## Exemplo em um Mapa Real (2/2) {.smaller}
+
+- Com mais medições e movimentos, os palpites ruins **somem** e as partículas se **concentram** na posição real
+
+::: {.columns}
+
+::: {.column width="50%"}
+![](images/deck/mapa-3-convergindo.png){fig-align="center" width="100%"}
+[convergindo para um único grupo]{.credito}
+:::
+
+::: {.column width="50%"}
+![](images/deck/mapa-4-assim-por-diante.png){fig-align="center" width="100%"}
+[e assim por diante: o laser mede, as partículas seguem o robô]{.credito}
+:::
+
+:::
+
+## Por que Pesar e Reamostrar Funciona? {.smaller}
+
+- Queremos amostras da **crença verdadeira**, mas só sabemos sortear algo **aproximado**: os palpites depois do movimento
+- A solução: sortear do que **sabemos** e depois **corrigir com pesos**
+- Palpites que **combinam** com a medição ganham **mais peso**; depois, a reamostragem usa esses pesos
+- É a **amostragem por importância**: com muitas partículas, o resultado converge para a crença verdadeira
+
+![](images/importancia-amostragem.svg){fig-align="center" width="62%"}
+
+# O Que Pode Dar Errado
+
+Todo filtro de partículas é **aproximado**. Quatro problemas comuns:
+
+## 1. Poucas Partículas {.smaller}
+
+- Com poucas partículas, a aproximação fica **ruim** e **enviesada**
+- Caso extremo: **uma só** partícula — a reamostragem a aceita **sempre**, e a **medição é ignorada**!
+- Por isso se usa um número grande (algumas centenas ou mais)
+- Mais partículas = mais **precisão**, mas mais **custo**
+
+## 2. Perder a Diversidade {.smaller}
+
+- Imagine um robô **parado e sem sensores**: nada deveria mudar na crença
+- Mas sortear de novo várias vezes deixa só **cópias de uma partícula**: a **diversidade desaparece**
+- Parece que o robô "descobriu" onde está, **sem ter sensor nenhum**!
+- A reamostragem **aleatória** repetida elimina palpites sem motivo
+
+![](images/perda-diversidade.svg){fig-align="center" width="85%"}
+
+## Como Diminuir Esse Problema {.smaller}
+
+- **Reamostrar menos vezes**: se o robô está **parado**, não reamostre; apenas multiplique os pesos
+- **Quando reamostrar?** Quando os pesos estão **muito desiguais** (poucas partículas dominam); se são todos parecidos, não precisa
+- **Reamostragem de baixa variância**: em vez de sortear $M$ números ao acaso, sorteia-se **um só** e escolhem-se partículas em passos **regulares** — mais **justa**, mais **rápida**, e partículas de pesos iguais não se perdem
+
+![](images/baixa-variancia.svg){fig-align="center" width="70%"}
+
+## 3. Palpites Longe da Realidade {.smaller}
+
+- As partículas são geradas **só pelo movimento**, sem olhar a medição
+- Se o **sensor é ruim** e o **movimento é bom**: tudo bem
+- Se o **sensor é muito preciso** e o **movimento é ruidoso**: quase nenhuma partícula cai onde o sensor "aceita" — o filtro fica **ineficiente**
+- Remédio simples: **supor mais ruído no sensor** do que ele realmente tem
+
+![](images/proposta-vs-alvo.svg){fig-align="center" width="70%"}
+
+## 4. Ficar sem Partículas Perto da Verdade {.smaller}
+
+- Com azar, a reamostragem pode **eliminar todas** as partículas perto da posição real
+- Acontece mais com **poucas partículas** e espaços **grandes**
+- Remédio de **último recurso**: colocar **algumas partículas aleatórias** a cada ciclo — ajuda, mas distorce a estimativa
+
+![](images/privacao-particulas.svg){fig-align="center" width="70%"}
+
+## Quantas Partículas Usar? {.smaller}
+
+- **Não há resposta perfeita**: depende do problema
+- Mais **dimensões** e mais **incerteza** exigem **mais** partículas
+- Espalhar partículas em **todo o mapa** exige muito mais que acompanhar um robô que já sabe onde está
+- Nas próximas aulas: filtros que **ajustam** esse número sozinhos
+
+# Resumo
+
+## O Que Aprendemos {.smaller}
+
+- **Filtros não paramétricos** guardam a crença **sem uma fórmula fixa**: conseguem representar **vários picos**
+  - **Histograma**: divide o espaço em **regiões** (estáticas ou dinâmicas), com **uma probabilidade por região**
+  - **Partículas**: um conjunto de **palpites** que se movem, ganham **pesos** e são **reamostrados**
+
+![](images/resumo-cap4.svg){fig-align="center" width="80%"}
+
+## Para pensar {.smaller}
+
+- Por que uma gaussiana **não** serve quando o robô está em dúvida entre dois lugares?
+- O que o histograma e as partículas têm em **comum**? E de **diferente**?
+- Por que a reamostragem **copia** partículas boas e **descarta** as ruins?
+- O que pode acontecer se usarmos **poucas partículas**?

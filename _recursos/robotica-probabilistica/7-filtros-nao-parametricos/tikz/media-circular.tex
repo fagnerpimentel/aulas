@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[black!25, line width=0.8pt] (0,0) circle (2.40);
+\draw[daxis] (-2.90,0) -- (3.10,0); \draw[daxis] (0,-2.90) -- (0,2.90);
+\draw[dblue, line width=2pt, -{Stealth[length=3mm]}] (0,0) -- (10:2.40); \node[dblue, font=\small, anchor=south west] at (2.2,0.55) {$10^{\circ}$};
+\draw[dblue, line width=2pt, -{Stealth[length=3mm]}] (0,0) -- (-10:2.40); \node[dblue, font=\small, anchor=north west] at (2.2,-0.55) {$350^{\circ}$};
+\draw[dorange, line width=3pt, -{Stealth[length=3.4mm]}] (0,0) -- (2.36,0); \node[dorange, font=\small\bfseries, anchor=west] at (2.75,0) {média circular: $0^{\circ}$};
+\draw[dred, line width=2pt, dashed, -{Stealth[length=3mm]}] (0,0) -- (-2.40,0); \node[dred, font=\small, anchor=north] at (-1.32,-0.1) {média simples: $180^{\circ}$ ($\times$)};
+\node[dsub, font=\scriptsize, anchor=west] at (3.50,1.9) {cada ângulo vira uma \textbf{seta};};\node[dsub, font=\scriptsize, anchor=west] at (3.50,1.5) {somar as setas dá a direção média};
+\end{tikzpicture}
+\end{document}

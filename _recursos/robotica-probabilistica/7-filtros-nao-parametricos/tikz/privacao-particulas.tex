@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \newcommand{\espaco}{\draw[dbody, fill=white, line width=1pt] (0,0) rectangle (6,4.2);}
+  \begin{scope}
+    \espaco
+    \foreach \x/\y in {0.8/3.4,1.2/3.0,0.6/2.6,1.4/3.6,4.8/0.7,5.2/1.1,4.5/0.9,5.0/0.5,2.6/0.8,2.9/3.5} { \fill[dblue] (\x,\y) circle (0.07); }
+    \node[dorange, font=\large] at (3.6,2.1) {$\star$}; \node[dorange, font=\scriptsize, anchor=west] at (3.8,2.1) {estado verdadeiro};
+    \node[font=\small\bfseries] at (3,4.8) {sem partículas por perto};
+  \end{scope}
+  \begin{scope}[shift={(7.2,0)}]
+    \espaco
+    \foreach \x/\y in {0.8/3.4,1.2/3.0,0.6/2.6,1.4/3.6,4.8/0.7,5.2/1.1,4.5/0.9,5.0/0.5,2.6/0.8,2.9/3.5} { \fill[dblue] (\x,\y) circle (0.07); }
+    \foreach \x/\y in {3.2/2.4,3.9/1.8,3.4/1.5} { \fill[dgreen] (\x,\y) circle (0.08); }
+    \node[dorange, font=\large] at (3.6,2.1) {$\star$};
+    \node[font=\small\bfseries] at (3,4.8) {com partículas aleatórias};
+  \end{scope}
+  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (6.6,-0.9) {adicionar poucas partículas \textbf{aleatórias} (verde) após a reamostragem reduz o problema, mas distorce a estimativa: \textbf{último recurso}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[black!70, line width=1pt] (0,0) rectangle (12,1.0);
+  \foreach \a/\b/\c/\i in {0/1.6/dblue!20/1, 1.6/5.4/dblue!60/2, 5.4/6.4/dblue!35/3, 6.4/9.4/dblue!75/4, 9.4/10.4/dblue!25/5, 10.4/12/dblue!45/6} {
+    \fill[\c, draw=black!70, line width=0.8pt] (\a,0) rectangle (\b,1.0); \node[font=\scriptsize] at ({(\a+\b)/2},0.5) {$w^{[\i]}$}; }
+  \foreach \u/\k in {0.8/1,3.8/2,6.8/3,9.8/4} {
+    \draw[dorange, line width=1.6pt, -{Stealth[length=2.6mm]}] (\u,2.0) -- (\u,1.05); \node[dorange, font=\scriptsize] at (\u,2.3) {$u_\k$}; }
+  \draw[<->, dgreen, line width=0.9pt] (0.8,2.9) -- (3.8,2.9) node[midway, above, font=\scriptsize] {$M^{-1}$};
+  \draw[dguide] (0,1.0) -- (0,2.6); \draw[dguide] (0.8,2.0) -- (0.8,2.9); \node[dlbl, font=\scriptsize] at (0.4,2.6) {$r$};
+  \node[dsub, font=\scriptsize] at (0,-0.4) {0}; \node[dsub, font=\scriptsize] at (12,-0.4) {1};
+  \node[dbox, rounded corners=5pt, text width=11cm, font=\scriptsize, draw=dblue] at (6,-1.6) {$u_m = r + (m-1)\,M^{-1}$, com um único $r\sim U[0,\,M^{-1}[$; escolhe-se a partícula cujo intervalo de pesos acumulados contém $u_m$};
+\end{tikzpicture}
+\end{document}
