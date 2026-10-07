@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: centrada no sistema (ES)
+  \node[font=\bfseries\small] at (4.5,6.2) {centrada no \textcolor{dorange}{sistema} (Eng. de Software)};
+  \draw[-{Stealth[length=3mm]}, black!50, line width=3.4pt] (-1.3,3) -- (0.6,3);
+  \node[dlbl, font=\scriptsize, align=center] at (-0.3,3.9) {dados de\\entrada};
+  \draw[dbody, rounded corners=8pt, line width=1.2pt, draw=dorange] (0.8,0.8) rectangle (7.6,5.3);
+  \node[font=\scriptsize, align=center, text width=5.6cm] at (4.2,3.4) {algoritmos\\regras de negócio\\banco de dados\\interface};
+  \node[dorange, font=\scriptsize\bfseries] at (4.2,1.4) {programa (foco: o que ocorre aqui dentro)};
+  \draw[-{Stealth[length=3mm]}, black!50, line width=3.4pt] (7.8,3) -- (9.7,3);
+  \node[dlbl, font=\scriptsize, align=center] at (8.8,3.9) {dados de\\saída};
+
+  \node[dbox, text width=8.2cm, font=\scriptsize, align=left] at (4.2,-1.0) {fatores de qualidade: \textbf{construção} --- disponibilidade, integridade, robustez, manutenibilidade, recuperabilidade};
+
+  % Painel B: centrada no uso (IHC)
+  \begin{scope}[shift={(13.5,0)}]
+    \node[font=\bfseries\small] at (4.5,6.2) {centrada no \textcolor{dblue}{uso} (IHC)};
+    \draw[dblue, dashed, line width=1pt, rounded corners=14pt] (-0.8,0.5) rectangle (9.6,5.6);
+    \node[dblue, font=\scriptsize\bfseries, anchor=north east] at (9.4,5.5) {contexto de uso};
+
+    \begin{scope}[shift={(1.2,2.3)}]
+      \draw[black!70, line width=1pt, fill=white] (0,1.3) circle (0.3);
+      \draw[black!70, line width=1pt, fill=white, rounded corners=3pt] (-0.45,-0.35) rectangle (0.45,0.95);
+      \node[dlbl, font=\scriptsize] at (0,-0.75) {usuário};
+    \end{scope}
+    \draw[dbody, rounded corners=4pt, draw=dblue, line width=1.3pt] (5.6,1.5) rectangle (8.6,4.4);
+    \node[font=\scriptsize, align=center, text width=2.6cm] at (7.1,2.95) {sistema\\interativo};
+    \draw[dbody, draw=dblue, line width=1.8pt] (5.6,1.5) -- (5.6,4.4);
+    \draw[<->, dblue, line width=1.6pt] (2.4,3.0) -- (5.5,3.0);
+    \node[dblue, font=\scriptsize\bfseries, align=center] at (3.95,3.6) {interação\\(interface)};
+    \node[dblue, font=\scriptsize\bfseries, align=center, text width=5cm] at (3.95,1.2) {foco: o que ocorre na fronteira e fora do sistema};
+
+    \node[dbox, text width=8.2cm, font=\scriptsize, align=left] at (4.4,-1.0) {fatores de qualidade: \textbf{uso} --- usabilidade, acessibilidade, experiência do usuário, comunicabilidade};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

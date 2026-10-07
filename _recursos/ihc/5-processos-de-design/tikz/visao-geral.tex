@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   sat/.style={dobs, minimum size=22mm, text width=2.5cm, font=\scriptsize, align=center, inner sep=2pt}]
+
+  \node[dstate, minimum size=24mm, font=\normalsize, text width=2.2cm, align=center, draw=dblue, line width=1.4pt] (c) at (0,0) {Design\\de IHC};
+
+  \node[sat] (a) at (90:4.4)   {\textbf{O que é}\\\textbf{design?}\\ análise $\cdot$ síntese $\cdot$ avaliação};
+  \node[sat] (d) at (-30:4.8)  {\textbf{Processos}\\ \textbf{de IHC}\\ oito propostas};
+  \node[sat] (e) at (-150:4.8) {\textbf{Integração}\\ com Engenharia\\ de Software};
+
+  \foreach \n in {a,d,e} { \draw[dtrans, -{Stealth[length=2mm]}] (\n) -- (c); }
+
+\end{tikzpicture}
+\end{document}

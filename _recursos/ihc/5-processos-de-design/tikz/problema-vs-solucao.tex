@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[font=\bfseries\small, anchor=west] at (0,3.7) {Design dirigido pelo \textcolor{dblue}{problema}};
+  \fill[dblue!80] (0,2.4) rectangle (7.2,3.3);
+  \fill[dorange!75] (7.2,2.4) rectangle (10,3.3);
+  \node[white, font=\scriptsize] at (3.6,2.85) {analisa a situação atual};
+  \node[white, font=\scriptsize] at (8.6,2.85) {explora soluções};
+
+  \node[font=\bfseries\small, anchor=west] at (0,1.5) {Design dirigido pela \textcolor{dorange}{solução}};
+  \fill[dblue!80] (0,0.2) rectangle (2.4,1.1);
+  \fill[dorange!75] (2.4,0.2) rectangle (10,1.1);
+  \node[white, font=\scriptsize] at (1.2,0.65) {analisa};
+  \node[white, font=\scriptsize] at (6.2,0.65) {explora possíveis intervenções};
+
+  \draw[daxis] (0,-0.4) -- (10.3,-0.4) node[right, dlbl, font=\scriptsize] {tempo/esforço};
+
+
+
+\end{tikzpicture}
+\end{document}

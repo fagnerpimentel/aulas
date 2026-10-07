@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   act/.style={dbox, minimum width=3.4cm, minimum height=1.3cm, font=\small, draw=dblue, line width=1.2pt}]
+
+  \draw[black!45, rounded corners=8pt, line width=0.9pt] (-1,-3.9) rectangle (9,3.5);
+  \node[dlbl, font=\scriptsize, anchor=south west] at (-0.8,3.55) {atividades do processo de design};
+
+  \node[act] (an) at (4,2.0) {análise da situação corrente};
+  \node[act] (si) at (0.9,-1.9) {síntese de uma intervenção};
+  \node[act] (av) at (7.1,-1.9) {avaliação da intervenção};
+
+  \draw[<->, dblue, line width=2.2pt, opacity=0.6] (an.south west) -- (si.north);
+  \draw[<->, dblue, line width=2.2pt, opacity=0.6] (an.south east) -- (av.north);
+  \draw[<->, dblue, line width=2.2pt, opacity=0.6] (si.east) -- (av.west);
+
+  \draw[-{Stealth[length=3mm]}, black!55, line width=3.2pt] (-3.6,0) -- (-1.1,0);
+  \node[dlbl] at (-3.6,0.6) {problema};
+  \draw[-{Stealth[length=3mm]}, black!55, line width=3.2pt] (9.1,0) -- (11.6,0);
+  \node[dlbl] at (11.2,0.6) {solução};
+
+
+\end{tikzpicture}
+\end{document}

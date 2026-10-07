@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dbody, line width=1.1pt] (0,0) rectangle (10,6);
+  \foreach \x in {2,4,6,8} { \draw[black!15, line width=0.4pt] (\x,0) -- (\x,6); }
+  \foreach \y in {1.2,2.4,3.6,4.8} { \draw[black!15, line width=0.4pt] (0,\y) -- (10,\y); }
+
+  % protótipo horizontal: faixa fina cobrindo todas as funcionalidades
+  \fill[dblue, opacity=0.75] (0,4.8) rectangle (10,6);
+  \node[white, font=\scriptsize\bfseries] at (5,5.4) {protótipo horizontal: \textit{todas} as telas, pouca profundidade};
+
+  % protótipo vertical: coluna estreita, toda a profundidade
+  \fill[dorange, opacity=0.75] (0,0) rectangle (2,4.8);
+  \node[white, font=\scriptsize\bfseries, rotate=90] at (1,2.4) {protótipo vertical};
+
+  \draw[daxis] (0,-0.5) -- (10.3,-0.5) node[right, dlbl, font=\scriptsize] {abrangência (funcionalidades/telas)};
+  \draw[daxis] (-0.5,0) -- (-0.5,6.3) node[above, dlbl, font=\scriptsize] {profundidade};
+
+  \node[dsub, font=\scriptsize, align=center, text width=9cm] at (5.4,2.4) {funcionalidade subjacente real\\(algoritmos, bancos de dados)};
+
+
+\end{tikzpicture}
+\end{document}

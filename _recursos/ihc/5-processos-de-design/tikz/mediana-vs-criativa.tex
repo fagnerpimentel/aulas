@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   t/.style={dbox, rounded corners=6pt, text width=3.1cm, minimum height=1.1cm, font=\scriptsize}]
+
+  \node[font=\small\bfseries, dorange, anchor=west] at (0,3.7) {solução \textit{mediana}: repete as tarefas de antes};
+  \node[t, draw=dorange] (a1) at (1.8,2.2) {ir ao banco em horário comercial};
+  \node[t, draw=dorange] (a2) at (6.0,2.2) {falar com o funcionário no guichê};
+  \node[t, draw=dorange] (a3) at (10.2,2.2) {sistema \textbf{automatiza as mesmas tarefas}};
+  \draw[->, dorange, line width=1.2pt] (a1) -- (a2); \draw[->, dorange, line width=1.2pt] (a2) -- (a3);
+  \node[dsub, font=\scriptsize, anchor=west] at (12.0,2.2) {mesmo tipo de apoio};
+
+  \draw[black!25, line width=0.8pt] (-0.2,1.0) -- (15.0,1.0);
+
+  \node[font=\small\bfseries, dblue, anchor=west] at (0,0.3) {solução \textit{criativa}: parte do \textbf{objetivo} do usuário};
+  \node[dstate, minimum size=18mm, font=\scriptsize, text width=1.6cm, align=center, draw=dblue, line width=1.3pt] (o) at (1.6,-1.8) {obter dinheiro};
+  \node[t, draw=dblue] (b1) at (6.2,-0.6) {caixa eletrônico \textbf{24 horas}};
+  \node[t, draw=dblue] (b2) at (6.2,-1.9) {saque pelo celular};
+  \node[t, draw=dblue] (b3) at (6.2,-3.2) {pagar sem usar dinheiro};
+  \draw[->, dblue, line width=1.2pt] (o) -- (b1); \draw[->, dblue, line width=1.2pt] (o) -- (b2); \draw[->, dblue, line width=1.2pt] (o) -- (b3);
+  \node[dbox, draw=dgreen, line width=1.2pt, text width=4.6cm, font=\scriptsize, rounded corners=6pt] at (11.4,-1.9) {explorar as possibilidades \textbf{da tecnologia} a favor do usuário: eliminar tarefas irrelevantes e aperfeiçoar o que sobra};
+  \draw[->, dgreen, line width=1pt] (b2.east) -- (9.0,-1.9);
+
+\end{tikzpicture}
+\end{document}

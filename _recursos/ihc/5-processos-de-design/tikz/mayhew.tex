@@ -1,0 +1,38 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   bx/.style={dbox, rounded corners=8pt, minimum height=3.0cm, text width=4.4cm, font=\small, align=left, inner sep=7pt, anchor=north west},
+   tt/.style={font=\small\bfseries, text=dblue, text width=4.6cm, align=left, anchor=base west, inner sep=2pt}]
+
+  % títulos (roxo), todos no mesmo nível, fora das caixas
+  \node[tt] at (0,0.4) {1. análise de requisitos};
+  \node[tt] at (5.6,0.4) {nível 1 --- conceitual};
+  \node[tt] at (10.8,0.4) {nível 2 --- padrões de tela};
+  \node[tt] at (16.0,0.4) {nível 3 --- detalhado};
+  \node[tt] at (21.4,0.4) {3. instalação};
+
+  % caixas, todas no mesmo nível
+  \node[bx] (f1) at (0,0) {perfil do usuário, análise de tarefas, plataforma e princípios gerais $\to$ \textbf{metas de usabilidade} e \textbf{guia de estilo}};
+  \node[bx, draw=dblue, line width=1.2pt] (n1) at (5.6,0) {reengenharia do trabalho, projeto do modelo, protótipos e avaliação interativa};
+  \node[bx, draw=dblue, line width=1.2pt] (n2) at (10.8,0) {padrões de design de tela, protótipos de média fidelidade e avaliação};
+  \node[bx, draw=dblue, line width=1.2pt] (n3) at (16.0,0) {design detalhado da interface, de alta fidelidade, avaliado com usuários};
+  \node[bx] (f3) at (21.4,0) {coletar a opinião dos usuários após o uso $\to$ melhorias nas versões futuras};
+
+  % grupo da fase 2
+  \draw[dblue, line width=1pt] (5.6,1.55) -- (20.4,1.55);
+  \node[font=\small\bfseries, text=dblue, anchor=south] at (13.0,1.65) {2. design, avaliação e desenvolvimento};
+
+  \draw[dtrans, line width=1.4pt] (f1.east) -- (n1.west |- f1.east);
+  \draw[dtrans, line width=1.4pt] (n1.east) -- (n2.west);
+  \draw[dtrans, line width=1.4pt] (n2.east) -- (n3.west);
+  \draw[dtrans, line width=1.4pt] (n3.east) -- (f3.west);
+
+  % laços de iteração
+  \foreach \n in {n1,n2,n3} {
+    \draw[dmeas, rounded corners=4pt, line width=1pt] ([xshift=-0.4cm]\n.south east) -- ++(0,-0.7) -| ([xshift=0.4cm]\n.south west);
+  }
+  \node[dmeas, font=\small, orange!70!black] at (13.0,-4.3) {a cada nível: \textbf{metas atingidas?} não $\to$ itera; sim $\to$ próximo nível};
+
+\end{tikzpicture}
+\end{document}

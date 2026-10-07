@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pr/.style={dbox, rounded corners=8pt, text width=5.4cm, minimum height=1.5cm, font=\small, align=left, inner sep=7pt}]
+
+  \node[pr, draw=dblue, line width=1.3pt] at (0,0) {\textbf{1.} modelo simples de processo\\[1pt] {\scriptsize Sharp et al. (2019)}};
+  \node[pr, draw=dblue, line width=1.3pt] at (6.2,0) {\textbf{2.} ciclo de vida em estrela\\[1pt] {\scriptsize Hix e Hartson (1993)}};
+  \node[pr, draw=dblue, line width=1.3pt] at (12.4,0) {\textbf{3.} engenharia de usabilidade\\[1pt] {\scriptsize Nielsen (1994)}};
+  \node[pr, draw=dblue, line width=1.3pt] at (0,-2.0) {\textbf{4.} engenharia de usabilidade\\[1pt] {\scriptsize Mayhew (1999)}};
+  \node[pr, draw=dorange, line width=1.3pt] at (6.2,-2.0) {\textbf{5.} design contextual\\[1pt] {\scriptsize Beyer e Holtzblatt (1997)}};
+  \node[pr, draw=dorange, line width=1.3pt] at (12.4,-2.0) {\textbf{6.} design baseado em cenários\\[1pt] {\scriptsize Rosson e Carroll (2002)}};
+  \node[pr, draw=dorange, line width=1.3pt] at (0,-4.0) {\textbf{7.} design dirigido por objetivos\\[1pt] {\scriptsize Cooper et al. (2014)}};
+  \node[pr, draw=dgreen, line width=1.3pt] at (6.2,-4.0) {\textbf{8.} design centrado na comunicação\\[1pt] {\scriptsize Barbosa et al. (2005)}};
+
+  \fill[dblue] (12.0,-3.5) circle (0.15); \node[anchor=west, font=\scriptsize] at (12.3,-3.5) {foco em usabilidade};
+  \fill[dorange] (12.0,-4.1) circle (0.15); \node[anchor=west, font=\scriptsize] at (12.3,-4.1) {foco em contexto, cenários ou objetivos};
+  \fill[dgreen] (12.0,-4.7) circle (0.15); \node[anchor=west, font=\scriptsize] at (12.3,-4.7) {foco em comunicação};
+
+\end{tikzpicture}
+\end{document}

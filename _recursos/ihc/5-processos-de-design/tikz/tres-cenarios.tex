@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   col/.style={dbox, rounded corners=8pt, text width=4.6cm, minimum height=3.6cm, anchor=north, align=left, font=\scriptsize, inner sep=7pt}]
+
+  \node[font=\small\bfseries, dblue] at (2.4,0.7) {cenário de atividade};
+  \node[font=\small\bfseries, dblue] at (8.0,0.7) {cenário de informação};
+  \node[font=\small\bfseries, dblue] at (13.6,0.7) {cenário de interação};
+  \node[dsub, font=\tiny] at (2.4,0.2) {o quê (funcionalidade)};
+  \node[dsub, font=\tiny] at (8.0,0.2) {que informação};
+  \node[dsub, font=\tiny] at (13.6,0.2) {como (ações e \textit{feedback})};
+
+  \node[col, draw=dblue!50] (a) at (2.4,-0.2) {Maria precisa \textbf{comprar uma passagem} de ônibus para viajar amanhã. Ela escolhe o destino e o horário, confere o preço e paga.};
+  \node[col, draw=dblue!75, line width=1.1pt] (b) at (8.0,-0.2) {O sistema apresenta:\\ $\bullet$ trajetos e \textbf{horários}\\ $\bullet$ \textbf{preços} por tipo de poltrona\\ $\bullet$ \textbf{poltronas} disponíveis\\ $\bullet$ \textbf{resumo} da compra e forma de pagamento};
+  \node[col, draw=dblue, line width=1.5pt] (c) at (13.6,-0.2) {1. Maria informa origem e destino $\to$ o sistema \textbf{mostra horários}\\ 2. toca no horário $\to$ o sistema \textbf{exibe o mapa de poltronas}\\ 3. escolhe a poltrona $\to$ \textbf{confirma o valor}\\ 4. paga $\to$ o sistema \textbf{emite o bilhete}};
+  \draw[dtrans, line width=1.4pt] (a.east) -- (b.west); \draw[dtrans, line width=1.4pt] (b.east) -- (c.west);
+
+
+\end{tikzpicture}
+\end{document}

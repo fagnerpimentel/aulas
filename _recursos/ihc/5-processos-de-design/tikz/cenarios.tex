@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   pill/.style={dbox, rounded corners=10pt, text width=3.4cm, minimum height=1.1cm, font=\tiny},
+   main/.style={dbox, rounded corners=4pt, text width=3.2cm, minimum height=0.9cm, font=\scriptsize, draw=dblue, line width=1.2pt}]
+
+  \node[dlbl, font=\scriptsize\bfseries] at (6.4,6.4) {analisar};
+  \node[pill] (s) at (1.0,5.2) {análise de \textit{stakeholders} e estudos de campo};
+  \node[main] (cp) at (6.4,5.2) {cenários de problema};
+  \node[pill] (al) at (11.8,5.2) {alegações sobre a prática atual};
+  \draw[dtrans] (s) -- (cp); \draw[dtrans] (al) -- (cp);
+
+  \node[dlbl, font=\scriptsize\bfseries, anchor=west] at (6.7,3.75) {projetar};
+  \node[main] (ca) at (6.4,2.8) {cenários de atividade};
+  \node[main] (ci) at (6.4,1.5) {cenários de informação};
+  \node[main] (cx) at (6.4,0.2) {cenários de interação};
+  \draw[dtrans] (cp) -- (ca); \draw[dtrans] (ca) -- (ci); \draw[dtrans] (ci) -- (cx);
+  \node[pill] (m) at (1.0,1.5) {metáforas, tecnologia da informação, teorias de IHC, diretrizes};
+  \node[pill] (it) at (11.8,1.5) {análise iterativa de alegações sobre usabilidade e reprojeto};
+  \draw[dmeas, bend left=18] (m.north east) to (ca.west);
+  \draw[dmeas, bend right=18] (it.north west) to (ca.east);
+  \draw[dmeas, bend left=18] (cx.west) to (m.south east);
+  \draw[dmeas, bend right=18] (cx.east) to (it.south west);
+
+  \node[dlbl, font=\scriptsize\bfseries, anchor=west] at (6.7,-1.1) {prototipar e avaliar};
+  \node[main] (es) at (6.4,-2.0) {especificações de usabilidade};
+  \node[pill] (so) at (1.0,-2.0) {avaliação somativa};
+  \node[pill] (fo) at (11.8,-2.0) {avaliação formativa};
+  \draw[dtrans] (cx) -- (es); \draw[dtrans] (es) -- (so); \draw[dtrans, bend left=15] (es.east) to (fo.west); \draw[dtrans, bend left=15] (fo.south) to ++(0,-0.4) to (es.south);
+
+\end{tikzpicture}
+\end{document}

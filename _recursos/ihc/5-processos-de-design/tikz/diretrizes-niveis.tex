@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dblue, fill=dblue!8, rounded corners=14pt, line width=1.2pt] (0,0) rectangle (15,7.2);
+  \node[dblue, font=\small\bfseries, anchor=north west] at (0.4,7.0) {diretrizes gerais (todas as interfaces)};
+  \node[font=\scriptsize, anchor=north west] at (0.6,6.3) {``forneça \textit{feedback}''};
+
+  \draw[dblue, fill=dblue!18, rounded corners=12pt, line width=1.2pt] (0.6,0.5) rectangle (14.4,5.5);
+  \node[dblue, font=\small\bfseries, anchor=north west] at (1.0,5.3) {específicas de uma categoria ou plataforma};
+  \node[font=\scriptsize, anchor=north west, align=left] at (1.2,4.6) {interface gráfica: os principais objetos de interesse devem estar visíveis\\ sistema \textit{Web}: o usuário deve saber onde está, de onde veio e para onde pode ir};
+
+  \draw[dblue, fill=dblue!32, rounded corners=10pt, line width=1.2pt] (1.2,1.0) rectangle (13.8,3.3);
+  \node[dblue!80!black, font=\small\bfseries, anchor=north west] at (1.6,3.1) {específicas de um produto};
+  \node[font=\scriptsize, anchor=north west] at (1.8,2.4) {o ícone da lixeira deve estar visível e indicar se contém ou não algum item};
+
+\end{tikzpicture}
+\end{document}

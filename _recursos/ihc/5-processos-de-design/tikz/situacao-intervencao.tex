@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   act/.style={dbox, minimum width=3.2cm, minimum height=1.2cm, font=\small},
+   sit/.style={ellipse, draw=black!70, fill=white, line width=1pt, minimum width=3cm, minimum height=1.1cm, font=\small}]
+
+  \node[sit] (s1) at (0,4.2) {situação 1};
+  \node[sit] (s2) at (10,4.2) {situação 2};
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (s1.east) -- (s2.west) node[midway, above, dlbl] {intervenção};
+
+  \node[act, draw=dblue, line width=1.3pt] (an) at (0,0) {\textbf{análise}};
+  \node[act, draw=dblue, line width=1.3pt] (si) at (5,0) {\textbf{síntese}};
+  \node[act, draw=dblue, line width=1.3pt] (av) at (10,0) {\textbf{avaliação}};
+
+  \draw[dtrans] (s1) -- (an);
+  \draw[dtrans] (si.north) -- (5,4.2);
+  \draw[dtrans] (s2) -- (av);
+  \draw[dtrans] (an) -- (si);
+  \draw[dtrans] (si) -- (av);
+
+  \draw[dmeas, rounded corners=3pt] (av.south) -- ++(0,-0.9) -| (si.south);
+  \draw[dmeas, rounded corners=3pt] (si.south) ++(-0.45,0) -- ++(0,-0.55) -| (an.south);
+  \draw[dmeas, rounded corners=3pt] (av.south) ++(0.45,0) -- ++(0,-1.5) -| (an.south west);
+
+  \node[dsub, font=\scriptsize, align=center, text width=7cm] at (5,-2.8) {setas laranja = iterações};
+
+\end{tikzpicture}
+\end{document}

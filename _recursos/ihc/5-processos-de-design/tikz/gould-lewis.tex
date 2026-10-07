@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   col/.style={dbox, rounded corners=8pt, text width=4.4cm, minimum height=5.2cm, anchor=north, align=center, font=\scriptsize}]
+
+  \foreach \x in {0,5.4,10.8} { \node[col, draw=dblue, line width=1.2pt] at (\x,0) {}; }
+
+  % 1 foco no usuário
+  \begin{scope}[shift={(0,-2.3)}]
+    \draw[dblue, line width=1.4pt, fill=white] (0,0.9) circle (0.4);
+    \draw[dblue, line width=1.4pt, fill=white, rounded corners=5pt] (-0.7,-0.9) rectangle (0.7,0.4);
+  \end{scope}
+  \node[font=\small\bfseries, dblue] at (0,-0.6) {foco no usuário};
+  \node[text width=4.0cm, align=center, font=\scriptsize] at (0,-4.25) {estudar \textbf{quem} serão os usuários, seus objetivos, características físicas, cognitivas e comportamentais e o que fazem para alcançá-los};
+
+  % 2 métricas observáveis
+  \begin{scope}[shift={(5.4,-2.4)}]
+    \draw[dblue, line width=1.4pt, fill=dblue!25] (-0.8,-0.8) rectangle (-0.3,0.2);
+    \draw[dblue, line width=1.4pt, fill=dblue!25] (-0.15,-0.8) rectangle (0.35,0.8);
+    \draw[dblue, line width=1.4pt, fill=dblue!25] (0.5,-0.8) rectangle (1.0,0.5);
+    \draw[dblue, line width=1.2pt] (-1.0,-0.8) -- (1.2,-0.8);
+  \end{scope}
+  \node[font=\small\bfseries, dblue] at (5.4,-0.6) {métricas observáveis};
+  \node[text width=4.0cm, align=center, font=\scriptsize] at (5.4,-4.25) {experimentos com \textbf{representantes dos usuários}: desempenho e reações são observados, registrados e analisados};
+
+  % 3 design iterativo
+  \begin{scope}[shift={(10.8,-2.2)}]
+    \draw[dblue, line width=1.6pt, -{Stealth[length=3mm]}] (0.8,0.4) arc (20:320:0.85);
+  \end{scope}
+  \node[font=\small\bfseries, dblue] at (10.8,-0.6) {design iterativo};
+  \node[text width=4.0cm, align=center, font=\scriptsize] at (10.8,-4.25) {problemas encontrados nos experimentos são \textbf{corrigidos}: projeto $\to$ avaliação $\to$ reprojeto, quantas vezes for preciso};
+
+  \node[dsub, font=\scriptsize] at (5.4,-5.8) {Gould e Lewis (1985)};
+
+\end{tikzpicture}
+\end{document}

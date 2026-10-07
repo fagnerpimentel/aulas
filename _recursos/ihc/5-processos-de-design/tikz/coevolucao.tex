@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   n/.style={dbox, rounded corners=10pt, text width=3.6cm, minimum height=1.4cm, font=\scriptsize}]
+
+  \node[n] (a) at (0,3.0) {o designer introduz um \textbf{novo artefato} (sistema)};
+  \node[n] (b) at (5.4,0) {os usuários o usam de \textbf{formas novas}, não previstas};
+  \node[n] (c) at (0,-3.0) {surgem \textbf{novas tarefas} e necessidades};
+  \node[n] (d) at (-5.4,0) {o designer \textbf{reprojeta} o artefato};
+  \draw[->, dblue, line width=1.4pt, bend left=22] (a) to (b);
+  \draw[->, dblue, line width=1.4pt, bend left=22] (b) to (c);
+  \draw[->, dblue, line width=1.4pt, bend left=22] (c) to (d);
+  \draw[->, dblue, line width=1.4pt, bend left=22] (d) to (a);
+  \node[font=\small\bfseries, dblue, align=center] at (0,0) {coevolução\\de tarefas\\e artefatos};
+
+\end{tikzpicture}
+\end{document}

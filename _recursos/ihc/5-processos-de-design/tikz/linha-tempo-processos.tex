@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[-{Stealth[length=3mm]}, black!55, line width=2.6pt] (-0.5,0) -- (17.0,0);
+  \foreach \x/\y/\t/\a/\c in {0.5/1993/{ciclo de vida em estrela}/Hix e Hartson/dblue,
+                              2.5/1994/{engenharia de usabilidade}/Nielsen/dblue,
+                              5.0/1997/{design contextual}/Beyer e Holtzblatt/dorange,
+                              7.2/1999/{engenharia de usabilidade}/Mayhew/dblue,
+                              9.6/2002/{design baseado em cenários}/Rosson e Carroll/dorange,
+                              12.0/2005/{design centrado na comunicação}/Barbosa et al./dgreen,
+                              14.6/2014/{design dirigido por objetivos}/Cooper et al./dorange} {
+    \fill[\c] (\x,0) circle (0.18);
+    \node[font=\small\bfseries, \c] at (\x,-0.75) {\y};
+  }
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dblue] at (0.5,1.7) {ciclo de vida em estrela};
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dblue] at (3.0,-2.3) {engenharia de usabilidade (Nielsen)};
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dorange] at (5.6,1.7) {design contextual};
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dblue] at (8.2,-2.3) {engenharia de usabilidade (Mayhew)};
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dorange] at (10.4,1.7) {design baseado em cenários};
+  \node[dbox, text width=2.6cm, font=\tiny, draw=dgreen] at (12.6,-2.3) {design centrado na comunicação};
+  \node[dbox, text width=2.4cm, font=\tiny, draw=dorange] at (15.0,1.7) {design dirigido por objetivos};
+  \foreach \x in {0.5,5.0,9.6,14.6} { \draw[black!35] (\x,0.2) -- (\x,1.1); }
+  \foreach \x in {2.5,7.2,12.0} { \draw[black!35] (\x,-0.95) -- (\x,-1.7); }
+  \node[dsub, font=\tiny] at (8.2,-3.6) {azul: foco em usabilidade $\cdot$ laranja: foco em contexto, cenários ou objetivos $\cdot$ verde: foco em comunicação};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   t/.style={dbox, rounded corners=4pt, text width=3.0cm, minimum height=1.0cm, font=\tiny}]
+
+  \node[dstate, minimum size=24mm, font=\small, text width=2.2cm, align=center, draw=dblue, line width=1.4pt] (o) at (0,0) {\textbf{objetivo}\\comprar produtos};
+
+  % tarefa 1
+  \node[t] (a1) at (5.0,2.6) {caixa pega cada produto};
+  \node[t] (a2) at (8.6,2.6) {digita o valor ou lê o código de barras};
+  \node[t] (a3) at (12.2,2.6) {cliente paga e leva a mercadoria};
+  \draw[dtrans] (o) to[bend left=15] (a1); \draw[dtrans] (a1) -- (a2); \draw[dtrans] (a2) -- (a3);
+  \node[dsub, font=\tiny, anchor=west] at (4.0,3.7) {sequência 1 --- caixa tradicional};
+
+  % tarefa 2
+  \node[t] (b1) at (5.0,0) {sistema identifica os produtos no carrinho (RFID)};
+  \node[t] (b2) at (8.6,0) {cliente paga};
+  \node[t] (b3) at (12.2,0) {leva os produtos};
+  \draw[dtrans] (o) -- (b1); \draw[dtrans] (b1) -- (b2); \draw[dtrans] (b2) -- (b3);
+  \node[dsub, font=\tiny, anchor=west] at (4.0,1.1) {sequência 2 --- identificação automática};
+
+  % tarefa 3
+  \node[t] (c1) at (5.0,-2.6) {cliente informa os produtos pelo comércio eletrônico};
+  \node[t] (c2) at (8.6,-2.6) {informa pagamento e transporte};
+  \node[t] (c3) at (12.2,-2.6) {recebe em casa};
+  \draw[dtrans] (o) to[bend right=15] (c1); \draw[dtrans] (c1) -- (c2); \draw[dtrans] (c2) -- (c3);
+  \node[dsub, font=\tiny, anchor=west] at (4.0,-1.5) {sequência 3 --- compra online};
+
+
+\end{tikzpicture}
+\end{document}

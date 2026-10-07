@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   act/.style={dbox, rounded corners=9pt, text width=3.3cm, minimum height=1.2cm, font=\scriptsize, draw=dblue, line width=1.2pt}]
+
+  \node[act] (id) at (0,3.4) {identificar necessidades e definir requisitos};
+  \node[act] (rd) at (5.2,0.8) {(re)design};
+  \node[act] (cv) at (0,-1.8) {construir uma versão interativa};
+  \node[act] (av) at (-5.2,0.8) {avaliar};
+
+  \node[dlbl, font=\scriptsize] (ini) at (0,5.2) {início};
+  \draw[dtrans] (ini) -- (id);
+  \draw[dtrans, bend left=25] (id) to (rd);
+  \draw[dtrans, bend left=25] (rd) to (cv);
+  \draw[dtrans, bend left=25] (cv) to (av);
+  \draw[dtrans, bend left=25] (av) to (id);
+  \draw[dmeas, line width=0.8pt] (av.east) -- (rd.west);
+  \draw[dmeas, line width=0.8pt, bend right=20] (cv.east) to (rd.south);
+
+  \node[dlbl, font=\scriptsize, align=center] (pf) at (-7.9,-0.9) {produto\\final};
+  \draw[dtrans, dgreen] (av.south west) -- (pf.north east);
+
+  \node[dsub, font=\scriptsize, align=center, text width=10cm] at (0,-3.7) {destaque: design \textbf{centrado no usuário}, avaliação com \textbf{versões interativas} e iteração entre as atividades (Sharp et al., 2019)};
+
+\end{tikzpicture}
+\end{document}

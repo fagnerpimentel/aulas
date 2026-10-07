@@ -1,0 +1,43 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   nm/.style={dbox, text width=5.3cm, minimum height=1.0cm, font=\scriptsize\bfseries, draw=dblue, line width=1.1pt},
+   rf/.style={font=\scriptsize, text width=3.4cm, align=center, text=black!55},
+   df/.style={font=\scriptsize, text width=7.4cm, align=left}]
+
+  \node[font=\small\bfseries, dblue] at (2.7,0.9) {processo};
+  \node[font=\small\bfseries, dblue] at (8.2,0.9) {referência};
+  \node[font=\small\bfseries, dblue] at (13.6,0.9) {diferencial};
+  \draw[dblue, line width=1pt] (-0.2,0.5) -- (17.6,0.5);
+
+  \node[nm] at (2.7,-0.5) {ciclo de vida em estrela};
+  \node[rf] at (8.2,-0.5) {Hix e Hartson (1993)};
+  \node[df, anchor=west] at (10.2,-0.5) {\textbf{avaliação} no centro; sem ordem fixa entre as atividades};
+
+  \node[nm] at (2.7,-1.9) {engenharia de usabilidade (Nielsen)};
+  \node[rf] at (8.2,-1.9) {Nielsen (1994)};
+  \node[df, anchor=west] at (10.2,-1.9) {10 atividades; \textbf{metas de usabilidade}, design paralelo e participativo};
+
+  \node[nm] at (2.7,-3.3) {engenharia de usabilidade (Mayhew)};
+  \node[rf] at (8.2,-3.3) {Mayhew (1999)};
+  \node[df, anchor=west] at (10.2,-3.3) {3 fases e \textbf{3 níveis de design}; guia de estilo};
+
+  \node[nm] at (2.7,-4.7) {design contextual};
+  \node[rf] at (8.2,-4.7) {Beyer e Holtzblatt (1997)};
+  \node[df, anchor=west] at (10.2,-4.7) {\textbf{investigação no contexto de uso}; modelos de trabalho};
+
+  \node[nm] at (2.7,-6.1) {design baseado em cenários};
+  \node[rf] at (8.2,-6.1) {Rosson e Carroll (2002)};
+  \node[df, anchor=west] at (10.2,-6.1) {\textbf{cenários} como representação central em todas as atividades};
+
+  \node[nm] at (2.7,-7.5) {design dirigido por objetivos};
+  \node[rf] at (8.2,-7.5) {Cooper et al. (2014)};
+  \node[df, anchor=west] at (10.2,-7.5) {\textbf{objetivos} (não tarefas); inovar com a tecnologia};
+
+  \node[nm] at (2.7,-8.9) {design centrado na comunicação};
+  \node[rf] at (8.2,-8.9) {Barbosa et al. (2005)};
+  \node[df, anchor=west] at (10.2,-8.9) {\textbf{metacomunicação}; norteado pelas dúvidas dos usuários};
+
+\end{tikzpicture}
+\end{document}

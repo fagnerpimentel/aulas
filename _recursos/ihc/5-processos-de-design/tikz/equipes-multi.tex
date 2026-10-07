@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \fill[dorange!20] (0,0) circle (3.2);
+  \fill[dblue!20] (4.4,0) circle (3.2);
+  \begin{scope}\clip (0,0) circle (3.2); \fill[dblue!45!dorange!40] (4.4,0) circle (3.2);\end{scope}
+  \draw[dorange, line width=1.3pt] (0,0) circle (3.2);
+  \draw[dblue, line width=1.3pt] (4.4,0) circle (3.2);
+
+  \node[font=\small\bfseries, dorange] at (0,3.7) {engenheiros de software};
+  \node[font=\small\bfseries, dblue] at (4.4,3.7) {profissionais de IHC};
+  \node[font=\scriptsize, align=center, text width=2.4cm] at (-1.05,0.3) {foco na \textbf{construção} do sistema\\ lógica e algoritmos};
+  \node[font=\scriptsize, align=center, text width=2.4cm] at (5.45,0.3) {foco no \textbf{uso}\\ usuários, contexto e experiência};
+  \node[font=\scriptsize\bfseries, align=center, text width=1.8cm] at (2.2,0.3) {definir a interação e a interface};
+
+
+\end{tikzpicture}
+\end{document}

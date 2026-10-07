@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[shift={(0,0)}]
+    \draw[black!70, line width=1.1pt, fill=white] (0,2.6) circle (0.5);
+    \draw[black!70, line width=1.1pt, fill=white, rounded corners=6pt] (-0.9,0.2) rectangle (0.9,2.0);
+    \node[font=\small\bfseries] at (0,-0.4) {designer};
+  \end{scope}
+  \begin{scope}[shift={(13.2,0)}]
+    \draw[black!70, line width=1.1pt, fill=white] (0,2.6) circle (0.5);
+    \draw[black!70, line width=1.1pt, fill=white, rounded corners=6pt] (-0.9,0.2) rectangle (0.9,2.0);
+    \node[font=\small\bfseries] at (0,-0.4) {usuário};
+  \end{scope}
+
+  \draw[dbody, line width=1.3pt, rounded corners=6pt, draw=dblue] (4.3,0.0) rectangle (9.0,3.2);
+  \node[font=\small\bfseries, dblue] at (6.65,2.7) {interface};
+  \node[font=\scriptsize, align=center, text width=4cm] at (6.65,1.7) {signos de interface\\ \textbf{sistema de ajuda} on-line};
+  \node[dsub, font=\tiny] at (6.65,0.3) {(preposto do designer)};
+
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (1.2,1.6) -- (4.2,1.6) node[midway, above, font=\scriptsize, dblue] {metamensagem};
+  \draw[<->, dblue, line width=1.4pt] (9.1,1.6) -- (12.0,1.6) node[midway, above, font=\scriptsize, dblue] {interação};
+
+
+\end{tikzpicture}
+\end{document}

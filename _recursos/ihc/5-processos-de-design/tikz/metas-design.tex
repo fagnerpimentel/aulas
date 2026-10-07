@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   obs/.style={dbox, text width=4.3cm, minimum height=1.5cm, font=\scriptsize},
+   meta/.style={dbox, draw=dblue, line width=1.3pt, text width=4.3cm, minimum height=1.5cm, font=\scriptsize},
+   crit/.style={dbox, draw=dgreen, line width=1.3pt, text width=3.0cm, minimum height=1.5cm, font=\scriptsize\bfseries}]
+
+  \node[font=\scriptsize\bfseries, dsub] at (2.2,3.6) {o que a análise revela};
+  \node[font=\scriptsize\bfseries, dsub] at (8.0,3.6) {meta de design};
+  \node[font=\scriptsize\bfseries, dsub] at (13.2,3.6) {critério de qualidade};
+
+  \node[obs] (o1) at (2.2,2.0) {usuários \textbf{gastam muito tempo} processando informações que o sistema poderia fazer mais rápido};
+  \node[meta] (m1) at (8.0,2.0) {\textbf{aumentar a eficiência} das atividades (tarefas) do usuário};
+  \node[crit] (c1) at (13.2,2.0) {usabilidade};
+  \draw[dtrans] (o1) -- (m1); \draw[dtrans] (m1) -- (c1);
+
+  \node[obs] (o2) at (2.2,-0.4) {usuários \textbf{não entendem} como o sistema funciona nem o que podem fazer com ele};
+  \node[meta] (m2) at (8.0,-0.4) {\textbf{comunicar adequadamente} as operações que o usuário pode realizar};
+  \node[crit] (c2) at (13.2,-0.4) {comunicabilidade};
+  \draw[dtrans] (o2) -- (m2); \draw[dtrans] (m2) -- (c2);
+
+  \node[obs] (o3) at (2.2,-2.8) {uma \textbf{nova tecnologia} permite fazer melhor o que já é satisfatório};
+  \node[meta] (m3) at (8.0,-2.8) {aproveitar a \textbf{oportunidade} de melhoria};
+  \node[crit] (c3) at (13.2,-2.8) {experiência do usuário};
+  \draw[dtrans] (o3) -- (m3); \draw[dtrans] (m3) -- (c3);
+
+\end{tikzpicture}
+\end{document}

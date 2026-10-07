@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   act/.style={dbox, rounded corners=8pt, text width=3.5cm, minimum height=1.5cm, font=\scriptsize, draw=dblue, line width=1.2pt},
+   art/.style={text width=3.6cm, align=center, font=\tiny, dsub}]
+
+  \node[act] (a1) at (0,0)  {\textbf{1.} investigação contextual};
+  \node[act] (a2) at (5.2,0) {\textbf{2.} modelagem do trabalho};
+  \node[act] (a3) at (10.4,0) {\textbf{3.} consolidação};
+  \node[act] (a4) at (10.4,-4.2) {\textbf{4.} reprojeto do trabalho};
+  \node[act] (a5) at (5.2,-4.2) {\textbf{5.} projeto do ambiente do usuário};
+  \node[act] (a6) at (0,-4.2) {\textbf{6.} prototipação e teste com usuários};
+
+  \draw[dtrans] (a1) -- (a2); \draw[dtrans] (a2) -- (a3); \draw[dtrans] ($(a3.south east)+(-0.35,0)$) -- ($(a4.north east)+(-0.35,0)$);
+  \draw[dtrans] (a4) -- (a5); \draw[dtrans] (a5) -- (a6);
+  \draw[dmeas, dashed, rounded corners=3pt] (a6.west) -- ++(-0.9,0) |- ++(0,4.2) -- (a1.west);
+
+
+\end{tikzpicture}
+\end{document}

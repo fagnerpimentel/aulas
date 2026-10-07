@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   mom/.style={dbox, text width=4.2cm, minimum height=1.0cm, font=\scriptsize, align=left}]
+
+  \draw[daxis, line width=1.4pt] (0,0) -- (15.4,0) node[right, dlbl, font=\scriptsize] {tempo};
+
+  \node[mom, draw=dblue, line width=1.2pt, anchor=south] at (2.3,0.6) {\textbf{durante a concepção}};
+  \node[mom, draw=dblue, line width=1.2pt, anchor=south] at (7.7,0.6) {\textbf{antes da introdução}};
+  \node[mom, draw=dblue, line width=1.2pt, anchor=south] at (13.1,0.6) {\textbf{depois da aplicação}};
+  \foreach \x in {2.3,7.7,13.1} { \fill[dblue] (\x,0) circle (0.14); \draw[dblue, line width=1pt] (\x,0) -- (\x,0.6); }
+
+  % custo de correção (sobe com o tempo)
+  \draw[dred, line width=2pt, -{Stealth[length=3mm]}] (0.5,-3.4) .. controls (7,-3.1) and (11,-2.4) .. (15.0,-0.9);
+  \node[dred, font=\scriptsize, anchor=north west] at (0.4,-3.55) {custo de corrigir os problemas};
+  \node[dred, font=\scriptsize, anchor=east] at (14.6,-0.45) {quanto mais tarde, mais caro};
+
+\end{tikzpicture}
+\end{document}

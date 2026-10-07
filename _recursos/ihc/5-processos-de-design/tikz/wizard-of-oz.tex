@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % usuário
+  \draw[black!70, line width=1.1pt, fill=white] (0,2.5) circle (0.45);
+  \draw[black!70, line width=1.1pt, fill=white, rounded corners=5pt] (-0.7,0.3) rectangle (0.7,2.0);
+  \node[dlbl, font=\scriptsize] at (0,-0.3) {usuário};
+
+  % tela
+  \draw[dbody, line width=1.3pt, rounded corners=3pt] (2.6,0.9) rectangle (6.4,3.3);
+  \draw[black!50, line width=0.8pt] (3.0,2.7) rectangle (6.0,3.0); \draw[black!50, line width=0.8pt] (3.0,1.2) rectangle (4.4,2.3); \draw[black!50, line width=0.8pt] (4.6,1.2) rectangle (6.0,2.3);
+  \node[dlbl, font=\scriptsize] at (4.5,0.5) {``protótipo''};
+  \draw[dtrans, line width=1.3pt] (0.9,1.8) -- (2.5,2.0) node[midway, above, font=\tiny, dlbl] {ações};
+
+  % cortina
+  \draw[black!40, dashed, line width=1.3pt] (7.6,-0.6) -- (7.6,4.4);
+  \fill[dshade] (7.35,-0.6) rectangle (7.85,4.4);
+  \node[dlbl, font=\scriptsize, rotate=90] at (7.6,1.9) {cortina};
+
+  % mágico
+  \begin{scope}[shift={(10.6,0)}]
+    \draw[dorange, line width=1.1pt, fill=white] (0,2.5) circle (0.45);
+    \draw[dorange, line width=1.1pt, fill=white, rounded corners=5pt] (-0.7,0.3) rectangle (0.7,2.0);
+    \node[dlbl, font=\scriptsize, dorange] at (0,-0.3) {pessoa (``mago'')};
+    \draw[black!70, line width=1pt, fill=white] (-1.3,0.2) rectangle (-0.2,0.7);
+  \end{scope}
+  \draw[dmeas, line width=1.5pt, -{Stealth[length=3mm]}] (9.7,2.1) -- (6.5,2.1) node[pos=0.88, above, font=\tiny, dorange] {respostas};
+
+
+\end{tikzpicture}
+\end{document}

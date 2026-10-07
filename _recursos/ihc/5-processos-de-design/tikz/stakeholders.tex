@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \fill[dblue!8] (0,0) circle (4.6);
+  \fill[dblue!16] (0,0) circle (3.1);
+  \fill[dblue!28] (0,0) circle (1.5);
+  \draw[black!35, line width=0.8pt] (0,0) circle (4.6) circle (3.1) circle (1.5);
+
+  \node[font=\small\bfseries, align=center] at (0,0.1) {usuários\\diretos};
+  \node[font=\scriptsize, align=center, text width=3.4cm] at (0,2.3) {\textbf{usuários indiretos}};
+  \node[font=\scriptsize, align=center, text width=3.8cm] at (0,-3.85) {\textbf{demais \textit{stakeholders}}};
+
+  % legenda lateral
+
+\end{tikzpicture}
+\end{document}

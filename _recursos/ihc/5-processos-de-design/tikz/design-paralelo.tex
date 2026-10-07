@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   alt/.style={dbox, rounded corners=6pt, text width=3.0cm, minimum height=1.0cm, font=\scriptsize}]
+
+  \node[dbox, rounded corners=8pt, text width=2.4cm, font=\scriptsize, draw=dblue, line width=1.2pt] (p) at (0,0) {\textbf{problema}\\ e metas de usabilidade};
+
+  \foreach \y/\n in {2.6/A,0/B,-2.6/C} {
+    \begin{scope}[shift={(4.2,\y)}]
+      \draw[black!70, line width=0.9pt, fill=white] (0,0.45) circle (0.22);
+      \draw[black!70, line width=0.9pt, fill=white, rounded corners=3pt] (-0.35,-0.45) rectangle (0.35,0.2);
+    \end{scope}
+    \node[alt] (a\n) at (7.4,\y) {alternativa \n};
+    \draw[->, dblue, line width=1pt] (p.east) to[out=0,in=180] (5.0,\y);
+    \draw[->, dblue, line width=1pt] (5.0,\y) -- (a\n.west);
+  }
+
+  \node[dbox, rounded corners=8pt, text width=3.0cm, font=\scriptsize, draw=dgreen, line width=1.3pt] (c) at (12.0,0) {\textbf{design consolidado}\\ combina elementos de mais de uma alternativa};
+  \foreach \n in {A,B,C} { \draw[->, dgreen, line width=1pt] (a\n.east) to[out=0,in=180] (c.west); }
+
+
+\end{tikzpicture}
+\end{document}

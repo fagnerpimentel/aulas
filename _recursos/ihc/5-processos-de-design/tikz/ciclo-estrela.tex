@@ -1,0 +1,34 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   act/.style={dbox, rounded corners=9pt, text width=3.3cm, minimum height=1.35cm, font=\scriptsize}]
+
+  \node[act, draw=dblue, line width=1.5pt, fill=dblue!10] (av) at (0,0) {\textbf{avaliação}};
+
+  \node[act] (at) at (5.2,2.3) {análise de tarefas\\usuários e funções};
+  \node[act] (er) at (5.2,-1.5) {especificação\\de requisitos};
+  \node[act] (pc) at (0,-3.6) {projeto conceitual e especificação do design};
+  \node[act] (pr) at (-5.2,-1.5) {prototipação};
+  \node[act] (im) at (-5.2,2.3) {implementação};
+
+  \foreach \n in {at,er,pc,pr,im} { \draw[<->, dblue, line width=1.1pt] (av) -- (\n); }
+
+  % sentido horário (sugestão)
+  \draw[dmeas, dashed, -{Stealth[length=2.2mm]}, bend left=18] (at.south) to (er.north);
+  \draw[dmeas, dashed, -{Stealth[length=2.2mm]}, bend left=18] (er.south) to (pc.east);
+  \draw[dmeas, dashed, -{Stealth[length=2.2mm]}, bend left=18] (pc.west) to (pr.south);
+  \draw[dmeas, dashed, -{Stealth[length=2.2mm]}, bend left=18] (pr.north) to (im.south);
+
+  % entradas possíveis
+  \foreach \n in {at,pc,pr} {}
+  \draw[-{Stealth[length=2.6mm]}, black!45, line width=2.4pt] (5.2,4.5) -- (at.north);
+  \draw[-{Stealth[length=2.6mm]}, black!45, line width=2.4pt] (-5.2,4.5) -- (im.north);
+  \draw[-{Stealth[length=2.6mm]}, black!45, line width=2.4pt] (0,-6.0) -- (pc.south);
+  \draw[-{Stealth[length=2.6mm]}, black!45, line width=2.4pt] (-8.4,-1.5) -- (pr.west);
+  \draw[-{Stealth[length=2.6mm]}, black!45, line width=2.4pt] (8.4,-1.5) -- (er.east);
+
+  \node[dsub, font=\scriptsize, align=center, text width=11cm] at (0,-6.7) {tracejado = sentido horário sugerido};
+
+\end{tikzpicture}
+\end{document}

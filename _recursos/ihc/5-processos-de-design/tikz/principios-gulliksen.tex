@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   p/.style={dbox, rounded corners=8pt, text width=4.3cm, minimum height=1.0cm, font=\scriptsize, inner sep=4pt}]
+
+  \node[dstate, minimum size=22mm, font=\small, text width=2.2cm, align=center, draw=dblue, line width=1.5pt] (h) at (7.4,5.1) {\textbf{qualidade de uso}};
+
+  \node[font=\small\bfseries, dblue] at (1.6,3.2) {pessoas};
+  \node[font=\small\bfseries, dorange] at (7.4,3.2) {processo};
+  \node[font=\small\bfseries, dgreen] at (13.2,3.2) {abrangência};
+
+  \foreach \y/\t in {2.0/{foco no usuário},0.7/{participação ativa do usuário},-0.6/{atitude centrada no usuário},-1.9/{defensor da qualidade de uso}} { \node[p, draw=dblue, line width=1.2pt] at (1.6,\y) {\t}; }
+  \foreach \y/\t in {2.0/{desenvolvimento iterativo e incremental},0.7/{prototipação em diversos níveis},-0.6/{atividade de design explícita e consciente},-1.9/{customização do processo}} { \node[p, draw=dorange, line width=1.2pt] at (7.4,\y) {\t}; }
+  \foreach \y/\t in {2.0/{avaliar o uso em contexto},0.7/{design holístico},-0.6/{representações de design simples},-1.9/{atitude profissional: equipe multidisciplinar}} { \node[p, draw=dgreen, line width=1.2pt] at (13.2,\y) {\t}; }
+
+  \draw[dblue, line width=1pt] (h) -- (1.6,3.5); \draw[dorange, line width=1pt] (h) -- (7.4,3.5); \draw[dgreen, line width=1pt] (h) -- (13.2,3.5);
+
+\end{tikzpicture}
+\end{document}

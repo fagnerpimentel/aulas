@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   col/.style={dbox, rounded corners=8pt, text width=4.6cm, align=left, font=\scriptsize, inner sep=7pt, anchor=north}]
+
+  \node[dbox, rounded corners=10pt, text width=15.2cm, font=\small, draw=dblue, line width=1.2pt] (top) at (7.0,0) {\textbf{dúvidas típicas dos usuários:} O quê? Como? Quando? Quem? Por quê? Por que não? E se...?};
+
+  \node[col] (c1) at (1.6,-1.6) {\textbf{\textcolor{dblue}{análise}} \textit{(usuário, domínio, contexto de uso)}\\[3pt]
+     \textbf{interpretação pessoal} dos designers, usuários e demais envolvidos\\[2pt]
+     \textbf{entendimento compartilhado} da equipe sobre a situação e as oportunidades\\[2pt]
+     \textbf{esboço da metamensagem} designer--usuário};
+  \node[col] (c2) at (7.0,-1.6) {\textbf{\textcolor{dblue}{projeto de interação e interface}}\\[3pt]
+     \textbf{elaboração da metamensagem} designer--usuário\\[2pt]
+     modelagem da \textbf{interação como conversa}\\[2pt]
+     engenharia dos \textbf{signos de interface}\\[2pt]
+     elaboração do \textbf{sistema de ajuda} (metacomunicação explícita)};
+  \node[col] (c3) at (12.4,-1.6) {\textbf{\textcolor{dblue}{avaliação}}\\[3pt]
+     \textbf{rupturas na comunicação durante o uso:}\\[2pt]
+     O quê? Como? Quando? Quem? Por quê? Por que não? E se...?\\[4pt]
+     \textit{inspeção semiótica} e \textit{avaliação de comunicabilidade}};
+
+  \foreach \x in {1.6,7.0,12.4} { \draw[dtrans, dashed] (\x,-0.35) -- (\x,-1.6); }
+  \draw[dtrans, line width=1.3pt] (c1.east |- 1.6,-4.0) -- (c2.west |- 1.6,-4.0);
+  \draw[dtrans, line width=1.3pt] (c2.east |- 1.6,-4.0) -- (c3.west |- 1.6,-4.0);
+  \draw[dmeas, dashed, rounded corners=3pt] (c3.south) -- ++(0,-1.2) -| (c1.south);
+
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,379 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Processos de Design de IHC"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/5-processos-de-design
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+---
+
+# Processos de Design de IHC
+
+::: {.esquerda}
+Capítulo 6 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **O que é design** — análise, síntese e avaliação
+- **Processos de design de IHC** — ciclo de vida em estrela, engenharia de usabilidade (Nielsen e Mayhew), design contextual, baseado em cenários, dirigido por objetivos e centrado na comunicação
+- **Integração** das atividades de IHC com a **Engenharia de Software**
+
+![](images/visao-geral.svg){fig-align="center" width="62%"}
+
+# O Que é Design?
+
+## Artefatos e intervenções {.smaller}
+
+- **Artefatos** são produtos artificiais, fruto do trabalho humano, construídos com um **propósito**: um copo, uma música, uma receita de bolo
+- Um artefato **não surge espontaneamente** — alguém decide sua função, forma, estrutura e qualidade
+- Inseri-lo numa situação é uma **intervenção**: traz consequências **positivas** *e* **negativas**
+  - Ex.: adquirir uma **bicicleta** — economiza transporte e promove saúde, mas exige local para guardá-la, capacete e outros equipamentos
+- Ao analisar uma situação (pessoas, artefatos, processos e suas relações) encontramos **problemas**, características desagradáveis ou algo a **melhorar** — e então agimos: **design**
+
+![](images/artefatos-intervencao.svg){fig-align="center" width="78%"}
+
+## Design: análise, síntese e avaliação {.smaller}
+
+- **Análise** da situação atual — estudar e interpretar
+- **Síntese** de uma intervenção — planejar e executar
+- **Avaliação** da nova situação — comparar a situação analisada com a atingida
+
+![](images/situacao-intervencao.svg){fig-align="center" width="72%"}
+
+## Análise da situação atual {.smaller}
+
+- Busca conhecer os **elementos envolvidos** e as **relações** entre eles — resulta numa **interpretação** da realidade, com um enquadramento e um recorte
+- O foco depende dos **objetivos** das pessoas, do tempo, do orçamento e até da **filosofia de trabalho**
+  - aumentar a produtividade → investigar atividades **ineficientes**
+  - entender por que os funcionários **não usam** o sistema → ouvir a **opinião** deles
+- Nem sempre há "problema": pode haver uma **oportunidade** (ex.: uma nova tecnologia)
+- Resolver um problema de design = responder: **"Como melhorar a situação atual?"**
+
+![](images/analise-elementos.svg){fig-align="center" width="70%"}
+
+## Metas de design {.smaller}
+
+- A análise aponta **necessidades e oportunidades** de melhoria, representadas por **metas de design**
+- Em IHC, as metas se referem não só aos **objetivos dos usuários**, mas também aos **critérios de qualidade de uso** (usabilidade, UX, acessibilidade, comunicabilidade)
+  - ex.: o sistema faz o usuário perder tempo → meta: aumentar a **eficiência** (usabilidade)
+  - ex.: usuários não entendem como o sistema funciona → meta: aumentar a **comunicabilidade**
+- É preciso conhecer todos os envolvidos: **usuários**, atividades, tecnologias, contexto físico, social e cultural — e os ***stakeholders*** (inclusive quem paga e quem constrói o sistema)
+
+## Metas de design: exemplos {.smaller}
+
+![](images/metas-design.svg){fig-align="center" width="96%"}
+
+## Usuários e *stakeholders* {.smaller}
+
+- **Usuários** realizam as atividades apoiadas pelo sistema — diretos (quem o usa) e indiretos (gerentes, clientes, instrutores, suporte)
+- ***Stakeholders*** são todas as partes interessadas, inclusive **quem paga** pelo sistema e **quem o constrói**
+- O design precisa **articular** os interesses de todos eles
+
+![](images/stakeholders.svg){fig-align="center" width="60%"}
+
+## Intervenção e avaliação {.smaller}
+
+- A diferença entre a situação atual e a desejada motiva a **intervenção** — também chamada de **solução**
+- Em IHC, a intervenção articula os interesses dos *stakeholders* com:
+  - o conhecimento da **análise**
+  - o conhecimento sobre intervenções **bem e mal avaliadas**
+  - as **possibilidades e limites** das tecnologias
+- A **avaliação** pode ocorrer em três momentos:
+  - **durante** a concepção — prever impactos (ex.: inspecionar telas)
+  - **antes** da introdução — evitar consequências negativas (ex.: testes com usuários)
+  - **depois** da aplicação — verificar os impactos reais
+- Em IHC, avalia-se a **experiência vivida** pelos usuários — e **quanto mais cedo**, menor o custo de corrigir
+
+## Avaliação ao longo do tempo {.smaller}
+
+![](images/avaliacao-momentos.svg){fig-align="center" width="90%"}
+
+# Processos de Design de IHC
+
+Como executar cada atividade, em que **sequência**, o que pode **se repetir** e quais **artefatos** são produzidos.
+
+## Um processo iterativo {.smaller}
+
+- Característica básica: execução **iterativa** — refinamentos sucessivos da análise e da proposta
+- O designer aprende mais sobre o **problema** *e* sobre a **solução**
+- Em geral começa pela **análise**; ao sintetizar, pode voltar para **ampliar ou reformular** a interpretação
+- Ao avaliar, pode perceber que precisa rever a análise ou a proposta
+  - repete-se **quantas vezes forem necessárias**
+  - O início tende a ter mais iteração entre **análise ↔ síntese** 
+  - O final tende a ter mais iteração entre **síntese ↔ avaliação**
+
+## Onde está o esforço {.smaller}
+
+![](images/iteracao-esforco.svg){fig-align="center" width="70%"}
+
+## Dirigido pelo problema ou pela solução {.smaller}
+
+- **Dirigido pelo problema** — **mais** tempo analisando a *situação*; **menos** explorando *soluções*
+- **Dirigido pela solução** — **menos** tempo analisando a *situação*; **mais** explorando *soluções*
+- Dirigido pela solução → resultados em média **mais criativos**, com menos atenção a aspectos **estéticos, ergonômicos, técnicos e comerciais**
+
+![](images/problema-vs-solucao.svg){fig-align="center" width="64%"}
+
+## Sem ordem fixa {.smaller}
+
+- Alguns processos prescrevem a **primeira atividade** e as **transições**; **Lawson (2006)** questiona essa sequência estrita
+- Para ele, pode-se iniciar em **qualquer atividade** e transitar **quantas vezes** for necessário
+- O que importa: partir de um **problema**, realizar as atividades e chegar a uma **solução**
+
+![](images/sequencia-generica.svg){fig-align="center" width="82%"}
+
+## Design centrado no usuário {.smaller}
+
+- Boa parte dos processos busca servir **usuários e *stakeholders***, não as tecnologias — princípios de **Gould e Lewis (1985)**:
+
+  <!-- - **foco no usuário** — estudar quem são, seus objetivos, características e o que fazem -->
+  <!-- - **métricas observáveis** — experimentos com representantes dos usuários, observando e registrando desempenho e reações -->
+  <!-- - **design iterativo** — problemas encontrados são corrigidos; o ciclo projeto → avaliação → reprojeto se repete -->
+![](images/gould-lewis.svg){fig-align="center" width="70%"}
+
+- Quanto **mais cedo** os usuários participam, mais cedo se aprende sobre suas necessidades e se corrigem problemas
+- Uma **equipe multidisciplinar** enriquece a análise e a síntese — invista nela sempre que possível
+
+## Os processos que veremos {.smaller}
+
+- A seguir, **oito propostas** de processo de design de IHC da literatura — cada uma privilegia uma forma de pensar, uma sequência de atividades ou certos artefatos
+- Todas compartilham a base vista até aqui: **análise**, **síntese** e **avaliação**, de forma **iterativa**
+
+![](images/lista-processos.svg){fig-align="center" width="92%"}
+
+## Um modelo simples de processo {.smaller}
+
+- Organização das atividades de design de IHC proposta por **Sharp et al. (2019)**
+- A síntese é segmentada em **(re)design** (descrições, cenários, esboços de tela) e **construção de uma versão interativa** — que simula a interação e facilita a **avaliação com usuários**
+- Iteração entre as atividades, limitada só por **orçamento, tempo e recursos**
+
+![](images/modelo-simples.svg){fig-align="center" width="74%"}
+
+## Ciclo de vida em estrela {.smaller}
+
+- **Hix e Hartson (1993)** — um dos primeiros ciclos de vida de IHC amplamente difundidos; **seis atividades**
+- A **avaliação** é **central** — conclui-se uma atividade, avalia-se, só então começa-se outra
+- **Sem ordem fixa**: se for uma nova versão, pode-se começar pelo projeto; se for outra plataforma, pela implementação
+
+![](images/ciclo-estrela.svg){fig-align="center" width="62%"}
+
+## Engenharia de usabilidade (Nielsen) {.smaller}
+
+- **Nielsen (1994)** — atividades ao longo de **todo** o ciclo de vida; muitas ocorrem **antes** de a interface ser projetada
+
+![](images/nielsen-dez-passos.svg){fig-align="center" width="100%"}
+
+## Conheça o seu usuário {.smaller}
+
+- Características individuais e a variabilidade das tarefas são os fatores de **maior impacto** na usabilidade
+- Estudar atividades, ambiente físico e social, circunstâncias excepcionais — e os **objetivos finais**
+- O sistema **modifica** os usuários, que o usarão de novas formas — **coevolução de tarefas e artefatos** (Carroll e Rosson, 1991)
+
+![](images/coevolucao.svg){fig-align="center" width="62%"}
+
+## Análise competitiva {.smaller}
+
+- Examinar produtos com funcionalidades **semelhantes**: o que funciona, o que não funciona e por quê
+- Produtos prontos podem ser testados com mais **realismo** que protótipos
+- Inclui qualquer forma de atividade com objetivos semelhantes (ex.: **agendas em papel**)
+
+![](images/analise-competitiva.svg){fig-align="center" width="80%"}
+
+## Metas de usabilidade {.smaller}
+
+- Definir **quais** fatores de qualidade de uso priorizar, **como** serão avaliados e quais faixas de valores são **inaceitáveis, aceitáveis e ideais**
+- **Exemplo — sistema de busca de livros num quiosque:** 50% desistem antes de concluir → meta: reduzir para 30%
+  - indicadores: erros por interação, buscas concluídas com sucesso, tempo para concluir
+
+![](images/faixas-usabilidade.svg){fig-align="center" width="80%"}
+
+## Design paralelo {.smaller}
+
+- 3 ou 4 designers elaboram alternativas **independentes**, em pouco tempo (de algumas horas a dois dias)
+- Depois, as melhores ideias são **combinadas** num design consolidado
+- Para motivar soluções diferentes: iniciantes × experientes, *desktop* × móvel, gráfica × verbal × toque
+
+![](images/design-paralelo.svg){fig-align="center" width="80%"}
+
+## Participativo, coordenado e com diretrizes {.smaller}
+
+- **Design participativo** — acesso permanente a **usuários representativos**; eles reagem a **protótipos, maquetes e esboços**, não a notações técnicas
+- **Design coordenado** — um responsável pela interface **como um todo** (telas, ajuda, documentação, tutoriais), cuidando da **consistência**
+- **Diretrizes** e **análise heurística** — gerais, por categoria ou plataforma, ou específicas de um produto
+
+![](images/diretrizes-niveis.svg){fig-align="center" width="62%"}
+
+## Protótipos {.smaller}
+
+- Nielsen recomenda prototipar **antes** de implementar — rápido e barato, para avaliar com os usuários
+- **Horizontal** — abrangência, com pouca profundidade (aparência e navegação, sem a funcionalidade por baixo)
+- **Vertical** — pouca funcionalidade, mas em **profundidade**, testada em condições realistas
+
+![](images/prototipo-horizontal-vertical.svg){fig-align="center" width="64%"}
+
+## Níveis de fidelidade {.smaller}
+
+- Quanto mais cedo e mais barato o protótipo, mais ideias podem ser testadas — **baixa fidelidade** representa a essência da interação
+- Usar plataforma **diferente** da final (ex.: ferramenta de autoria), dados e conteúdos **fictícios**, **maquetes em papel**
+- Aceitar código de **baixa qualidade** e algoritmos simplificados — a eficiência da implementação não importa
+
+![](images/fidelidade-prototipos.svg){fig-align="center" width="92%"}
+
+## Wizard of Oz e outras estratégias {.smaller}
+
+- ***Wizard of Oz*** — uma pessoa age como o computador "por trás da cortina" e determina as respostas, sem o usuário saber
+- **Protótipo verbal** — o avaliador descreve a interface e explora perguntas do tipo *"e se...?"*
+- Usar **cenários**
+
+![](images/wizard-of-oz.svg){fig-align="center" width="80%"}
+
+## Engenharia de usabilidade (Mayhew) {.smaller}
+
+- **Mayhew (1999)** — três fases iterativas: **análise de requisitos**, **design/avaliação/desenvolvimento** e **instalação**
+- Três **níveis de design**: **modelo conceitual** → **padrões de tela** (média fidelidade) → **design detalhado** (alta fidelidade) — avaliados com usuários
+
+![](images/mayhew.svg){fig-align="center" width="100%"}
+
+## Design contextual {.smaller}
+
+- **Beyer e Holtzblatt (1997)** — compreender **profundamente** as necessidades por meio de uma investigação minuciosa do **contexto de uso**
+- Começa com a **investigação contextual**: observar o usuário no seu ambiente, revelando detalhes e motivações **implícitas**
+- Modela-se o trabalho em **cinco tipos de modelo**; consolida-se com **diagramas de afinidade**; reprojeta-se com ***storyboards***
+
+![](images/design-contextual.svg){fig-align="center" width="76%"}
+
+## Design baseado em cenários {.smaller}
+
+- **Rosson e Carroll (2002)** — **cenários** são a representação básica em todas as atividades
+- Cenário: *"uma história sobre pessoas executando uma atividade"* — em linguagem natural, o que motiva todos os interessados a participar
+- Perguntas **"e se...?"** estimulam a imaginação e a análise de caminhos alternativos
+
+![](images/cenarios.svg){fig-align="center" width="76%"}
+
+## Três tipos de cenário de projeto {.smaller}
+
+- **Cenário de atividade** — narrativa sobre tarefas típicas e críticas; relata **funcionalidades**, sem especificar ainda a interface
+- **Cenário de informação** — detalha as **informações** fornecidas pelo sistema ao usuário durante a interação
+- **Cenário de interação** — as **ações** do usuário e as respostas (*feedback*) do sistema para executar as tarefas
+- Os cenários descrevem **hipóteses** sobre o uso e guiam a **avaliação**: perfis, objetivos, tarefas, sequências de ações e reações prováveis
+
+![](images/tres-cenarios.svg){fig-align="center" width="92%"}
+
+## Design dirigido por objetivos {.smaller}
+
+- **Cooper et al. (2014)** — projetar uma solução **criativa** que apoie os usuários a atingirem seus **objetivos**
+- Diferencial: explorar as tecnologias **da melhor forma** — e não só reproduzir as tarefas que o usuário já fazia
+- Uma solução que apenas repete as tarefas anteriores será **mediana**: limitada pelo que as tecnologias antigas já permitiam
+- Pergunta-guia: *se a tecnologia permite sacar dinheiro 24 h por dia, por que limitar o atendimento ao horário de um funcionário?*
+
+## Solução mediana × solução criativa {.smaller}
+
+![](images/mediana-vs-criativa.svg){fig-align="center" width="96%"}
+
+## Objetivos × tarefas {.smaller}
+
+- **Objetivo** — *"uma expectativa de condição final"*: o destino, a motivação
+- **Tarefas e ações** — passos intermediários, em vários níveis, que ajudam a atingir o objetivo
+- Conhecer o objetivo permite **repensar as tarefas** e eliminar as irrelevantes
+
+![](images/objetivo-tarefa.svg){fig-align="center" width="84%"}
+
+## As seis fases do processo {.smaller}
+
+- **Pesquisar** (usuários e domínio) → **modelar** → **definir requisitos** → **projetar** → **refinar** → **manter**
+- Nos requisitos, conflitos podem exigir **concessões** (ex.: usuários querem o mais barato, a empresa quer vender o mais caro)
+- **Manter** — o designer ajuda a acomodar **limitações técnicas** imprevistas sem perder a coerência da solução
+
+![](images/objetivos-fases.svg){fig-align="center" width="100%"}
+
+## Design centrado na comunicação {.smaller}
+
+- **Barbosa et al. (2005)** — baseado na **engenharia semiótica**: a interação é **comunicação** entre o designer (via interface) e o usuário
+- Motivação: transmitir a **metacomunicação** do designer de forma eficiente — alta **comunicabilidade**
+- A equipe precisa **registrar** a metacomunicação e compartilhá-la — uma visão de design compartilhada e consistente
+- A **ajuda on-line** é um meio privilegiado: responde *"O que é isto?"*, *"Para que serve?"* e *"Como faço isto?"*
+
+![](images/metacomunicacao-design.svg){fig-align="center" width="84%"}
+
+## As dúvidas dos usuários guiam o design {.smaller}
+
+- Três atividades: **análise** (usuário, domínio, contexto de uso), **projeto** de interação e interface, e **avaliação**
+- O esforço de design é norteado, desde o início, pelas **dúvidas** que os usuários costumam ter
+- É inevitável que haja dúvidas e **rupturas** na comunicação — o designer projeta formas de **prevenir** e de **se recuperar** delas
+
+![](images/comunicacao.svg){fig-align="center" width="94%"}
+
+## Interação como conversa {.smaller}
+
+- Projeta-se **primeiro a conversa** (a interação) — turnos de fala, tópicos e foco — usando a **MoLIC**; depois a **interface** (estrutura, *layout*, formato)
+- Avalia-se se a **metacomunicação** foi enviada e recebida adequadamente (**inspeção semiótica** e **avaliação de comunicabilidade**)
+- Usuários e *stakeholders* participam intensamente da **análise** e da **avaliação** — mas **não** são co-designers: a solução é projetada **com** e **para** eles, mas não **por** eles
+
+# Integração com a Engenharia de Software
+
+## Duas perspectivas sobre o sistema {.smaller}
+
+- **Design centrado no sistema** (ES) — o foco é o que ocorre **dentro** do programa; fatores de qualidade ligados à **construção**: disponibilidade, integridade, robustez, manutenibilidade
+- **Design centrado no uso** (IHC) — o foco é o que acontece **na fronteira e fora** do sistema: como o usuário se apropria do que ele oferece, no seu contexto
+
+![](images/sistema-vs-uso.svg){fig-align="center" width="100%"}
+
+## O usuário entra em cena {.smaller}
+
+- Abstrair o mundo externo funciona bem **entre sistemas** — mas não quando a interface é com **pessoas**
+- Um sistema computacional executa instruções bem definidas; uma pessoa **sente, interpreta, reinterpreta, é criativa**, vive em sociedade e **muda de opinião**
+- Por isso a Matemática e a Lógica que sustentam a ES **não bastam**: são necessários conhecimentos de **Linguística, Psicologia, Sociologia, Ergonomia, Artes**...
+- Em IHC, o **uso** que as pessoas farão guia o desenvolvimento: **o sistema** é que deve se adequar ao usuário, e não o contrário
+
+## O sistema e a pessoa {.smaller}
+
+![](images/usuario-maquina.svg){fig-align="center" width="100%"}
+
+## Três abordagens de integração {.smaller}
+
+- Definir um **processo de desenvolvimento** que se preocupe com a **qualidade de uso**
+- Definir **processos de IHC paralelos**, incorporados aos processos da ES
+- Indicar **pontos** nos processos da ES em que atividades e métodos de IHC podem ser **inseridos**
+
+## Como integrar IHC e ES {.smaller}
+
+![](images/integracao-abordagens.svg){fig-align="center" width="92%"}
+
+## Princípios-chave para a qualidade de uso {.smaller}
+
+- **Gulliksen et al. (2005)** — 12 princípios; comuns em processos de IHC, mas **raros** nos processos da ES
+
+![](images/principios-gulliksen.svg){fig-align="center" width="92%"}
+
+## Dois pontos de vista, um problema {.smaller}
+
+![](images/equipes-multi.svg){fig-align="center" width="70%"}
+
+# Conclusão
+
+## Os processos ao longo do tempo {.smaller}
+
+![](images/linha-tempo-processos.svg){fig-align="center" width="100%"}
+
+## Comparando os processos {.smaller}
+
+![](images/comparacao-processos.svg){fig-align="center" width="100%"}
+
+## Síntese {.smaller}
+
+- **Design** é um processo **iterativo** de **análise**, **síntese** e **avaliação** — uma conversa reflexiva com a situação e os materiais
+- Os processos de design de IHC organizam essas atividades de formas diferentes: **avaliação** central, **metas de usabilidade**, **contexto de uso**, **cenários**, **objetivos** ou **comunicação**
+- Todos compartilham: foco no **usuário**, **iteração**, **protótipos** e **avaliação** desde cedo
+- IHC e Engenharia de Software têm **perspectivas distintas** (uso × sistema) — integrá-las exige processos adaptados e equipes **multidisciplinares**
+
+## Para pensar {.smaller}
+
+- **O que é design.** Escolha uma situação cotidiana (comprar um calçado, planejar férias): o que se faz na análise, na definição das oportunidades, na proposta e na avaliação? Refaça a análise visando **construir um sistema** que atenda aos mesmos objetivos.
+- **Processo de IHC.** Investigue o processo de design de um sistema livre (ex.: Thunderbird, GNOME): quais atividades, artefatos e **decisões de design** aparecem?
+- **Comparando processos.** Quais características de um **projeto** ajudam a decidir qual processo adotar?
+- **No seu projeto:** em qual momento do desenvolvimento do seu sistema poderiam entrar atividades de IHC voltadas à **qualidade de uso**? Quem seria o **defensor** dessa qualidade na equipe?

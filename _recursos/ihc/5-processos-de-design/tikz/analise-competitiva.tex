@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \newcommand{\ok}[2]{\fill[dgreen] (#1,#2) circle (0.3);}
+  \newcommand{\parc}[2]{\fill[dorange] (#1,#2) circle (0.3);}
+  \newcommand{\nao}[2]{\fill[dred] (#1,#2) circle (0.3);}
+
+  \node[font=\small\bfseries, dblue] at (1.9,3.3) {produto};
+  \foreach \x/\t in {5.2/{marcar\\compromissos},8.0/{lembrar\\automaticamente},10.8/{compartilhar\\com outros},13.6/{usar\\em qualquer lugar}} {
+    \node[font=\scriptsize, align=center, dsub] at (\x,3.3) {\t};
+  }
+  \draw[dblue, line width=1pt] (-0.4,2.7) -- (15.0,2.7);
+
+  \node[anchor=east, font=\scriptsize] at (3.4,1.9) {agenda em papel};
+  \ok{5.2}{1.9} \nao{8.0}{1.9} \nao{10.8}{1.9} \parc{13.6}{1.9}
+  \node[anchor=east, font=\scriptsize] at (3.4,0.7) {agenda eletrônica A};
+  \ok{5.2}{0.7} \ok{8.0}{0.7} \parc{10.8}{0.7} \ok{13.6}{0.7}
+  \node[anchor=east, font=\scriptsize] at (3.4,-0.5) {agenda eletrônica B};
+  \ok{5.2}{-0.5} \parc{8.0}{-0.5} \ok{10.8}{-0.5} \nao{13.6}{-0.5}
+  \foreach \y in {1.3,0.1} { \draw[black!15, line width=0.5pt] (-0.4,\y) -- (15.0,\y); }
+
+  \fill[dgreen] (4.0,-1.9) circle (0.2); \node[anchor=west, font=\scriptsize] at (4.3,-1.9) {funciona bem};
+  \fill[dorange] (7.4,-1.9) circle (0.2); \node[anchor=west, font=\scriptsize] at (7.7,-1.9) {funciona em parte};
+  \fill[dred] (11.2,-1.9) circle (0.2); \node[anchor=west, font=\scriptsize] at (11.5,-1.9) {não funciona};
+
+
+\end{tikzpicture}
+\end{document}
