@@ -26,7 +26,10 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 
 ## Um robô frustrante {.smaller}
 
-- Imagine um robô numa loja de eletrônicos que diz "Olá" e pergunta o que você procura. Você responde de forma natural --- "ah, não sei, talvez uma câmera para minha filha, umas pilhas, só olhando mesmo, sabe" --- e o robô fica em silêncio, depois repete a pergunta pedindo que você fale mais devagar e mais perto
+- Imagine um robô numa loja de eletrônicos
+
+![](images/robo-frustrante-hq.svg){fig-align="center" width="100%"}
+
 - Por que conversar com robôs costuma ser **frustrante**?
 - A fala é o modo de comunicação mais **natural** entre pessoas --- rápido e de baixo esforço --- mas **produzir** fala num robô é muito mais simples que **entender** a fala humana
 - Esse desequilíbrio entre a expectativa das pessoas e a capacidade real do robô é a raiz de boa parte da frustração
@@ -50,8 +53,18 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 
 ## Texto escrito vs. língua falada {.smaller}
 
-- Texto escrito exige adesão **rígida** à gramática e à sintaxe --- é preparado com precisão, pois não pode ser ajustado depois de entregue
-- A fala permite **corrigir** mal-entendidos e ambiguidades **enquanto** a mensagem é entregue --- as pessoas percebem rápido quando não foram compreendidas e ajustam a fala na hora
+::: {.columns}
+
+::: {.column width="50%"}
+![](images/texto-escrito.svg){fig-align="center" width="100%"}
+:::
+
+::: {.column width="50%"}
+![](images/fala-corrige.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
 - Uma interação natural e fluida costuma ser **crucial** para HRI --- mas exige que várias capacidades técnicas estejam em vigor: transcrever a fala em palavras, entender as palavras, gerar respostas e produzir fala
 
 # Reconhecimento de Fala
@@ -62,6 +75,8 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - Reconhecer a fala **não é** entendê-la --- o ASR apenas converte áudio em texto, pronto para processamento posterior
 - Desenvolvido sobretudo para controle de dispositivos por voz e ditado, o que traz suposições que muitas vezes **não valem** em HRI: ambiente sem ruído, microfone direcional treinado numa única pessoa
 - Em HRI, a pessoa costuma estar a certa **distância** do robô, o que piora a gravação; ruído ambiente, outras pessoas falando e o próprio robô atrapalham --- por isso microfones de lapela (*close miking*) são frequentemente usados
+
+![](images/asr-definicao.svg){fig-align="center" width="90%"}
 
 ## Do áudio ao texto {.smaller}
 
@@ -78,6 +93,7 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 
 ![](images/wer-comparativo.svg){fig-align="center" width="86%"}
 
+<!-- Slide oculto (reative removendo este comentário)
 ## Limitações do reconhecimento de fala {.smaller}
 
 - Sotaques locais ou falantes não nativos ainda são um desafio quando o modelo não foi bem treinado nesses casos
@@ -86,6 +102,7 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - **Restringir** o que precisa ser reconhecido (dígitos, comandos simples) melhora o desempenho --- mas limita o que a pessoa pode dizer
 
 ![](images/limitacoes-asr.svg){fig-align="center" width="100%"}
+-->
 
 ## O McGurk effect: até nós usamos mais que áudio {.smaller}
 
@@ -100,12 +117,6 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - Quando não há internet confiável, existem soluções **a bordo** do robô --- com desempenho bem inferior ao da nuvem
 
 ![](images/asr-nuvem-local.svg){fig-align="center" width="100%"}
-
-## Linguagens artificiais para HRI {.smaller}
-
-- É mais difícil para um humano aprender uma nova língua do que para um computador --- mas há línguas **construídas** para reduzir esses problemas
-- **ROILA** (*RObot Interaction LAnguage*) foi criada especificamente para facilitar o reconhecimento de fala: as palavras soam o mais **distintas** possível entre si (Stedeman et al., 2011)
-- Em ROILA, "ir em frente" é "kanek koloke"; "voltar" é "kanek nole"
 
 ## Detecção de atividade vocal (VAD) {.smaller}
 
@@ -157,15 +168,7 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - Mesmo percebendo rapidamente que um robô não entende figuras de linguagem, as pessoas ainda demoram a descobrir **como formular** o pedido de um jeito que o robô compreenda
 - Diálogo real com um robô garçom programado para levar tudo ao pé da letra (Williams et al., 2018):
 
-::: {.esquerda}
-**Participante:** Posso ter uma água?\
-**Robô:** Sim, isso é permitido.\
-**Participante:** Ótimo.\
-**Robô:** Por favor, me diga o seu pedido.\
-**Participante:** Posso ter uma água?\
-**Robô:** Sim, isso é permitido.\
-**Participante:** Ótimo, vou querer uma água.
-:::
+![](images/garcom-literal.svg){fig-align="center" width="48%"}
 
 ## Gestão de diálogo {.smaller}
 
@@ -213,6 +216,8 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - O robô pode usar sinais verbais (do não-lexical "uh-huh" ao substantivo "conte mais") e complementar com luzes piscando ou um zumbido suave
 - Um dos desafios é **quando** emitir o sinal --- o timing depende de pistas verbais e não verbais de quem fala; um modelo preditivo de back-channel foi preferido por crianças (Park et al., 2017a)
 
+![](images/backchannel.svg){fig-align="center" width="62%"}
+
 ## O papel do timing {.smaller}
 
 - Uma resposta **atrasada** é vista como perturbadora; uma resposta **rápida demais**, como insincera (Sacks et al., 1974; Heldner \& Edlund, 2010)
@@ -249,12 +254,20 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 
 ## O que vimos {.smaller}
 
+::: {.columns}
+
+::: {.column width="56%"}
 - A linguagem é o modo mais óbvio e natural de comunicação entre pessoas --- mas é extremamente **complexa**, tanto pelo vocabulário quanto pelo significado, que muda conforme o contexto, a relação entre falantes e a prosódia
 - Ferramentas técnicas de análise, síntese e produção de fala já permitem HRI verbal sem que tudo precise ser construído do zero
 - A IA e o aprendizado de máquina estão trazendo a conversa aberta cada vez mais ao alcance dos robôs
 - Mas a interação verbal humana --- livre, rápida, cheia de emoção e riso, e integrada com outras modalidades --- ainda está **bem além** das capacidades técnicas atuais
+:::
 
-![](images/ciclo-verbal.svg){fig-align="center" width="72%"}
+::: {.column width="44%"}
+![](images/ciclo-verbal.svg){fig-align="center" width="100%"}
+:::
+
+:::
 
 ## Para pensar {.smaller}
 
@@ -262,7 +275,9 @@ Capítulo 7 do livro [**Human–Robot Interaction — An Introduction**](https:/
 - Pense na diferença entre dizer "sim" de bom grado e dizer "sim" com relutância. Como fazer um robô responder apropriadamente a esses diferentes modos de falar?
 - Que problemas podem surgir por causa do papel do **timing** em interações humano-robô? Como esses problemas são resolvidos em outras interações sociais em que se perdem pistas sociais (ex.: mensagens de texto, ou atraso numa chamada de vídeo)?
 
-- **No seu projeto:** para o robô que a sua equipe está projetando ---
+## No seu projeto {.smaller}
+
+- Para o robô que a sua equipe está projetando ---
   - defina se a interação verbal será **restrita** (comandos, FSM) ou **aberta** (LLM/chatbot), e justifique a escolha;
   - descreva **como** o robô perceberia e lidaria com o timing das respostas (silêncio, marcadores conversacionais);
   - escolha um tipo de voz (TTS) e explique por que ela **combina** com a aparência e o propósito do robô;
