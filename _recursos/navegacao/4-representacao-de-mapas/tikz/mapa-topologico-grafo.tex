@@ -1,0 +1,29 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+    \draw[dguide, rounded corners=2pt] (-0.3,-0.3) rectangle (9.3,5.3);
+    \node[font=\bfseries\large] at (4.5,5.7) {Representação topológica};
+
+    \node[dobs, minimum size=11mm, font=\small] (c1) at (1,2.5) {c1};
+    \node[dobs, minimum size=11mm, font=\small] (c2) at (3,2.5) {c2};
+    \node[dobs, minimum size=11mm, font=\small] (c3) at (5.4,2.5) {c3};
+    \node[dobs, minimum size=11mm, font=\small] (c4) at (7.8,2.5) {c4};
+    \draw[dsub, line width=1pt] (c1)--(c2)--(c3)--(c4);
+
+    \node[dstate, minimum size=11mm, font=\small] (s1) at (2.6,0.6) {s1};
+    \node[dstate, minimum size=11mm, font=\small] (s2) at (5.0,0.6) {s2};
+    \node[dstate, minimum size=11mm, font=\small] (s3) at (7.4,0.6) {s3};
+    \node[dstate, minimum size=11mm, font=\small] (s4) at (2.6,4.4) {s4};
+    \node[dstate, minimum size=11mm, font=\small] (s5) at (5.0,4.4) {s5};
+
+    \draw[dsub, line width=0.8pt] (c2)--(s1);
+    \draw[dsub, line width=0.8pt] (c3)--(s2);
+    \draw[dsub, line width=0.8pt] (c4)--(s3);
+    \draw[dsub, line width=0.8pt] (c2)--(s4);
+    \draw[dsub, line width=0.8pt] (c3)--(s5);
+
+    \node[dsub, font=\normalsize] at (4.5,-0.7) {nós = áreas; arcos = adjacência};
+  \end{tikzpicture}
+\end{document}

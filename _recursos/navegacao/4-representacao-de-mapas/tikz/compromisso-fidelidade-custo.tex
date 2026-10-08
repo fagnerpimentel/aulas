@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[daxis] (0,0) -- (11,0) node[right, dsub, font=\scriptsize] {custo computacional};
+  \draw[daxis] (0,0) -- (0,8) node[above, dsub, font=\scriptsize, align=center] {fidelidade\\ geométrica};
+
+  \fill[dblue] (9.0,7.0) circle (0.11);
+  \node[font=\scriptsize, anchor=west] at (9.2,7.0) {contínua (linhas/polígonos)};
+
+  \fill[dblue!70] (7.0,5.6) circle (0.11);
+  \node[font=\scriptsize, anchor=west] at (7.2,5.6) {decomposição exata};
+
+  \fill[dorange] (5.6,3.6) circle (0.11);
+  \node[font=\scriptsize, anchor=west] at (5.8,3.6) {grade de ocupação (fixa)};
+
+  \fill[dorange!70] (3.6,4.4) circle (0.11);
+  \node[font=\scriptsize, anchor=west] at (3.8,4.4) {decomposição adaptativa};
+
+  \fill[dgreen] (1.4,1.6) circle (0.11);
+  \node[font=\scriptsize, anchor=west] at (1.6,1.6) {topológica};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (5.5,-1.8)
+     {Não existe representação universalmente ``melhor'' --- a escolha depende da tarefa, dos sensores disponíveis e do orçamento computacional};
+
+\end{tikzpicture}
+\end{document}

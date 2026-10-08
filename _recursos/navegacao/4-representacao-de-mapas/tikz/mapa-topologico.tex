@@ -1,0 +1,49 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: planta com corredor e salas
+  \begin{scope}[shift={(0,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.3,-0.3) rectangle (9.3,5.3);
+    \node[font=\bfseries\small] at (4.5,5.7) {Planta geométrica};
+    \draw[dbody, line width=1pt] (0,1.8) rectangle (9,3.2);
+    \draw[dbody, line width=0.8pt] (1.8,0) rectangle (1.8+1.6,1.8);
+    \draw[dbody, line width=0.8pt] (4.2,0) rectangle (4.2+1.6,1.8);
+    \draw[dbody, line width=0.8pt] (6.6,0) rectangle (6.6+1.6,1.8);
+    \draw[dbody, line width=0.8pt] (1.8,3.2) rectangle (1.8+1.6,5);
+    \draw[dbody, line width=0.8pt] (4.2,3.2) rectangle (4.2+1.6,5);
+    \node[dsub, font=\scriptsize] at (4.5,-0.7) {corredor + salas};
+  \end{scope}
+
+  % Painel B: grafo topológico correspondente
+  \begin{scope}[shift={(11.2,0)}]
+    \draw[dguide, rounded corners=2pt] (-0.3,-0.3) rectangle (9.3,5.3);
+    \node[font=\bfseries\small] at (4.5,5.7) {Representação topológica};
+
+    \node[dobs, minimum size=9mm, font=\tiny] (c1) at (1,2.5) {c1};
+    \node[dobs, minimum size=9mm, font=\tiny] (c2) at (3,2.5) {c2};
+    \node[dobs, minimum size=9mm, font=\tiny] (c3) at (5.4,2.5) {c3};
+    \node[dobs, minimum size=9mm, font=\tiny] (c4) at (7.8,2.5) {c4};
+    \draw[dsub, line width=1pt] (c1)--(c2)--(c3)--(c4);
+
+    \node[dstate, minimum size=9mm, font=\tiny] (s1) at (2.6,0.6) {s1};
+    \node[dstate, minimum size=9mm, font=\tiny] (s2) at (5.0,0.6) {s2};
+    \node[dstate, minimum size=9mm, font=\tiny] (s3) at (7.4,0.6) {s3};
+    \node[dstate, minimum size=9mm, font=\tiny] (s4) at (2.6,4.4) {s4};
+    \node[dstate, minimum size=9mm, font=\tiny] (s5) at (5.0,4.4) {s5};
+
+    \draw[dsub, line width=0.8pt] (c2)--(s1);
+    \draw[dsub, line width=0.8pt] (c3)--(s2);
+    \draw[dsub, line width=0.8pt] (c4)--(s3);
+    \draw[dsub, line width=0.8pt] (c2)--(s4);
+    \draw[dsub, line width=0.8pt] (c3)--(s5);
+
+    \node[dsub, font=\scriptsize] at (4.5,-0.7) {nós = áreas; arcos = adjacência};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (5.6,-2.2)
+     {O robô precisa apenas \textbf{reconhecer} em que nó está e \textbf{navegar} entre nós adjacentes --- geometria exata não importa};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dbody, line width=1.2pt] (0,0) rectangle (7,6);
+  \node[font=\bfseries\large, dred] at (3.5,6.6) {Obstáculos expandidos};
+  \begin{scope}
+    \clip (0,0) rectangle (7,6);
+    \fill[dshade] (2.0-0.9,1.0-0.9) rectangle (3.6+0.9,2.2+0.9);
+    \fill[dshade] (4.4-0.9,3.6-0.9) rectangle (5.4+0.9,5.2+0.9);
+  \end{scope}
+  \fill[black!80] (2.0,1.0) rectangle (3.6,2.2);
+  \fill[black!80] (4.4,3.6) rectangle (5.4,5.2);
+  \draw[black!80, fill=none, line width=1.2pt] (0,0) rectangle (7,6);
+  \node[draw=dblue, fill=dblue, circle, minimum size=2.4mm, inner sep=0pt] at (1.2,4.4) {};
+  \node[dblue, font=\normalsize] at (1.2,3.8) {robô $\to$ ponto};
+  \draw[dorange, line width=1pt, <->] (3.6,1.6) -- (3.6+0.9,1.6);
+  \node[dorange, font=\normalsize] at (4.05,1.15) {$+r$};
+\end{tikzpicture}
+\end{document}

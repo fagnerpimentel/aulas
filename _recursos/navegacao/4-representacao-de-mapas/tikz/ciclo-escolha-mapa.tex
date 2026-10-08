@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=24mm, font=\small, align=center] (c) at (0,0) {Escolha da\\ representação};
+
+  \foreach \ang/\lbl in {90/Precisão exigida, 30/Sensores disponíveis, -30/Custo computacional, -90/Ambiente dinâmico?, -150/Espaço aberto ou fechado, 150/Aplicação em SLAM e navegação} {
+    \node[dobs, minimum size=18mm, text width=1.5cm, font=\scriptsize, align=center] (n\ang) at (\ang:4.1) {\lbl};
+    \draw[dtrans, -{Stealth[length=2mm]}] (n\ang) -- (c);
+  }
+
+  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.6)
+     {Mapa e posição são \textbf{faces da mesma moeda} --- a representação escolhida molda tudo o que vem depois: localização, planejamento e navegação};
+
+\end{tikzpicture}
+\end{document}

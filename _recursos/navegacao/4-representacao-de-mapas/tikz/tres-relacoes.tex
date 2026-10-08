@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=22mm, font=\small, align=center] (m) at (0,0) {Mapa};
+
+  \node[dbox, text width=3.2cm, font=\small] (a) at (-5.6,3.0) {precisão do mapa\\ $\updownarrow$\\ precisão exigida pela \textbf{tarefa}};
+  \node[dbox, text width=3.2cm, font=\small] (b) at (5.6,3.0) {precisão do mapa\\ $\updownarrow$\\ tipo e precisão dos \textbf{sensores}};
+  \node[dbox, text width=3.4cm, font=\small] (c) at (0,-3.4) {complexidade do mapa\\ $\updownarrow$\\ custo \textbf{computacional} de mapear, localizar e navegar};
+
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (m) -- (a.south);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (m) -- (b.south);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (m) -- (c.north);
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (0,-5.3)
+     {Toda escolha de representação de mapa é, na verdade, uma escolha desses três \textbf{compromissos}};
+
+\end{tikzpicture}
+\end{document}

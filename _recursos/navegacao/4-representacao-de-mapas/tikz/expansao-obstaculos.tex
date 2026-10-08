@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: grade original + robô com raio
+  \begin{scope}[shift={(0,0)}]
+    \draw[dbody, line width=1.2pt] (0,0) rectangle (7,6);
+    \node[font=\bfseries\small] at (3.5,6.4) {Grade original};
+    \fill[black!80] (2.0,1.0) rectangle (3.6,2.2);
+    \fill[black!80] (4.4,3.6) rectangle (5.4,5.2);
+    \draw[dblue, line width=1pt] (1.2,4.4) circle (0.55);
+    \draw[dblue, line width=0.6pt, dashed] (1.2,4.4) circle (0.9);
+    \node[dblue, font=\scriptsize] at (1.2,3.2) {robô (raio $r$)};
+  \end{scope}
+
+  % Painel B: obstáculos inflados por r (Minkowski)
+  \begin{scope}[shift={(9.2,0)}]
+    \draw[dbody, line width=1.2pt] (0,0) rectangle (7,6);
+    \node[font=\bfseries\small, dred] at (3.5,6.4) {Obstáculos expandidos};
+    \fill[dshade] (2.0-0.9,1.0-0.9) rectangle (3.6+0.9,2.2+0.9);
+    \fill[dshade] (4.4-0.9,3.6-0.9) rectangle (5.4+0.9,5.2+0.9);
+    \fill[black!80] (2.0,1.0) rectangle (3.6,2.2);
+    \fill[black!80] (4.4,3.6) rectangle (5.4,5.2);
+    \node[draw=dblue, fill=dblue, circle, minimum size=2mm, inner sep=0pt] at (1.2,4.4) {};
+    \node[dblue, font=\scriptsize] at (1.2,3.9) {robô $\to$ ponto};
+    \draw[dorange, line width=0.8pt, <->] (3.6,1.6) -- (3.6+0.9,1.6);
+    \node[dorange, font=\scriptsize] at (4.7,1.2) {$+r$};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (5.6,-1.0)
+     {\textbf{Expansão de obstáculos} (soma de Minkowski com o raio/footprint do robô): infla cada obstáculo por $r$ no \textbf{espaço de configurações}, permitindo tratar o robô como um \textbf{ponto} sem risco de colisão};
+
+\end{tikzpicture}
+\end{document}

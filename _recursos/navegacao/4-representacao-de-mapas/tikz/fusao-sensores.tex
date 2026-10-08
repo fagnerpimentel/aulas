@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=2.4cm, font=\small] (a) at (0,3.2) {\textbf{alcance}\\ laser, sonar};
+  \node[dbox, text width=2.4cm, font=\small] (b) at (0,1.1) {\textbf{visão}\\ cor, textura};
+  \node[dbox, text width=2.4cm, font=\small] (c) at (0,-1.1) {\textbf{calor}\\ infravermelho};
+  \node[dbox, text width=2.4cm, font=\small] (d) at (0,-3.2) {\textbf{acústico}\\ som ambiente};
+
+  \node[dstate, minimum size=24mm, font=\scriptsize, align=center] (f) at (5.4,0) {fusão\\ (ex.: rede\\ neural)};
+
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (a.east) -- ++(0.8,0) |- (f.north west);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (b.east) -- ++(0.4,0) |- (f.west);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (c.east) -- ++(0.4,0) |- (f.west);
+  \draw[dtrans, -{Stealth[length=2.2mm]}] (d.east) -- ++(0.8,0) |- (f.south west);
+
+  \node[dbox, text width=3.4cm, font=\small, draw=dred] at (10.6,0) {ainda não há um mapa \textbf{legível por humanos} que combine tudo isso bem};
+
+  \draw[dmeas, -{Stealth[length=2.4mm]}] (f.east) -- (8.4,0);
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (5.4,-4.8)
+     {A fusão de sensores é um problema aberto: como correlacionar tipos de dado muito diferentes numa única representação de mapa útil?};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\useasboundingbox (-0.1,-0.1) rectangle (12.2,12.2);
+\fill[white] (4.40,0.55) -- (7.70,0.55) -- (7.70,4.40) -- (11.55,4.40) -- (11.55,7.70) -- (7.70,7.70) -- (7.70,11.55) -- (4.40,11.55) -- (4.40,7.70) -- (0.55,7.70) -- (0.55,4.40) -- (4.40,4.40) -- cycle;
+\fill[black!80] (4.62,10.12) rectangle (5.39,11.00);
+\fill[black!80] (10.45,4.62) rectangle (11.33,5.39);
+\fill[black!80] (6.71,1.10) rectangle (7.48,1.98);
+\fill[black!80] (1.32,6.71) rectangle (2.09,7.48);
+\draw[black, line width=2.4pt, line join=round] (4.40,0.55) -- (7.70,0.55) -- (7.70,4.40) -- (11.55,4.40) -- (11.55,7.70) -- (7.70,7.70) -- (7.70,11.55) -- (4.40,11.55) -- (4.40,7.70) -- (0.55,7.70) -- (0.55,4.40) -- (4.40,4.40) -- cycle;
+\draw[<->, black!60, line width=0.8pt] (0.55,0.20) -- (2.75,0.20); \node[dlbl, font=\small, anchor=south west] at (0.65,0.20) {2 m};
+\end{tikzpicture}
+\end{document}

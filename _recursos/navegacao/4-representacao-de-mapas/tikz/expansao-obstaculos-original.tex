@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dbody, line width=1.2pt] (0,0) rectangle (7,6);
+  \node[font=\bfseries\large] at (3.5,6.6) {Grade original};
+  \fill[black!80] (2.0,1.0) rectangle (3.6,2.2);
+  \fill[black!80] (4.4,3.6) rectangle (5.4,5.2);
+  \draw[dblue, line width=1.2pt] (1.2,4.4) circle (0.55);
+  \draw[dblue, line width=0.8pt, dashed] (1.2,4.4) circle (0.9);
+  \node[dblue, font=\normalsize] at (1.2,3.2) {robô (raio $r$)};
+\end{tikzpicture}
+\end{document}

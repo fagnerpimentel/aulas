@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dcurve, line width=3pt, dblue!25] (0,0) -- (14,0);
+  \fill[dblue] (0,0) circle (0.09);
+  \fill[dorange] (14,0) circle (0.09);
+
+  \node[font=\bfseries\small, dblue, anchor=north] at (0,-0.25) {contínua};
+  \node[dsub, font=\scriptsize, align=center, text width=2.8cm, anchor=north] at (0,-0.75)
+     {polígonos, linhas infinitas};
+
+  \fill[dshade, draw=black!50, line width=0.7pt] (4.7,0) circle (0.09);
+  \node[font=\bfseries\small, anchor=north] at (4.7,-0.25) {decomposição exata};
+  \node[dsub, font=\scriptsize, align=center, text width=2.8cm, anchor=north] at (4.7,-0.75)
+     {células = regiões livres};
+
+  \fill[dshade, draw=black!50, line width=0.7pt] (9.3,0) circle (0.09);
+  \node[font=\bfseries\small, anchor=north] at (9.3,-0.25) {decomposição fixa/adaptativa};
+  \node[dsub, font=\scriptsize, align=center, text width=3.0cm, anchor=north] at (9.3,-0.75)
+     {grade de ocupação, quadtree};
+
+  \node[font=\bfseries\small, dorange, anchor=north] at (14,-0.25) {topológica};
+  \node[dsub, font=\scriptsize, align=center, text width=2.8cm, anchor=north] at (14,-0.75)
+     {nós e conectividade};
+
+  \node[dsub, font=\scriptsize] at (0,0.4) {alta precisão};
+  \node[dsub, font=\scriptsize] at (14,0.4) {alta abstração};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15.5cm] at (7,-2.3)
+     {Quanto mais \textbf{contínua} e precisa a representação, maior o custo computacional; quanto mais \textbf{abstrata}, menor a fidelidade geométrica};
+
+\end{tikzpicture}
+\end{document}

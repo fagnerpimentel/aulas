@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\useasboundingbox (-0.1,-0.1) rectangle (12.2,12.2);
+\draw[black!15, line width=1.2pt, line join=round] (4.40,0.55) -- (7.70,0.55) -- (7.70,4.40) -- (11.55,4.40) -- (11.55,7.70) -- (7.70,7.70) -- (7.70,11.55) -- (4.40,11.55) -- (4.40,7.70) -- (0.55,7.70) -- (0.55,4.40) -- (4.40,4.40) -- cycle;
+\draw[dblue, line width=3pt] (6.05,6.05) -- (6.05,9.57);
+\draw[dblue, line width=3pt] (6.05,6.05) -- (9.57,6.05);
+\draw[dblue, line width=3pt] (6.05,6.05) -- (6.05,2.53);
+\draw[dblue, line width=3pt] (6.05,6.05) -- (2.53,6.05);
+\fill[dblue] (6.05,6.05) circle (0.55); \draw[white, line width=0.8pt] (6.05,6.05) circle (0.55); \node[white, font=\large\bfseries] at (6.05,6.05) {H};
+\fill[dblue] (6.05,9.57) circle (0.55); \draw[white, line width=0.8pt] (6.05,9.57) circle (0.55); \node[white, font=\large\bfseries] at (6.05,9.57) {S1};
+\fill[dblue] (9.57,6.05) circle (0.55); \draw[white, line width=0.8pt] (9.57,6.05) circle (0.55); \node[white, font=\large\bfseries] at (9.57,6.05) {S2};
+\fill[dblue] (6.05,2.53) circle (0.55); \draw[white, line width=0.8pt] (6.05,2.53) circle (0.55); \node[white, font=\large\bfseries] at (6.05,2.53) {S3};
+\fill[dblue] (2.53,6.05) circle (0.55); \draw[white, line width=0.8pt] (2.53,6.05) circle (0.55); \node[white, font=\large\bfseries] at (2.53,6.05) {S4};
+\end{tikzpicture}
+\end{document}

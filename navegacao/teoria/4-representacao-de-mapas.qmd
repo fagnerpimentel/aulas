@@ -1,0 +1,422 @@
+---
+title: "Navegação"
+subtitle: "Representação de Mapas"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/4-representacao-de-mapas
+---
+
+# Representação de Mapas
+
+::: {.esquerda}
+Seção 5.5 do livro [**Introduction to Autonomous Mobile Robots**](https://mitpress.mit.edu/9780262015356/introduction-to-autonomous-mobile-robots/) (2ª ed.), de **Roland Siegwart**, **Illah R. Nourbakhsh** e **Davide Scaramuzza** (MIT Press, 2011).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- As três relações fundamentais que orientam a escolha e representação de mapas
+  - **Representações contínuas**: polígonos e linhas infinitas
+  - **Decomposição em células**: exata, fixa (grade de ocupação) e adaptativa
+  - **Representações topológicas**: nós e conectividade
+
+![](images/espectro-representacoes.svg){fig-align="center" width="100%"}
+
+- Os **desafios em aberto**: ambientes dinâmicos, espaços abertos e fusão de sensores
+
+## Cada Tipo de Representação, na Prática {.smaller}
+
+- Os três tipos de **decomposição em células**, aplicados ao mesmo ambiente: **exata**, **fixa** (grade) e **adaptativa**
+
+::: {.columns}
+
+::: {.column width="33%"}
+![](images/deck/mapa-poligonos-celulas.png){fig-align="center" width="100%"}
+[decomposição exata]{.credito}
+:::
+
+::: {.column width="33%"}
+![](images/deck/decomposicao-fixa.png){fig-align="center" width="100%"}
+[decomposição fixa (grade)]{.credito}
+:::
+
+::: {.column width="33%"}
+![](images/deck/decomposicao-adaptativa.png){fig-align="center" width="100%"}
+[decomposição adaptativa]{.credito}
+:::
+
+:::
+
+[Figuras: Siegwart, Nourbakhsh e Scaramuzza (2011), *Introduction to Autonomous Mobile Robots*, 2ª ed., MIT Press, seção 5.5.]{.credito}
+
+## O Mesmo Ambiente em Quatro Mapas {.smaller}
+
+- O **mesmo** ambiente pode ser guardado de formas diferentes, conforme o que o robô precisa
+
+::: {.columns}
+
+::: {.column width="25%"}
+![](images/quatro-mapas-grade.svg){fig-align="center" width="100%"}
+
+**Grade de ocupação**\
+células livres, ocupadas ou desconhecidas
+:::
+
+::: {.column width="25%"}
+![](images/quatro-mapas-metrico.svg){fig-align="center" width="100%"}
+
+**Mapa métrico**\
+paredes e obstáculos em coordenadas contínuas
+:::
+
+::: {.column width="25%"}
+![](images/quatro-mapas-topologico.svg){fig-align="center" width="100%"}
+
+**Mapa topológico**\
+lugares (nós) e conexões (arestas)
+:::
+
+::: {.column width="25%"}
+![](images/quatro-mapas-hibrido.svg){fig-align="center" width="100%"}
+
+**Mapa híbrido**\
+grade para o detalhe + grafo para a conectividade
+:::
+
+:::
+
+## Três relações fundamentais {.smaller}
+
+::: {.columns}
+
+::: {.column width="42%"}
+- Três relações precisam ser entendidas ao escolher uma representação de mapa:
+  1. a **precisão do mapa** deve casar com a precisão exigida pela **tarefa**
+  2. a precisão do mapa e o tipo de **feições representadas** devem casar com os **sensores** do robô
+  3. a **complexidade** do mapa afeta diretamente o custo computacional de mapeamento, localização e navegação
+:::
+
+::: {.column width="58%" style="padding-top: 3.4em;"}
+![](images/tres-relacoes.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+# Representações Contínuas
+
+## O Mapa É uma Representação do Ambiente {.smaller}
+
+- O mapa é uma **representação do ambiente** no qual o robô está inserido
+- Com um mapa, o robô pode **planejar melhor** suas ações e movimentos
+- Na representação **contínua**, a posição de cada obstáculo é guardada com **precisão**, por exemplo como **polígonos**
+
+## Mapas com polígonos {.smaller}
+
+::: {.columns}
+
+::: {.column}
+- Um mapa de valor **contínuo** é um método de decomposição *exata* do ambiente
+  - a posição de cada feição pode ser anotada com precisão no espaço contínuo
+- Implementações até hoje usam mapas contínuos quase sempre em **2D**
+  - mais dimensões levam à explosão computacional
+:::
+
+::: {.column}
+- Exemplo clássico: representar cada obstáculo como um **polígono** num espaço de coordenadas contínuo
+
+![](images/mapa-continuo-poligonos.svg){fig-align="center" width="80%"}
+:::
+
+:::
+
+## Mapas com linhas {.smaller}
+
+- Robôs com sensor de **laser** costumam extrair retas de melhor ajuste (*line fitting*) a partir de milhares de pontos de alcance
+- A abordagem contínua apropriada é povoar o mapa com um conjunto de **linhas infinitas**, posicionadas em qualquer ponto e ângulo do plano
+- A abstração captura só a informação que **combina** com o tipo de sensor --- uma parede real pode ter textura e relevo que a linha não representa
+- O impacto na representação de posição é positivo: em posição de **hipótese única**, a posição pode ser especificada com qualquer precisão desejada
+
+![](images/mapa-continuo-linhas.svg){fig-align="center" width="62%"}
+
+## Vantagens e o preço da continuidade {.smaller}
+
+- Vantagem central: alta **precisão** e expressividade quanto à configuração do ambiente e à posição do robô dentro dele
+- O perigo é o **custo computacional** --- mas isso pode ser atenuado combinando abstração com a suposição de mundo fechado
+- A representação contínua também não impede representar a posição como um conjunto **discreto** de posições possíveis, amostradas dentro de uma região contínua
+
+# Decomposição em Células
+
+## Por que decompor {.smaller}
+
+- Uma forma mais radical de simplificação: **abstração**
+  - Desvantagem imediata: perda de **fidelidade**
+    - qualitativamente (estrutura geral)
+    - quantitativamente (precisão geométrica)
+  - Vantagem: 
+    - se a **abstração for planejada com cuidado**, capturando só as feições úteis, a *representação pode ser bem menor*
+    - se a **abstração for hierárquica**, o *raciocínio sobre ela pode ser muito mais rápido* do que num modelo totalmente detalhado
+
+## Decomposição exata em células {.smaller}
+
+- Forma **sem perdas** (*lossless*) de decomposição oportunista, introduzida por Latombe
+- Decompõe o espaço escolhendo fronteiras entre células discretas com base em **criticidade geométrica**, nos vértices dos obstáculos poligonais
+- A suposição por trás dessa decomposição: a posição exata do robô **dentro** de uma célula não importa, o que importa é a capacidade de percorrer de uma célula para as adjacentes
+
+::: {.columns}
+
+::: {.column width="27%"}
+:::
+
+::: {.column width="46%"}
+![](images/deck/mapa-poligonos-celulas.png){fig-align="center" width="100%"}
+[Fonte: Siegwart et al. (2011), seção 5.5]{.credito}
+:::
+
+::: {.column width="27%"}
+:::
+
+:::
+
+## Decomposição fixa: a grade de ocupação {.smaller}
+
+- Alternativa mais popular: **decomposição fixa**, em que o mundo contínuo é tesselado numa aproximação discreta --- a técnica mais usada em robótica móvel hoje
+
+::: {.columns}
+
+::: {.column}
+- Desvantagem principal: a natureza **inexata**. Passagens estreitas podem se perder na transformação
+- Na **grade de ocupação**, o ambiente é representado por uma grade discreta, em que cada célula está cheia (obstáculo) ou vazia (espaço livre) --- especialmente útil com sensores baseados em alcance
+:::
+
+::: {.column }
+![](images/deck/decomposicao-fixa.png){fig-align="center" width="80%"}
+[Fonte: Siegwart et al. (2011), seção 5.5]{.credito}
+:::
+
+:::
+
+## Como é na prática {.smaller}
+
+- Robôs reais constroem grades de ocupação diretamente a partir de sensores de alcance --- o resultado nunca é tão limpo quanto o diagrama esquemático
+- Ruído de sensor, reflexões e oclusões deixam bordas irregulares; áreas nunca varridas ficam marcadas como **desconhecidas**, distintas de livres ou ocupadas
+- Ainda assim, a estrutura básica --- corredores e salas conectados --- fica claramente reconhecível
+
+![](images/grade-ocupacao-exemplo-real.svg){fig-align="center" width="82%"}
+
+## Decomposição adaptativa {.smaller}
+
+::: {.columns}
+
+::: {.column width="50%"}
+- Compromisso entre precisão e compacidade: decompõe **recursivamente** o espaço em retângulos (ou quadrantes)
+- Se o interior de um retângulo está totalmente livre ou totalmente dentro de um obstáculo, **não é mais decomposto**; caso contrário, é subdividido em quatro novos retângulos, até uma resolução predefinida
+:::
+
+::: {.column width="50%"}
+- Resultado: alta resolução só onde é **necessária** --- perto das fronteiras dos obstáculos --- e baixa resolução no espaço livre amplo
+
+![](images/deck/decomposicao-adaptativa.png){fig-align="center" width="100%"}
+[Fonte: Siegwart et al. (2011), seção 5.5]{.credito}
+:::
+
+:::
+
+## Grid maps na prática: além do binário {.smaller}
+
+- Na prática, as células de um grid map não guardam só "livre" ou "ocupado": guardam uma **probabilidade de ocupação** (ou *log-odds*), atualizada por um filtro bayesiano a cada nova leitura de sensor
+- Um terceiro estado é essencial: **desconhecido** --- células nunca varridas, ou que ficam atrás de um obstáculo (fora da linha de visada do sensor)
+- Esse grid map probabilístico é a estrutura de dados por trás de quase todo *stack* de navegação real (ex.: `nav_msgs/OccupancyGrid` do ROS), construída incrementalmente enquanto o robô se move
+- Mantém as vantagens da decomposição fixa --- simplicidade, robustez a ruído --- sem forçar uma decisão binária prematura sobre células ainda não observadas
+
+## Como é um Mapa de Ocupação no ROS {.smaller}
+
+::: {.columns}
+
+::: {.column width="60%"}
+![](images/mapa-ocupacao-ros.png){fig-align="center" width="100%"}
+[mapa gerado por varredura laser simulada (alcance de 3 m, resolução de 0,05 m)]{.credito}
+:::
+
+::: {.column width="40%"}
+- Arquivo de imagem (`.pgm`), um **pixel por célula**:
+  - **preto**: ocupado
+  - **branco**: livre
+  - **cinza**: desconhecido
+- Arquivo `.yaml` com os parâmetros:
+
+```yaml
+image: mapa.pgm
+resolution: 0.05
+origin: [-0.8, -0.8, 0.0]
+occupied_thresh: 0.65
+free_thresh: 0.25
+negate: 0
+```
+:::
+
+:::
+
+## Expansão de obstáculos: o espaço de configurações {.smaller}
+
+::: {.columns}
+
+::: {.column width="60%"}
+- Um grid map bruto marca só onde estão os obstáculos --- mas o planejador de caminho costuma tratar o robô como um **ponto**, não como um corpo com volume
+- Solução: **expandir (inflar)** cada obstáculo pelo raio, ou *footprint*, do robô antes de planejar 
+- Qualquer caminho que evite os obstáculos inflados garante folga física real para o corpo do robô
+- Sem essa expansão, um planejador ingênuo pode gerar caminhos que roçam paredes ou colidem fisicamente, mesmo "passando" por uma célula livre no mapa bruto
+:::
+
+::: {.column width="40%"}
+![](images/expansao-obstaculos-original.svg){fig-align="center" width="60%"}
+
+![](images/expansao-obstaculos-expandida.svg){fig-align="center" width="60%"}
+:::
+
+:::
+
+## Mapas de custo {.smaller}
+
+- Inflar obstáculos resolve a colisão, mas ainda trata o mundo como binário (livre/ocupado) além da margem de segurança
+- Um **mapa de custo** (*costmap*) vai além: atribui um valor contínuo e decrescente ao redor de cada obstáculo --- um gradiente de risco, não um limite abrupto
+- O planejador soma esse custo ao comprimento do caminho na função objetivo, preferindo rotas com mais **margem**, mesmo quando uma rota mais curta tecnicamente "cabe"
+
+![](images/mapa-custo.svg){fig-align="center" width="90%"}
+
+## As Camadas do Mapa de Custo {.smaller}
+
+- Nos *stacks* de navegação como o `costmap_2d` do ROS, são utilizadas combinações de camadas --- mapa estático, obstáculos detectados, inflação --- numa única representação de custo
+- O `costmap_2d` do ROS monta o mapa de custo **somando camadas**, cada uma com uma função:
+  - **Mapa estático**: as paredes do mapa salvo
+  - **obstáculos detectados**: o que o sensor vê agora (inclui o que não está no mapa)
+  - **inflação**: o custo que decresce ao redor de cada obstáculo
+
+![](images/costmap-camadas.svg){fig-align="center" width="100%"}
+
+# Representações Topológicas
+
+## Nós e conectividade {.smaller}
+
+::: {.columns}
+
+::: {.column width="60%"}
+- Abordagens de grade impõem uma geometria *a priori* ao mundo, independentemente dos detalhes do ambiente --- a alternativa é a decomposição **topológica**
+- Abordagens topológicas evitam medir diretamente qualidades geométricas, concentrando-se nas características do ambiente mais **relevantes para a localização**
+- Formalmente, uma representação topológica é um **grafo**: **nós** denotam áreas do mundo; **arcos** denotam adjacência entre pares de nós
+- Diferente da decomposição em células, os nós **não têm** tamanho fixo nem especificação de espaço livre --- documentam uma área com base em algum **discriminante sensorial** que permite ao robô reconhecer entrada e saída do nó
+:::
+
+::: {.column width="40%"}
+![](images/mapa-topologico-planta.svg){fig-align="center" width="90%"}
+
+![](images/mapa-topologico-grafo.svg){fig-align="center" width="90%"}
+:::
+
+:::
+
+## O compromisso central {.smaller}
+
+- Quanto mais a representação se afasta da geometria real, mais se perde **expressividade** para descrever a posição do robô com precisão
+- Aí está o compromisso entre representações **discretas baseadas em células** e representações **topológicas**
+
+![](images/compromisso-fidelidade-custo.svg){fig-align="center" width="100%"}
+
+# Desafios Atuais na Representação de Mapas
+
+## O mundo real é dinâmico {.smaller}
+
+- Robôs móveis passarão a habitar os mesmos espaços que humanos --- encontrando pessoas, carros, carrinhos e obstáculos transientes movidos por humanos em suas atividades
+- As representações de mapa descritas **não têm**, em geral, um mecanismo explícito para identificar e distinguir obstáculos **permanentes** (paredes, portas) de obstáculos **transientes** (pessoas, encomendas)
+- Grades de ocupação podem ser mais robustas à dinâmica introduzindo **desconto temporal**, tratando obstáculos transientes como ruído --- mas a maioria das técnicas de **construção** de mapa ainda exige que o ambiente esteja livre de objetos em movimento
+- Representações topológicas sofrem menos com isso: como a geometria precisa não importa, objetos transientes têm pouco efeito, desde que não mudem a **conectividade** do ambiente
+
+## Espaços abertos e esparsos {.smaller}
+
+- Um segundo desafio: a travessia de **espaços abertos** --- técnicas de localização em geral dependem de medidas locais (alcance), exigindo ambientes razoavelmente densos em objetos detectáveis
+- Espaços muito abertos --- estacionamentos, campos, átrios amplos --- são um desafio pela relativa **esparsidade**; o desafio se agrava quando há pessoas, pois objetos mapeados ficam ocluídos por elas
+- Sensores de visão e sistemas de laser de última geração, com alcance de mais de cem metros, e o **GPS** oferecem alguma esperança de superar essa limitação
+- Isso também expõe uma suposição escondida das representações topológicas: elas assumem **localidade espacial** --- em espaços abertos, essa suposição pode ser violada e substituída por um critério de **visibilidade**
+
+## Fusão de sensores {.smaller}
+
+- Um desafio acadêmico fundamental da robótica: como combinar diferentes tipos de medida (alcance, visão, calor, acústico) numa única representação **coerente** e útil?
+- A fusão de sensores exige uma representação suficientemente geral e expressiva para correlacionar dados de tipos muito diferentes, fortalecendo o resultado além do que qualquer sensor isolado conseguiria
+
+![](images/fusao-sensores.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- O espectro vai do **contínuo** (preciso, caro) ao **topológico** (compacto, abstrato), passando por decomposições exatas, fixas e adaptativas
+- Não existe representação universalmente melhor --- a escolha depende da **tarefa**, dos **sensores** disponíveis e do **orçamento computacional**
+- Ambientes dinâmicos, espaços abertos e fusão de sensores continuam sendo desafios de pesquisa em aberto
+
+![](images/ciclo-escolha-mapa.svg){fig-align="center" width="100%"}
+
+## Leituras futuras {.smaller}
+
+- **Latombe (1991)** --- *Robot Motion Planning* --- decomposição exata e mapas contínuos com polígonos
+- **Thrun (2002)** --- levantamento de técnicas de construção de mapas robóticos (*robotic mapping: a survey*)
+- **Thrun, Burgard & Fox (2005)** --- *Probabilistic Robotics*, cap. 9 --- formalização bayesiana (log-odds) do grid map de ocupação
+- Documentação do pacote **`costmap_2d`** do ROS Navigation Stack --- implementação real de expansão de obstáculos e mapas de custo em camadas
+
+# Exercício: Mapeamento com o Cartographer
+
+Construir um mapa de ocupação de um ambiente simulado, dirigindo o robô.
+
+## Objetivo {.smaller}
+
+- Usar o **Cartographer** para construir um **mapa de ocupação** enquanto o robô explora o ambiente
+- O **TurtleBot3** é simulado no **Gazebo**, numa casa; o laser do robô alimenta o Cartographer
+- Você vai **dirigir o robô** com o teclado e, ao final, **salvar o mapa**
+- Use **um terminal para cada passo**, e rode o `source` em cada um
+
+::: {.columns}
+
+::: {.column width="17%"}
+:::
+
+::: {.column width="66%"}
+![](images/exercicio/cartographer-demo-2d.gif){fig-align="center" width="100%"}
+[Cartographer construindo um mapa 2D — Fonte: documentação do Cartographer ROS (Apache 2.0)]{.credito}
+:::
+
+::: {.column width="17%"}
+:::
+
+:::
+
+## Passos 1 e 2: simulador e Cartographer {.smaller}
+
+**1º terminal** --- o simulador (Gazebo, com a casa e o robô)
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
+```
+
+**2º terminal** --- o Cartographer (abre o RViz com o mapa)
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch turtlebot3_cartographer cartographer.launch.py
+```
+
+## Passos 3 e 4: dirigir o robô e salvar o mapa {.smaller}
+
+**3º terminal** --- controlar o robô pelo teclado; dirija pela casa até o mapa ficar completo
+
+```bash
+source /opt/ros/humble/setup.bash
+xterm -e 'ros2 run turtlebot3_teleop teleop_keyboard'
+```
+
+**4º terminal** --- salvar o mapa (rode só quando o mapa estiver pronto)
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run nav2_map_server map_saver_cli
+```
+

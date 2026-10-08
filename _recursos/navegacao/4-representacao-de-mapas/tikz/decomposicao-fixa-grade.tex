@@ -1,0 +1,59 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------- Painel A: grade fina, obstáculos exatos ----------
+  \draw[dbody, line width=1.2pt] (0,0) rectangle (13,8);
+  \foreach \x in {0,0.5,...,13} { \draw[black!15, line width=0.3pt] (\x,0) -- (\x,8); }
+  \foreach \y in {0,0.5,...,8} { \draw[black!15, line width=0.3pt] (0,\y) -- (13,\y); }
+
+  \fill[black!85] (1.2,7.4) -- (3.4,6.8) -- (2.6,4.8) -- (0.8,5.2) -- cycle;
+  \fill[black!85] (4.6,5.0) -- (6.4,5.4) -- (7.0,3.6) -- (5.8,2.4) -- (4.4,3.2) -- cycle;
+  \fill[black!85] (8.6,7.2) -- (11.0,6.0) -- (9.0,4.4) -- cycle;
+
+  \draw[draw=black!80, line width=1.2pt] (0,0) rectangle (13,8);
+
+  \fill[dorange] (0.8,7.6) circle (0.09);
+  \node[dorange, font=\scriptsize, anchor=south] at (0.8,7.7) {start};
+  \fill[dorange] (11.4,1.0) circle (0.09);
+  \node[dorange, font=\scriptsize, anchor=north] at (11.4,0.9) {goal};
+
+  \node[dsub, font=\scriptsize] at (6.5,-0.6) {passagem estreita entre os obstáculos ainda visível};
+
+  % ---------- Painel B: grade grosseira (a passagem some) ----------
+  \begin{scope}[shift={(0,-10.2)}]
+    \def\s{1.0}
+    \draw[dbody, line width=1.2pt] (0,0) rectangle (13,8);
+    \foreach \x in {0,...,13} { \draw[black!25, line width=0.35pt] (\x,0) -- (\x,8); }
+    \foreach \y in {0,...,8} { \draw[black!25, line width=0.35pt] (0,\y) -- (13,\y); }
+
+    % obstáculo A (dardo) em células grosseiras
+    \foreach \p in {(0,5),(1,7),(2,7)} { \fill[dshade] \p rectangle ++(1,1); }
+    \foreach \p in {(1,5),(1,6),(3,6),(3,5),(3,4)} { \fill[dshade] \p rectangle ++(1,1); }
+    \foreach \p in {(2,6),(2,5)} { \fill[black!85] \p rectangle ++(1,1); }
+
+    % obstáculo B (pentágono) em células grosseiras
+    \foreach \p in {(4,4),(4,3),(6,3),(6,4)} { \fill[dshade] \p rectangle ++(1,1); }
+    \foreach \p in {(5,4),(5,3),(5,2),(6,2)} { \fill[black!85] \p rectangle ++(1,1); }
+    \foreach \p in {(4,2)} { \fill[dshade] \p rectangle ++(1,1); }
+
+    % obstáculo C (triângulo) em células grosseiras
+    \foreach \p in {(8,5),(9,6),(10,6)} { \fill[dshade] \p rectangle ++(1,1); }
+    \foreach \p in {(9,5),(9,4)} { \fill[black!85] \p rectangle ++(1,1); }
+
+    \draw[draw=black!80, line width=1.2pt] (0,0) rectangle (13,8);
+
+    \fill[dorange] (0.8,7.6) circle (0.09);
+    \node[dorange, font=\scriptsize, anchor=south] at (0.8,7.7) {start};
+    \fill[dorange] (11.4,1.0) circle (0.09);
+    \node[dorange, font=\scriptsize, anchor=north] at (11.4,0.9) {goal};
+
+    \node[dsub, font=\scriptsize] at (6.5,-0.6) {resolução grosseira funde os obstáculos --- a passagem desaparece};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=19cm] at (6.5,-12.2)
+     {A \textbf{decomposição fixa} é \textit{sound} mas não completa: sempre representa algo real, mas passagens estreitas podem desaparecer dependendo da resolução da célula};
+
+\end{tikzpicture}
+\end{document}

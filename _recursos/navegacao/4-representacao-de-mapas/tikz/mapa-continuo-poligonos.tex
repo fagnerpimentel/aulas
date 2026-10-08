@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Contorno externo do edifício
+  \draw[dbody, line width=1.4pt] (0,0) rectangle (14,9);
+
+  % Paredes do corredor central
+  \draw[dbody, line width=1.2pt] (0,4.2) -- (14,4.2);
+  \draw[dbody, line width=1.2pt] (0,5.4) -- (5.8,5.4);
+  \draw[dbody, line width=1.2pt] (7.2,5.4) -- (14,5.4);
+
+  % Paredes internas: salas de cima (com portas = vãos)
+  \draw[dbody, line width=1.2pt] (3.4,5.4) -- (3.4,7.6) (3.4,8.4) -- (3.4,9);
+  \draw[dbody, line width=1.2pt] (7.0,5.4) -- (7.0,7.6) (7.0,8.4) -- (7.0,9);
+  \draw[dbody, line width=1.2pt] (10.6,5.4) -- (10.6,7.6) (10.6,8.4) -- (10.6,9);
+
+  % Paredes internas: salas de baixo (com portas = vãos)
+  \draw[dbody, line width=1.2pt] (4.2,0) -- (4.2,1.4) (4.2,2.2) -- (4.2,4.2);
+  \draw[dbody, line width=1.2pt] (8.4,0) -- (8.4,1.4) (8.4,2.2) -- (8.4,4.2);
+  \draw[dbody, line width=1.2pt] (11.4,0) -- (11.4,1.4) (11.4,2.2) -- (11.4,4.2);
+
+  % Sala pequena à direita, destacada do corredor
+  \draw[dbody, line width=1.2pt] (12.6,5.4) -- (12.6,9);
+
+  % Móveis (símbolo de mesa/armário: retângulo com X)
+  \foreach \x/\y/\w/\h in {1.2/6.4/1.2/1.0, 4.6/6.6/1.4/0.9, 8.2/6.3/1.2/1.1,
+                            11.4/7.2/1.0/1.2, 1.0/2.0/1.0/1.1, 5.4/1.2/1.3/0.9,
+                            9.2/2.4/1.1/1.0, 12.2/1.6/1.0/1.1} {
+    \draw[black!70, line width=0.6pt] (\x,\y) rectangle ++(\w,\h);
+    \draw[black!70, line width=0.5pt] (\x,\y) -- ++(\w,\h);
+    \draw[black!70, line width=0.5pt] (\x+\w,\y) -- ++(-\w,\h);
+  }
+
+  \node[dsub, font=\scriptsize] at (7,-0.6) {espaço de coordenadas contínuo};
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (7,-1.6)
+     {Cada parede e móvel é um \textbf{polígono} com vértices em coordenadas exatas --- alta precisão, mas custo cresce com o número de vértices};
+
+\end{tikzpicture}
+\end{document}
