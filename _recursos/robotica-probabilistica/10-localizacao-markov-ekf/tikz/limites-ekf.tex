@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\begin{scope}
+\draw[daxis] (0,0) -- (5.8,0); \draw[daxis] (0,0) -- (0,3.4);
+\draw[black!35, line width=2pt, dashed, domain=0.2:5.6, samples=60, smooth] plot (\x,{1.6*exp(-((\x-1.5)^2)/0.3)+1.6*exp(-((\x-4.3)^2)/0.3)});
+\draw[dblue, line width=2.2pt, domain=0.2:5.6, samples=60, smooth] plot (\x,{1.2*exp(-((\x-2.9)^2)/2.4)});
+\node[font=\bfseries\large, dred] at (2.9,4.1) {crença multimodal};
+\node[dsub, font=\normalsize, align=center] at (2.9,-0.9) {uma gaussiana\\ não representa os dois picos};
+\end{scope}
+\begin{scope}[shift={(7.6,0)}]
+\draw[daxis] (0,0) -- (5.8,0); \draw[daxis] (0,0) -- (0,3.4);
+\draw[dblue, line width=2.2pt, domain=0.2:5.6, samples=50, smooth] plot (\x,{2.8*(1-exp(-\x/1.6))});
+\draw[dorange, line width=1.8pt] (0.2,0.35) -- (3.2,3.2) node[right, font=\normalsize] {reta};
+\fill[dgreen] (1.6,1.78) circle (0.12);
+\node[font=\bfseries\large, dred] at (2.9,4.1) {linearização};
+\node[dsub, font=\normalsize, align=center] at (2.9,-0.9) {boa só perto do ponto;\\ $\sigma_\theta > 20^\circ$ costuma falhar};
+\end{scope}
+\end{tikzpicture}
+\end{document}

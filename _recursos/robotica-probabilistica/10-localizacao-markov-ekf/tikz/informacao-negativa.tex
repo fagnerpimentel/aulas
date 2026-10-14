@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\draw[black!30, fill=black!2, rounded corners=4pt] (0,0) rectangle (12,5.2);
+\fill[dgreen] (9.2,3.4) -- (8.8,2.7) -- (9.6,2.7) -- cycle; \node[dgreen, font=\normalsize\bfseries] at (9.2,4.0) {marco esperado};
+\fill[dorange!65, draw=black!75] (3.0,1.5) circle (0.32); \draw[black!85, line width=2.4pt] (3.0,1.5) -- (3.32,1.5);
+\draw[black!40, dashed, line width=1pt] (3.2,1.7) -- (8.6,2.8); \node[dred, font=\Huge\bfseries] at (6.0,2.6) {?};
+\node[dred, font=\normalsize, align=center, text width=7cm] at (6.0,0.6) {o robô \textbf{não vê} o marco que deveria ver: isso também é informação (``negativa'')};
+\end{tikzpicture}
+\end{document}

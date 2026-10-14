@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\node[dbox, rounded corners=8pt, draw=dblue, line width=1.5pt, text width=7.2cm, minimum height=2.8cm, font=\large] at (3.6,0.0) {\textcolor{dblue}{\textbf{\Large Local × global}}\\[4pt] \textbf{rastreamento de posição},\\ \textbf{localização global} e \textbf{sequestro do robô}};
+\node[dbox, rounded corners=8pt, draw=dorange, line width=1.5pt, text width=7.2cm, minimum height=2.8cm, font=\large] at (11.8,0.0) {\textcolor{dorange}{\textbf{\Large Estático × dinâmico}}\\[4pt] só o robô muda, ou pessoas e objetos também mudam};
+\node[dbox, rounded corners=8pt, draw=dgreen, line width=1.5pt, text width=7.2cm, minimum height=2.8cm, font=\large] at (3.6,-3.6) {\textcolor{dgreen}{\textbf{\Large Passiva × ativa}}\\[4pt] só observa, ou controla o robô para localizar melhor};
+\node[dbox, rounded corners=8pt, draw=dred, line width=1.5pt, text width=7.2cm, minimum height=2.8cm, font=\large] at (11.8,-3.6) {\textcolor{dred}{\textbf{\Large Um × vários robôs}}\\[4pt] cada um se localiza sozinho, ou eles se ajudam};
+\end{tikzpicture}
+\end{document}

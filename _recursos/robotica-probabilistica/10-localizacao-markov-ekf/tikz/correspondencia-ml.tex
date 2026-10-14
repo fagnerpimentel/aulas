@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\draw[black!30, fill=black!2, rounded corners=4pt] (-0.5,-1.5) rectangle (16.5,6.5);
+\fill[dorange!65, draw=black!75] (3.0,1.2) circle (0.35); \draw[black!85, line width=2.4pt] (3.0,1.2) -- (3.35,1.2);
+\draw[dblue, fill=dblue!15, line width=1pt] (3.0,1.2) ellipse (0.9 and 0.6);
+\fill[dgreen] (8.0,4.8) circle (0.3); \node[white, font=\normalsize\bfseries] at (8.0,4.8) {A};
+\fill[dgreen] (11.5,3.0) circle (0.3); \node[white, font=\normalsize\bfseries] at (11.5,3.0) {B};
+\fill[dgreen] (14.2,5.2) circle (0.3); \node[white, font=\normalsize\bfseries] at (14.2,5.2) {C};
+\draw[dred, line width=2pt, -{Stealth}] (3.2,1.4) -- (7.6,4.5); \node[dred, font=\normalsize, align=center] at (5.0,3.7) {o que o robô\\ \textbf{mediu}};
+\node[dsub, font=\normalsize] at (3.0,0.1) {pose estimada};
+\node[dbox, rounded corners=6pt, draw=dgreen, line width=1.4pt, text width=5.4cm, font=\normalsize] at (11.2,0.4) {escolhe o marco cuja medição esperada \textbf{mais combina} com a medida};
+\node[dgreen, font=\large\bfseries] at (8.4,5.6) {$\leftarrow$ mais provável};
+\end{tikzpicture}
+\end{document}

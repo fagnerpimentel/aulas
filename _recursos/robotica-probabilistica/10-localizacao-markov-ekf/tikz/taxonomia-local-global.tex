@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+  \newcommand{\robo}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]\draw[black!75, fill=dorange!65, line width=1pt] (0,0) circle (0.32); \draw[black!85, line width=2.4pt, line cap=round] (0,0) -- (0.32,0);\end{scope}}
+
+  \newcommand{\planta}[1]{\draw[black!70, fill=white, line width=1pt] (#1,0) rectangle (#1+6,4.2); \draw[black!70, line width=1pt] (#1+3,0) -- (#1+3,1.4) (#1+3,2.6) -- (#1+3,4.2);}
+  \begin{scope}
+    \planta{0} \fill[dblue!40] (1.6,1.0) ellipse (0.9 and 0.7); \robo{1.6}{1.0}{20}
+    \node[font=\bfseries\large, dblue] at (3,4.9) {rastreamento};
+    \node[dsub, font=\normalsize, align=center] at (3,-0.8) {pose inicial \textbf{conhecida};\\ incerteza pequena e local};
+  \end{scope}
+  \begin{scope}[shift={(7.2,0)}]
+    \planta{0} \fill[dblue!18] (0.1,0.1) rectangle (5.9,4.1); \robo{4.4}{1.2}{150}
+    \node[font=\bfseries\large, dblue] at (3,4.9) {localização global};
+    \node[dsub, font=\normalsize, align=center] at (3,-0.8) {pose inicial \textbf{desconhecida};\\ crença uniforme};
+  \end{scope}
+  \begin{scope}[shift={(14.4,0)}]
+    \planta{0} \fill[dblue!40] (1.4,3.0) ellipse (0.7 and 0.5); \robo{4.6}{1.0}{90}
+    \draw[dred, dashed, line width=1.4pt, -{Stealth}] (1.7,3.3) to[bend left=25] (4.4,1.4);
+    \node[font=\bfseries\large, dred] at (3,4.9) {robô sequestrado};
+    \node[dsub, font=\normalsize, align=center] at (3,-0.8) {robô \textbf{levado} sem saber;\\ ainda acha que está no mesmo lugar};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

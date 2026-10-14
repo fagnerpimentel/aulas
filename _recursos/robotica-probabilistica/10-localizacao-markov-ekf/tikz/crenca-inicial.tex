@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+  \newcommand{\eixo}{\draw[daxis] (0,0) -- (5.6,0); \draw[daxis] (0,0) -- (0,3.2);}
+  \begin{scope}
+    \eixo \draw[dblue, line width=3pt] (2.4,0) -- (2.4,3.0); \fill[dblue] (2.4,3.0) circle (0.12);
+    \node[font=\bfseries\large, dblue] at (2.8,3.8) {pose conhecida};
+    \node[dsub, font=\normalsize, align=center] at (2.8,-0.9) {massa pontual:\\ 1 na pose inicial, 0 no resto};
+  \end{scope}
+  \begin{scope}[shift={(7,0)}]
+    \eixo \draw[dgreen, line width=2pt, domain=0.3:5.2, samples=50, smooth] plot (\x,{2.8*exp(-((\x-2.6)*(\x-2.6))/(2*0.4*0.4))});
+    \node[font=\bfseries\large, dgreen] at (2.8,3.8) {aproximadamente conhecida};
+    \node[dsub, font=\normalsize, align=center] at (2.8,-0.9) {gaussiana estreita\\ em torno da pose estimada};
+  \end{scope}
+  \begin{scope}[shift={(14,0)}]
+    \eixo \draw[dorange, line width=2.4pt] (0.3,1.0) -- (5.2,1.0); \fill[dorange!15] (0.3,0) rectangle (5.2,1.0);
+    \node[font=\bfseries\large, dorange] at (2.8,3.8) {pose desconhecida};
+    \node[dsub, font=\normalsize, align=center] at (2.8,-0.9) {distribuição uniforme\\ sobre todas as poses do mapa};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

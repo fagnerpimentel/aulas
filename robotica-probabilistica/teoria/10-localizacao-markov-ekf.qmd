@@ -1,0 +1,620 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Localização de Markov e Gaussiana"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/10-localizacao-markov-ekf
+---
+
+# Localização de Markov e Gaussiana
+
+::: {.esquerda}
+Capítulo 7 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **O problema da localização** — o que é e por que é difícil
+- **Taxonomia** — local × global; estático × dinâmico; passiva × ativa; um × vários robôs
+- **Localização de Markov** — o filtro de Bayes com um mapa
+- **Localização EKF** — com correspondência conhecida e desconhecida
+- **Rastreamento de múltiplas hipóteses (MHT)** e considerações práticas
+
+# O Problema da Localização
+
+Determinar a **pose** do robô em relação a um **mapa** conhecido.
+
+## O que é localização? {.smaller}
+
+- **Localização** é estimar a pose $x_t = (x \; y \; \theta)^T$ do robô **relativa a um mapa** — também chamada de estimação ou rastreamento de posição
+- É o problema perceptivo **mais básico** da robótica: quase toda tarefa precisa saber onde o robô está
+- Pode ser vista como uma **transformação de coordenadas**: o mapa tem um referencial global; o robô tem o seu próprio
+- Conhecer a pose basta para converter um objeto do mapa para o referencial do robô — pré-requisito da navegação
+
+![](images/pose-mapa-referencial.svg){fig-align="center" width="62%"}
+
+## Por que é difícil? {.smaller}
+
+- A pose **não pode ser medida diretamente**: não há sensor de pose sem ruído
+- É preciso **inferir** a pose a partir dos dados
+- Uma única medição costuma **não bastar**: é preciso **integrar dados ao longo do tempo**
+
+![](images/corredores-iguais.svg){fig-align="center" width="85%"}
+
+## Localização e os Mapas {.smaller}
+
+- A localização funciona com **vários tipos de mapa**: por exemplo, métrico 2-D e topológico (grafo)
+- Ela **supõe que o mapa é preciso** e já está disponível
+- Todos os algoritmos do capítulo são **variantes do filtro de Bayes** 
+  - Nesta aula: filtros **gaussianos**
+  - Na próxima aula: filtros **não paramétricos**
+
+# Taxonomia dos Problemas
+
+Nem todo problema de localização é igualmente difícil.
+
+## Quatro Dimensões {.smaller}
+
+- A dificuldade depende do **conhecimento inicial** e da natureza do **ambiente**
+
+![](images/taxonomia-quatro-dimensoes.svg){fig-align="center" width="85%"}
+
+## Local × Global × Sequestro {.smaller}
+
+- **Rastreamento de posição** — pose inicial **conhecida**; basta acomodar o ruído do movimento; a incerteza é **local** e costuma ser **unimodal** (gaussiana)
+- **Localização global** — pose inicial **desconhecida**; **não** se pode supor erro limitado; gaussianas são em geral inadequadas; o robô **sabe que está perdido** e mantém todas as hipóteses abertas
+- **Robô sequestrado** — o robô é **teleportado** durante a operação; ele **acha que sabe onde está** e pode confiar em uma pose errada
+
+![](images/taxonomia-local-global.svg){fig-align="center" width="95%"}
+
+## Estático × Dinâmico {.smaller}
+
+- **Ambiente estático** — o único estado que muda é a **pose do robô**; propriedades matemáticas que permitem estimação eficiente
+- **Ambiente dinâmico** — pessoas, luz do dia, móveis, portas; o que importa são mudanças **persistentes** que afetam mais de uma leitura
+  - Mudanças que afetam **uma só medição** são tratadas como **ruído**
+  - Duas abordagens: **incluir os objetos dinâmicos no estado** (vira um problema de mapeamento) ou **filtrar os dados** para eliminar o efeito do que não é modelado
+
+## Passiva × Ativa {.smaller}
+
+- **Localização passiva** — o módulo só **observa**; o robô é controlado por outros meios (movimento aleatório ou tarefas do dia a dia)
+- **Localização ativa** — **controla o robô** para reduzir o erro de localização e o custo de mover um robô mal localizado a lugares perigosos
+  - A ativa costuma dar **melhores resultados**, mas exige **controle do robô**; este capítulo trata só da **passiva**
+
+![](images/localizacao-ativa.svg){fig-align="center" width="88%"}
+
+## Um × Vários Robôs {.smaller}
+
+- **Um robô** — todos os dados em uma plataforma; sem problema de comunicação
+- **Vários robôs** — cada um poderia se localizar sozinho, mas, **se um detecta o outro**, a crença de um **pode melhorar a do outro**
+  - Isso levanta questões de **representação da crença** e de **comunicação** entre os robôs
+- Ambientes **simétricos** são mais difíceis que assimétricos: há mais ambiguidade
+
+# Localização de Markov
+
+O filtro de Bayes aplicado ao problema da localização.
+
+## O Algoritmo {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Variante do **filtro de Bayes** com o **mapa** $m$ como entrada extra
+- **Entram**: a crença anterior $bel(x_{t-1})$, o controle $u_t$, a medição $z_t$ e o mapa $m$
+- Linha 3 — **previsão**: move a crença com o **modelo de movimento**
+- Linha 4 — **correção**: multiplica pela chance de a medição ter ocorrido; $\eta$ **normaliza**
+- Resolve **rastreamento de posição**, **localização global** e **sequestro do robô** em ambientes **estáticos**
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Localização de Markov}\,\bigl(bel(x_{t-1}),\ u_t,\ z_t,\ m\bigr) \\
+\hline
+\text{2:}\quad \textbf{para todo } x_t \textbf{ faça} \\
+\text{3:}\quad\quad \overline{bel}(x_t) = \int p(x_t \mid u_t,\,x_{t-1},\,m)\ bel(x_{t-1})\ dx_{t-1} \\
+\text{4:}\quad\quad bel(x_t) = \eta\ p(z_t \mid x_t,\,m)\ \overline{bel}(x_t) \\
+\text{5:}\quad \textbf{fim} \\
+\text{6:}\quad \textbf{retornar } bel(x_t) \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## A Crença Inicial {.smaller}
+
+- $bel(x_0)$ reflete o **conhecimento inicial**; depende do tipo de problema
+- **Pose conhecida:** massa pontual; na prática, uma **gaussiana estreita** $\mathcal{N}(x_0;\bar{x}_0,\Sigma)$
+- **Conhecimento parcial:** densidade só perto de portas, ou só em um corredor
+- **Pose desconhecida:** distribuição **uniforme** $1/|X|$ sobre as poses legais do mapa
+
+![](images/crenca-inicial.svg){fig-align="center" width="95%"}
+
+## Exemplo: o Corredor Unidimensional {.smaller}
+
+- Corredor com **três portas idênticas**; o robô só sabe a direção
+- (a) crença **uniforme**
+- (b) ao ver uma porta, **multiplica** por $p(z\mid x,m)$: **multimodal**
+- (c) ao andar, a crença é **combinada** com o modelo de movimento: desloca e **achata**
+- (d) a segunda medição concentra a massa **na pose correta**
+
+![](images/markov-corredor-1d.svg){fig-align="center" width="85%"}
+
+## Independente da Representação {.smaller}
+
+- A localização de Markov **não depende** de como a crença é representada
+- Três representações práticas:
+  - **Filtro de Kalman** — média e covariância (esta aula)
+  - **Grade** — histograma sobre as poses (próxima aula)
+  - **Partículas** — filtro de partículas / Monte Carlo (próxima aula)
+
+# Localização EKF
+
+A localização de Markov com **crença gaussiana**: média $\mu_t$ e covariância $\Sigma_t$.
+
+## Ideia da Localização EKF {.smaller}
+
+- É um **caso particular** da localização de Markov: a crença é uma **gaussiana**
+- O mapa é uma coleção de ***features*** (marcos pontuais)
+- A cada instante o robô observa **alcance, direção e assinatura** de marcos próximos: $z_t = \{z_t^1, z_t^2, \dots\}$
+  - **Alcance** $r$ — a **distância** do robô até o marco (em metros)
+  - **Direção** $\phi$ — o **ângulo** em que o marco aparece em relação à **frente** do robô
+  - **Assinatura** $s$ — o que **identifica** o marco: uma cor, um código, um número; serve para dizer **qual** marco é
+- A **identidade** do marco é dada pela variável de **correspondência** $c_t^i$
+  - $c_t^i$ diz **qual marco do mapa** gerou a $i$-ésima medição: se ela veio do marco 2, então $c_t^i = 2$
+  - É necessária porque a correção compara o **medido** com o **esperado** daquele marco, e o esperado depende da **posição dele no mapa**
+  - Primeiro: correspondência **conhecida**; depois, **desconhecida**
+
+## Exemplo no Corredor {.smaller}
+
+- Pressupostos: **portas rotuladas** (1, 2, 3) e **pose inicial razoavelmente conhecida**
+- (a) crença gaussiana perto da porta 1
+- (b) o robô anda: a gaussiana **desloca e alarga**
+- (c) vê a porta 2: a gaussiana resultante é **mais estreita que ambas** (crença e medição)
+- (d) anda de novo: a incerteza **volta a crescer**
+
+![](images/ekf-corredor-1d.svg){fig-align="center" width="85%"}
+
+## Modelos Usados {.smaller}
+
+- **Movimento**: o controle $u_t = (v_t \;\; \omega_t)^T$ são a velocidade de **avanço** $v_t$ e a de **giro** $\omega_t$ aplicadas durante um intervalo $\Delta t$
+- **Medição**: para cada marco $j$ visto, o sensor devolve **três números** — distância $r$, direção $\phi$ e assinatura $s$:
+
+$$
+z_t^i = \begin{pmatrix} \sqrt{(m_{j,x}-x)^2 + (m_{j,y}-y)^2} \\ \operatorname{atan2}(m_{j,y}-y,\, m_{j,x}-x) - \theta \\ m_{j,s} \end{pmatrix} + \mathcal{N}(0, Q_t)
+$$
+
+- **Linha 1:** distância do robô ao marco; **linha 2:** direção do marco em relação à **frente** do robô; **linha 3:** a assinatura do marco (sua identificação)
+- $\mathcal{N}(0, Q_t)$ é o **ruído** do sensor: $Q_t = \operatorname{diag}(\sigma_r, \sigma_\phi, \sigma_s)$, um erro típico para cada número
+
+## Algoritmo Completo: Localização EKF {.smaller}
+
+::: columns
+::: {.column width="46%"}
+::: {.pseudo style="font-size:66%"}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF}\,(\mu_{t-1},\Sigma_{t-1},u_t,z_t,c_t,m)\ \text{— previsão} \\
+\hline
+\text{2:}\ \ \bar\mu_t = \mu_{t-1} + \begin{pmatrix} -\rho\sin\theta + \rho\sin(\theta+\omega_t\Delta t) \\ \rho\cos\theta - \rho\cos(\theta+\omega_t\Delta t) \\ \omega_t\Delta t \end{pmatrix} \\[14pt]
+\text{3:}\ \ G_t = \begin{pmatrix} 1 & 0 & -\rho\cos\theta + \rho\cos(\theta+\omega_t\Delta t) \\ 0 & 1 & -\rho\sin\theta + \rho\sin(\theta+\omega_t\Delta t) \\ 0 & 0 & 1 \end{pmatrix} \\[14pt]
+\text{4:}\ \ \bar\Sigma_t = G_t\,\Sigma_{t-1}\,G_t^T + R_t \\
+\text{5:}\ \ Q_t = \operatorname{diag}(\sigma_r,\ \sigma_\phi,\ \sigma_s) \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+::: {.column width="54%"}
+::: {.pseudo style="font-size:66%"}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{correção (medição)} \\
+\hline
+\text{6:}\ \ \textbf{para cada } z_t^i = (r_t^i\ \phi_t^i\ s_t^i)^T \textbf{ faça} \\
+\text{7:}\quad j = c_t^i \\
+\text{8:}\quad \delta = (m_{j,x}-\bar\mu_{t,x},\ m_{j,y}-\bar\mu_{t,y})^T \\
+\text{9:}\quad q = \delta^T\delta \\
+\text{10:}\quad \hat z_t^i = \bigl(\sqrt q,\ \operatorname{atan2}(\delta_y,\delta_x)-\bar\mu_{t,\theta},\ m_{j,s}\bigr)^T \\
+\text{11:}\quad H_t^i = \tfrac{1}{q}\begin{pmatrix} \sqrt q\,\delta_x & \sqrt q\,\delta_y & 0 \\ -\delta_y & \delta_x & -q \\ 0 & 0 & 0 \end{pmatrix} \\[10pt]
+\text{12:}\quad K_t^i = \bar\Sigma_t H_t^{iT}\bigl(H_t^i\bar\Sigma_t H_t^{iT} + Q_t\bigr)^{-1} \\
+\text{13:}\ \ \textbf{fim} \\
+\text{14:}\ \ \mu_t = \bar\mu_t + \textstyle\sum_i K_t^i\,(z_t^i - \hat z_t^i) \\
+\text{15:}\ \ \Sigma_t = \bigl(I - \textstyle\sum_i K_t^i H_t^i\bigr)\bar\Sigma_t \\
+\text{16:}\ \ \textbf{retornar } \mu_t,\ \Sigma_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+$\theta = \mu_{t-1,\theta}$; $\rho = v_t/\omega_t$. **Linhas 2–4:** prever; **linhas 6–15:** corrigir com cada marco.
+
+## Algoritmo: Atualização do Movimento {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Passo de **previsão**: o robô andou, então a **incerteza cresce**
+- Linha 2: move a média **sem ruído**; $\bar\mu_t$ é a **pose prevista**
+- $\theta$ é a **orientação estimada** antes de andar ($\mu_{t-1,\theta}$) e $\rho = v_t/\omega_t$ é o **raio** do arco
+- Linha 3: $G_t$ (**Jacobiano**) **aproxima o movimento por uma reta**
+- Linha 4: a incerteza antiga é levada à nova pose e somada ao ruído $R_t$: **cresce**
+- Linha 5: $Q_t$ é o **ruído do sensor** (usado na correção)
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF: movimento}\,\bigl(\mu_{t-1},\ \Sigma_{t-1},\ u_t\bigr) \\
+\hline
+\text{2:}\quad \bar\mu_t = \mu_{t-1} + \begin{pmatrix} -\rho\sin\theta + \rho\sin(\theta+\omega_t\Delta t) \\ \ \ \rho\cos\theta - \rho\cos(\theta+\omega_t\Delta t) \\ \omega_t\Delta t \end{pmatrix} \\[14pt]
+\text{3:}\quad G_t = \begin{pmatrix} 1 & 0 & -\rho\cos\theta + \rho\cos(\theta+\omega_t\Delta t) \\ 0 & 1 & -\rho\sin\theta + \rho\sin(\theta+\omega_t\Delta t) \\ 0 & 0 & 1 \end{pmatrix} \\[14pt]
+\text{4:}\quad \bar\Sigma_t = G_t\,\Sigma_{t-1}\,G_t^T + R_t \\
+\text{5:}\quad Q_t = \operatorname{diag}(\sigma_r,\ \sigma_\phi,\ \sigma_s) \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Algoritmo: Medição — o Que Deveríamos Ver {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Pergunta** (linhas 6 a 10): se o robô estivesse em $\bar\mu_t$, o que o sensor mostraria deste marco?
+- Linha 7: $j$ é **qual marco do mapa** foi visto
+- Linha 8: $\delta$ é a **diferença de posição** marco − robô (x e y)
+- Linha 9: $q$ é a **distância ao quadrado** (Pitágoras)
+- Linha 10: $\hat z_t^i$ é a **medição esperada**: distância $\sqrt q$, **direção** (ângulo até o marco menos a orientação $\bar\mu_{t,\theta}$) e assinatura
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF: medição}\,\bigl(\bar\mu_t,\ \bar\Sigma_t,\ z_t,\ c_t,\ m\bigr) \\
+\hline
+\text{6:}\quad \textbf{para cada } z_t^i = (r_t^i\ \phi_t^i\ s_t^i)^T \textbf{ faça} \\
+\text{7:}\quad\quad j = c_t^i \\
+\text{8:}\quad\quad \delta = (m_{j,x}-\bar\mu_{t,x},\ m_{j,y}-\bar\mu_{t,y})^T \\
+\text{9:}\quad\quad q = \delta^T\delta \\
+\text{10:}\quad\quad \hat z_t^i = \bigl(\sqrt q,\ \operatorname{atan2}(\delta_y,\delta_x)-\bar\mu_{t,\theta},\ m_{j,s}\bigr)^T \\
+\text{11:}\quad\quad \dots \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Algoritmo: Medição — o Jacobiano {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linha 11: $H_t^i$ diz **quanto a medição esperada muda** se a pose mudar um pouquinho
+- Exemplo: avançar **1 cm** na direção do marco diminui a **distância** em cerca de **1 cm**
+- A EKF só usa relações **lineares**: $H_t^i$ **troca a curva por uma reta** perto de $\bar\mu_t$
+- A **3ª linha é zero**: a pose não muda a assinatura, então ela não informa a pose
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF: medição}\ \text{(linha 11)} \\
+\hline
+\text{11:}\quad H_t^i = \dfrac{1}{q}\begin{pmatrix} \sqrt q\,\delta_x & \sqrt q\,\delta_y & 0 \\ -\delta_y & \delta_x & -q \\ 0 & 0 & 0 \end{pmatrix} \\[14pt]
+\hline
+\end{array}
+$$
+
+linhas: **distância**, **direção**, **assinatura**; colunas: $x$, $y$, $\theta$
+
+:::
+:::
+:::
+
+## Algoritmo: Medição — Corrigindo a Pose {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linha 12: o **ganho de Kalman** $K_t^i$ decide **quanto confiar** na medição em vez da previsão: 
+  - sensor **preciso** ($Q_t$ pequeno) → ganho **alto**
+  - pose **incerta** ($\bar\Sigma_t$ grande) → ganho **alto**
+- Linha 14: a média é corrigida pela **diferença** $z_t^i - \hat z_t^i$ (o que vimos menos o que esperávamos), **ponderada** por $K_t^i$; o somatório junta **todos os marcos** vistos
+- Linha 15: a covariância **diminui**: cada marco visto **tira incerteza** da pose
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF: medição (continuação)} \\
+\hline
+\text{6:}\quad \textbf{para cada } z_t^i \textbf{ faça} \\
+\text{7–11:}\quad\quad j,\ \delta,\ q,\ \hat z_t^i,\ H_t^i \\
+\text{12:}\quad\quad K_t^i = \bar\Sigma_t H_t^{iT}\bigl(H_t^i\bar\Sigma_t H_t^{iT} + Q_t\bigr)^{-1} \\
+\text{13:}\quad \textbf{fim} \\
+\text{14:}\quad \mu_t = \bar\mu_t + \textstyle\sum_i K_t^i\,(z_t^i - \hat z_t^i) \\
+\text{15:}\quad \Sigma_t = \bigl(I - \textstyle\sum_i K_t^i H_t^i\bigr)\bar\Sigma_t \\
+\text{16:}\quad \textbf{retornar } \mu_t,\ \Sigma_t \\
+\hline
+\end{array}
+$$
+
+- Resultado: $\mu_t$ e $\Sigma_t$, a **nova crença** gaussiana
+
+:::
+:::
+:::
+
+## Incerteza ao Longo do Caminho {.smaller}
+
+- O robô anda em **linha reta**; a elipse de incerteza **cresce** a cada passo
+- Ao observar um **marco de posição conhecida**, a incerteza **diminui**
+- Com **vários marcos** ao mesmo tempo, cada um é tratado **separadamente** e os efeitos são **somados** 
+
+![](images/ekf-elipses.svg){fig-align="center" width="92%"}
+
+<!-- ## Vários Marcos ao Mesmo Tempo {.smaller}
+
+- Num mesmo instante o robô pode ver **vários marcos**; cada um é tratado **separadamente** e os efeitos são **somados**
+- **Hipótese:** dada a pose, o erro de cada marco é **independente** dos outros:
+
+$$
+p(z_t\mid x_t,m) = \prod_i p(z_t^i\mid x_t,m)
+$$
+
+- Ou seja, a chance de ver **tudo** o que o robô viu é o **produto** das chances de cada marco
+- Um produto de probabilidades vira uma **soma** quando se usa o logaritmo (**espaço de informação**); por isso as linhas 14 e 15 do algoritmo **somam** a contribuição de cada marco -->
+
+# Correspondências Desconhecidas
+
+Como saber **qual marco** foi observado?
+
+## Correspondência por Máxima Verossimilhança {.smaller}
+
+- Na prática, a identidade do marco raramente é certa
+- A técnica mais simples: **máxima verossimilhança** — escolher o marco **mais provável** e tratá-lo **como verdadeiro**
+- Duas formas de **reduzir o risco** de associação errada:
+  - marcos **bem distintos e afastados** entre si
+  - **incerteza de pose pequena**
+- Elas se **opõem**: mais marcos mantêm a incerteza baixa, mas ficam **mais perto** uns dos outros. O equilíbrio é uma **arte**
+
+![](images/correspondencia-ml.svg){fig-align="center" width="70%"}
+
+## O que é Máxima Verossimilhança (ML) {.smaller}
+
+- **Verossimilhança** é o quanto uma hipótese **torna provável** o que foi observado
+- **Máxima verossimilhança (*maximum likelihood*, ML)**: entre as hipóteses possíveis, escolher a que **mais combina** com os dados
+- Aqui, as hipóteses são os **marcos do mapa**: "se o marco $k$ fosse o que vi, o quanto minha medição seria provável?"
+- Testa-se **cada marco** e fica o de **maior verossimilhança**; o resto é descartado
+- **Exemplo:** o robô mede um marco a ~3 m; o marco A estaria a 3,1 m e o B a 8 m. A medição é muito mais provável se for o **A**, que é o escolhido
+- A escolha é tratada como **certa** daí em diante — por isso é **frágil** se dois marcos forem parecidos
+
+## Algoritmo ML — 1º Passo: Testar Cada Marco {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Antes, o marco era **dado** ($j = c_t^i$); agora **não sabemos qual é**, então **testamos todos**
+- Linha 6: repete para **cada marco $k$ do mapa**, e não só para os vistos
+- Linhas 7–10: a mesma conta de antes ($\delta_k$, $q_k$, $\hat z_t^k$, $H_t^k$): o que o sensor mostraria **se aquele marco fosse o visto**
+- Linha 11: $\Psi_k$ é a **margem de erro** dessa medição esperada: soma o erro do sensor ($Q_t$) e a dúvida sobre a pose ($H_t^k\bar\Sigma_t[H_t^k]^T$)
+:::
+::: {.column width="58%"}
+::: {.pseudo style="font-size:80%"}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF com correspondência ML (1º passo)} \\
+\hline
+\text{6:}\ \ \textbf{para todo marco } k \textbf{ do mapa faça} \\
+\text{7:}\quad \delta_k = (m_{k,x}-\bar\mu_{t,x},\ m_{k,y}-\bar\mu_{t,y})^T \\
+\text{8:}\quad q_k = \delta_k^T\delta_k \\
+\text{9:}\quad \hat z_t^k = \bigl(\sqrt{q_k},\ \operatorname{atan2}(\delta_{k,y},\delta_{k,x})-\bar\mu_{t,\theta},\ m_{k,s}\bigr)^T \\
+\text{10:}\quad H_t^k = \tfrac{1}{q_k}\begin{pmatrix} \sqrt{q_k}\,\delta_{k,x} & \sqrt{q_k}\,\delta_{k,y} & 0 \\ -\delta_{k,y} & \delta_{k,x} & -q_k \\ 0 & 0 & 0 \end{pmatrix} \\[10pt]
+\text{11:}\quad \Psi_k = H_t^k\,\bar\Sigma_t\,[H_t^k]^T + Q_t \\
+\text{12:}\ \ \textbf{fim} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Algoritmo ML — 2º Passo: Escolher e Corrigir {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linha 13: para **cada medição** $z_t^i$
+- Linha 14: compara com **cada marco $k$**; a diferença $z_t^i - \hat z_t^k$ é medida em **"desvios"** por $\Psi_k$ (**Mahalanobis**): **pequena** = combina bem
+- O $\arg\min$ fica com o marco de **menor valor** = **maior verossimilhança**, $j(i)$
+- Linha 15: o **ganho de Kalman** usa só o marco escolhido
+- Linhas 17–18: a **mesma correção** de antes, com $j(i)$
+:::
+::: {.column width="58%"}
+::: {.pseudo style="font-size:80%"}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF com correspondência ML (2º passo)} \\
+\hline
+\text{13:}\ \ \textbf{para cada } z_t^i \textbf{ faça} \\
+\text{14:}\quad j(i) = \arg\min_k\, (z_t^i-\hat z_t^k)^T\,\Psi_k^{-1}\,(z_t^i-\hat z_t^k) \\
+\text{15:}\quad K_t^i = \bar\Sigma_t\,[H_t^{j(i)}]^T\,\Psi_{j(i)}^{-1} \\
+\text{16:}\ \ \textbf{fim} \\
+\text{17:}\ \ \mu_t = \bar\mu_t + \textstyle\sum_i K_t^i\,(z_t^i - \hat z_t^{j(i)}) \\
+\text{18:}\ \ \Sigma_t = \bigl(I - \textstyle\sum_i K_t^i H_t^{j(i)}\bigr)\bar\Sigma_t \\
+\text{19:}\ \ \textbf{retornar } \mu_t,\ \Sigma_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## A Distância de Mahalanobis {.smaller}
+
+- Mede a distância em **desvios-padrão**, usando a covariância $\Psi_k$
+- $\Psi_k = H_t \bar\Sigma_t H_t^T + Q_t$ soma a **incerteza da medição** e a **incerteza da pose projetada** no espaço da medição
+- Um ponto pode estar **perto em metros** mas **improvável**, se estiver na direção em que há pouca incerteza
+
+![](images/mahalanobis.svg){fig-align="center" width="62%"}
+
+## Rejeitando Outliers {.smaller}
+
+- Aceitar só marcos cuja distância de Mahalanobis **passa em um limiar**
+- Gaussianas **caem exponencialmente**: um único *outlier* pode ter **enorme efeito** na pose
+- O limiar adiciona **robustez** — sem ele, a EKF tende a ser frágil
+- Outra forma: permitir a correspondência $c = N+1$ ("nenhum marco"); um *outlier* **não informa a pose**, e seus termos são omitidos da atualização
+
+![](images/outlier-limiar.svg){fig-align="center" width="75%"}
+
+# Múltiplas Hipóteses (MHT)
+
+Quando a associação correta não pode ser determinada com segurança.
+
+## Crença como Mistura de Gaussianas {.smaller}
+
+::: columns
+
+::: {.column width="52%"}
+- O **MHT** representa a crença por **várias gaussianas** (uma mistura):
+
+$$
+bel(x_t) = \dfrac{1}{\sum_l \psi_{t,l}} \sum_l \psi_{t,l}\; \mathcal{N}(x_t;\, \mu_{t,l}, \Sigma_{t,l})
+$$
+
+- Cada componente é uma **"trilha"** com média, covariância e **peso** $\psi_{t,l} \ge 0$
+- Cada trilha corresponde a **uma sequência única** de decisões de associação
+:::
+
+::: {.column width="48%"}
+![](images/mht-mistura.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Como o MHT Funciona {.smaller}
+
+- O algoritmo **completo** manteria **todas** as associações: cada gaussiana se divide em várias a cada passo — **cresce exponencialmente**
+- O novo peso é o peso da trilha original **vezes a verossimilhança** da medição com aquela associação: $\psi_{t,m} = \psi_{t,l}\; p(z_t \mid c_{1:t-1,l}, c_{t,m}, \dots)$
+- O MHT **poda** toda trilha cujo peso relativo cai abaixo de um limiar $\psi_{\min}$
+- Assim há **no máximo $1/\psi_{\min}$** componentes; na prática, poucas posições são plausíveis
+
+## EKF × MHT {.smaller}
+
+| | **EKF** | **MHT** |
+|---|---|---|
+| Crença | **uma** gaussiana | **mistura** de gaussianas |
+| Associação | **uma** decisão (a mais provável) | **várias** hipóteses |
+| Robustez à associação errada | **frágil** | **maior** |
+| Custo | **menor** | **maior** |
+
+<!-- # Considerações Práticas
+
+O que faz a EKF funcionar (ou falhar) na vida real.
+
+## Melhoria 1: Busca Eficiente {.smaller}
+
+- **Problema:** o algoritmo ML compara **cada medição** com **todos os marcos** do mapa (linhas 6 a 12) — com um mapa grande, fica **lento**
+- Na prática, o robô só enxerga marcos **perto dele**
+- **Solução:** um **teste barato** antes da conta completa
+  - a partir da medição (distância e direção), calcula-se **onde o marco estaria no mapa**, em torno da pose estimada (projeção no plano x-y)
+  - só os marcos **próximos** desse ponto viram candidatos; os demais são **descartados** sem calcular $\Psi_k$
+- **Resultado:** um número **pequeno e constante** de candidatos — pode ser **ordens de grandeza** mais rápido
+
+## Melhoria 2: Exclusão Mútua {.smaller}
+
+- **Regra:** duas medições **diferentes** do mesmo instante **não** podem vir do **mesmo marco** (ex.: duas regiões distintas de uma imagem são lugares distintos no mundo)
+- **Problema:** o ML escolhe cada medição **separadamente**, então duas podem escolher o **mesmo marco**
+- **Solução:** uma fase de **reparo** — quando duas medições disputam o mesmo marco, uma fica com ele e a outra passa para o **segundo melhor**
+- Importante principalmente quando os marcos são **densos**
+
+![](images/exclusao-mutua.svg){fig-align="center" width="60%"}
+
+## Melhoria 3: Tratando Outliers {.smaller}
+
+- **Outlier:** medição que **não vem de nenhum marco** do mapa (um objeto qualquer, um ruído do sensor)
+- **Solução:** incluir um candidato extra, "**nenhum marco**" (correspondência $c = N+1$), com uma **probabilidade a priori** de outlier
+- Se "nenhum marco" for o **mais provável**, a medição é **ignorada**: seus termos são omitidos da correção (linhas 17 e 18)
+- Complementa o **limiar de Mahalanobis** visto antes: ambos **protegem** o filtro de medições que não pertencem a nenhum marco
+
+## Por que só Rastreamento de Posição? {.smaller}
+
+- EKF e MHT servem para **rastreamento de posição**; **não** para **localização global** ou **sequestro do robô**
+- Três razões complementares:
+  - uma **gaussiana unimodal** só representa bem a incerteza do rastreamento de posição
+  - uma gaussiana **estreita** reduz o risco de **correspondência errada** (um erro pode derrubar o filtro)
+  - a **linearização** só vale **perto do ponto**: se $\sigma_\theta > \pm 20^\circ$, o algoritmo provavelmente **falha**
+
+![](images/limites-ekf.svg){fig-align="center" width="82%"}
+
+## Escolhendo os Marcos {.smaller}
+
+- Projetar boas ***features*** é uma **arte**: objetivos concorrentes
+  - **Muitos marcos** mantêm a incerteza **pequena** — vital para a EKF
+  - **Poucos e distintos** reduzem a chance de **confundi-los** ou de detectar **falsos marcos**
+- Regra prática: **mais marcos** tendem a funcionar **melhor**, mesmo para a EKF — mas, se forem **densos**, aplique a **exclusão mútua**
+- Quando os marcos são **esparsos**, o MHT tem vantagem
+
+## Informação Negativa {.smaller}
+
+- A EKF processa **só parte** da informação do sensor: reduzir o dado bruto a ***features*** já descarta muita coisa
+- Ela **não usa informação negativa**: a **ausência** de um marco esperado também informa
+- Exemplo: **não ver a torre Eiffel** indica que é improvável estar ao lado dela
+- Informação negativa gera crenças **não gaussianas**, que média e covariância não representam
+- O MHT padrão também a ignora, mas dá para **reduzir o peso** das trilhas que **não viram** o marco
+
+![](images/informacao-negativa.svg){fig-align="center" width="62%"}
+
+## As Técnicas Gaussianas Funcionam? {.smaller}
+
+- Com tantas limitações, as técnicas gaussianas são **frágeis**? **Não necessariamente**
+- A chave é a **associação de dados**; técnicas mais sofisticadas aparecem **mais adiante** na disciplina
+- Muitas são aplicáveis a representações **gaussianas** — e os algoritmos resultantes estão **entre os melhores conhecidos**
+ -->
+# Conclusão
+
+## O que vimos {.smaller}
+
+- **Localização** = estimar a pose do robô em relação a um **mapa conhecido**
+- **Representações** = local x global; estático × dinâmico; passiva × ativa; um × vários robôs
+- **Localização de Markov** = **filtro de Bayes** aplicado à localização
+- **Localização EKF** = **gaussiana** sobre mapas de *features*; **ML** para a correspondência
+- **MHT** = **mistura** de gaussianas, com poda de trilhas
+- EKF e MHT são ótimos para **rastreamento de posição**, **não** para **localização global** ou **sequestro do robô**
+
+## Para pensar {.smaller}
+
+- Por que uma **gaussiana unimodal** não consegue representar o robô perdido no corredor de portas idênticas?
+- O que acontece com a EKF se uma **associação errada** for aceita? Como o **limiar** de Mahalanobis ajuda?
+- Que **informação** você perderia ao trocar a medição bruta do *laser* por *features*?
+
+## Próxima aula {.smaller}
+
+- **Localização por grade e Monte Carlo**: algoritmos **não paramétricos** que resolvem a **localização global** e o **sequestro do robô**

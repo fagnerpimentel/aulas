@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\draw[black!30, fill=black!2, rounded corners=4pt] (-0.5,-1.6) rectangle (17,5.0);
+\draw[black!50, line width=1pt, dashed] (0.5,1.5) -- (16,1.5);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (1.00,1.5) ellipse (0.30 and 0.20); \fill[dorange] (1.00,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (3.20,1.5) ellipse (0.55 and 0.30); \fill[dorange] (3.20,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (5.40,1.5) ellipse (0.85 and 0.45); \fill[dorange] (5.40,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (7.60,1.5) ellipse (1.20 and 0.65); \fill[dorange] (7.60,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (9.80,1.5) ellipse (1.60 and 0.85); \fill[dorange] (9.80,1.5) circle (0.1);
+\node[dblue, font=\normalsize, align=center] at (5.4,3.2) {incerteza \textbf{cresce}\\ a cada passo (movimento)};
+\fill[dgreen] (13.0,3.7) -- (12.7,3.2) -- (13.3,3.2) -- cycle; \node[dgreen, font=\normalsize\bfseries] at (13.0,4.3) {marco};
+\draw[dgreen, dashed, line width=1pt, ->] (11.6,1.7) -- (12.8,3.15);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (11.60,1.5) ellipse (2.10 and 1.10); \fill[dorange] (11.60,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (13.80,1.5) ellipse (0.80 and 0.35); \fill[dorange] (13.80,1.5) circle (0.1);
+\draw[dblue, fill=dblue!22, line width=1.1pt] (15.60,1.5) ellipse (0.70 and 0.30); \fill[dorange] (15.60,1.5) circle (0.1);
+\node[dgreen, font=\normalsize, align=center, text width=4cm] at (14.7,-0.6) {ao ver o marco, a incerteza \textbf{diminui}};
+\node[dsub, font=\normalsize] at (5.4,-0.6) {elipse = incerteza da pose $(x,y)$};
+\end{tikzpicture}
+\end{document}

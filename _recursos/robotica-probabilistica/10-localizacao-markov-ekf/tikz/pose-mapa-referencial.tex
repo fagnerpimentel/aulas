@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+  \newcommand{\robo}[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]\draw[black!75, fill=dorange!65, line width=1pt] (0,0) circle (0.32); \draw[black!85, line width=2.4pt, line cap=round] (0,0) -- (0.32,0);\end{scope}}
+
+  \draw[black!30, fill=black!2, rounded corners=4pt] (-0.8,-0.8) rectangle (11.5,7.2);
+  \draw[daxis, line width=1.2pt] (0,0) -- (3,0) node[right, font=\large] {$x$}; \draw[daxis, line width=1.2pt] (0,0) -- (0,3) node[above, font=\large] {$y$};
+  \node[font=\normalsize\bfseries, dblue, anchor=north east] at (-0.1,-0.1) {mapa (global)};
+  \draw[dblue, line width=1.2pt] (3.5,1.4) rectangle (10.8,6.6); \node[dsub, font=\normalsize] at (7.1,6.95) {ambiente conhecido (mapa)};
+  \robo{6.6}{3.4}{35}
+  \draw[dguide] (6.6,3.4) -- (6.6,0); \draw[dguide] (6.6,3.4) -- (0,3.4);
+  \draw[dgreen, line width=1.4pt, -{Stealth}] (6.6,3.4) -- ++(35:1.9); \draw[dgreen, line width=1.4pt, -{Stealth}] (6.6,3.4) -- ++(125:1.5);
+  \node[dgreen, font=\normalsize] at (8.9,4.1) {$x_{robô}$}; \node[dgreen, font=\normalsize] at (5.5,4.6) {$y_{robô}$};
+  \draw[dorange, line width=1pt] (6.6,3.4) ++(1.2,0) arc (0:35:1.2); \node[dorange, font=\large] at (8.0,3.7) {$\theta$};
+  \fill[dred] (9.6,5.6) circle (0.2); \node[dred, font=\normalsize, anchor=west] at (9.8,5.6) {objeto};
+  \draw[dred, dashed, line width=1pt, ->] (6.8,3.6) -- (9.4,5.5);
+  \node[font=\normalsize\bfseries, dgreen, anchor=south west] at (6.9,2.5) {robô};
+\end{tikzpicture}
+\end{document}

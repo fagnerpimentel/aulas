@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\usetikzlibrary{shapes.callouts}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,bal/.style={rectangle callout, rounded corners=7pt, draw=black!75, fill=white, line width=1pt, align=center, font=\normalsize, inner sep=5pt}]
+\draw[daxis] (0,0) -- (12,0) node[right, font=\normalsize] {distância de Mahalanobis}; \draw[daxis] (0,0) -- (0,3.8);
+\draw[dblue, line width=2pt, domain=0.2:11.5, samples=60, smooth] plot (\x,{3.2*exp(-(\x*\x)/18)});
+\draw[dred, dashed, line width=1.6pt] (6.0,0) -- (6.0,3.6); \node[dred, font=\normalsize\bfseries, anchor=south] at (6.0,3.65) {limiar};
+\fill[dgreen!20] (0.2,0) -- plot[domain=0.2:6,samples=40] (\x,{3.2*exp(-(\x*\x)/18)}) -- (6,0) -- cycle;
+\node[dgreen, font=\large\bfseries] at (2.4,0.9) {aceita}; \node[dred, font=\large\bfseries] at (9.0,0.9) {rejeita (\textit{outlier})};
+\node[dsub, font=\normalsize, align=center, text width=11cm] at (6,-1.2) {gaussianas decaem rápido: \textbf{um único valor atípico} pode estragar a estimativa da pose};
+\end{tikzpicture}
+\end{document}
