@@ -4,27 +4,27 @@
 \begin{tikzpicture}[x=1cm,y=1cm]
 
   % bicicleta
-  \begin{scope}[shift={(5.0,2.0)}, line width=1.6pt, draw=black!75]
-    \draw (0,0) circle (0.75); \draw (2.3,0) circle (0.75);
-    \draw (0,0) -- (0.95,1.25) -- (1.75,1.25) -- (2.3,0);
-    \draw (0.95,1.25) -- (1.15,0) -- (0,0);
-    \draw (1.15,0) -- (1.75,1.25);
-    \draw (0.8,1.55) -- (1.15,1.55) ;
-    \draw (1.75,1.25) -- (1.95,1.75) -- (2.25,1.75);
-    \fill[black!75] (1.15,0) circle (0.07);
+  \begin{scope}[shift={(6.6,2.3)}, line width=2pt, draw=black!75]
+    \draw (0,0) circle (0.9); \draw (2.7,0) circle (0.9);
+    \draw (0,0) -- (1.1,1.45) -- (2.05,1.45) -- (2.7,0);
+    \draw (1.1,1.45) -- (1.35,0) -- (0,0);
+    \draw (1.35,0) -- (2.05,1.45);
+    \draw (0.9,1.8) -- (1.35,1.8);
+    \draw (2.05,1.45) -- (2.3,2.0) -- (2.65,2.0);
+    \fill[black!75] (1.35,0) circle (0.08);
   \end{scope}
-  \node[dlbl, font=\small\bfseries] at (6.2,4.2) {artefato: bicicleta};
+  \node[font=\large\bfseries, black!70] at (7.95,4.6) {artefato: bicicleta};
 
-  \node[ellipse, draw=black!70, fill=white, line width=1pt, minimum width=3.2cm, minimum height=1.3cm, font=\small] (s1) at (0.6,2.0) {situação atual};
-  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (s1.east) -- (3.9,2.0) node[midway, above, dlbl, font=\scriptsize] {intervenção};
+  \node[ellipse, draw=black!70, fill=white, line width=1.1pt, minimum width=3.8cm, minimum height=1.6cm, font=\large] (s1) at (1.0,2.3) {situação atual};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3.4mm]}] (s1.east) -- (5.2,2.3) node[midway, above, black!65, font=\large] {intervenção};
 
-  \node[ellipse, draw=black!70, fill=white, line width=1pt, minimum width=3.4cm, minimum height=1.3cm, font=\small] (s2) at (11.3,2.0) {nova situação};
-  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (8.6,2.0) -- (s2.west);
+  \node[ellipse, draw=black!70, fill=white, line width=1.1pt, minimum width=3.8cm, minimum height=1.6cm, font=\large] (s2) at (14.6,2.3) {nova situação};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3.4mm]}] (10.8,2.3) -- (s2.west);
 
-  \node[dbox, draw=dgreen, line width=1.2pt, text width=5.4cm, align=left, font=\scriptsize] at (4.4,-1.1) {\textbf{\textcolor{dgreen}{consequências positivas}}\\ muda o meio de transporte\\ economiza dinheiro com outros meios\\ prática de esporte e vida mais saudável\\ preservação do meio ambiente};
-  \node[dbox, draw=dred, line width=1.2pt, text width=5.4cm, align=left, font=\scriptsize] at (10.6,-1.1) {\textbf{\textcolor{dred}{consequências negativas}}\\ reservar um local para guardar\\ comprar capacete e equipamentos\\ novos custos e cuidados\\ dependência do clima};
-  \draw[dtrans, dgreen] (s2.south west) -- (5.2,-0.25);
-  \draw[dtrans, dred] (s2.south) -- (10.6,-0.25);
+  \node[dbox, draw=dgreen, line width=1.4pt, text width=7.6cm, align=left, font=\large] (pos) at (3.9,-2.1) {\textbf{\textcolor{dgreen}{consequências positivas}}\\ muda o meio de transporte\\ economiza com outros meios\\ prática de esporte, vida mais saudável\\ preservação do meio ambiente};
+  \node[dbox, draw=dred, line width=1.4pt, text width=7.6cm, align=left, font=\large] (neg) at (12.3,-2.1) {\textbf{\textcolor{dred}{consequências negativas}}\\ reservar um local para guardar\\ comprar capacete e equipamentos\\ novos custos e cuidados\\ dependência do clima};
+  \draw[dtrans, dgreen, line width=1.4pt] (s2.south west) -- (pos.north east);
+  \draw[dtrans, dred, line width=1.4pt] (s2.south) -- (neg.north);
 
 \end{tikzpicture}
 \end{document}
