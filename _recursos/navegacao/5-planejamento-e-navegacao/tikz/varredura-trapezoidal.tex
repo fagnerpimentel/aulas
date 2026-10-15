@@ -1,0 +1,42 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dbody, line width=1.2pt] (0,0) rectangle (14,7);
+
+  % Faixa de exemplo (uma das colunas geradas pela varredura)
+  \fill[dshade, opacity=0.6] (4.0,0) rectangle (8.5,7);
+
+  % Obstáculos
+  \fill[black!80] (2.0,2.0) -- (4.0,2.8) -- (3.2,4.8) -- (1.2,4.0) -- cycle;
+  \fill[black!80] (8.5,3.0) -- (10.5,4.5) -- (9.0,5.5) -- cycle;
+
+  % Segmentos verticais erguidos em cada vértice (varredura)
+  \foreach \x in {1.2,2.0,3.2,4.0,8.5,9.0,10.5} {
+    \draw[dorange, line width=0.6pt] (\x,0) -- (\x,7);
+  }
+
+  % Linha de varredura L em progresso, com seta de avanço
+  \draw[dred, line width=1.6pt] (6.2,0) -- (6.2,7);
+  \draw[dred, -{Stealth[length=2.6mm]}] (6.2,7.4) -- (7.6,7.4);
+  \node[dred, font=\small] at (6.2,7.8) {$L$};
+
+  % Grafo de conectividade sobre algumas células representativas
+  \foreach \p in {(0.6,3.5),(1.6,1.0),(2.6,5.6),(3.6,1.2),(6.2,3.5),(6.2,6.2),(6.2,0.8),(9.7,3.5),(9.7,1.0),(12.2,3.5)} {
+    \fill[dblue] \p circle (0.08);
+  }
+  \draw[dtrans, line width=0.9pt]
+    (0.6,3.5) -- (1.6,1.0) -- (3.6,1.2) -- (6.2,0.8) -- (6.2,3.5) -- (9.7,1.0) -- (9.7,3.5) -- (12.2,3.5)
+    (6.2,3.5) -- (6.2,6.2) -- (2.6,5.6);
+
+  \fill[dorange] (0.6,3.5) circle (0.1);
+  \node[dorange, font=\scriptsize, anchor=north east] at (0.6,3.4) {início};
+  \fill[dorange] (12.2,3.5) circle (0.1);
+  \node[dorange, font=\scriptsize, anchor=north west] at (12.2,3.4) {objetivo};
+
+  \node[dsub, font=\scriptsize, align=center, text width=19.5cm] at (7,-1.1)
+     {\textbf{Varredura trapezoidal}: uma reta $L$ paralela ao eixo $y$ varre o espaço; a cada vértice, erguem-se até dois segmentos verticais até a aresta imediatamente acima/abaixo --- os trapézios e triângulos resultantes formam as células, em $O(n \log n)$};
+
+\end{tikzpicture}
+\end{document}

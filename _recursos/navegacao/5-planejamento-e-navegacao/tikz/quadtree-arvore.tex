@@ -1,0 +1,32 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------- Painel B: árvore (esquemática) ----------
+  \begin{scope}
+    \node[font=\bfseries\large] at (3.0,8.5) {A árvore $2^m$ correspondente};
+
+    \node[dstate, minimum size=11mm, font=\large] (root) at (3.0,7.0) {$\Omega$};
+
+    \node[dobs, minimum size=11mm, fill=dshade, font=\normalsize] (tl) at (0.6,4.8) {TL};
+    \node[dobs, minimum size=11mm, fill=dshade, font=\normalsize] (tr) at (2.2,4.8) {TR};
+    \node[dobs, minimum size=11mm, fill=dcream, font=\normalsize] (bl) at (3.8,4.8) {BL};
+    \node[dobs, minimum size=11mm, fill=dcream, font=\normalsize] (br) at (5.4,4.8) {BR};
+    \draw[dtrans] (root) -- (tl);
+    \draw[dtrans] (root) -- (tr);
+    \draw[dtrans] (root) -- (bl);
+    \draw[dtrans] (root) -- (br);
+    \node[dsub, font=\normalsize] at (3.8,3.9) {EMPTY};
+    \node[dsub, font=\normalsize] at (5.4,3.9) {EMPTY};
+
+    \draw[dguide] (tl) -- (0.3,2.7);
+    \draw[dguide] (tr) -- (2.9,2.7);
+    \node[dsub, font=\normalsize, align=center, text width=2.3cm] at (0.3,2.0) {4 filhos: MIXED, \textbf{refinar}};
+    \node[dsub, font=\normalsize, align=center, text width=2.3cm] at (3.1,2.0) {4 filhos: 1 ainda MIXED};
+
+      \end{scope}
+
+
+\end{tikzpicture}
+\end{document}

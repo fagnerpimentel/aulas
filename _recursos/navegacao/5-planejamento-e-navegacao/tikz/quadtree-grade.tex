@@ -1,0 +1,60 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------- Painel A: subdivisão espacial ----------
+  \begin{scope}[shift={(0,0)}]
+    \node[font=\bfseries\large] at (4,8.7) {Subdivisão recursiva de $\Omega$};
+
+    % Fundo cheio: tudo começa como "livre" (EMPTY) por baixo
+    \fill[dcream] (0,0) rectangle (8,8);
+
+    % Nível 3 - folhas dentro de TLa [0,2]x[6,8]
+    \fill[black!85] (1,7) rectangle (2,8);
+    % Nível 3 - folhas dentro de TLd [2,4]x[4,6]
+    \fill[black!85] (3,5) rectangle (4,6);
+    % Nível 3 - folhas dentro de TRb [6,8]x[6,8]
+    \fill[black!85] (6,7) rectangle (7,8);
+    % Nível 3 - folhas dentro de TRc [4,6]x[4,6]
+    \fill[black!85] (5,5) rectangle (6,6);
+
+    % Nível 2 - FULL direto (TLb) e MIXED ainda não refinado (TRd)
+    \fill[black!85] (2,6) rectangle (4,8);
+    \fill[dshade] (6,4) rectangle (8,6);
+
+    % ---- linhas da grade, por nível ----
+    % nível 1
+    \draw[black!70, line width=1pt] (4,0) -- (4,8);
+    \draw[black!70, line width=1pt] (0,4) -- (8,4);
+    % nível 2 (dentro de TL e TR)
+    \draw[black!50, line width=0.6pt] (2,4) -- (2,8);
+    \draw[black!50, line width=0.6pt] (0,6) -- (4,6);
+    \draw[black!50, line width=0.6pt] (6,4) -- (6,8);
+    \draw[black!50, line width=0.6pt] (4,6) -- (8,6);
+    % nível 3 (dentro de TLa, TLd, TRb, TRc)
+    \draw[black!35, line width=0.4pt] (1,6) -- (1,8);
+    \draw[black!35, line width=0.4pt] (0,7) -- (2,7);
+    \draw[black!35, line width=0.4pt] (3,4) -- (3,6);
+    \draw[black!35, line width=0.4pt] (2,5) -- (4,5);
+    \draw[black!35, line width=0.4pt] (7,6) -- (7,8);
+    \draw[black!35, line width=0.4pt] (6,7) -- (8,7);
+    \draw[black!35, line width=0.4pt] (5,4) -- (5,6);
+    \draw[black!35, line width=0.4pt] (4,5) -- (6,5);
+
+    \draw[draw=black!80, line width=1.3pt] (0,0) rectangle (8,8);
+
+    % Legenda
+    \begin{scope}[shift={(8.9,6.0)}]
+      \fill[dcream] (0,0) rectangle (0.6,0.6); \draw[black!40,line width=0.4pt] (0,0) rectangle (0.6,0.6);
+      \node[dlbl, anchor=west, font=\large] at (0.8,0.3) {EMPTY};
+      \fill[dshade] (0,-1.0) rectangle (0.6,-0.4); \draw[black!40,line width=0.4pt] (0,-1.0) rectangle (0.6,-0.4);
+      \node[dlbl, anchor=west, font=\large] at (0.8,-0.7) {MIXED};
+      \fill[black!85] (0,-2.0) rectangle (0.6,-1.4); \draw[black!40,line width=0.4pt] (0,-2.0) rectangle (0.6,-1.4);
+      \node[dlbl, anchor=west, font=\large] at (0.8,-1.7) {FULL};
+    \end{scope}
+  \end{scope}
+
+
+\end{tikzpicture}
+\end{document}

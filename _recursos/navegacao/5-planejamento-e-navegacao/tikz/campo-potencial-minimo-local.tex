@@ -1,0 +1,53 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: mínimo local (a armadilha do "copo")
+  \begin{scope}[shift={(0,0)}]
+    \draw[dbody, line width=1.2pt] (0,0) rectangle (11.5,8.4);
+    \node[font=\bfseries\small, dred] at (5.75,8.8) {Campo clássico: mínimo local};
+
+    \fill[black!80] (3.6,1.6) -- (3.6,7.2) -- (9.4,7.2) -- (9.4,6.0) -- (4.8,6.0)
+                    -- (4.8,2.8) -- (9.4,2.8) -- (9.4,1.6) -- cycle;
+
+    \fill[dblue] (10.4,4.4) circle (0.11);
+    \node[dblue, font=\scriptsize, anchor=west] at (10.55,4.4) {objetivo};
+    \fill[dorange] (1.0,4.4) circle (0.1);
+    \node[dorange, font=\scriptsize, anchor=east] at (0.85,4.4) {robô};
+
+    \draw[dcurveb, line width=1.5pt] (1.0,4.4) -- (6.0,4.4);
+    \node[draw=dred, line width=1.3pt, cross out, minimum size=5mm, inner sep=0pt] at (6.0,4.4) {};
+    \node[dred, font=\scriptsize, align=center, text width=3.2cm] at (6.9,3.4) {preso: força atrativa = força repulsiva};
+
+    \node[dsub, font=\scriptsize, align=center, text width=10.8cm] at (5.75,-0.8)
+       {atraído pela abertura do "copo", o robô encalha na parede de fundo --- o objetivo fica visível, mas inalcançável por esse campo};
+  \end{scope}
+
+  % Painel B: mitigação (contorno / potencial estendido)
+  \begin{scope}[shift={(13.2,0)}]
+    \draw[dbody, line width=1.2pt] (0,0) rectangle (11.5,8.4);
+    \node[font=\bfseries\small] at (5.75,8.8) {Mitigação: contornar o obstáculo};
+
+    \fill[black!80] (3.6,1.6) -- (3.6,7.2) -- (9.4,7.2) -- (9.4,6.0) -- (4.8,6.0)
+                    -- (4.8,2.8) -- (9.4,2.8) -- (9.4,1.6) -- cycle;
+
+    \fill[dblue] (10.4,4.4) circle (0.11);
+    \node[dblue, font=\scriptsize, anchor=west] at (10.55,4.4) {objetivo};
+    \fill[dorange] (1.0,4.4) circle (0.1);
+    \node[dorange, font=\scriptsize, anchor=east] at (0.85,4.4) {robô};
+
+    \draw[dcurveb, line width=1.5pt, -{Stealth[length=2.6mm]}]
+      (1.0,4.4) .. controls (2.6,4.4) and (3.0,6.4) .. (3.6,7.6)
+      .. controls (5.6,8.2) and (7.8,8.2) .. (9.6,7.6)
+      .. controls (10.4,7.2) and (10.6,6.0) .. (10.4,4.4);
+
+    \node[dsub, font=\scriptsize, align=center, text width=10.8cm] at (5.75,-0.8)
+       {potencial de rotação, campos híbridos ou uma camada de \textbf{contorno de obstáculo} (Bug/VFH) escapam da armadilha, seguindo a parede até liberar a rota};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=18.5cm] at (6.35,-2.0)
+     {\textbf{Limitação} dos campos potenciais puros: objetos côncavos podem criar \textbf{mínimos locais} onde a força resultante é zero longe do objetivo};
+
+\end{tikzpicture}
+\end{document}

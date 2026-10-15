@@ -1,0 +1,49 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \draw[dbody, line width=1.2pt] (0,0) rectangle (13.6,8.2);
+
+  % Obstáculos
+  \fill[black!80] (1.4,7.6) -- (1.2,5.6) -- (2.6,5.2) -- (2.8,6.4) -- (4.0,6.2) -- (4.1,7.7) -- cycle;
+  \fill[black!80] (9.4,7.8) -- (8.8,5.8) -- (12.2,5.6) -- cycle;
+  \fill[black!80] (5.4,4.2) -- (5.0,2.4) -- (6.4,1.4) -- (7.8,2.2) -- (7.4,4.0) -- cycle;
+
+  % Junções do diagrama de Voronoi (equidistantes dos obstáculos/fronteiras)
+  \coordinate (j1) at (3.4,4.0);
+  \coordinate (j2) at (6.9,5.6);
+  \coordinate (j3) at (4.3,1.1);
+  \coordinate (j4) at (9.6,3.6);
+  \coordinate (j5) at (8.4,1.4);
+
+  \draw[black!40, line width=0.7pt]
+    (0,5.4) -- (j1) -- (0,3.0)
+    (j1) -- (j2) -- (7.0,8.2)
+    (j2) -- (j4) -- (13.6,4.8)
+    (j1) -- (j3) -- (2.2,0)
+    (j3) -- (j5) -- (6.5,0)
+    (j5) -- (j4)
+    (j5) -- (9.8,0);
+
+  \coordinate (start) at (0.7,7.6);
+  \coordinate (startp) at (0,5.4);
+  \coordinate (goal) at (12.9,0.7);
+  \coordinate (goalp) at (9.8,0);
+
+  \draw[dorange, dashed, line width=0.8pt] (start) -- (startp);
+  \draw[dorange, dashed, line width=0.8pt] (goal) -- (goalp);
+
+  \draw[dblue, line width=2pt, -{Stealth[length=2.6mm]}]
+    (startp) -- (j1) -- (j2) -- (j4) -- (j5) -- (goalp);
+
+  \fill[dorange] (start) circle (0.1);
+  \node[dorange, font=\small, anchor=south east] at (start) {start};
+  \fill[dorange] (goal) circle (0.1);
+  \node[dorange, font=\small, anchor=north west] at (goal) {goal};
+
+  \node[dsub, font=\scriptsize, align=center, text width=17cm] at (6.8,-1.0)
+     {O \textbf{diagrama de Voronoi} conecta os pontos equidistantes de dois ou mais obstáculos --- o caminho (em azul) se mantém o mais \textbf{longe possível} dos obstáculos, ao custo de rotas mais longas};
+
+\end{tikzpicture}
+\end{document}

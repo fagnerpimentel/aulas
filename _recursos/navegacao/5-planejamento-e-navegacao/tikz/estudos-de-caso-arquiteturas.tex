@@ -1,0 +1,44 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % Painel A: off-line (Chips)
+  \begin{scope}[shift={(0,0)}]
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm] (ex) at (0,1.4) {Executivo (rotas pré-computadas)};
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm] (rt) at (0,0) {Controlador de tempo real};
+    \draw[dtrans, <->] (ex.south) -- (rt.north);
+    \node[font=\bfseries\small] at (0,3.0) {Off-line};
+    \node[dsub, font=\scriptsize] at (0,2.2) {robô Chips};
+    \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (0,-1.2)
+       {sem planejador: caminhos fixos, decididos com antecedência};
+  \end{scope}
+
+  % Painel B: episódico (Pygmalion)
+  \begin{scope}[shift={(7.4,0)}]
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm, draw=dblue, line width=1.2pt] (pp) at (0,2.8) {Planejamento de caminho};
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm] (ex) at (0,1.4) {Executivo};
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm] (rt) at (0,0) {Controlador de tempo real};
+    \draw[dtrans, <->] (ex.south) -- (rt.north);
+    \draw[dtrans, <->] (pp.south) -- (ex.north);
+    \draw[dorange, dashed, -{Stealth[length=2.2mm]}] (rt.east) .. controls +(1.6,0) and +(1.6,-0.8) .. (pp.east);
+    \node[font=\bfseries\small] at (0,3.9) {Episódico};
+    \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (0,-1.2)
+       {planeja de novo só quando o executivo detecta bloqueio (robô Pygmalion)};
+  \end{scope}
+
+  % Painel C: integrado (D*)
+  \begin{scope}[shift={(14.8,0)}]
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.5cm, draw=dblue, line width=1.2pt] (ge) at (0,1.9) {Executivo global (replaneja a cada ciclo)};
+    \node[dbox, text width=4.4cm, font=\scriptsize, minimum height=1.0cm] (rt) at (0,0) {Controlador de tempo real};
+    \draw[dtrans, <->] (ge.south) -- (rt.north);
+    \node[font=\bfseries\small] at (0,3.9) {Integrado};
+    \node[dsub, font=\scriptsize, align=center, text width=5.4cm] at (0,-1.2)
+       {planejar e executar viram a mesma coisa (D*, Stentz)};
+  \end{scope}
+
+  \node[dsub, font=\scriptsize, align=center, text width=22cm] at (7.4,-2.4)
+     {Três formas de instanciar a arquitetura em camadas --- a diferença está em \textbf{quando} o planejador roda: nunca, sob demanda, ou a cada ciclo de controle};
+
+\end{tikzpicture}
+\end{document}

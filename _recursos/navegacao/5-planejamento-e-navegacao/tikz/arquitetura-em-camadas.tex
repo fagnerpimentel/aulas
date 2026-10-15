@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \tikzset{lay/.style={dbox, minimum width=8.6cm, text width=8.2cm, align=center, font=\large}}
+
+  \node[lay, draw=dblue, line width=1.4pt, minimum height=1.9cm] (p) at (0,8.6)
+    {\textbf{Planejamento de caminho}\\[2pt]{\normalsize\color{black!60}estratégia a partir do mapa global}};
+  \node[lay, minimum height=1.9cm] (e) at (0,5.8)
+    {\textbf{Executivo}\\[2pt]{\normalsize\color{black!60}ativa e desativa comportamentos,\\detecta falhas e reinicia o planejador}};
+
+  % controlador de tempo real com comportamentos
+  \node[dbox, minimum width=8.6cm, minimum height=3.3cm, anchor=north] (c) at (0,4.0) {};
+  \node[font=\large\bfseries] at (0,3.45) {Controlador de tempo real};
+  \foreach \x/\t in {-2.75/Comport. 1, 0/Comport. 2, 2.75/Comport. 3} {
+    \node[dbox, minimum width=2.4cm, minimum height=1.0cm, align=center, font=\normalsize, fill=white] at (\x,2.3) {\t};
+  }
+  \node[font=\normalsize, black!60] at (0,1.25) {malhas PID e comportamentos reativos};
+
+  \node[lay, minimum height=1.2cm] (h) at (0,-0.9) {\textbf{Hardware do robô}};
+
+  \draw[dtrans, line width=1.3pt, <->] (p.south) -- (e.north);
+  \draw[dtrans, line width=1.3pt, <->] (e.south) -- (c.north);
+  \draw[dtrans, line width=1.3pt, <->] (c.south) -- (h.north);
+
+  \draw[dguide, line width=1.2pt, -{Stealth[length=3mm]}] (-5.2,-0.9) -- (-5.2,8.6) node[midway, sloped, above, dlbl, font=\large] {mais estratégico e lento};
+
+\end{tikzpicture}
+\end{document}

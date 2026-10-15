@@ -1,0 +1,35 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \tikzset{mod/.style={dbox, minimum width=3.8cm, text width=3.8cm, minimum height=1.1cm, font=\large, align=center},
+           rob/.style={dbox, minimum width=2.4cm, minimum height=1.1cm, font=\large\bfseries, draw=dblue, line width=1.3pt},
+           comb/.style={dbox, minimum width=3.0cm, minimum height=1.1cm, font=\large\bfseries, draw=dorange, line width=1.3pt}}
+
+  % ---------- Serial: sentir -> mapear -> planejar -> controlar ----------
+  \node[font=\bfseries\Large, dblue, anchor=west] at (-0.8,5.4) {Serial: pipeline sentir $\to$ planejar $\to$ agir};
+  \node[mod, minimum width=3.0cm, text width=3.0cm, minimum height=1.3cm] (a1) at (1.8,3.7) {Leitura do\\laser};
+  \node[mod, minimum width=3.0cm, text width=3.0cm, minimum height=1.3cm] (a2) at (6.1,3.7) {Atualiza\\o mapa};
+  \node[mod, minimum width=3.0cm, text width=3.0cm, minimum height=1.3cm] (a3) at (10.4,3.7) {Planeja\\a rota};
+  \node[mod, minimum width=3.0cm, text width=3.0cm, minimum height=1.3cm] (a4) at (14.7,3.7) {Controle\\das rodas};
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (a1) -- (a2);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (a2) -- (a3);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (a3) -- (a4);
+
+  % ---------- Paralelo: comportamentos ----------
+  \begin{scope}[shift={(0,1.0)}]
+  \node[font=\bfseries\Large, dblue, anchor=west] at (-0.8,0.9) {Paralelo: comportamentos simultâneos};
+  \node[mod] (b1) at (1.8,-0.6) {Ir ao objetivo};
+  \node[mod] (b2) at (1.8,-2.1) {Desviar de obstáculo};
+  \node[mod] (b3) at (1.8,-3.6) {Parar na emergência};
+  \node[comb] (n) at (9.0,-2.1) {Combinador};
+  \node[rob] (r) at (14.7,-2.1) {Robô};
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (b1.east) -- (n.north west);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (b2.east) -- (n.west);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (b3.east) -- (n.south west);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (n) -- (r);
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

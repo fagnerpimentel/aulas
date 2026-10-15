@@ -1,0 +1,293 @@
+---
+title: "Navegação"
+subtitle: "Planejamento e Navegação"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/5-planejamento-e-navegacao
+---
+
+# Planejamento e Navegação
+
+::: {.esquerda}
+Capítulo 6 do livro [**Introduction to Autonomous Mobile Robots**](https://mitpress.mit.edu/9780262015356/introduction-to-autonomous-mobile-robots/) (2ª ed.), de **Roland Siegwart**, **Illah R. Nourbakhsh** e **Davide Scaramuzza** (MIT Press, 2011).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- A **cognição** do robô: como combinar mapa, planejamento e sensores para perseguir objetivos de forma confiável
+- **Planejamento de caminho**: roadmap (visibilidade, Voronoi), decomposição em células (grassfire) e campo potencial
+- **Desvio de obstáculos**: Bug, VFH, bubble band e janela dinâmica --- técnicas reativas guiadas por sensores
+- **Arquiteturas de navegação**: como decompor o software do robô nos eixos temporal e de controle, e uma arquitetura genérica em camadas
+
+# Planejar e Reagir
+
+## O casamento entre planejar e reagir {.smaller}
+
+- **Planejamento**: dado um mapa e uma posição-objetivo, decide a estratégia de longo prazo --- *o que fazer* para alcançar a meta
+- **Reação**: dadas leituras de sensor em tempo real, modula a trajetória para lidar com o que o plano não previu
+
+![](images/planejar-reagir.svg){fig-align="center" width="76%"}
+
+# Planejamento de Caminho
+
+## O espaço de configurações {.smaller}
+
+- Formalmente, o planejamento de caminho ocorre no **espaço de configurações** $C$: cada postura do robô --- todos os seus graus de liberdade --- vira um único ponto
+- Um problema geometricamente difícil no espaço físico --- desviar de obstáculos com um braço de vários elos --- vira uma simples busca de caminho em $C$
+- Define-se o **obstáculo de configuração** $O$ como o subespaço de $C$ onde o robô colide; o espaço livre é $F = C - O$
+
+![](images/espaco-configuracoes-braco.svg){fig-align="center" width="86%"}
+
+## Simplificando para robôs móveis {.smaller}
+
+- A maioria dos robôs móveis se move no plano com posição $(x,y,\theta)$ --- mas, para fins de planejamento, quase sempre assumimos o robô **holonômico** e, em seguida, **puntiforme**
+- Reduzido a um ponto, o espaço de configurações vira uma cópia 2D do espaço físico --- com uma diferença crucial: cada obstáculo precisa ser **inflado** pelo raio do robô
+- É exatamente a ideia de **expansão de obstáculos** já vista na aula de representação de mapas --- agora aplicada ao planejamento de um caminho inteiro, não só à checagem local de colisão
+
+## Três estratégias de decomposição {.smaller}
+
+- O primeiro passo de qualquer planejador é transformar o ambiente --- contínuo ou já discretizado --- numa representação que a busca consiga percorrer
+  - **Roadmap**: identifica um conjunto de rotas 1D dentro do espaço livre
+  - **Decomposição em células**: discrimina células livres de ocupadas
+  - **Campo potencial**: impõe uma função matemática sobre todo o espaço
+
+![](images/tres-estrategias-decomposicao.svg){fig-align="center" width="90%"}
+
+## Roadmap: grafo de visibilidade {.smaller}
+
+- O grafo de visibilidade liga todo par de vértices --- início, fim e cantos dos obstáculos poligonais --- que enxergam um ao outro em linha reta
+- Buscar o caminho mais curto nesse grafo é **ótimo em comprimento** --- mas o resultado passa rente aos obstáculos, sacrificando toda margem de segurança
+- Rápido e simples em ambientes esparsos; escala mal --- mais arestas, mais busca --- em ambientes densamente poligonais
+
+![](images/grafo-visibilidade.svg){fig-align="center" width="78%"}
+
+## Roadmap: diagrama de Voronoi {.smaller}
+
+- Ao contrário da visibilidade, o diagrama de Voronoi conecta os pontos **equidistantes** de dois ou mais obstáculos --- maximiza a distância a eles, em vez de minimizá-la
+- O caminho resultante raramente é o mais curto, mas garante a maior margem de segurança possível
+- Vantagem extra --- **executabilidade**: com um sensor de alcance, o robô pode seguir uma aresta de Voronoi apenas maximizando as leituras de distância local, sem precisar de um mapa perfeito
+
+![](images/diagrama-voronoi.svg){fig-align="center" width="78%"}
+
+## Construindo a decomposição exata: varredura trapezoidal {.smaller}
+
+- Uma forma sistemática de gerar a decomposição em células --- devida a Latombe --- é varrer o espaço com uma reta $L$ paralela ao eixo $y$, da esquerda para a direita
+- A cada vértice de obstáculo encontrado, erguem-se até dois segmentos verticais até a aresta imediatamente acima e abaixo --- os trapézios e triângulos resultantes são as células
+- A construção inteira, incluindo o grafo de conectividade, leva $O(n \log n)$, com $n$ o número de vértices dos obstáculos --- depois basta extrair um canal e ligar os pontos médios das fronteiras compartilhadas
+
+![](images/varredura-trapezoidal.svg){fig-align="center" width="94%"}
+
+## Decomposição aproximada: quadtree {.smaller}
+
+::: columns
+::: {.column width="46%"}
+- Usa sempre a mesma forma --- um **retângulo** --- subdividido recursivamente numa árvore $2^m$ (quadtree em 2D, octree em 3D)
+- Cada célula é rotulada:
+  - **EMPTY** (livre)
+  - **FULL** (toda dentro do C-obstáculo)
+  - **MIXED** (cortada pelo obstáculo)
+- Só as células **MIXED** são subdivididas de novo; EMPTY e FULL viram **folhas**
+:::
+::: {.column width="54%"}
+![](images/quadtree-grade.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Quadtree: a árvore correspondente {.smaller}
+
+::: columns
+::: {.column width="46%"}
+- Cada subdivisão vira um nó com **4 filhos** (TL, TR, BL, BR)
+- Só os nós **MIXED** viram pais; a **profundidade máxima** $h_{max}$ decide onde a recursão para
+- A busca é **resolution-complete**: refinar a decomposição quando a busca falha garante achar um canal, se ele existir --- ao custo de mais memória e tempo
+:::
+::: {.column width="54%"}
+![](images/quadtree-arvore.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Decomposição em células: o grassfire (NF1) {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- Sobre uma decomposição já construída (trapezoidal, quadtree ou grade), o **grassfire** propaga a **distância ao objetivo** célula a célula, por busca em largura, a partir do próprio objetivo
+- Cada célula livre fica com sua distância exata; o robô só **desce o gradiente**, indo sempre à vizinha de menor valor
+- Complexidade **linear** no número de células, qualquer que seja a forma dos obstáculos
+- Também chamado de ***wavefront*** (frente de onda): é o **mesmo algoritmo**; **NF1** é o nome da função de navegação que ele produz
+:::
+::: {.column width="50%"}
+![](images/wavefront-nf1.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Campo potencial {.smaller}
+
+- Trata o robô como um ponto sob a influência de um campo artificial $U(q)$: o objetivo **atrai**, os obstáculos **repelem**
+- A força resultante $F(q) = -\nabla U(q)$ empurra o robô como uma bola descendo ladeira abaixo --- é, ao mesmo tempo, um planejador e uma **lei de controle**
+- Fácil de implementar e de rodar em tempo real; combina naturalmente com leituras de sensor tratadas diretamente como vetores de força
+
+![](images/campo-potencial.svg){fig-align="center" width="82%"}
+
+## O preço dos campos potenciais: mínimos locais {.smaller}
+
+- Obstáculos côncavos podem criar **mínimos locais**: pontos onde a força atrativa e a repulsiva se cancelam, longe do objetivo --- o robô fica preso, mesmo enxergando a meta
+- O **campo potencial estendido** (Khatib e Chatila) reduz a força repulsiva de obstáculos paralelos à trajetória --- na prática, produz um seguimento de parede que escapa da armadilha
+- Mesmo com essas variações, a garantia de completude nunca é recuperada por completo
+
+![](images/campo-potencial-minimo-local.svg){fig-align="center" width="96%"}
+
+# Desvio de Obstáculos
+
+## O algoritmo Bug {.smaller}
+
+- O mais simples dos algoritmos de desvio: usa só a leitura sensorial mais recente e a direção aproximada do objetivo
+- **Bug1** segue a linha tracejada até o obstáculo, **contorna todo ele** e parte do ponto mais próximo do objetivo --- correto, porém ineficiente
+- **Bug2** contorna o obstáculo só até **reencontrar a linha tracejada** e segue em frente --- bem mais rápido, embora não ótimo
+- **Tangent Bug**: com um sensor de alcance, vê as bordas dos obstáculos, monta um grafo tangente local e segue a **tangente** mais promissora, sem encostar no obstáculo --- caminho ainda mais curto
+
+![](images/bug-algoritmos.svg){fig-align="center" width="100%"}
+
+## Vector Field Histogram (VFH) {.smaller}
+
+- Decide com base numa **grade de ocupação local**, convertida num **histograma polar**: a ocupação de cada **setor angular** ao redor do robô
+- Setores abaixo do limiar formam **aberturas** (direções candidatas); escolhe-se a mais alinhada ao objetivo
+- VFH+ e VFH\* incorporam as restrições cinemáticas do robô
+
+![](images/vfh-polar-e-linear.svg){fig-align="center" width="100%"}
+
+## Bubble band: bolhas de espaço livre {.smaller}
+
+- Uma **bolha** é o maior subconjunto do espaço livre ao redor de uma configuração que pode ser percorrido em qualquer direção sem colisão
+- Encadeando bolhas do início ao objetivo, obtém-se uma **banda** que expressa toda a folga de movimento disponível ao longo da rota
+- Exige mapa e planejador globais; a parte reativa entra quando o robô é desviado da trajetória planejada, e a banda se ajusta minimizando sua "tensão"
+
+![](images/bolha-banda-elastica.svg){fig-align="center" width="82%"}
+
+## Levando a cinemática a sério: janela dinâmica {.smaller}
+
+::: columns
+::: {.column width="50%"}
+- Considera **velocidade e aceleração limitadas**, buscando direto no espaço $(v,\omega)$
+- **$V_a$ (admissíveis):** o robô ainda **consegue parar antes de colidir**
+- **$V_d$ (janela dinâmica):** **alcançável no próximo ciclo**, pela aceleração máxima
+
+:::
+::: {.column width="50%"}
+![](images/janela-dinamica.svg){fig-align="center" width="100%"}
+:::
+:::
+
+- Busca-se só em $V_d \cap V_a$: a parte da janela que levaria à **colisão** é **descartada**
+- Uma função objetivo escolhe o melhor par; a versão **global** soma um NF1 à frente do robô
+
+## Por que arquitetura importa {.smaller}
+
+- Combinar mapa, planejamento, desvio de obstáculos e percepção num sistema só exige **modularidade**: trocar um sensor ou uma técnica não deveria quebrar o resto
+- **Localizar o controle** num módulo específico permite testar, verificar e até aprender cada competência isoladamente
+- Duas decisões de decomposição orientam quase toda arquitetura de navegação: 
+  - **temporal** (o que roda em tempo real vs. off-line)
+  - **de controle** (como as saídas dos módulos se combinam)
+
+# Arquiteturas de Navegação
+
+## Decomposição temporal: cada módulo no seu ritmo {.smaller}
+
+::: columns
+::: {.column width="44%"}
+- **Ideia:** dividir o sistema em módulos que rodam em **ritmos diferentes**
+  - quem decide sobre o futuro distante pensa **devagar**
+  - quem reage ao que acabou de acontecer precisa ser **rápido**
+- **Exemplo** (robô indo de uma sala a outra): planeja a rota raramente, desvia de obstáculos cerca de 1 vez por segundo, para na emergência cerca de 10 vezes por segundo e controla as rodas cerca de 150 vezes por segundo
+:::
+::: {.column width="56%"}
+![](images/decomposicao-temporal.svg){fig-align="center" width="100%"}
+:::
+:::
+
+
+
+## Decomposição temporal: de cima para baixo {.smaller}
+
+| | **Níveis altos** (planejamento) | **Níveis baixos** (controle PID) |
+|---|---|---|
+| **Horizonte temporal** --- quão à frente olha | longo | curto |
+| **Memória temporal** --- quanto do histórico usa | muita (mapa, rotas já feitas) | pouca (a última leitura) |
+| **Contexto** --- quanto da situação global considera | muito (mapa, objetivo) | pouco |
+| **Localidade espacial** --- que área abrange | ampla (o ambiente todo) | local (o que está ao redor agora) |
+| **Resposta** | lenta | rápida |
+
+- O tempo de ciclo varia por **ordens de grandeza** entre camadas vizinhas: de 0,001 Hz no planejamento a mais de 100 Hz no controle PID. 
+- **Hz** = ciclos por segundo; 0,001 Hz é uma decisão a cada uns 17 minutos
+
+
+## Decomposição de controle: serial × paralelo {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Pergunta:** como as saídas dos vários módulos viram **um único comando** para o robô?
+- **Serial:** cada módulo recebe a saída do anterior, num único fluxo --- **previsível** e fácil de verificar, mas **rígido** (se um módulo falha, tudo falha)
+- **Paralelo:** vários módulos recebem a percepção ao mesmo tempo e um **combinador** reúne as saídas --- **flexível**, mas difícil de prever o comportamento final
+:::
+::: {.column width="58%"}
+![](images/decomposicao-controle.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Decomposição de controle: exemplos {.smaller}
+
+- **Serial** (pipeline): o laser alimenta o mapa, o mapa alimenta o planejador e o planejador alimenta as rodas. Cada etapa **depende da anterior**: se o laser falha, nada chega ao planejador --- mas dá para testar **uma etapa de cada vez**
+- **Paralelo** (comportamentos): "ir ao objetivo", "desviar" e "parar" rodam **ao mesmo tempo**, e o combinador decide o comando final (por exemplo, a parada de emergência **prevalece**). O robô continua **desviando** mesmo sem rota
+
+![](images/decomposicao-controle-exemplos.svg){fig-align="center" width="100%"}
+
+## Decomposição de controle: entre os extremos {.smaller}
+
+::: columns
+::: {.column width="40%"}
+- **Switched parallel:** os módulos rodam juntos, mas só **um** controla o robô por vez; um **seletor** escolhe qual. Ex.: **Bug2** --- longe do obstáculo, "seguir a linha"; ao encontrar um, passa a "contornar"
+- **Mixed parallel:** **todos** contribuem ao mesmo tempo; as saídas são **somadas**. Ex.: **campo potencial** --- atração do objetivo + repulsão dos obstáculos
+
+:::
+::: {.column width="60%"}
+![](images/decomposicao-controle-intermediarios.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Uma arquitetura genérica em camadas {.smaller}
+
+::: columns
+::: {.column width="48%"}
+- **Planejamento de caminho**: decisão estratégica, com toda a informação global disponível, fora do laço de tempo real
+- **Executivo**: medeia entre planejamento e execução --- ativa e desativa comportamentos, detecta falhas e reinicia o planejador quando necessário
+- **Controlador de tempo real**: comportamentos reativos e malhas PID de baixo nível, respondendo a cada ciclo de sensor
+:::
+::: {.column width="52%"}
+![](images/arquitetura-em-camadas.svg){fig-align="center" width="100%"}
+:::
+:::
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+::: columns
+::: {.column width="60%"}
+- Navegação nasce do casamento entre um **planejador** estratégico e um mecanismo **reativo** de desvio de obstáculos
+- O planejamento de caminho vai do espaço de configurações às três estratégias de decomposição --- roadmap, células e campo potencial --- cada uma com seu compromisso entre otimalidade, segurança e custo computacional
+- O desvio de obstáculos evoluiu do Bug (só o instante presente) ao VFH e à janela dinâmica (histórico, cinemática e dinâmica do robô)
+- Arquiteturas de navegação organizam tudo isso em camadas, decidindo **quando** e **onde** cada competência atua
+:::
+::: {.column width="40%"}
+![](images/ciclo-planejamento-navegacao.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Leituras futuras {.smaller}
+
+- **LaValle (2006)** --- *Planning Algorithms* --- tratamento completo e atualizado de planejamento de caminho, incluindo RRTs e PRMs
+- **Khatib (1986)** --- *Real-time obstacle avoidance for manipulators and mobile robots* --- o artigo original de campos potenciais
+- **Borenstein & Koren (1991)** --- *The vector field histogram* --- o artigo original do VFH
+- **Fox, Burgard & Thrun (1997)** --- *The dynamic window approach to collision avoidance* --- o artigo original da janela dinâmica
+- Veja também a Tabela 6.1 do livro-texto, que compara sistematicamente todas as técnicas de desvio de obstáculos apresentadas nesta aula

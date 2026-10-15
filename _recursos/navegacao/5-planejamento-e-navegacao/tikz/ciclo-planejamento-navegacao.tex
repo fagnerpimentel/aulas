@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dstate, minimum size=28mm, font=\large\bfseries] (c) at (0,0) {Navegação};
+
+  \foreach \ang/\lbl in {90/Planejar o caminho: roadmap · células · campo potencial, 30/Espaço de configurações e expansão de obstáculos, -30/Desviar de obstáculos: Bug · VFH · janela dinâmica, -90/Decompor em módulos: temporal e de controle, -150/Camadas: planejador executivo e tempo real, 150/Ritmo de cada módulo: estratégico · tático · tempo real} {
+    \node[dobs, minimum size=22mm, text width=3.6cm, font=\normalsize, align=center] (n\ang) at (\ang:5.6) {\lbl};
+    \draw[dtrans, line width=1.2pt, -{Stealth[length=2.6mm]}] (n\ang) -- (c);
+  }
+
+\end{tikzpicture}
+\end{document}

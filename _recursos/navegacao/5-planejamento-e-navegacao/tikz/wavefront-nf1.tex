@@ -1,0 +1,44 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\s{1.15}
+
+  % Grade e valores da transformada de distância (NF1 / grassfire), a partir do objetivo G
+  \def\vals{{
+    0,1,2,3,4,5,
+    1,2,-1,4,5,6,
+    2,3,-1,5,6,7,
+    3,4,-1,6,7,8,
+    4,5,6,7,8,9
+  }}
+
+  \foreach \row in {0,...,4} {
+    \foreach \col in {0,...,5} {
+      \pgfmathsetmacro{\idx}{\row*6+\col}
+      \pgfmathsetmacro{\v}{\vals[\idx]}
+      \pgfmathtruncatemacro{\vi}{\v}
+      \draw[black!25, line width=0.4pt] (\col*\s,\row*\s) rectangle ++(\s,\s);
+      \ifnum\vi<0
+        \fill[black!80] (\col*\s,\row*\s) rectangle ++(\s,\s);
+      \else
+        \node[dlbl, font=\large, anchor=north west, inner sep=2pt] at (\col*\s+0.04,\row*\s+\s-0.04) {\vi};
+      \fi
+    }
+  }
+  \draw[draw=black!80, line width=1.2pt] (0,0) rectangle (6*\s,5*\s);
+
+  \node[dorange, font=\bfseries\Large] at (0.5*\s,-0.55) {G};
+  \draw[dorange, -{Stealth[length=2mm]}] (0.5*\s,-0.35) -- (0.5*\s,0.15);
+  \node[dorange, font=\bfseries\Large] at (5.5*\s,5*\s+0.55) {S};
+  \draw[dorange, -{Stealth[length=2mm]}] (5.5*\s,5*\s+0.35) -- (5.5*\s,5*\s-0.15);
+
+  % Caminho por descida de gradiente (do maior valor até 0)
+  \draw[dblue, line width=2pt, -{Stealth[length=2.6mm]}]
+    (5.5*\s,4.5*\s) -- (4.5*\s,4.5*\s) -- (4.5*\s,3.5*\s) -- (4.5*\s,2.5*\s)
+    -- (4.5*\s,1.5*\s) -- (4.5*\s,0.5*\s) -- (3.5*\s,0.5*\s) -- (2.5*\s,0.5*\s)
+    -- (1.5*\s,0.5*\s) -- (0.5*\s,0.5*\s);
+
+\end{tikzpicture}
+\end{document}

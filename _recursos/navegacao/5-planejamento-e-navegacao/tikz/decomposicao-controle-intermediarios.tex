@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \tikzset{mod/.style={dbox, minimum width=4.2cm, text width=4.2cm, minimum height=1.1cm, font=\large, align=center},
+           rob/.style={dbox, minimum width=2.2cm, minimum height=1.1cm, font=\large\bfseries, draw=dblue, line width=1.3pt},
+           sel/.style={dbox, minimum width=2.6cm, minimum height=1.1cm, font=\large\bfseries, draw=dorange, line width=1.3pt},
+           soma/.style={circle, draw=dorange, fill=dcream, line width=1.3pt, minimum size=1.3cm, font=\Large\bfseries}}
+
+  % ---------- Switched parallel ----------
+  \node[font=\bfseries\Large, dblue, anchor=west] at (-0.6,5.5) {Switched parallel: um comanda por vez};
+  \node[mod, draw=dgreen, line width=1.5pt] (s1) at (2.1,3.9) {Seguir a linha};
+  \node[mod] (s2) at (2.1,2.3) {Contornar obstáculo};
+  \node[sel] (sw) at (8.6,3.1) {Seletor};
+  \node[rob] (r1) at (12.7,3.1) {Robô};
+  \draw[dgreen, line width=2.4pt, -{Stealth[length=3mm]}] (s1.east) -- (sw.north west);
+  \draw[black!35, line width=1.3pt, dash pattern=on 5pt off 4pt, -{Stealth[length=2.6mm]}] (s2.east) -- (sw.south west);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (sw) -- (r1);
+  \node[dgreen, font=\large\bfseries, align=center] at (5.9,4.9) {escolhido};
+  \node[black!45, font=\large, align=center] at (5.9,1.4) {descartado agora};
+
+  % ---------- Mixed parallel ----------
+  \begin{scope}[shift={(0,-6.6)}]
+  \node[font=\bfseries\Large, dblue, anchor=west] at (-0.6,5.5) {Mixed parallel: todos contribuem};
+  \node[mod] (m1) at (2.1,3.9) {Atração ao objetivo};
+  \node[mod] (m2) at (2.1,2.3) {Repulsão dos obstáculos};
+  \node[soma] (sm) at (8.6,3.1) {$\Sigma$};
+  \node[rob] (r2) at (12.7,3.1) {Robô};
+  \draw[dtrans, line width=1.7pt, -{Stealth[length=3mm]}] (m1.east) -- (sm.north west);
+  \draw[dtrans, line width=1.7pt, -{Stealth[length=3mm]}] (m2.east) -- (sm.south west);
+  \draw[dtrans, line width=1.3pt, -{Stealth[length=2.6mm]}] (sm) -- (r2);
+  \node[dorange, font=\large\bfseries, align=center] at (5.9,4.9) {soma as saídas};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

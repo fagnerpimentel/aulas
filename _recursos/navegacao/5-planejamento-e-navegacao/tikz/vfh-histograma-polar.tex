@@ -1,0 +1,39 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\bw{0.5}
+  \def\heights{{
+    0.3,0.5,0.4,0.6,0.3,0.5,
+    0.8,1.0,1.3,1.6,1.8,
+    2.2,2.6,3.0,3.4,3.6,3.4,3.0,
+    2.6,2.0,1.5,1.0,0.6,
+    0.3,0.2,0.3,0.2,
+    1.0,1.4,1.2,0.8,
+    0.5,0.4,0.6,0.3,0.4
+  }}
+
+  \draw[daxis] (0,0) -- (18.2,0) node[right, dlbl, font=\small] {$\alpha$};
+  \draw[daxis] (0,0) -- (0,4.2) node[above, dlbl, font=\small] {$P$};
+
+  \foreach \i in {0,...,35} {
+    \pgfmathsetmacro{\h}{\heights[\i]}
+    \fill[dblue!75] (\i*\bw,0) rectangle ++(\bw*0.85,\h);
+  }
+
+  \draw[dorange, dashed, line width=0.9pt] (0,1.0) -- (18.2,1.0)
+    node[right, dorange, font=\scriptsize] {limiar};
+
+  \node[dlbl, font=\scriptsize] at (0,-0.4) {$-180${\textdegree}};
+  \node[dlbl, font=\scriptsize] at (9,-0.4) {$0$};
+  \node[dlbl, font=\scriptsize] at (18,-0.4) {$180${\textdegree}};
+
+  \draw[dred, line width=1pt, -{Stealth[length=2.4mm]}] (12.5,-1.1) -- (12.5,-0.15);
+  \node[dred, font=\scriptsize, align=center, text width=4.2cm] at (12.5,-1.7) {abertura livre mais próxima do objetivo: direção escolhida};
+
+  \node[dsub, font=\scriptsize, align=center, text width=17.5cm] at (9,-2.8)
+     {O \textbf{VFH} constrói um histograma polar de ocupação a partir de uma grade local --- todo intervalo abaixo do limiar é uma \textbf{abertura} candidata; escolhe-se a mais alinhada com o objetivo};
+
+\end{tikzpicture}
+\end{document}

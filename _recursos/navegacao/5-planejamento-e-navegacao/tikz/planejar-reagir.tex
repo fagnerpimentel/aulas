@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[dbox, text width=4.4cm, font=\small, draw=dblue, line width=1.3pt] (p) at (0,0)
+    {\textbf{PLANEJAR}\\[2pt] estratégico $\cdot$ global\\ lento (off-line)\\[4pt] \textit{"para onde ir"}};
+
+  \node[dbox, text width=4.4cm, font=\small, draw=dorange, line width=1.3pt] (r) at (9,0)
+    {\textbf{REAGIR}\\[2pt] tático $\cdot$ local\\ rápido (tempo real)\\[4pt] \textit{"o que fazer agora"}};
+
+  \node[dstate, minimum size=20mm] (m) at (4.5,-3.4) {robô};
+
+  \draw[dtrans, dblue, -{Stealth[length=2.4mm]}] (p.south) .. controls +(0,-1.2) and +(-1.5,1.4) .. (m.north west);
+  \draw[dtrans, dorange, -{Stealth[length=2.4mm]}] (r.south) .. controls +(0,-1.2) and +(1.5,1.4) .. (m.north east);
+
+  \node[dlbl, font=\scriptsize, align=center, text width=3cm] at (1.4,-3.4) {sem reagir:\\ nunca chega ao destino};
+  \node[dlbl, font=\scriptsize, align=center, text width=3cm] at (7.6,-3.4) {sem planejar:\\ nunca sabe o destino};
+
+  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (4.5,-5.6)
+     {\textbf{Navegação} = planejar + reagir --- competências complementares, não opostas: o robô deve executar um plano \emph{e} reagir a eventos imprevistos (obstáculos) para de fato alcançar o objetivo};
+
+\end{tikzpicture}
+\end{document}
