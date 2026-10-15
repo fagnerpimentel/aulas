@@ -1,24 +1,25 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-  \draw[dguide, rounded corners=4pt, fill=dcream] (-6.6,-3.0) rectangle (6.6,2.6);
-  \node[font=\bfseries\small, dblue] at (0,2.15) {afeto};
-  \node[dsub, font=\scriptsize] at (0,1.7) {termo amplo: todo o espectro de respostas emocionalmente carregadas};
+  \draw[dguide, rounded corners=6pt, fill=dcream, line width=0.8pt] (-8.8,-6.6) rectangle (8.8,5.8);
+  \node[font=\Huge\bfseries, dblue] at (0,5.0) {afeto};
+  \node[font=\Large, black!65, align=center, text width=15.6cm] at (0,3.7) {termo amplo: todo o espectro de respostas emocionalmente carregadas};
 
-  \draw[dguide, rounded corners=3pt, fill=white] (-6.0,-2.5) rectangle (-0.3,1.1);
-  \node[font=\small] at (-3.15,0.75) {\textbf{emoções}};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,-0.2)
-     {causa \textbf{identificável}, direcionada a um objeto/pessoa, curta duração};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,-1.7)
+  \draw[dguide, rounded corners=5pt, fill=white, line width=0.8pt] (-8.3,-6.1) rectangle (-0.35,2.5);
+  \node[font=\huge\bfseries] at (-4.32,1.6) {emoções};
+  \node[font=\Large, black!70, align=center, text width=7.3cm] at (-4.32,-0.6)
+     {causa \textbf{identificável}, direcionada a um objeto ou pessoa, de \textbf{curta duração}};
+  \node[font=\Large, dorange, align=center, text width=7.3cm] at (-4.32,-4.2)
      {ex.: alegria por uma promoção; raiva quando o celular descarrega};
 
-  \draw[dguide, rounded corners=3pt, fill=white] (0.3,-2.5) rectangle (6.0,1.1);
-  \node[font=\small] at (3.15,0.75) {\textbf{humores}};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,-0.2)
-     {\textbf{difusos}, sem causa nem objeto claro, mais duradouros};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,-1.7)
+  \draw[dguide, rounded corners=5pt, fill=white, line width=0.8pt] (0.35,-6.1) rectangle (8.3,2.5);
+  \node[font=\huge\bfseries] at (4.32,1.6) {humores};
+  \node[font=\Large, black!70, align=center, text width=7.3cm] at (4.32,-0.6)
+     {\textbf{difusos}, sem causa nem objeto claro, mais \textbf{duradouros}};
+  \node[font=\Large, dorange, align=center, text width=7.3cm] at (4.32,-4.2)
      {ex.: apreensão à espera de um resultado de exame};
 
 \end{tikzpicture}

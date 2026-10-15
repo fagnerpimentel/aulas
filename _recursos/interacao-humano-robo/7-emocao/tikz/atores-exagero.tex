@@ -1,18 +1,28 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
-\begin{tikzpicture}[x=1cm,y=1cm]
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1.3cm,y=1.5cm]
 
-  \draw[daxis] (-0.4,0) -- (9.4,0) node[right, dsub, font=\scriptsize] {intensidade da expressão};
+  % curvas preenchidas
+  \fill[dblue!14!white] (0,0) -- plot[domain=0:9,samples=100] (\x,{2.2*exp(-0.9*(\x-2.2)*(\x-2.2))}) -- (9,0) -- cycle;
+  \fill[dorange!14!white] (0,0) -- plot[domain=0:9,samples=100] (\x,{3.4*exp(-0.35*(\x-6.5)*(\x-6.5))}) -- (9,0) -- cycle;
+  \draw[dblue, line width=2.4pt] plot[domain=0:9,samples=100] (\x,{2.2*exp(-0.9*(\x-2.2)*(\x-2.2))});
+  \draw[dorange, line width=2.4pt] plot[domain=0:9,samples=100] (\x,{3.4*exp(-0.35*(\x-6.5)*(\x-6.5))});
 
-  \draw[dcurveb, line width=1.4pt] plot[domain=0:9,samples=80] (\x,{2.6*exp(-0.35*(\x-6.5)*(\x-6.5))});
-  \node[dorange, font=\scriptsize] at (6.5,3.0) {dados de treino (atores)};
+  % eixo
+  \draw[black!55, line width=1.4pt, -{Stealth[length=3.4mm]}] (-0.3,0) -- (9.7,0);
+  \node[font=\Large, black!65, anchor=north west] at (-0.3,-0.1) {sutil};
+  \node[font=\Large, black!65, anchor=north east] at (9.5,-0.1) {exagerada};
+  \node[font=\Large\bfseries, black!65, anchor=north] at (4.6,-0.1) {intensidade da expressão};
 
-  \draw[dcurve, line width=1.4pt] plot[domain=0:9,samples=80] (\x,{1.6*exp(-0.9*(\x-2.2)*(\x-2.2))});
-  \node[dblue, font=\scriptsize] at (2.2,2.0) {expressões reais do dia a dia};
+  % rótulos das curvas
+  \node[font=\Large\bfseries, dblue, align=center, text width=5.2cm] at (2.2,3.2) {expressões reais do dia a dia};
+  \node[font=\Large\bfseries, dorange, align=center, text width=5.2cm] at (6.5,4.7) {dados de treino (atores)};
 
-  \node[dsub, font=\scriptsize, align=center, text width=15cm] at (4.5,-1.6)
-     {Modelos treinados com emoções \textbf{atuadas} (exageradas) reconhecem mal expressões \textbf{sutis} do cotidiano (Pantic et al., 2007; Bartneck \& Reichenbach, 2005)};
+  % veredito
+  \node[font=\Large, dred, align=center, text width=5.0cm] at (2.2,-1.6) {o modelo reconhece \textbf{mal}};
+  \node[font=\Large, dgreen, align=center, text width=5.0cm] at (6.9,-1.6) {o modelo reconhece \textbf{bem}};
 
 \end{tikzpicture}
 \end{document}

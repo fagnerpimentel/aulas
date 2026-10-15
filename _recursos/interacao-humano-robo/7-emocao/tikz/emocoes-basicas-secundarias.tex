@@ -1,25 +1,28 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-  \draw[dguide, rounded corners=2pt] (-6.0,-2.6) rectangle (-0.3,2.2);
-  \node[font=\bfseries\small, dblue] at (-3.15,1.8) {Primárias (básicas)};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,0.9)
+  % Primárias
+  \draw[dguide, rounded corners=5pt, line width=1pt, fill=white] (-8.8,-4.6) rectangle (-0.3,4.4);
+  \node[font=\huge\bfseries, dblue] at (-4.55,3.6) {Primárias (básicas)};
+  \node[font=\Large, black!65, align=center, text width=7.6cm] at (-4.55,1.9)
      {\textbf{universais} entre culturas, respostas rápidas e viscerais};
-  \node[font=\small, align=center, text width=5.0cm] at (-3.15,-0.6)
-     {raiva, tristeza, felicidade,\\ medo, nojo, surpresa};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (-3.15,-2.0) {Ekman \& Friesen (1975)};
+  \node[font=\LARGE, align=center, text width=7.6cm] at (-4.55,-0.8)
+     {raiva, tristeza, felicidade, medo, nojo, surpresa};
+  \node[font=\large, black!55, align=center] at (-4.55,-3.7) {Ekman \& Friesen (1975)};
 
-  \draw[dguide, rounded corners=2pt] (0.3,-2.6) rectangle (6.0,2.2);
-  \node[font=\bfseries\small, dorange] at (3.15,1.8) {Secundárias (reativas)};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,0.9)
+  % Secundárias
+  \draw[dguide, rounded corners=5pt, line width=1pt, fill=white] (0.3,-4.6) rectangle (8.8,4.4);
+  \node[font=\huge\bfseries, dorange] at (4.55,3.6) {Secundárias (reativas)};
+  \node[font=\Large, black!65, align=center, text width=7.6cm] at (4.55,1.9)
      {\textbf{variam} entre culturas, respostas mais reflexivas};
-  \node[font=\small, align=center, text width=5.0cm] at (3.15,-0.6)
+  \node[font=\LARGE, align=center, text width=7.6cm] at (4.55,-0.8)
      {orgulho, remorso, culpa, vergonha};
-  \node[dsub, font=\scriptsize, align=center, text width=5.0cm] at (3.15,-2.0) {Kemper (1987)};
+  \node[font=\large, black!55, align=center] at (4.55,-3.7) {Kemper (1987)};
 
-  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (0,-3.6)
+  \node[font=\Large, black!60, align=center, text width=17cm] at (0,-5.7)
      {Não há consenso sobre a lista exata --- alguns pesquisadores contestam até a existência de emoções ``básicas'' (Ortony \& Turner, 1990)};
 
 \end{tikzpicture}

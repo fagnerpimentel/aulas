@@ -1,20 +1,19 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-  \node[dstate, minimum size=20mm, font=\scriptsize, align=center] (r) at (5.6,2.4) {reações\\ valoradas};
+  \node[dstate, minimum size=36mm, font=\Large\bfseries, align=center] (r) at (6.6,5.6) {reações\\ valoradas};
 
-  \node[dbox, text width=3.0cm, font=\small] (a) at (0,0) {\textbf{consequências de eventos}\\ ex.: alívio, esperança, medo};
-  \node[dbox, text width=3.0cm, font=\small] (b) at (5.6,0) {\textbf{ações de agentes}\\ ex.: orgulho, vergonha, reprovação};
-  \node[dbox, text width=3.0cm, font=\small] (c) at (11.2,0) {\textbf{aspectos de objetos}\\ ex.: gostar, desgostar};
+  \tikzset{cat/.style={dbox, text width=5.6cm, font=\Large, minimum height=4.6cm, line width=1.3pt}}
+  \node[cat, draw=dblue] (a) at (0,0) {\textbf{\textcolor{dblue}{consequências de eventos}}\\[3pt] {\large\textcolor{black!80}{avalia: é \textbf{desejável}?}}\\[3pt] alívio, esperança, medo};
+  \node[cat, draw=dgreen] (b) at (6.6,0) {\textbf{\textcolor{dgreen}{ações de agentes}}\\[3pt] {\large\textcolor{black!80}{avalia: é \textbf{louvável}?}}\\[3pt] orgulho, vergonha, reprovação};
+  \node[cat, draw=dorange] (c) at (13.2,0) {\textbf{\textcolor{dorange}{aspectos de objetos}}\\[3pt] {\large\textcolor{black!80}{avalia: é \textbf{atraente}?}}\\[3pt] gostar, desgostar};
 
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (a.north);
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (b.north);
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (r) -- (c.north);
-
-  \node[dsub, font=\scriptsize, align=center, text width=16.5cm] at (5.6,-1.8)
-     {O modelo \textbf{OCC} (Ortony, Clore \& Collins, 1988) define 22 categorias de emoção, cada uma com uma \textbf{intensidade} calculável --- complexo, mas útil para representar emoção em software};
+  \draw[dtrans, draw=dblue, line width=1.8pt, -{Stealth[length=3.4mm]}] (r.south west) -- (a.north);
+  \draw[dtrans, draw=dgreen, line width=1.8pt, -{Stealth[length=3.4mm]}] (r.south) -- (b.north);
+  \draw[dtrans, draw=dorange, line width=1.8pt, -{Stealth[length=3.4mm]}] (r.south east) -- (c.north);
 
 \end{tikzpicture}
 \end{document}

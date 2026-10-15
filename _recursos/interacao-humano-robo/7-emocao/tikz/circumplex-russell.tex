@@ -1,16 +1,17 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
-\begin{tikzpicture}[x=1cm,y=1cm]
+\begin{tikzpicture}[x=1.55cm,y=1.9cm]
 
-  \draw[daxis] (-5.6,0) -- (5.6,0) node[right, dsub, font=\scriptsize] {valência};
-  \draw[daxis] (0,-4.6) -- (0,4.6) node[above, dsub, font=\scriptsize] {excitação};
+  \draw[daxis] (-5.6,0) -- (5.6,0) node[right, black!65, font=\Large\bfseries] {valência};
+  \draw[daxis] (0,-4.6) -- (0,4.6) node[above, black!65, font=\Large\bfseries] {excitação};
 
-  \newcommand{\pt}[3]{\fill[dblue] (#1,#2) circle (0.055); \node[font=\scriptsize, anchor=west] at (#1+0.12,#2) {#3};}
+  \newcommand{\ptl}[3]{\fill[dblue] (#1,#2) circle (0.075); \node[font=\Large, anchor=east, inner sep=2pt] at (#1-0.1,#2) {#3};}
+  \newcommand{\pt}[3]{\fill[dblue] (#1,#2) circle (0.075); \node[font=\Large, anchor=west, inner sep=2pt] at (#1+0.1,#2) {#3};}
 
-  \pt{-3.6}{3.7}{alarmado}
+  \pt{-3.9}{3.4}{alarmado}
   \pt{-1.0}{4.1}{excitado}
-  \pt{-0.7}{3.8}{espantado}
+  \ptl{-0.7}{3.8}{espantado}
   \pt{-4.3}{2.7}{amedrontado}
   \pt{1.6}{3.1}{radiante}
   \pt{-2.8}{1.9}{tenso}
@@ -30,10 +31,7 @@
   \pt{-4.6}{-3.4}{sombrio}
   \pt{-3.6}{-3.6}{entediado}
   \pt{-2.9}{-3.9}{cansado}
-  \pt{-0.3}{-4.2}{sonolento}
-
-  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (0,-5.4)
-     {No modelo de Russell (1980), emoções são pontos num espaço contínuo de \textbf{excitação} $\times$ \textbf{valência} --- não categorias discretas e independentes};
+  \ptl{-0.3}{-4.2}{sonolento}
 
 \end{tikzpicture}
 \end{document}

@@ -1,23 +1,25 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-  % eixos 3D simplificados (isométrico)
-  \draw[daxis] (0,0) -- (0,4.0) node[above, dsub, font=\scriptsize] {Arousal (A)};
-  \draw[daxis] (0,0) -- (4.6,-1.8) node[right, dsub, font=\scriptsize] {Pleasure (P)};
-  \draw[daxis] (0,0) -- (-4.0,-1.4) node[left, dsub, font=\scriptsize] {Dominance (D)};
+  % eixos 3D (projeção isométrica simples), todos saindo da origem
+  \draw[black!45, line width=1.5pt, -{Stealth[length=3.6mm]}] (0,0) -- (0,5.6);
+  \draw[black!45, line width=1.5pt, -{Stealth[length=3.6mm]}] (0,0) -- (5.6,-2.2);
+  \draw[black!45, line width=1.5pt, -{Stealth[length=3.6mm]}] (0,0) -- (-5.6,-2.0);
 
-  \fill[dblue] (1.6,1.7) circle (0.07);
-  \node[font=\small, anchor=west] at (1.7,1.8) {exuberante};
-  \draw[dsub, dashed, line width=0.6pt] (1.6,1.7) -- (1.6,0);
-  \draw[dsub, dashed, line width=0.6pt] (1.6,1.7) -- (0,0.55);
+  \node[font=\Large\bfseries, dblue, anchor=south] at (0,5.7) {excitação (A)};
+  \node[font=\Large\bfseries, dgreen, anchor=west] at (5.7,-2.2) {prazer (P)};
+  \node[font=\Large\bfseries, dorange, anchor=east] at (-5.7,-2.0) {dominância (D)};
+  \node[font=\large, black!60, anchor=west] at (5.7,-2.9) {agradável};
+  \node[font=\large, black!60, anchor=east] at (-5.7,-2.7) {no controle};
+  \node[font=\large, black!60, anchor=west] at (0.2,4.7) {agitado};
 
-  \fill[dorange] (-2.2,1.1) circle (0.07);
-  \node[font=\small, anchor=east] at (-2.3,1.2) {hostil};
-
-  \node[dsub, font=\scriptsize, align=center, text width=13cm] at (0,-3.0)
-     {Uma versão estendida do modelo dimensional acrescenta a \textbf{dominância} --- usada, por exemplo, para modelar o estado emocional do Kismet (Mehrabian, 1980; Breazeal, 2003)};
+  \fill[dgreen] (1.03,0.59) circle (0.13); \node[font=\Large\bfseries, anchor=west] at (1.18,0.59) {exuberante};
+  \fill[dred] (-3.86,1.93) circle (0.13); \node[font=\Large\bfseries, anchor=east] at (-4.01,1.93) {hostil};
+  \fill[dblue] (0.26,3.49) circle (0.13); \node[font=\Large\bfseries, anchor=west] at (0.41,3.49) {ansioso};
+  \fill[dorange] (0.26,-3.22) circle (0.13); \node[font=\Large\bfseries, anchor=west] at (0.41,-3.22) {relaxado};
 
 \end{tikzpicture}
 \end{document}

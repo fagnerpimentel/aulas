@@ -1,0 +1,37 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \tikzset{lst/.style={font=\Large, align=center, anchor=north, inner sep=2pt},
+           ttl/.style={font=\large\bfseries, align=center}}
+
+  % ===== Consequências de eventos (12) =====
+  \draw[draw=dblue, line width=1.5pt, rounded corners=6pt, fill=dblue!5!white] (0,4.4) rectangle (18.4,10.6);
+  \node[font=\LARGE\bfseries, dblue] at (9.2,10.0) {Consequências de eventos (12)};
+  \draw[dguide, rounded corners=4pt, fill=white] (0.3,4.7) rectangle (4.9,9.2);
+  \node[ttl, text width=4.2cm] at (2.6,8.4) {para si, sem expectativa};
+  \node[lst] at (2.6,7.2) {alegria\\ aflição};
+  \draw[dguide, rounded corners=4pt, fill=white] (5.2,4.7) rectangle (12.3,9.2);
+  \node[ttl, text width=6.4cm] at (8.75,8.4) {para si, com expectativa};
+  \node[lst] at (8.75,7.5) {esperança $\cdot$ medo\\ satisfação $\cdot$ medo confirmado\\ alívio $\cdot$ decepção};
+  \draw[dguide, rounded corners=4pt, fill=white] (12.6,4.7) rectangle (18.1,9.2);
+  \node[ttl, text width=5.0cm] at (15.35,8.4) {para os outros};
+  \node[lst] at (15.35,7.5) {feliz pelo outro\\ pena\\ regozijo\\ ressentimento};
+
+  % ===== linha de baixo =====
+  \draw[draw=dgreen, line width=1.5pt, rounded corners=6pt, fill=dgreen!5!white] (0,0.2) rectangle (5.4,4.0);
+  \node[font=\Large\bfseries, dgreen] at (2.7,3.4) {Ações de agentes (4)};
+  \node[lst] at (2.7,2.6) {orgulho $\cdot$ vergonha\\ admiração $\cdot$ reprovação};
+
+  \draw[draw=black!55, line width=1.5pt, rounded corners=6pt, fill=black!4] (5.6,0.2) rectangle (11.8,4.0);
+  \node[font=\Large\bfseries, black!65] at (8.7,3.4) {Evento + ação (4)};
+  \node[lst] at (8.7,2.6) {gratificação $\cdot$ remorso\\ gratidão $\cdot$ raiva};
+
+  \draw[draw=dorange, line width=1.5pt, rounded corners=6pt, fill=dorange!5!white] (12.0,0.2) rectangle (18.4,4.0);
+  \node[font=\Large\bfseries, dorange] at (15.2,3.4) {Aspectos de objetos (2)};
+  \node[lst] at (15.2,2.6) {gostar (amor)\\ desgostar (ódio)};
+
+\end{tikzpicture}
+\end{document}

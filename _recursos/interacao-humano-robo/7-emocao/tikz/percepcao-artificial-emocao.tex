@@ -1,20 +1,19 @@
 \documentclass[border=3pt]{standalone}
 \input{preamble}
 \begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
 \begin{tikzpicture}[x=1cm,y=1cm]
 
-  \node[dbox, text width=2.9cm, font=\small] (a) at (0,2.6) {\textbf{rosto}\\ visão computacional, aprendizado profundo};
-  \node[dbox, text width=2.9cm, font=\small] (b) at (0,0) {\textbf{voz}\\ prosódia: tom, ritmo, altura};
-  \node[dbox, text width=2.9cm, font=\small] (c) at (0,-2.6) {\textbf{pele}\\ condutância (ligada à excitação)};
+  \tikzset{canal/.style={dbox, text width=4.4cm, font=\large, minimum height=1.9cm}}
+  \node[canal] (a) at (0,3.4) {\textbf{rosto}\\ visão computacional, aprendizado profundo};
+  \node[canal] (b) at (0,0) {\textbf{voz}\\ jeito de falar: tom, ritmo, altura};
+  \node[canal] (c) at (0,-3.4) {\textbf{pele}\\ suor (ligado à excitação)};
 
-  \node[dstate, minimum size=22mm, font=\scriptsize, align=center] (d) at (5.6,0) {reconhecimento\\ de emoção};
+  \node[dstate, minimum size=42mm, font=\large\bfseries, align=center] (d) at (8.4,0) {reconhecimento\\ de emoção};
 
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (a.east) -- ++(0.8,0) |- (d.north);
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (b.east) -- (d.west);
-  \draw[dtrans, -{Stealth[length=2.4mm]}] (c.east) -- ++(0.8,0) |- (d.south);
-
-  \node[dsub, font=\scriptsize, align=center, text width=13.5cm] at (2.8,-4.2)
-     {O \textbf{rosto} é o canal mais estudado (ex.: detecção de sorriso em câmeras); voz e pele oferecem sinais complementares, ainda com sucesso limitado em HRI};
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (a.east) -- ++(0.9,0) |- (d.north);
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (b.east) -- (d.west);
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (c.east) -- ++(0.9,0) |- (d.south);
 
 \end{tikzpicture}
 \end{document}
