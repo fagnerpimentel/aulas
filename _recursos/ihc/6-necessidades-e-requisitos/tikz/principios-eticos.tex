@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{pr/.style={dbox, text width=8.4cm, minimum height=3.8cm, font=\Large, line width=1.5pt}}
+  \node[pr, draw=dblue] at (0,4.6) {\textbf{\textcolor{dblue}{Autonomia}}\\[4pt] consentimento livre e esclarecido; proteger os vulneráveis};
+  \node[pr, draw=dgreen] at (9.2,4.6) {\textbf{\textcolor{dgreen}{Beneficência}}\\[4pt] máximo de benefícios, mínimo de riscos};
+  \node[pr, draw=dorange] at (0,0) {\textbf{\textcolor{dorange}{Não maleficência}}\\[4pt] evitar danos previsíveis, agora ou depois};
+  \node[pr, draw=dred] at (9.2,0) {\textbf{\textcolor{dred}{Justiça e equidade}}\\[4pt] relevância social e menor ônus para os vulneráveis};
+\end{tikzpicture}
+\end{document}

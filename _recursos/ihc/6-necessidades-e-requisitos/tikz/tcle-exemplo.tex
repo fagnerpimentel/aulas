@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{sec/.style={anchor=north west, text width=10.1cm, font=\normalsize, align=left, inner sep=0pt}}
+  % papel com sombra
+  \fill[black!15] (0.25,-0.25) rectangle (12.25,14.45);
+  \draw[black!55, fill=white, line width=1pt] (0,0) rectangle (12,14.7);
+  % cabeçalho
+  \node[font=\large\bfseries, align=center, text width=11cm] at (6,13.85) {TERMO DE CONSENTIMENTO\\ LIVRE E ESCLARECIDO (TCLE)};
+  \node[font=\normalsize\itshape, black!70, align=center, text width=11cm] at (6,12.7) {Projeto: Sistema Acadêmico};
+  \draw[black!40, line width=0.8pt] (0.7,12.25) -- (11.3,12.25);
+  % 1 objetivo
+  \fill[dblue] (0.7,10.6) rectangle ++(0.14,1.45);
+  \node[sec] at (1.05,12.05) {\textbf{\textcolor{dblue}{Objetivo.}} Conhecer como professores e alunos trabalham hoje e como um novo sistema pode apoiá-los. Entrevista de cerca de 30 minutos, gravada em áudio \textbf{com a sua permissão}.};
+  % 2 uso dos dados
+  \fill[dgreen] (0.7,8.85) rectangle ++(0.14,1.0);
+  \node[sec] at (1.05,9.85) {\textbf{\textcolor{dgreen}{Uso dos dados.}} Somente para a análise e o desenvolvimento do sistema. Seu \textbf{nome não será divulgado}.};
+  % 3 participação voluntária
+  \fill[dorange] (0.7,6.95) rectangle ++(0.14,1.0);
+  \node[sec] at (1.05,7.95) {\textbf{\textcolor{dorange}{Participação voluntária.}} Você pode \textbf{interromper a entrevista a qualquer momento}, sem nenhum prejuízo.};
+  % 4 decisão
+  \fill[dred] (0.7,0.55) rectangle ++(0.14,5.5);
+  \node[sec] at (1.05,6.05) {\textbf{\textcolor{dred}{Decisão.}}};
+  \draw[black!70, line width=1.3pt] (1.05,4.72) rectangle ++(0.5,0.5);
+  \node[font=\large, anchor=west] at (1.8,4.97) {\textbf{Consinto}};
+  \draw[black!70, line width=1.3pt] (6.0,4.72) rectangle ++(0.5,0.5);
+  \node[font=\large, anchor=west] at (6.75,4.97) {\textbf{Não consinto}};
+  \draw[black!60, line width=0.9pt] (1.05,3.1) -- (5.5,3.1) (6.3,3.1) -- (11.3,3.1);
+  \node[font=\small, black!70, anchor=north west] at (1.05,3.0) {Participante};
+  \node[font=\small, black!70, anchor=north west] at (6.3,3.0) {Pesquisador(a)};
+  \draw[black!60, line width=0.9pt] (1.05,1.35) -- (11.3,1.35);
+  \node[font=\small, black!70, anchor=north west] at (1.05,1.25) {Local e data};
+\end{tikzpicture}
+\end{document}

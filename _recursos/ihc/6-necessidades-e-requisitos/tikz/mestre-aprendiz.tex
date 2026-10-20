@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{p/.style={dbox, text width=6.6cm, minimum height=3.4cm, font=\Large, line width=1.6pt}}
+  \node[p, draw=dblue] (m) at (0,0) {\textbf{\textcolor{dblue}{Usuário = mestre}}\\[4pt] faz o trabalho e o explica};
+  \node[p, draw=dgreen] (a) at (10.4,0) {\textbf{\textcolor{dgreen}{Investigador = aprendiz}}\\[4pt] observa, pergunta e interpreta};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (m.east) to[bend left=18] node[above, font=\large, yshift=2pt] {ensina} (a.west);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (a.west) to[bend left=18] node[below, font=\large, yshift=-2pt] {confirma} (m.east);
+  \node[dbox, draw=dorange, line width=1.6pt, text width=14.8cm, minimum height=1.7cm, font=\Large] at (5.2,-3.8) {no \textbf{local de trabalho}, durante o trabalho: contexto, parceria, interpretação e foco};
+\end{tikzpicture}
+\end{document}

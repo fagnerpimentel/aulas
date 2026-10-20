@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{b/.style={dbox, text width=3.8cm, minimum height=4.6cm, font=\Large, line width=1.5pt, align=center}}
+  \node[b, draw=dblue] (a) at (0,0) {\textbf{\textcolor{dblue}{Pergunta}}\\[6pt] o que o \textbf{sistema ideal} deve fazer?};
+  \node[b, draw=dgreen] (b) at (5.2,0) {\textbf{\textcolor{dgreen}{Ideias}}\\[6pt] todas valem; o secretário numera cada item};
+  \node[b, draw=dorange] (c) at (10.4,0) {\textbf{\textcolor{dorange}{Priorizar}}\\[6pt] cada pessoa marca os \textbf{5 mais importantes}};
+  \node[b, draw=dred] (d) at (15.6,0) {\textbf{\textcolor{dred}{Resultado}}\\[6pt] tabela com item e \% de pessoas};
+  \foreach \u/\v in {a/b,b/c,c/d} {\draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (\u.east) -- (\v.west);}
+  \node[font=\Large, black!65] at (7.8,-3.5) {cerca de 1 hora, 8 a 12 usuários};
+\end{tikzpicture}
+\end{document}

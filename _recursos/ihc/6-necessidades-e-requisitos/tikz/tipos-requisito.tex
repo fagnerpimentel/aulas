@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{rot/.style={dbox, text width=3.6cm, minimum height=2.3cm, font=\Large, line width=1.5pt}}
+  \tikzset{ob/.style={dbox, draw=black!80, fill=black!10, line width=2.4pt, text width=7.6cm, minimum height=2.3cm, font=\Large}}
+  \tikzset{de/.style={dbox, draw=black!55, fill=white, dashed, line width=1.6pt, text width=7.6cm, minimum height=2.3cm, font=\Large}}
+  \node[font=\Large\bfseries, black!85] at (8.6,12.1) {obrigatório};
+  \node[font=\Large, black!60] at (8.6,11.4) {não negociável};
+  \node[font=\Large\bfseries, black!60] at (17.4,12.1) {desejável};
+  \node[font=\Large, black!60] at (17.4,11.4) {negociável, pode ser descartado};
+  \node[rot, draw=dblue] at (1.0,9.8) {\textbf{\textcolor{dblue}{funcionalidade}}};
+  \node[rot, draw=dgreen] at (1.0,7.1) {\textbf{\textcolor{dgreen}{atributo}}};
+  \node[rot, draw=dorange] at (1.0,4.4) {\textbf{\textcolor{dorange}{restrição}}};
+  \node[rot, draw=dred] at (1.0,1.7) {\textbf{\textcolor{dred}{expectativa}}};
+  \node[ob] at (8.6,9.8) {lançar notas e faltas, como exige a instituição};
+  \node[de] at (17.4,9.8) {modo escuro};
+  \node[ob] at (8.6,7.1) {abrir em até 2 segundos, por contrato};
+  \node[de] at (17.4,7.1) {animações suaves};
+  \node[ob] at (8.6,4.4) {seguir a norma de acessibilidade};
+  \node[de] at (17.4,4.4) {usar as cores da marca};
+  \node[ob] at (8.6,1.7) {ver a nota assim que for lançada (regra da escola)};
+  \node[de] at (17.4,1.7) {parecer moderno};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{pt/.style={dbox, text width=8.2cm, minimum height=3.7cm, font=\Large, line width=1.5pt}}
+  \node[pt, draw=dblue] at (0,4.3) {\textbf{\textcolor{dblue}{1. Objetivos}}\\[4pt] por que coletar? isso decide os dados e as técnicas};
+  \node[pt, draw=dgreen] at (9.0,4.3) {\textbf{\textcolor{dgreen}{2. Participantes}}\\[4pt] informar os objetivos e obter o consentimento};
+  \node[pt, draw=dorange] at (0,0) {\textbf{\textcolor{dorange}{3. Triangulação}}\\[4pt] mais de uma técnica, para confirmar as descobertas};
+  \node[pt, draw=dred] at (9.0,0) {\textbf{\textcolor{dred}{4. Estudo-piloto}}\\[4pt] uma prévia, para ver se o estudo funciona};
+\end{tikzpicture}
+\end{document}

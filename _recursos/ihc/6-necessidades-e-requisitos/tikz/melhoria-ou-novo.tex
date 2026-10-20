@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{b/.style={dbox, text width=3.7cm, minimum height=1.5cm, font=\Large, line width=1.4pt}}
+  \tikzset{ar/.style={line width=2pt, -{Stealth[length=3mm]}}}
+  \tikzset{cp/.style={font=\Large, text width=11.5cm, align=center}}
+  \node[font=\Large\bfseries, dblue, anchor=west] at (0,11.9) {Melhoria};
+  \node[b, draw=dblue] (a1) at (2.2,10.4) {produto atual};
+  \node[b, draw=dblue, fill=dblue!10!white] (a2) at (9.0,10.4) {produto melhorado};
+  \draw[ar, dblue] (a1) -- (a2);
+  \node[cp] at (5.6,9.1) {entender \textbf{por que} e \textbf{preservar o que funciona}};
+  \node[font=\Large\bfseries, dgreen, anchor=west] at (0,8.0) {Domínio novo};
+  \node[b, draw=dgreen] (b1) at (2.2,6.5) {atividade de hoje};
+  \node[b, draw=dgreen, fill=dgreen!10!white] (b2) at (9.0,6.5) {produto novo};
+  \draw[ar, dgreen] (b1) -- node[above, font=\Large] {substituído} (b2);
+  \node[cp] at (5.6,5.4) {estudar a \textbf{atividade substituída}};
+  \node[font=\Large\bfseries, dorange, anchor=west] at (0,4.3) {Tecnologia nova};
+  \node[b, draw=dorange] (c1) at (2.2,2.8) {tecnologia parecida};
+  \node[b, draw=dorange, fill=dorange!10!white] (c2) at (9.0,2.8) {tecnologia nova};
+  \draw[ar, dorange, dashed] (c1) -- node[above, font=\Large] {analogia} (c2);
+  \node[cp] at (5.6,1.5) {buscar \textbf{analogias} de uso};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{te/.style={dbox, text width=5.7cm, minimum height=5.2cm, font=\Large, line width=1.5pt}}
+  \node[te, draw=dblue] at (0,0) {\textbf{\textcolor{dblue}{Estruturada}}\\[4pt] roteiro e ordem \textbf{fixos}\\ quase só perguntas fechadas\\ parece um questionário};
+  \node[te, draw=dgreen, line width=2.4pt] at (6.6,0) {\textbf{\textcolor{dgreen}{Semiestruturada}}\\[4pt] tópicos e perguntas abertas\\ ordem flexível\\ foco nos objetivos\\ \textbf{a mais usada}};
+  \node[te, draw=dorange] at (13.2,0) {\textbf{\textcolor{dorange}{Não estruturada}}\\[4pt] só o \textbf{tema} é fixo\\ perguntas flexíveis e abertas\\ aprofunda os tópicos};
+  \draw[black!50, line width=1.6pt, <->, {Stealth[length=3.4mm]}-{Stealth[length=3.4mm]}] (-2.85,-3.6) -- (16.05,-3.6);
+  \node[font=\Large, black!65, anchor=east] at (-2.85,-4.4) {mais fixa};
+  \node[font=\Large, black!65, anchor=west] at (16.05,-4.4) {mais livre};
+\end{tikzpicture}
+\end{document}

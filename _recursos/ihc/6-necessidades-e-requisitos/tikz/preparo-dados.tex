@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{s/.style={dbox, text width=3.8cm, minimum height=4.2cm, font=\Large, line width=1.5pt, align=center}}
+  \node[s, draw=dblue] (a) at (0,0) {\textbf{\textcolor{dblue}{Dados brutos}}\\[6pt] gravações, anotações, fotos, logs, respostas};
+  \node[s, draw=dgreen] (b) at (5.4,0) {\textbf{\textcolor{dgreen}{Formato}}\\[6pt] transcrever, expandir, tabular na planilha};
+  \node[s, draw=dorange] (c) at (10.8,0) {\textbf{\textcolor{dorange}{Limpeza}}\\[6pt] tirar repetidas, incompletas e fora do público};
+  \node[s, draw=dred] (d) at (16.2,0) {\textbf{\textcolor{dred}{Análise}}\\[6pt] quantitativa, qualitativa e cruzamento};
+  \foreach \u/\v in {a/b,b/c,c/d} {\draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (\u.east) -- (\v.west);}
+\end{tikzpicture}
+\end{document}

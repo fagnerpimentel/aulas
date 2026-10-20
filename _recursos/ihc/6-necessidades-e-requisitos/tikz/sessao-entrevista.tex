@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{st/.style={dbox, text width=4.1cm, minimum height=5.0cm, font=\Large, line width=1.5pt, align=center}}
+  \node[st, draw=dblue] (a) at (0,0) {\textbf{\textcolor{dblue}{1. Apresentação}}\\[6pt] o entrevistador se apresenta e explica o objetivo};
+  \node[st, draw=dgreen] (b) at (5.0,0) {\textbf{\textcolor{dgreen}{2. Aquecimento}}\\[6pt] perguntas fáceis, como dados demográficos};
+  \node[st, draw=dorange] (c) at (10.0,0) {\textbf{\textcolor{dorange}{3. Parte principal}}\\[6pt] o roteiro é explorado};
+  \node[st, draw=dred] (d) at (15.0,0) {\textbf{\textcolor{dred}{4. Desa\-quecimento}}\\[6pt] desfaz alguma tensão que surgiu};
+  \node[st, draw=dblue] (e) at (20.0,0) {\textbf{\textcolor{dblue}{5. Conclusão}}\\[6pt] agradece, desliga o gravador e encerra};
+  \foreach \u/\v in {a/b,b/c,c/d,d/e} {\draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (\u.east) -- (\v.west);}
+\end{tikzpicture}
+\end{document}

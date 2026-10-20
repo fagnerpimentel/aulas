@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{src/.style={dbox, text width=4.6cm, minimum height=1.15cm, font=\Large}}
+  \foreach \i/\y/\t in {1/4.8/usuários finais, 2/2.4/gerentes da empresa, 3/0/clientes, 4/-2.4/instrutores, 5/-4.8/suporte técnico} {
+    \node[src] (s\i) at (0,\y) {\t};
+  }
+  \node[dstate, minimum size=36mm, font=\Large\bfseries, align=center, line width=1.4pt] (a) at (8.4,0) {Análise da\\ situação atual};
+  \foreach \i in {1,2,3,4,5} {\draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (s\i.east) -- (a);}
+  \node[dbox, draw=dblue, line width=1.6pt, text width=6.2cm, minimum height=5.6cm, font=\Large, align=center] (r) at (16.4,0) {\textbf{\textcolor{dblue}{Requisitos}}\\[8pt] objetivos dos usuários\\[6pt] funcionalidades\\[6pt] características de qualidade\\[6pt] tecnologias e tarefas};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3.4mm]}] (a.east) -- (r.west);
+\end{tikzpicture}
+\end{document}

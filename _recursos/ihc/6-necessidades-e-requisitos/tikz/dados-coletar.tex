@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{bl/.style={dbox, text width=8.4cm, minimum height=5.1cm, font=\Large, line width=1.5pt, align=left}}
+  \node[bl, draw=dblue] at (0,5.6) {\textbf{\textcolor{dblue}{O usuário}}\\[4pt] dados demográficos\\ cargo e experiência\\ informações da empresa\\ educação e leitura};
+  \node[bl, draw=dgreen] at (9.4,5.6) {\textbf{\textcolor{dgreen}{Tecnologia}}\\[4pt] experiência com computadores\\ experiência com o produto\\ tecnologia disponível\\ treinamento};
+  \node[bl, draw=dorange] at (0,0) {\textbf{\textcolor{dorange}{Trabalho e tarefas}}\\[4pt] conhecimento do domínio\\ objetivos\\ tarefas\\ gravidade dos erros};
+  \node[bl, draw=dred] at (9.4,0) {\textbf{\textcolor{dred}{Atitudes e linguagem}}\\[4pt] atitudes e valores\\ motivação para o trabalho\\ idiomas e jargões};
+\end{tikzpicture}
+\end{document}

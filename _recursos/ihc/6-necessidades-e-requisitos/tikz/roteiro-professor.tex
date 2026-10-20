@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{rt/.style={dbox, text width=7.2cm, minimum height=1.9cm, font=\Large, line width=1.3pt, align=left}}
+  \node[rt, draw=dblue] at (0,6.2) {\textbf{\textcolor{dblue}{Experiência como professor}}\\ tempo, área, nível};
+  \node[rt, draw=dgreen] at (8.2,6.2) {\textbf{\textcolor{dgreen}{Função}}\\ atividades, frequência, satisfação};
+  \node[rt, draw=dorange] at (0,3.4) {\textbf{\textcolor{dorange}{Divisão de responsabilidades}}\\ quem faz o quê; satisfação; desejos};
+  \node[rt, draw=dred] at (8.2,3.4) {\textbf{\textcolor{dred}{Uso de tecnologias}}\\ usa? quais, para quê, com que frequência};
+  \node[rt, draw=dblue] at (0,0.6) {\textbf{\textcolor{dblue}{Falta nos sistemas atuais}}\\ do que mais sente falta};
+  \node[rt, draw=dgreen] at (8.2,0.6) {\textbf{\textcolor{dgreen}{Comentários adicionais}}\\ espaço livre no final};
+  \node[font=\Large, black!65, align=center, text width=15.4cm] at (4.1,-1.5) {\textbf{tópicos} entre parênteses lembram o entrevistador; as perguntas exatas podem variar};
+\end{tikzpicture}
+\end{document}

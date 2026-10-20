@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{q/.style={dbox, text width=8.6cm, minimum height=3.3cm, font=\Large, line width=1.4pt, align=left}}
+  \node[q, draw=dblue] at (0,8.4) {\textbf{\textcolor{dblue}{Múltipla escolha}}\\ $\bigcirc$ até 20 anos \quad $\bigcirc$ 21 a 30\\ $\bigcirc$ 31 a 40 \quad $\bigcirc$ outros};
+  \node[q, draw=dgreen] at (9.4,8.4) {\textbf{\textcolor{dgreen}{Escala Likert}}\\ O sistema é fácil de usar.\\ discordo $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ concordo};
+  \node[q, draw=dorange] at (0,4.2) {\textbf{\textcolor{dorange}{Diferencial semântico}}\\ difícil $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ fácil\\ lento $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ $\bigcirc$ rápido};
+  \node[q, draw=dred] at (9.4,4.2) {\textbf{\textcolor{dred}{Pergunta aberta}}\\ O que você mudaria no sistema?\\ \rule{7.4cm}{0.4pt}};
+  \node[font=\Large, black!65, align=center, text width=18cm] at (4.7,1.4) {faixas \textbf{sem sobreposição} e sempre uma opção \textbf{outros}};
+\end{tikzpicture}
+\end{document}

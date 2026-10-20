@@ -1,0 +1,40 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[dbox, draw=dblue, line width=1.6pt, minimum width=6.5cm, minimum height=5.9cm] at (3.25,5.35) {};
+\node[font=\Large\bfseries, dblue] at (3.25,7.80) {Quantitativos};
+\node[font=\large, black!70] at (3.25,7.30) {viram \textbf{número} (escala Likert)};
+\draw[dblue, fill=dblue!25!white, line width=1.4pt] (1.75,5.25) rectangle ++(0.5,0.70);
+\draw[dblue, fill=dblue!25!white, line width=1.4pt] (2.45,5.25) rectangle ++(0.5,1.30);
+\draw[dblue, fill=dblue!25!white, line width=1.4pt] (3.15,5.25) rectangle ++(0.5,1.00);
+\draw[dblue, fill=dblue!25!white, line width=1.4pt] (3.85,5.25) rectangle ++(0.5,1.50);
+\draw[black!55, line width=1.3pt] (1.50,6.80) -- (1.50,5.25) -- (4.70,5.25);
+\node[font=\large, black!65, anchor=east] at (1.35,5.35) {};
+\node[draw=dblue, fill=white, line width=1.2pt, minimum width=0.75cm, minimum height=0.65cm, font=\Large] at (2.05,4.50) {4};
+\node[draw=dblue, fill=white, line width=1.2pt, minimum width=0.75cm, minimum height=0.65cm, font=\Large] at (2.85,4.50) {5};
+\node[draw=dblue, fill=white, line width=1.2pt, minimum width=0.75cm, minimum height=0.65cm, font=\Large] at (3.65,4.50) {3};
+\node[draw=dblue, fill=white, line width=1.2pt, minimum width=0.75cm, minimum height=0.65cm, font=\Large] at (4.45,4.50) {5};
+\node[font=\large, text width=6.1cm, align=center] at (3.25,3.50) {\textbf{quais, quando, onde e quem}};
+\node[dbox, draw=dgreen, line width=1.6pt, minimum width=6.5cm, minimum height=5.9cm] at (10.05,5.35) {};
+\node[font=\Large\bfseries, dgreen] at (10.05,7.80) {Qualitativos};
+\node[font=\large, black!70] at (10.05,7.30) {\textbf{textos} e multimídia};
+\draw[dgreen, fill=white, line width=1.4pt, rounded corners=6pt] (8.15,6.20) rectangle ++(2.60,0.75);
+\draw[black!45, line width=1.3pt] (8.35,6.75) -- ++(1.5,0) (8.35,6.48) -- ++(0.9,0);
+\fill[dorange!55!white] (9.90,6.68) rectangle ++(0.6,0.14);
+\draw[dgreen, fill=white, line width=1.4pt, rounded corners=6pt] (9.60,5.25) rectangle ++(2.60,0.75);
+\draw[black!45, line width=1.3pt] (9.80,5.80) -- ++(1.5,0) (9.80,5.53) -- ++(0.9,0);
+\fill[dorange!55!white] (11.35,5.73) rectangle ++(0.6,0.14);
+\node[draw=dgreen, fill=white, line width=1.2pt, rounded corners=3pt, font=\large, minimum height=0.65cm, minimum width=1.2cm] (a) at (8.55,4.50) {Ana};
+\node[draw=dgreen, fill=dgreen!12!white, line width=1.2pt, rounded corners=3pt, font=\large\bfseries, minimum height=0.65cm, minimum width=1.2cm] (b) at (9.95,4.50) {P07};
+\draw[dgreen, line width=1.6pt, -{Stealth[length=2.6mm]}] (a) -- (b);
+\node[font=\large, dgreen, anchor=west] at (10.70,4.50) {anonimizar};
+\node[font=\large, text width=6.1cm, align=center] at (10.05,3.50) {\textbf{o quê, como e por quê}};
+\node[dbox, draw=dblue, line width=1.6pt, minimum width=3.75cm, minimum height=1.5cm, font=\Large] (f0) at (2.20,1.05) {1º \textbf{quantitativo}};
+\node[dbox, draw=dgreen, line width=1.6pt, minimum width=3.75cm, minimum height=1.5cm, font=\Large] (f1) at (6.65,1.05) {2º \textbf{qualitativo}};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (f0.east) -- (f1.west);
+\node[dbox, draw=dorange, line width=1.6pt, minimum width=3.75cm, minimum height=1.5cm, font=\Large] (f2) at (11.10,1.05) {\textbf{cruzar} os dois};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (f1.east) -- (f2.west);
+\end{tikzpicture}
+\end{document}

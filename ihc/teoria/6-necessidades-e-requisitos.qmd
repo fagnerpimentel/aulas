@@ -1,0 +1,592 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Necessidades dos Usuários e Requisitos de IHC"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/6-necessidades-e-requisitos
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+---
+
+# Necessidades dos Usuários e Requisitos de IHC
+
+::: {.esquerda}
+Capítulo 7 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Analisar a situação atual** --- o que se pesquisa antes de projetar e por quê
+- **Que dados coletar** e **de quem coletar**
+- **Ética** em pesquisas com pessoas
+- **Técnicas de coleta** --- entrevistas, questionários, grupos de foco, *brainstorming*, classificação de cartões, estudos de campo e investigação contextual
+- **Analisar os dados** coletados
+
+# Analisar a Situação Atual
+
+Antes de projetar, é preciso **entender** quem são os usuários e do que eles precisam.
+
+## O objetivo da análise {.smaller}
+
+- Na análise, pesquisamos a **situação atual** para descobrir as **necessidades** dos usuários e as **oportunidades de melhoria**
+
+::: {.columns}
+
+::: {.column}
+
+- **Requisitos** são, do ponto de vista do usuário:
+  - os **objetivos dos usuários** que o produto deve apoiar
+  - as **características** que ele deve ter
+:::
+
+::: {.column}
+- Com eles decidimos 
+  - que **funcionalidades** o produto terá
+  - que **tecnologias** usar
+  - que **tarefas** apoiar
+:::
+
+:::
+
+![](images/fontes-requisitos.svg){fig-align="center" width="100%"}
+
+
+## O erro mais comum {.smaller}
+
+- Pular a pesquisa inicial e analisar com dados **incompletos, inválidos ou pouco confiáveis**
+- Não dá para **supor** como os usuários usam um produto: os dados precisam vir de pesquisas **cuidadosas e documentadas**
+- Mesmo que alguém já tenha conversado com os usuários, pode lhe faltar experiência para **relatar sem erros de interpretação**
+
+## Nem todo requisito pesa igual {.smaller}
+
+- O termo "requisitos" costuma misturar **tipos diferentes de informação** e não diz o quanto cada uma **pesa**
+
+![](images/tipos-requisito.svg){fig-align="center" width="100%"}
+
+
+## Quatro pontos da coleta de dados {.smaller}
+
+- **Objetivos:** saber **por que** estamos coletando dados, pois isso decide **quais dados** e **quais técnicas**
+- **Participantes:** explicar os objetivos e obter o **consentimento** deles, formando uma relação profissional
+- **Triangulação:** usar **mais de uma técnica** para confirmar as descobertas
+- **Estudo-piloto:** uma **prévia** do estudo para ver se ele é viável e se as perguntas estão claras
+
+![](images/quatro-pontos-coleta.svg){fig-align="center" width="100%"}
+
+## Triangulação e estudo-piloto {.smaller}
+
+- **Triangulação:** o que as pessoas **dizem** nem sempre é o que **fazem**; juntar técnicas revela o que cada uma sozinha esconderia
+- Exemplo: **observar** para entender o contexto, **entrevistar** grupos específicos, usar **questionários** para uma população maior e **grupos de foco** para ver o consenso
+- **Piloto:** testar o material com pessoas parecidas com o público-alvo (ou colegas, se o acesso for difícil)
+- Quem participou do piloto **não deve** participar do estudo principal: saberia demais e poderia distorcer os resultados
+
+![](images/triangulacao.svg){fig-align="center" width="100%"}
+
+# Que Dados Coletar e de Quem
+
+Saber **quem** são os usuários, **de que precisam** e **onde buscar** essa informação.
+
+## Que dados coletar {.smaller}
+
+- Entender **quem são os usuários** (reais ou possíveis) e **do que precisam** é a atividade mais essencial
+- Não olhar só os "melhores" ou mais experientes: mesmo um especialista pode **não dominar todas as partes** do sistema
+- Os dados se organizam em quatro blocos:
+
+![](images/dados-coletar.svg){fig-align="center" width="100%"}
+
+## Para que servem esses dados {.smaller}
+
+- Alimentam os **artefatos da análise**: 
+  - perfis de usuários
+  - *personas*
+  - cenários
+  - modelos de tarefa
+- **Gravidade dos erros** e **tarefas** ajudam a decidir o que merece mais cuidado
+- **Idiomas e jargões** do domínio mostram a linguagem que a interface deve falar
+- **Atitudes e valores** indicam se o usuário prefere explorar ou seguir caminhos já testados
+
+## De quem coletar dados {.smaller}
+
+::: {.columns}
+
+::: {.column}
+- **Usuários finais:** 
+  - os que usam o produto diretamente, **primários** (uso regular) ou **secundários** (uso ocasional, como na configuração)
+- ***Stakeholders*** (partes interessadas): 
+  - quem **não usa** o produto, mas é **afetado** por ele
+  - Exemplo: o **cliente** do supermercado é *stakeholder* do sistema do caixa --- se o sistema é ruim, o atendimento demora
+  - Um mesmo *stakeholder* pode ter **vários papéis**
+:::
+
+::: {.column}
+![](images/partes-interessadas.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Como achar as fontes de informação {.smaller}
+
+::: {.columns}
+
+::: {.column width="50%"}
+- Em um sistema **novo**: 
+  - Quem **usará** o sistema? 
+  - Quem será **afetado**? 
+  - Quem **decide** o que ele deve apoiar? 
+  - Quem definiu os **processos**?
+- Em um sistema **existente**: 
+  - quem usa hoje? 
+    - Quem está **satisfeito**?
+    - Quem está **insatisfeito**? 
+  - Quem dá **suporte**, **treinamento** e **manutenção**?
+:::
+
+::: {.column width="50%"}
+![](images/fontes-informacao.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Melhorar um produto ou criar um novo {.smaller}
+
+::: {.columns}
+
+::: {.column width="50%"}
+- **Melhoria:** entender **por que** pedem a mudança e como ela afeta **todo o trabalho**, preservando o que funciona
+- **Domínio novo:** estudar as **atividades que o produto vai substituir**, as intenções dos usuários e como eles atingem seus objetivos hoje
+- Com **tecnologia nova**, buscar **analogias** com tecnologias existentes e como elas são usadas
+:::
+
+::: {.column width="50%"}
+![](images/melhoria-ou-novo.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Outras fontes de informação {.smaller}
+
+::: {.columns}
+
+::: {.column width="62%"}
+- **Suporte aos usuários:** conversar com quem atende mostra os problemas mais comuns
+- **Logs de uso:** mostram caminhos, mas **não** dizem *por quê*, nem se o usuário atingiu o objetivo; ao medir tempos, prefira a **mediana** à média
+- **Análise competitiva:** estudar produtos concorrentes, substitutos e complementares; em IHC, olhar a **experiência do usuário**, não só as funções
+- **Documentação e normas** (que limitam o que o usuário pode fazer) e **usar o produto você mesmo**
+:::
+
+::: {.column width="38%"}
+![](images/outras-fontes.svg){fig-align="center" height="560px"}
+:::
+
+:::
+
+# Ética em Pesquisas com Pessoas
+
+Pesquisar com pessoas exige **cuidado com o bem-estar** delas e com os **dados** que fornecem.
+
+## Por que falar de ética {.smaller}
+
+- Os códigos de ética da **ACM** e do **IEEE** pedem: 
+  - **não causar dano**
+  - **respeitar a privacidade**
+  - **honrar a confidencialidade**
+- A equipe de design é responsável pelo **bem-estar físico e psicológico** dos participantes
+- No Brasil, a **Resolução CNS 466/2012** regula pesquisas com pessoas e a **510/2016** trata das **Ciências Humanas e Sociais**, mais próxima da IHC
+- Mesmo quando a regra não se aplica (métodos com objetivo técnico), seus princípios **orientam** o trabalho
+
+## Os quatro princípios {.smaller}
+
+::: {.columns}
+
+::: {.column width="48%"}
+- **Autonomia:** consentimento **livre e esclarecido** e proteção de grupos vulneráveis (menores, alunos, subordinados)
+- **Beneficência:** ponderar **riscos e benefícios**, buscando o máximo de benefício e o mínimo de dano
+- **Não maleficência:** evitar danos **previsíveis**, imediatos ou tardios
+- **Justiça e equidade:** relevância social da pesquisa e menor ônus para os participantes vulneráveis
+:::
+
+::: {.column width="52%"}
+![](images/principios-icones.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Diretrizes para a pesquisa (1/2) {.smaller}
+
+::: {.columns}
+
+::: {.column width="48%"}
+- **Explicar** os objetivos, o que vai ocorrer, o tempo e como os dados serão analisados
+- Garantir **confidencialidade e privacidade**: os dados brutos ficam só com os pesquisadores
+- Garantir **anonimato** na divulgação: nada de nomes, nem detalhes que permitam identificar a pessoa
+- **Pedir permissão** antes de gravar voz ou imagem, e avisar já no recrutamento
+:::
+
+::: {.column width="52%"}
+![](images/diretrizes-icones.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Diretrizes para a pesquisa (2/2f) {.smaller}
+
+::: {.columns}
+
+::: {.column width="48%"}
+- **Consentimento livre e esclarecido** por meio de um **termo de consentimento**
+- **Conforto:** pausas, instalações adequadas e respeito; **evitar** termos como "cobaia" e deixar claro que **o produto** é avaliado, não a pessoa
+- **Liberdade de desistir** a qualquer momento, sem penalidade; **interromper** a pesquisa se a pessoa se incomodar
+- **Incentivos:** em pesquisa científica no Brasil só se pode **ressarcir despesas** (transporte, alimentação); pagar não é permitido
+:::
+
+::: {.column width="52%"}
+![](images/diretrizes2-icones.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Cuidados com os dados {.smaller}
+
+::: {.columns}
+
+::: {.column width="48%"}
+- Os dados devem ser **válidos e confiáveis**: dados distorcidos levam a **decisões de projeto ruins**
+- Evitar **tendenciosidade** (*bias*): as perguntas e as reações do pesquisador podem influenciar as respostas
+- Se um dado parecer **inválido**, **descartá-lo**; informar os interessados sobre as **limitações** dos dados
+- **Reter** os dados só enquanto forem relevantes; em produtos comerciais, pode ser preciso um **acordo de confidencialidade**
+:::
+
+::: {.column width="52%"}
+![](images/cuidados-dados.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Exemplo: termo de consentimento {.smaller}
+
+::: {.columns}
+
+::: {.column width="50%"}
+- **Quem somos e o que queremos:** a equipe do projeto do sistema quer conhecer o que as pessoas pensam do processo atual e como o novo sistema deveria apoiar o trabalho delas
+- **Uso dos dados:** só para a análise e o desenvolvimento do sistema; resultados divulgados **sem identificar** os participantes
+- **Escolha livre:** o consentimento é voluntário e a entrevista pode ser **interrompida a qualquer momento**
+- **Decisão:** a pessoa marca "consinto" ou "não consinto" e há **assinatura** do entrevistador e do entrevistado, com local e data
+:::
+
+::: {.column width="50%"}
+![](images/tcle-exemplo.svg){fig-align="center" height="540px"}
+:::
+
+:::
+
+# Técnicas de Coleta de Dados
+
+## Sete técnicas de uso frequente {.smaller}
+
+- Cada uma tem **objetivo**, **vantagens** e **esforço** diferentes (Courage e Baxter, 2005)
+
+  - **Entrevistas** e **questionários**
+  - **Grupos de foco** e ***brainstorming*** de necessidades e desejos
+  - **Classificação de cartões** (*card sorting*)
+  - **Estudos de campo** e **investigação contextual**
+
+![](images/tecnicas-icones.svg){fig-align="center" width="100%"}
+
+
+## Comparando as técnicas (1/2) {.smaller}
+
+| Técnica | Para quê | Vantagem | Dificuldade |
+|---|---|---|---|
+| **Entrevista** | informações detalhadas de usuários individuais | flexível: permite aprofundar | treinar entrevistadores; leva tempo |
+| **Questionário** | dados rápidos (em geral numéricos) de muitos usuários | barato na Web, fácil de analisar | evitar perguntas fechadas demais ou que induzem |
+| **Grupo de foco** | atitudes e opiniões em grupo | a discussão gera ideias novas | recrutar gente suficiente |
+| ***Brainstorming*** | lista priorizada de necessidades e desejos | rápido e com poucos recursos | exige moderador experiente |
+
+## Comparando as técnicas (2/2) {.smaller}
+
+| Técnica | Para quê | Vantagem | Dificuldade |
+|---|---|---|---|
+| **Classificação de cartões** | como usuários agrupam informações | simples, motiva detalhar o produto | esforço de detalhar o conteúdo |
+| **Estudo de campo** | usuários, ambiente e tarefas em contexto | vê o que se **faz**, não o que se **diz** | mais esforço de preparar e analisar |
+| **Investigação contextual** | como o trabalho é feito de fato, com o usuário como mestre | revela o conhecimento **tácito** e os hábitos invisíveis | 6 a 10 entrevistas de 3 horas por papel; análise trabalhosa |
+
+<!-- Slides 34 a 60 comentados (guardados para uso futuro)
+## Entrevista: uma conversa guiada {.smaller}
+
+- Conversa guiada por um **roteiro** de perguntas ou tópicos, em que o entrevistador busca informação do entrevistado
+- Com **vários** entrevistados ao mesmo tempo, vira um **grupo de foco**
+- As perguntas podem ser **abertas** (resposta livre) ou **fechadas** (opções predefinidas)
+- Quanto à liberdade do entrevistador, a entrevista pode ser **estruturada**, **semiestruturada** ou **não estruturada**
+
+## Estruturada, semiestruturada ou livre {.smaller}
+
+![](images/tipos-entrevista.svg){fig-align="center" width="100%"}
+
+## Perguntas abertas × fechadas {.smaller}
+
+- **Aberta:** "O que você mais gosta no site CompreMais?" --- explora, revela fatos inesperados
+- **Fechada:** "Você prefere buscar pela rua ou pelo mapa?" --- pode **forçar** a pessoa a uma opção que não é a sua
+- Comece com uma pergunta **geral** ("O que você acha do site?") para saber se a opinião é boa ou ruim
+- Se a resposta for curta ("Bom"), **aprofunde**: "O que você mais gosta?" "E o que menos gosta?"
+
+## O roteiro da entrevista {.smaller}
+
+- O roteiro pode ter **perguntas completas**, só **tópicos**, ou um **híbrido** (tópicos com perguntas de exemplo)
+- **Perguntas completas:** todos ouvem a mesma coisa, mas a conversa fica menos fluida
+- **Tópicos:** conversa mais natural, mas depende da **experiência** do entrevistador
+- Em entrevistas **estruturadas**, escrevem-se as perguntas como serão feitas, para comparar as respostas
+- Revise o roteiro diante dos **objetivos**: não deixe faltar nem sobrar pergunta
+
+## Exemplo de roteiro (professor universitário) {.smaller}
+
+![](images/roteiro-professor.svg){fig-align="center" width="100%"}
+
+## Como é uma sessão de entrevista {.smaller}
+
+![](images/sessao-entrevista.svg){fig-align="center" width="100%"}
+
+## Boas práticas na entrevista {.smaller}
+
+- **Não induzir** a resposta: evite "Por que você gosta da busca?", que **supõe** que a pessoa gosta
+- "Sim ou não" serve só para **filtrar** ("Você já usou a busca?"); para o resto, prefira perguntas abertas
+- Faça **perguntas curtas**: separe as compostas em várias pequenas
+- Evite **jargão**: o entrevistado pode não entender ou adotar o termo sem tê-lo usado sozinho
+- **Grave** em áudio e anote; o roteiro pode ter espaço para marcar respostas, sempre com a opção "outro"
+
+## Do que se diz ao que se faz {.smaller}
+
+- Nem sempre o que a pessoa diz é o que ela faz: ela pode **esquecer** ou querer **passar uma boa imagem**
+- Por isso, combine a entrevista com **observação**, **registros de uso** ou outras técnicas (triangulação)
+- **Análise intraparticipante:** olhar **todas as respostas de uma pessoa**, procurando conflitos e contradições
+- **Análise interparticipante:** olhar **todas as respostas a cada pergunta**, procurando tendências
+- Entrevistas exploratórias ajudam a escrever os **questionários**
+
+## Questionários {.smaller}
+
+- Formulário, impresso ou on-line, com perguntas para os participantes responderem
+- Alcançam **muita gente**, até geograficamente dispersa, bem mais que entrevistas ou grupos de foco
+- Usam sobretudo perguntas **fechadas**, de preenchimento rápido e análise fácil
+- Como ninguém pode tirar dúvidas na hora, as perguntas devem ser **ainda mais claras** que numa entrevista
+- Muito usados **depois** de entrevistas: para ver se o que se ouviu vale para uma população maior
+
+## Tipos de pergunta {.smaller}
+
+![](images/tipos-pergunta.svg){fig-align="center" width="100%"}
+
+## Cuidados com o questionário {.smaller}
+
+- Inclua uma opção **"outros"** (ou "não sei"), para ninguém ter de forçar a resposta
+- **Poucas perguntas abertas**: muitas diminuem as respostas; dê **espaço** para escrever
+- Comece por perguntas **demográficas** e gerais; a **ordem** das perguntas pode influenciar as respostas
+- Evite **faixas que se sobrepõem** (20--30 e 30--40) e dê **instruções claras**
+- **Sorteio de brindes** pode falsear os dados: atrai quem quer o brinde, não quem quer contribuir
+
+## Grupos de foco {.smaller}
+
+- De **3 a 10 pessoas** reunidas por uma ou duas horas, numa discussão guiada por um **moderador experiente**
+- Úteis para **gerar ideias**, ouvir **opiniões** e descobrir **frustrações e preferências** que só aparecem em contexto social
+- O moderador faz **todos participarem** e evita que os extrovertidos dominem
+- Evite pedir **previsões** sobre o que a pessoa nunca usou e **temas polêmicos** (política, valores morais)
+- Costuma-se levar **materiais concretos ou protótipos** para dar foco à conversa
+
+## *Brainstorming* de necessidades e desejos {.smaller}
+
+- Leva a uma **lista priorizada** do que os usuários querem e precisam, e funciona melhor na fase **conceitual**
+- Dura cerca de **uma hora**, com **8 a 12** usuários finais de perfil parecido
+- Começa com **uma pergunta** sobre o **"sistema ideal"**, para ninguém se limitar ao que acha que a tecnologia faz
+- Ex.: "Que informações o sistema ideal deve fornecer?" "Que tarefas você gostaria de realizar com ele?"
+
+## Regras e papéis da sessão {.smaller}
+
+- **Todas as ideias valem**: ninguém censura ninguém; **não é sessão de design**, e se alguém propõe uma solução o moderador pergunta o **motivo**
+- O **moderador** esclarece, mantém o foco, não dá opinião, não critica e **faz todos participarem**
+- O **secretário** escreve **só o que o moderador parafraseia**, numerando cada item
+- Por volta de **40 minutos** os participantes se calam: é hora de **priorizar**
+- Cada um indica os **cinco itens** mais importantes, todos com o mesmo peso
+
+## Do tema aos itens prioritários {.smaller}
+
+![](images/brainstorming-fluxo.svg){fig-align="center" width="100%"}
+
+## Diagrama de afinidade e resultados {.smaller}
+
+- **Alternativa ao *brainstorming*:** cada pessoa escreve suas ideias em **notas adesivas** e as cola num painel
+- Todos **agrupam** as notas parecidas e **rotulam** os grupos; assim ninguém fica sem falar
+- Os resultados vão para uma **tabela** em ordem de prioridade: item, exemplos e **% de participantes** que o escolheram
+- Compare com a **especificação** do produto: o que ninguém citou merece ser **questionado**; o que ninguém cita por ser "óbvio" (como o preço) pode estar faltando
+- Faça uma **sessão-piloto** antes
+
+## Classificação de cartões (*card sorting*) {.smaller}
+
+- Ajuda a projetar a **arquitetura da informação**: menus, navegação de um site, sistema de ajuda
+- Cartões com itens de conteúdo são entregues aos participantes, que os **agrupam por semelhança**, segundo o **critério deles**
+- **Aberta:** os participantes **nomeiam** os grupos que criaram
+- **Fechada:** os grupos (categorias) **já vêm prontos** e os participantes encaixam os cartões
+- Mais que organizar menus, revela **como as pessoas pensam** sobre o assunto
+
+## Classificação aberta × fechada {.smaller}
+
+![](images/cartoes-aberta-fechada.svg){fig-align="center" width="100%"}
+
+## Como conduzir uma classificação de cartões {.smaller}
+
+- **Passos:** decidir o que descobrir → escolher o método → escolher o conteúdo → convidar → conduzir a sessão → analisar → usar os resultados
+- **Conteúdo:** itens em **nível parecido** e que possam ser agrupados; sem itens que **já pareçam categorias**; cerca de **50 cartões** (o tamanho de um baralho)
+- **Duração:** uns **20 minutos para 30 itens** e **60 minutos para 100**
+- Em grupo, cuide para **um participante não dominar**; a discussão vale tanto quanto o resultado
+- Faça um **estudo-piloto** dos cartões e das instruções
+
+## O que esperar dos resultados {.smaller}
+
+- **Analisar:** quais grupos surgiram, quais itens ficaram juntos e que **nomes** deram; dá para usar planilha, *software* ou **agrupamento estatístico** (*clustering*)
+- Os resultados **não definem** a arquitetura: dão **ideias** e mostram o que **a equipe supunha errado**
+- Exemplo: um site de receitas por **método de cozimento**, mas os usuários pensam em **ingredientes**
+- **Limite:** não mostra se as pessoas vão **encontrar** a informação nessa estrutura (parte-se do conteúdo para a categoria, não o contrário)
+
+## Experimente: classificação de cartões {.smaller}
+
+Arraste os cartões para os grupos. **Crie** grupos e **dê nomes** a eles (classificação aberta).
+
+```{=html}
+<style>
+#cs{font-size:.85em;text-align:left;user-select:none}
+#cs .bar{display:flex;gap:8px;margin-bottom:8px}
+#cs input{font-size:1em;padding:3px 6px;flex:1}
+#cs button{font-size:1em;padding:3px 10px;cursor:pointer}
+#cs .pool,#cs .grp{min-height:56px;border:2px dashed #755099;border-radius:6px;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+#cs .grp{background:#F4F1EA;border-style:solid;flex-direction:column;flex-wrap:nowrap;min-width:170px;flex:1}
+#cs .grp h4{margin:0 0 4px;font-size:1.05em;color:#755099}
+#cs .gs{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+#cs .gc{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+#cs .card{background:#fff;border:1px solid #666;border-radius:4px;padding:4px 9px;cursor:grab;touch-action:none}
+#cs .card.drag{position:fixed;z-index:9999;opacity:.85;pointer-events:none}
+#cs .over{outline:3px solid #B3541E}
+</style>
+<div id="cs" data-prevent-swipe>
+  <div class="bar"><input id="cs-name" placeholder="nome do novo grupo (ex.: Avaliação)"><button id="cs-add">Criar grupo</button><button id="cs-reset">Reiniciar</button></div>
+  <div class="pool" id="cs-pool"></div>
+  <div class="gs" id="cs-groups"></div>
+</div>
+<script>
+(function(){
+  var items=["Lançar notas","Registrar faltas","Enviar avisos","Fórum de dúvidas","Publicar material","Entregar atividades","Ver boletim","Calendário de provas","Chat com colegas","Plano de ensino","Matrícula","Histórico escolar"];
+  var pool=document.getElementById('cs-pool'),groups=document.getElementById('cs-groups'),nm=document.getElementById('cs-name');
+  function mk(t){var d=document.createElement('div');d.className='card';d.textContent=t;d.onpointerdown=down;return d}
+  function reset(){pool.innerHTML='';groups.innerHTML='';items.forEach(function(t){pool.appendChild(mk(t))})}
+  function addGroup(n){n=(n||'').trim();if(!n)return;var g=document.createElement('div');g.className='grp';g.innerHTML='<h4></h4><div class="gc"></div>';g.firstChild.textContent=n;groups.appendChild(g)}
+  document.getElementById('cs-add').onclick=function(){addGroup(nm.value);nm.value=''};
+  nm.onkeydown=function(e){if(e.key==='Enter'){addGroup(nm.value);nm.value=''}};
+  document.getElementById('cs-reset').onclick=reset;
+  var cur=null,ghost=null;
+  function target(x,y){var e=document.elementsFromPoint(x,y);for(var i=0;i<e.length;i++){if(e[i]===pool)return pool;var g=e[i].closest&&e[i].closest('#cs .grp');if(g)return g.querySelector('.gc')}return null}
+  function down(e){cur=e.currentTarget;var r=cur.getBoundingClientRect();ghost=cur.cloneNode(true);ghost.className='card drag';ghost.style.left=r.left+'px';ghost.style.top=r.top+'px';document.body.appendChild(ghost);cur.style.opacity=.3;
+    document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);e.preventDefault()}
+  function move(e){ghost.style.left=(e.clientX-30)+'px';ghost.style.top=(e.clientY-12)+'px';[].forEach.call(document.querySelectorAll('#cs .over'),function(o){o.classList.remove('over')});var t=target(e.clientX,e.clientY);if(t)t.parentNode.classList.contains('grp')?t.parentNode.classList.add('over'):t.classList.add('over')}
+  function up(e){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);var t=target(e.clientX,e.clientY);if(t)t.appendChild(cur);cur.style.opacity=1;ghost.remove();ghost=null;[].forEach.call(document.querySelectorAll('#cs .over'),function(o){o.classList.remove('over')})}
+  window.__csDrop=function(i,gi){var c=pool.children[i];var g=groups.children[gi];if(c&&g)g.querySelector('.gc').appendChild(c)};
+  reset();addGroup('Avaliação');addGroup('Comunicação');addGroup('Administração');
+})();
+</script>
+```
+
+
+## Estudos de campo {.smaller}
+
+- Um pesquisador **visita os usuários no ambiente deles** (casa, trabalho) e os observa fazendo uma atividade, por horas ou dias
+- Captura o que um laboratório não reproduz: **interrupções, distrações** e outras demandas da tarefa
+- Mostra o que as pessoas **fazem** de fato, não o que dizem que fazem
+- Serve para **desafiar suposições**, levantar tarefas e **artefatos**, validar **perfis** e criar ***personas***
+- Pessoas mudam quando sabem que são observadas: estudos **mais longos** ajudam a naturalizar a presença do observador
+
+## Formas de estudo de campo {.smaller}
+
+- **Observação pura**, sem interação, ou guiada por **tópicos de interesse**
+- **Entrevistas** no ambiente, com fotos, áudio, vídeo e **coleta dos artefatos** usados
+- Registro **sem o observador**: **diários** mantidos pelos participantes ou câmeras no ambiente
+- Cuidado com **anotações simplistas**: peça a um especialista do domínio para revisar
+- Peça ao participante que o trate como um **aprendiz** e ensine o trabalho **sem pular etapas**
+
+## Investigação contextual {.smaller}
+
+- É um estudo de campo com o investigador como **participante aprendiz**, parte do design contextual (Beyer e Holtzblatt, 1997)
+- Parte da ideia de que muito do trabalho **não consegue ser explicado** por quem o faz: é preciso **ver o trabalho**
+- Vai **onde o usuário trabalha**, observa e **conversa sobre o trabalho enquanto ele acontece**
+- Objetivos: dados da **prática real**, tornar explícito o **conhecimento tácito** e revelar detalhes que viraram **hábitos invisíveis**
+
+## O modelo mestre–aprendiz {.smaller}
+
+![](images/mestre-aprendiz.svg){fig-align="center" width="100%"}
+
+## Os quatro princípios {.smaller}
+
+- **Contexto:** ir ao local de trabalho e ver o trabalho acontecendo, não um resumo de uma experiência passada
+- **Parceria:** conversar sobre o trabalho como **colaborador**; evitar o modelo entrevistador–entrevistado ou o do designer "especialista"
+- **Interpretação:** levantar uma **hipótese** sobre o que se vê e **confirmar com o usuário**
+- **Foco:** guiar a investigação por um **objetivo claro**: que trabalho, quem está envolvido e em que contexto
+
+## Como é uma entrevista contextual {.smaller}
+
+- Para cada papel, costumam ser **6 a 10 entrevistas de 3 horas** com pessoas que trabalham de jeitos bem diferentes
+- **Conversa inicial** (cerca de 15 min): apresentação, foco, visão geral do dia; nada contextual ainda
+- **Transição:** "agora trabalhe como sempre, eu observo e interrompo quando vir algo interessante"
+- **Observação:** o investigador analisa os **artefatos** (formulários, anotações), mantém o usuário falando de **casos concretos** e anota o tempo todo
+- **Conclusão:** resume o que aprendeu e deixa o usuário **corrigir**; depois a equipe interpreta tudo junta
+
+
+-->
+
+# Analisar os Dados Coletados
+
+## Preparar os dados para a análise {.smaller}
+
+- **Planeje o formato** dos dados: **transcrever** gravações, expandir anotações, descrever fotos, tabular logs
+- Questionários vão para uma **planilha**, com uma coluna por pergunta e uma linha por participante
+- Tenha uma **"planilha amiga"** mesmo para outros dados: ajuda a ver **quais objetivos** cada dado responde
+- **Limpe** os dados: elimine respostas repetidas, incompletas, sem sentido ou de quem **não** era do público-alvo
+
+![](images/preparo-dados.svg){fig-align="center" width="100%"}
+
+## Quantitativo e qualitativo {.smaller}
+
+::: {.columns}
+
+::: {.column width="46%"}
+- **Quantitativos:** viram **número** (escalas Likert, idade, contagens); mostram **quais, quando, onde e quem**, em tabelas e gráficos
+- **Qualitativos:** textos e multimídia; respondem **o quê, como e por quê**, com dados ricos e contextualizados
+- **Anonimize** os dados qualitativos antes de analisar: podem conter nomes ou informações sensíveis
+- Com os dois tipos, comece pelo **quantitativo**, depois o **qualitativo**, e **cruze** os dois
+:::
+
+::: {.column width="54%"}
+![](images/quanti-quali.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- A análise busca **necessidades e requisitos** antes de projetar; erro comum é **pular a pesquisa** ou usar dados frágeis
+- É preciso decidir **que dados**, **de quem** e **com que técnica**, usando **triangulação** e um **piloto**
+- Pesquisar com pessoas pede **ética**: consentimento, privacidade, anonimato, conforto e liberdade de desistir
+- As técnicas têm usos e esforços diferentes: **entrevista**, **questionário**, **grupo de foco**, ***brainstorming***, **cartões**, **campo**
+- Os dados coletados precisam ser **preparados** e analisados de forma **quantitativa** e **qualitativa**
+
+## Para pensar {.smaller}
+
+- **Dados a coletar.** Você foi contratado para um **sistema acadêmico** (professores: planejar aulas, divulgar material, notas; alunos: organizar atividades e se comunicar). Liste os dados que quer coletar e **por que** cada um importa.
+- **Fontes.** Quem forneceria cada dado? Varie a amostra: tempo de experiência, área, atitude e experiência com tecnologia.
+- **Roteiro e questionário.** Escreva um para o professor e outro para o aluno. Há perguntas **compostas**, de **sim/não** ou que **induzem**? Todo respondente encaixa a resposta nas opções?
+- ***Brainstorming* e cartões.** Levante com colegas os **objetivos** dos usuários e os **itens de informação**; depois use **cartões** para ver como eles os organizariam.
+
+## Leituras futuras {.smaller}
+
+- **Courage e Baxter (2005)** --- *Understanding Your Users* --- guia prático das técnicas de coleta de dados
+- **Hackos e Redish (1998)** --- *User and Task Analysis for Interface Design*
+- **Beyer e Holtzblatt (1997)** --- *Contextual Design* --- investigação contextual
+- **Sharp, Preece e Rogers (2019)** --- *Interaction Design* --- coleta de dados, entrevistas e questionários
+- **Spencer (2009)** --- *Card Sorting* --- guia da classificação de cartões

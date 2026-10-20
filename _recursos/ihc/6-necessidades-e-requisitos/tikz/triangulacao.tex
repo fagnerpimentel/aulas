@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{v/.style={dbox, text width=5.6cm, minimum height=2.6cm, font=\Large, line width=1.5pt}}
+  \node[v, draw=dblue] (a) at (0,5.2) {\textbf{\textcolor{dblue}{observação}}\\ o que as pessoas \textbf{fazem}};
+  \node[v, draw=dgreen] (b) at (-7.2,-1.6) {\textbf{\textcolor{dgreen}{entrevista}}\\ o que dizem, em \textbf{profundidade}};
+  \node[v, draw=dorange] (c) at (7.2,-1.6) {\textbf{\textcolor{dorange}{questionário}}\\ \textbf{quantos} pensam assim};
+  \draw[black!50, line width=1.6pt] (a) -- (b) -- (c) -- (a);
+  \node[dstate, minimum size=33mm, font=\Large\bfseries, align=center, line width=1.5pt, fill=white] at (0,0.5) {visão mais\\ confiável};
+\end{tikzpicture}
+\end{document}
