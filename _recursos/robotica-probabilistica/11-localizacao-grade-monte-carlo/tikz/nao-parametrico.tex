@@ -1,0 +1,28 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % painel esquerdo: gaussiana
+  \node[font=\small\bfseries, dblue] at (3,4.6) {filtros gaussianos (EKF)};
+  \draw[daxis] (0,0) -- (6.4,0) node[right, dlbl, font=\scriptsize] {$x$};
+  \draw[daxis] (0,0) -- (0,4.0);
+  \draw[dcurve, domain=0.3:5.7, samples=60, smooth] plot (\x, {3.4*exp(-((\x-3)^2)/(2*0.55^2))});
+  \node[dsub, font=\scriptsize, align=center] at (3,-0.8) {\textbf{uma} gaussiana\\ unimodal};
+
+  % painel direito: não paramétrico (histograma + partículas)
+  \begin{scope}[shift={(9,0)}]
+    \node[font=\small\bfseries, dorange] at (3,4.6) {grade e partículas};
+    \draw[daxis] (0,0) -- (6.4,0) node[right, dlbl, font=\scriptsize] {$x$};
+    \draw[daxis] (0,0) -- (0,4.0);
+    \foreach \h [count=\i] in {0.2,0.3,0.5,1.1,2.4,3.0,1.9,0.6,0.3,0.4,0.9,1.8,1.4,0.5,0.2,0.2,0.3,0.7,1.2,0.6,0.2} {
+      \fill[dorange!35, draw=dorange!80, line width=0.4pt] ({0.25+(\i-1)*0.27},0) rectangle ({0.25+\i*0.27},\h);
+    }
+    \node[dsub, font=\scriptsize, align=center] at (3,-0.8) {\textbf{qualquer} forma,\\ inclusive multimodal};
+  \end{scope}
+
+  % propriedades
+  \foreach \x/\t in {0.3/{usa medições\\ \textbf{brutas}\\ (sem extrair \textit{features})}, 6.0/{\textbf{não paramétrico}\\ vários picos\\ ao mesmo tempo}, 11.7/{resolve a\\ localização \textbf{global}\\ e o sequestro}} {
+    \node[dbox, rounded corners=6pt, draw=dblue, line width=1.1pt, text width=3.8cm, font=\scriptsize, anchor=north west] at (\x,-2.0) {\t};
+  }
+\end{tikzpicture}
+\end{document}

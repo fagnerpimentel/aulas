@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % topológica
+  \node[font=\small\bfseries, dblue] at (3.5,5.4) {grade grossa, resolução variável};
+  \draw[dbody, fill=white, line width=1pt] (0,2.2) rectangle (7,3.2);
+  \draw[dbody, fill=white, line width=1pt] (4.2,3.2) rectangle (5.2,4.8);
+  \foreach \x/\y/\r/\t in {1.0/2.7/0.28/porta, 3.0/2.7/0.40/{}, 4.7/2.7/0.34/T, 4.7/4.3/0.22/{}, 6.5/2.7/0.46/{fim}} {
+    \fill[dorange!55, draw=dorange, line width=0.8pt] (\x,\y) circle (\r);
+  }
+  \node[dsub, font=\tiny] at (1.0,3.45) {porta}; \node[dsub, font=\tiny] at (4.7,2.1) {cruzamento}; \node[dsub, font=\tiny] at (6.5,3.55) {beco};
+  \node[dsub, font=\scriptsize, align=center, text width=7cm] at (3.5,1.1) {estados = lugares distintivos\\ (portas, cruzamentos, becos) $\to$ \textbf{topológica}};
+  \node[dbox, rounded corners=5pt, draw=dblue, text width=6.4cm, font=\scriptsize] at (3.5,-0.5) {menos custo $\cdot$ exige compensar a grossura nos modelos};
+  % métrica
+  \begin{scope}[shift={(9.5,0)}]
+    \node[font=\small\bfseries, dorange] at (3.5,5.4) {grade fina, resolução fixa};
+    \draw[dbody, fill=white, line width=1pt] (0,2.2) rectangle (7,3.2);
+    \draw[dbody, fill=white, line width=1pt] (4.2,3.2) rectangle (5.2,4.8);
+    \draw[black!30, line width=0.4pt] (0,2.2) grid[step=0.25] (7,3.2);
+    \draw[black!30, line width=0.4pt] (4.2,3.2) grid[step=0.25] (5.2,4.8);
+    \node[dsub, font=\scriptsize, align=center, text width=7cm] at (3.5,1.1) {células iguais e pequenas (ex.: 15 cm)\\ $\to$ \textbf{métrica}};
+    \node[dbox, rounded corners=5pt, draw=dorange, text width=6.4cm, font=\scriptsize] at (3.5,-0.5) {mais precisão $\cdot$ mais custo computacional};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

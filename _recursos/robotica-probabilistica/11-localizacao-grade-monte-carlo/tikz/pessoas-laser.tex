@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dbody, line width=2pt] (-2.5,5.4) -- (12.5,5.4);
+  \node[dsub, font=\scriptsize] at (5,5.75) {parede do mapa};
+  \fill[dorange] (5,0) circle (0.18);
+  \foreach \a in {40,55,70,85,100,115,130} {
+    \pgfmathsetmacro{\hit}{(\a>60 && \a<110)? 1 : 0}
+    \ifnum\hit=1 \draw[dorange, line width=1pt] (5,0) -- ++(\a:2.3); \else \draw[dgreen, line width=0.8pt] (5,0) -- ++(\a:{5.2/sin(\a)}); \fi
+  }
+  \foreach \x/\y in {3.9/2.0,4.6/2.15,5.4/2.15,6.1/2.0,5.0/2.3} { \draw[black!70, fill=white, line width=1pt] (\x,\y) circle (0.28); }
+  \node[dorange, font=\scriptsize, align=left, anchor=west] at (7.2,1.0) {feixes \textbf{curtos}: batem\\ nas pessoas};
+  \node[dgreen, font=\scriptsize, align=left, anchor=west] at (9.4,4.4) {feixes que chegam\\ à parede};
+  \node[dred, font=\scriptsize, align=center, text width=9.5cm] at (5,-1.2) {muitas leituras curtas $\Rightarrow$ ``estou perto de uma parede'': a crença fica \textbf{errada} (efeito não independente entre instantes)};
+\end{tikzpicture}
+\end{document}

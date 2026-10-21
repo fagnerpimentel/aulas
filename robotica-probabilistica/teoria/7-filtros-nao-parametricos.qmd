@@ -370,7 +370,7 @@ Todo filtro de partículas é **aproximado**. Quatro problemas comuns:
 - As partículas são geradas **só pelo movimento**, sem olhar a medição
 - Se o **sensor é ruim** e o **movimento é bom**: tudo bem
 - Se o **sensor é muito preciso** e o **movimento é ruidoso**: quase nenhuma partícula cai onde o sensor "aceita" — o filtro fica **ineficiente**
-- Remédio simples: **supor mais ruído no sensor** do que ele realmente tem
+- Solução simples: **supor mais ruído no sensor** do que ele realmente tem
 
 ![](images/proposta-vs-alvo.svg){fig-align="center" width="70%"}
 
@@ -378,7 +378,7 @@ Todo filtro de partículas é **aproximado**. Quatro problemas comuns:
 
 - Com azar, a reamostragem pode **eliminar todas** as partículas perto da posição real
 - Acontece mais com **poucas partículas** e espaços **grandes**
-- Remédio de **último recurso**: colocar **algumas partículas aleatórias** a cada ciclo — ajuda, mas distorce a estimativa
+- Solução de **último recurso**: colocar **algumas partículas aleatórias** a cada ciclo — ajuda, mas distorce a estimativa
 
 ![](images/privacao-particulas.svg){fig-align="center" width="70%"}
 

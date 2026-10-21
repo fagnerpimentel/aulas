@@ -1,0 +1,427 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Localização por Grade e Monte Carlo"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/11-localizacao-grade-monte-carlo
+---
+
+# Localização por Grade e Monte Carlo
+
+::: {.esquerda}
+Capítulo 8 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Localização por grade** — filtro de histograma sobre as poses
+- **Localização de Monte Carlo (MCL)** — filtro de partículas, partículas aleatórias e MCL de mistura
+
+# Introdução
+
+Dois algoritmos **não paramétricos** capazes de resolver a localização **global**.
+
+## Por que algoritmos não paramétricos? {.smaller}
+
+- Processam **medições brutas** — não há extração de *features*; logo, também aproveitam **informação negativa**
+  <!-- - **Informação negativa**: não ver o que se esperaria ver (ex.: uma porta) também **diminui a crença** nas poses que o previam -->
+- São **não paramétricos** — não ficam presos a uma distribuição **unimodal**, como o EKF
+- Resolvem a **localização global** e, em alguns casos, o **sequestro do robô** (o EKF não resolve)
+- Excelente desempenho em diversos sistemas robóticos reais
+
+![](images/nao-parametrico.svg){fig-align="center" width="85%"}
+
+## Três problemas de localização {.smaller}
+
+- **Rastreamento** — a pose inicial é conhecida; corrige-se o erro acumulado
+- **Localização global** — a pose inicial é desconhecida; a crença começa uniforme
+- **Sequestro** — o robô é levado a outro lugar sem que o filtro saiba
+
+![](images/tres-problemas.svg){fig-align="center" width="92%"}
+
+# Localização por Grade
+
+Um filtro de **histograma** sobre uma decomposição em grade do espaço de poses.
+
+## A Crença como Histograma {.smaller}
+
+::: columns
+
+::: {.column width="48%"}
+- A crença é um conjunto de valores discretos, um por **célula** $x_k$ da grade:
+
+$$
+bel(x_t) = \{p_{k,t}\}
+$$
+
+- As células formam uma **partição** do espaço de poses legítimas:
+
+$$
+\text{range}(X_t) = x_{1,t} \cup x_{2,t} \cup \dots \cup x_{K,t}
+$$
+
+- Versão básica: partição **fixa** e células de **mesmo tamanho** — em ambientes internos, é comum **15 cm** em $x, y$ e **5°** em $\theta$
+:::
+
+::: {.column width="52%"}
+![](images/grade-pose.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## O Algoritmo de Localização por Grade {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Variante do **filtro de Bayes discreto**
+- **Entrada**: probabilidades $\{p_{k,t-1}\}$, controle $u_t$, medição $z_t$, mapa $m$
+- Linha 3: **atualização de movimento** (convolução); $x_k$ vale pelo **centro** da célula
+- Linha 4: **atualização de medição**; $\eta$ **normaliza**
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Localização por grade}\,\bigl(\{p_{k,t-1}\},\ u_t,\ z_t,\ m\bigr) \\
+\hline
+\text{2:}\quad \textbf{para todo } k \textbf{ faça} \\
+\text{3:}\quad\quad \bar p_{k,t} = \sum_i p_{i,t-1}\ \mathit{motion\_model}\bigl(x_k,\,u_t,\,x_i\bigr) \\
+\text{4:}\quad\quad p_{k,t} = \eta\ \mathit{measurement\_model}\bigl(z_t,\,x_k,\,m\bigr) \\
+\text{5:}\quad \textbf{fim} \\
+\text{6:}\quad \textbf{retornar } \{p_{k,t}\} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Exemplo: o Corredor Unidimensional {.smaller}
+
+- Começa com **incerteza global** — histograma **uniforme**
+- Ao medir uma porta, as células compatíveis **aumentam** de probabilidade
+- Representa naturalmente distribuições **multimodais**
+
+![](images/grade-corredor-1d.svg){fig-align="center" width="85%"}
+
+## Resolução da Grade {.smaller}
+
+- Define o **tipo de modelo** de sensor aplicável, o **custo** da atualização e os **resultados** esperados
+- **Grade grossa, de resolução variável** — regiões que correspondem a lugares "significativos" (portas, cruzamentos, becos): representação **topológica**
+- **Grade fina, de resolução fixa** — células iguais e pequenas: representação **métrica** (mais precisa, mais cara)
+
+![](images/grade-resolucoes.svg){fig-align="center" width="85%"}
+
+## Resolução × Erro × Tempo {.smaller}
+
+- Quanto **mais grossa** a grade (células maiores), **maior** o erro de localização
+- Quanto **mais grossa** a grade, **menor** o tempo necessário para localizar
+- Vale para sensores de ultrassom e para *laser*; o laser, mais preciso, erra menos
+
+![](images/grade-resolucao-tendencia.svg){fig-align="center" width="85%"}
+
+## Compensando uma Grade Grossa {.smaller}
+
+- O modelo de medição de um *laser* varia **muito** dentro de uma célula; avaliá-lo só no **centro** da célula dá resultado ruim
+- O mesmo vale para o movimento: robô a **10 cm/s**, atualizado a cada **1 s**, em células de **1 m** — nunca há transição de célula
+
+::: {.columns}
+
+::: {.column}
+- **Solução**: **inflar o ruído** dos modelos
+  - ampliar a variância do cone gaussiano do sensor em metade do diâmetro da célula
+  - prever transições aleatórias para células vizinhas
+:::
+
+::: {.column}
+![](images/grade-sem-transicao.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+- **Custo**: menos informação (menos precisão) e posteriores "erradas" (o robô parece se mover mais rápido que o comandado)
+
+
+## A Convolução do Movimento: Exemplo 1D {.smaller}
+
+- Cada célula nova **soma** as contribuições de todas as antigas: $\bar p_{k,t} = \sum_i p_{i,t-1}\, p(x_k \mid u_t, x_i)$
+- Se o modelo depende só do **deslocamento**, a soma é uma **convolução** da crença com um **núcleo**
+- Exemplo: comando "andar 1 célula à direita", com ruído: **10%** anda 0, **80%** anda 1, **10%** anda 2
+
+![](images/grade-convolucao-1d.svg){fig-align="center" width="100%"}
+
+<!-- Slide 15 comentado (guardado para uso futuro)
+## Considerações Computacionais {.smaller}
+
+- Com grade **fina**, o algoritmo básico **não roda em tempo real**: o movimento exige uma **convolução** (operação 6-D numa grade 3-D) e a medição de um *scan* completo é cara
+- Quatro técnicas reduzem o custo
+
+![](images/grade-otimizacoes.svg){fig-align="center" width="85%"}
+-->
+
+## Ilustração: Localização Global com Laser {.smaller}
+
+- Grade métrica, **15 cm** e **5°**; robô com dois *lasers*, partindo de **crença uniforme**
+- Poucos *scans* concentram a massa de probabilidade em poucas regiões; mais *scans*, em **uma só pose**
+- A crença é projetada em $x$-$y$ (a orientação $\theta$ é omitida)
+
+![](images/grade-global-laser.svg){fig-align="center" width="85%"}
+
+## Ilustração: Ambientes Simétricos {.smaller}
+
+- Com **sonares** (ruidosos) e **corredores semelhantes**, mantêm-se **várias hipóteses** por mais tempo
+- Dois máximos aparecem: um correto e outro **rotacionado 180°** (simetria do corredor)
+- Uma **sala** assimétrica resolve a ambiguidade — a grade corrige também o erro acumulado da odometria
+
+![](images/grade-simetria.svg){fig-align="center" width="62%"}
+
+# Localização de Monte Carlo
+
+O filtro de **partículas** aplicado à localização de robôs móveis.
+
+## O Algoritmo MCL {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- A crença $bel(x_t)$ é um conjunto de **$M$ partículas** $\mathcal{X}_t = \{x_t^{[1]}, \dots, x_t^{[M]}\}$
+- Linha 4: **amostra** o modelo de movimento, partindo das partículas atuais
+- Linha 5: **pondera** pelo modelo de medição
+- Linhas 8–11: **reamostragem**
+- $bel(x_0)$: $M$ partículas sorteadas de $p(x_0)$, com peso $M^{-1}$
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{MCL}\,\bigl(\mathcal{X}_{t-1},\ u_t,\ z_t,\ m\bigr) \\
+\hline
+\text{2:}\quad \bar{\mathcal{X}}_t = \mathcal{X}_t = \emptyset \\
+\text{3:}\quad \textbf{para } m = 1 \textbf{ até } M \textbf{ faça} \\
+\text{4:}\quad\quad x_t^{[m]} = \mathit{sample\_motion\_model}\bigl(u_t,\,x_{t-1}^{[m]}\bigr) \\
+\text{5:}\quad\quad w_t^{[m]} = \mathit{measurement\_model}\bigl(z_t,\,x_t^{[m]},\,m\bigr) \\
+\text{6:}\quad\quad \bar{\mathcal{X}}_t = \bar{\mathcal{X}}_t + \langle x_t^{[m]},\,w_t^{[m]}\rangle \\
+\text{7:}\quad \textbf{fim} \\
+\text{8:}\quad \textbf{para } m = 1 \textbf{ até } M \textbf{ faça} \\
+\text{9:}\quad\quad \text{sortear } i \text{ com probabilidade} \propto w_t^{[i]} \\
+\text{10:}\quad\quad \text{adicionar } x_t^{[i]} \text{ a } \mathcal{X}_t \\
+\text{11:}\quad \textbf{fim} \\
+\text{12:}\quad \textbf{retornar } \mathcal{X}_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## O Ciclo do MCL {.smaller}
+
+![](images/mcl-ciclo.svg){fig-align="center" width="100%"}
+
+Medir **só muda os pesos**; é a **reamostragem** que concentra as partículas onde a crença é alta.
+
+## Exemplo: o Corredor Unidimensional {.smaller}
+
+- Partículas sorteadas de forma **uniforme** em todo o espaço de poses
+- Ao medir a porta, só os **pesos** mudam (o conjunto é o mesmo)
+- Reamostragem e movimento: **mais partículas** perto dos três lugares prováveis, com pesos uniformes
+- Nova medição: a massa se concentra na **posição correta**
+
+![](images/mcl-corredor-1d.svg){fig-align="center" width="85%"}
+
+## Propriedades do MCL {.smaller}
+
+- Aproxima **quase qualquer** distribuição de interesse prático — não se limita a um subconjunto paramétrico
+- O número de partículas $M$ **troca precisão por custo**
+  - estratégia comum: amostrar **até chegar o próximo** par $u_t, z_t$ — o algoritmo se **adapta aos recursos**: quanto mais rápido o processador, melhor a localização
+- Representa distribuições **multimodais** e as combina com gaussianas **concentradas**: localização **global** com rastreamento de **alta precisão**
+
+![](images/mcl-precisao-M.svg){fig-align="center" width="85%"}
+
+## O Problema do MCL Básico {.smaller}
+
+- Resolve a localização **global**, mas **não se recupera** do sequestro ou de falhas de localização global
+- Qualquer algoritmo estocástico pode **descartar** todas as partículas perto da pose correta na reamostragem
+- Pior com **poucas partículas** (ex.: $M = 50$) e partículas espalhadas num espaço **grande**
+
+![](images/mcl-sequestro.svg){fig-align="center" width="90%"}
+
+## Partículas Aleatórias {.smaller}
+
+1. **Ideia:** semear algumas partículas em **poses aleatórias**; se o robô foi sequestrado, uma delas pode cair perto da pose certa
+2. **Só quando necessário:** semear sempre desperdiçaria partículas quando o robô já está bem localizado
+3. **Como saber que o robô está perdido?** Pelo **peso médio** das partículas: peso **alto**, elas explicam o que o sensor vê; peso **baixo**, não explicam
+
+$$
+w_{avg} \;=\; \frac{1}{M}\sum_{m=1}^{M} w_t^{[m]} \;\approx\; p(z_t \mid z_{t-1}, u_t, m)
+$$
+
+## As Duas Médias: Rápida e Lenta {.smaller}
+
+- O peso médio $w_{avg}$ **oscila** a cada passo; sozinho, ele não distingue **ruído** de **falha**
+- Por isso se mantêm **duas médias móveis** dele:
+  - **Lenta** ($w_{slow}$): muda **devagar** e guarda o nível **normal** do passado
+    - como a temperatura típica da semana
+  - **Rápida** ($w_{fast}$): muda **depressa** e mostra o valor **de agora**
+    - como o termômetro neste instante
+- A cada passo, cada média anda em direção a $w_{avg}$: $\;\text{nova} = \text{antiga} + \alpha\,(w_{avg} - \text{antiga})$, com $\alpha_{fast} \gg \alpha_{slow}$ (a rápida anda mais)
+- **Ruído momentâneo:** $w_{fast}$ tropeça e volta, $w_{slow}$ mal se mexe; as duas continuam **juntas**
+- **Sequestro:** $w_{avg}$ despenca e fica baixo; $w_{fast}$ cai logo, $w_{slow}$ demora; surge $\mathbf{w_{fast} < w_{slow}}$ e **entram partículas aleatórias**
+
+## Curto × Longo Prazo: Detectando o Sequestro {.smaller}
+
+![](images/mcl-wslow-wfast.svg){fig-align="center" width="100%"}
+
+## O MCL Aumentado {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linhas 8–11: calcula $w_{avg}$ e atualiza as médias **lenta** e **rápida**
+- Linha 13: na reamostragem, adiciona uma **partícula aleatória** com probabilidade $\max(0,\,1 - w_{fast}/w_{slow})$
+- Se a verossimilhança de curto prazo é **melhor ou igual** à de longo prazo, **nenhuma** partícula é adicionada
+- As partículas podem vir de uma distribuição **uniforme** ou da própria **medição** (ex.: marcos)
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{MCL aumentado}\,\bigl(\mathcal{X}_{t-1},\ u_t,\ z_t,\ m\bigr) \\
+\hline
+\text{2:}\quad \textbf{estático } w_{slow},\ w_{fast} \\
+\text{4-9:}\quad \text{amostrar, ponderar e acumular } w_{avg} \\
+\text{10:}\quad w_{slow} = w_{slow} + \alpha_{slow}\,(w_{avg} - w_{slow}) \\
+\text{11:}\quad w_{fast} = w_{fast} + \alpha_{fast}\,(w_{avg} - w_{fast}) \\
+\text{12:}\quad \textbf{para } m = 1 \textbf{ até } M \textbf{ faça} \\
+\text{13:}\quad\quad \textbf{com probabilidade } \max(0,\,1 - w_{fast}/w_{slow}) \\
+\text{14:}\quad\quad\quad \text{adicionar pose aleatória a } \mathcal{X}_t \\
+\text{15:}\quad\quad \textbf{senão} \\
+\text{16:}\quad\quad\quad \text{sortear } i \propto w_t^{[i]};\ \text{adicionar } x_t^{[i]} \\
+\text{19:}\quad \textbf{retornar } \mathcal{X}_t \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## MCL de Mistura: o Problema {.smaller}
+
+- No MCL usual, cada partícula é um **palpite** gerado pelo **movimento** e recebe um **peso** pela **medição**
+- Com um sensor **muito preciso**, só um conjunto minúsculo de poses combina com a medição
+- Os palpites vindos do movimento quase nunca caem lá: as **notas ficam perto de zero** e o filtro fica **ineficiente**
+- Caso extremo: um sensor **perfeito** faria o MCL **falhar**, pois a chance de acertar o conjunto válido é zero
+
+## Sensor Preciso: Nenhum Palpite Acerta {.smaller}
+
+- **Solução simples**: fingir que o sensor é **mais ruidoso** do que realmente é
+
+![](images/mistura-problema.svg){fig-align="center" width="100%"}
+
+<!-- Slides 30 e 31 comentados (guardados para uso futuro)
+## MCL de Mistura: Inverter os Papéis {.smaller}
+
+- **Solução mais sólida**: **inverter os papéis** do movimento e da medição
+
+Para uma pequena fração das partículas (cerca de **5%**), troca-se quem **palpita** e quem **dá a nota**:
+
+| | **MCL usual** (~95%) | **Inverso** (~5%) |
+|---|---|---|
+| **Palpite** (amostra) | pelo **movimento** | pela **medição**: $x_t^{[m]} \sim p(z_t \mid x_t)$ |
+| **Nota** (peso) | pela **medição** | pelo **movimento** e pela crença anterior: $w_t^{[m]} = \int p(x_t^{[m]} \mid u_t, x_{t-1})\, bel(x_{t-1})\, dx_{t-1}$ |
+
+- Juntam-se os dois conjuntos de partículas: essa é a **mistura**
+- **Ganha**: funciona com sensores precisos e **resolve o sequestro**, pois as partículas inversas nascem da medição mais recente, sem olhar o histórico
+- **Custa**: amostrar de $p(z_t \mid x_t)$ é difícil (ex.: todas as poses que combinam com um *scan* de laser) e a integral exige **aproximações**
+
+## MCL de Mistura: Duas Fontes de Partículas {.smaller}
+
+![](images/mixture-mcl.svg){fig-align="center" width="80%"}
+-->
+
+# Ambientes Dinâmicos
+
+A hipótese de **mundo estático** (Markov) é a maior limitação dos algoritmos vistos até aqui.
+
+## O Problema {.smaller}
+
+- Ambientes reais têm **pessoas** — posições, velocidades e intenções são **estado oculto** para o filtro
+  - **Estado oculto**: o que influencia as medições mas **não está no estado** que o filtro estima (nesse caso, as pessoas)
+- O ruído que o filtro acomoda deve ser **independente** a cada instante; a dinâmica não modelada afeta **várias** medições seguidas
+- Exemplo: um robô-guia num museu cheio de pessoas; ao ver pessoas alinhadas como parede, aumenta sua crença de estar **perto de uma parede**
+
+![](images/pessoas-laser.svg){fig-align="center" width="80%"}
+
+## Duas Técnicas {.smaller}
+
+- **Incluir o estado oculto** no estado estimado — a rigor mais geral (estimar também posição e velocidade das pessoas), porém **muito mais complexo**; o número de pessoas varia no tempo
+- **Pré-processar as medições** — rejeitar as afetadas pelo estado oculto; funciona bem com *lasers* e, em menor grau, câmeras
+  - **A ideia:** para cada leitura do laser, perguntar **o que a causou**; o modelo de feixe já separa quatro causas:
+    - ***hit***: o sensor leu o objeto **esperado** do mapa (com um pouco de ruído)
+    - ***short***: leu algo **mais perto** que o esperado, um **obstáculo inesperado** (como uma pessoa)
+    - ***max***: o sensor **não detectou nada** (leitura no alcance máximo)
+    - ***rand***: leitura **aleatória**, sem causa conhecida
+  - Se uma leitura provavelmente é ***short***, ela vem do **estado oculto** e deve ser **descartada**
+
+## Rejeição de Medições {.smaller}
+
+- Calcula-se a **probabilidade a posteriori** de a medição $z_t^k$ ser do tipo *short*, integrando sobre a crença (aproximada por **células de alta probabilidade** ou por **partículas**)
+- Rejeita-se a medição se essa probabilidade excede um limiar $\chi$
+- O filtro elimina leituras **surpreendentemente curtas** e mantém as **surpreendentemente longas** — pessoas causam leituras mais **curtas**, e manter as longas preserva a **recuperação** da localização global
+
+![](images/rejeicao-medidas.svg){fig-align="center" width="70%"}
+
+# Considerações Práticas
+
+## Comparando as Técnicas de Localização {.smaller}
+
+| | EKF | MHT | Grade topológica | Grade métrica | MCL |
+|---|:--:|:--:|:--:|:--:|:--:|
+| **Medições** | marcos | marcos | marcos | brutas | brutas |
+| **Ruído** | gaussiano | gaussiano | qualquer | qualquer | qualquer |
+| **Posterior** | gaussiana | mistura | histograma | histograma | partículas |
+| **Eficiência (memória)** | ++ | ++ | + | − | + |
+| **Eficiência (tempo)** | ++ | + | + | − | + |
+| **Facilidade de implementação** | + | − | + | − | ++ |
+| **Resolução** | ++ | ++ | − | + | + |
+| **Robustez** | − | + | + | ++ | ++ |
+| **Localização global** | não | não | sim | sim | sim |
+
+<!-- Slide 36 comentado (guardado para uso futuro)
+## Dicas de Implementação {.smaller}
+
+- Extrair *features* é mais barato, mas custa **precisão** e **robustez**
+- Experimente os **parâmetros**: probabilidades condicionais costumam ser **infladas** para acomodar dependências não modeladas
+- Colete **conjuntos de dados de referência** e ajuste o algoritmo até o resultado ser satisfatório
+- Por mais sofisticado que seja o modelo, sempre restarão dependências e ruído sistemático não modelados
+-->
+
+<!-- Slides 36 e 37 comentados (guardados para uso futuro)
+# Resumo do Capítulo
+
+## Localização por Grade e Monte Carlo {.smaller}
+
+- **Grade**: posteriores por **histogramas**; a resolução troca **precisão** por **custo** — em grades grossas, ajuste os modelos; em finas, atualize **seletivamente**
+- **MCL**: posteriores por **partículas**; o tamanho do conjunto troca precisão por custo
+- Ambos resolvem a localização **global**; com **partículas aleatórias**, o MCL também resolve o **sequestro**
+- **MCL de mistura** inverte a geração de uma fração das partículas — melhor com sensores de **baixo ruído**, porém mais complexo
+- Dinâmicas não modeladas se acomodam **rejeitando** medições provavelmente causadas por objetos não modelados
+
+![](images/resumo-cap8.svg){fig-align="center" width="70%"}
+-->
+
+## Para pensar {.smaller}
+
+- Por que a grade precisa de **inflar o ruído** quando as células são grandes, e o que se perde com isso?
+- Em que situação o MCL básico **falha** e como as partículas aleatórias o ajudam?
+- Por que comparar as médias **rápida** e **lenta** da verossimilhança, e não usar a verossimilhança instantânea?
+- Por que rejeitar medições **curtas** é seguro, mas rejeitar **longas** não seria?

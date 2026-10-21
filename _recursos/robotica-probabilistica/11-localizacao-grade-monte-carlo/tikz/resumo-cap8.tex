@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   n/.style={dbox, rounded corners=8pt, text width=5.6cm, minimum height=1.2cm, font=\small}]
+  \node[n, draw=dblue, line width=1.4pt, text width=8cm] (r) at (6.2,5.4) {\textbf{localização de Markov não paramétrica}\\ \scriptsize medições brutas $\cdot$ multimodal $\cdot$ global};
+  \node[n, draw=dblue, line width=1.2pt] (g) at (1.8,2.9) {\textbf{grade}\\ \scriptsize histograma sobre as poses};
+  \node[n, draw=dorange, line width=1.2pt] (m) at (10.6,2.9) {\textbf{MCL}\\ \scriptsize conjunto de partículas};
+  \draw[dtrans, line width=1.2pt] (r.south) -- ++(0,-0.4) -| (g.north); \draw[dmeas, line width=1.2pt] (r.south) -- ++(0,-0.4) -| (m.north);
+  \node[dbox, rounded corners=5pt, text width=5.6cm, font=\scriptsize, draw=dblue] at (1.8,0.9) {resolução $\times$ custo\\ pré-cálculo, subamostragem,\\ atualização seletiva};
+  \node[dbox, rounded corners=5pt, text width=5.6cm, font=\scriptsize, draw=dorange] at (10.6,0.9) {$M$ ajusta precisão $\times$ custo\\ partículas aleatórias $\to$ sequestro\\ MCL de mistura};
+  \node[dbox, rounded corners=5pt, text width=13cm, font=\scriptsize, draw=dgreen] at (6.2,-0.9) {ambientes dinâmicos: \textbf{rejeitar} medidas provavelmente causadas por objetos não modelados (leituras curtas demais)};
+  \draw[->, black!50, line width=0.9pt] (1.8,0.15) -- (1.8,-0.5); \draw[->, black!50, line width=0.9pt] (10.6,0.15) -- (10.6,-0.5);
+\end{tikzpicture}
+\end{document}

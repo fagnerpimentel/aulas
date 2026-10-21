@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[daxis] (0,0) -- (12.2,0) node[right, dlbl, font=\large] {tempo};
+  \draw[daxis] (0,0) -- (0,4.6) node[above, dlbl, font=\large] {verossimilhança média};
+  \draw[black!25, line width=0.8pt] (0.2,3.6) -- (3,3.5) -- (3.4,3.7) -- (4.2,3.4) -- (5.0,3.6) -- (5.4,0.9) -- (6.0,0.7) -- (6.6,1.0) -- (7.2,0.6) -- (7.8,0.9) -- (8.4,1.6) -- (9.0,2.4) -- (9.6,3.0) -- (10.2,3.4) -- (10.8,3.3) -- (11.8,3.5);
+  \draw[dgreen, line width=1.8pt] (0.2,3.55) .. controls (4,3.5) and (5.2,3.4) .. (6.2,2.9) .. controls (8,2.2) and (9.5,2.3) .. (11.8,3.0);
+  \draw[dorange, line width=1.8pt] (0.2,3.55) .. controls (4,3.5) and (4.8,3.5) .. (5.4,2.6) .. controls (5.9,1.5) and (6.6,0.9) .. (7.4,0.95) .. controls (8.6,1.4) and (9.6,3.0) .. (11.8,3.4);
+  \draw[dred, dashed, line width=1.2pt] (5.3,0) -- (5.3,4.1); \node[dred, font=\large, anchor=south] at (5.3,4.1) {sequestro};
+  \fill[dred!25] (6.2,0) rectangle (8.3,0.35);
+  \node[dred, font=\normalsize, anchor=north] at (7.25,0) {$w_{fast} < w_{slow}$: injetar partículas};
+  \node[dorange, font=\large, anchor=west] at (11.9,3.45) {$w_{fast}$};
+  \node[dgreen, font=\large, anchor=west] at (11.9,3.0) {$w_{slow}$};
+  \node[black!45, font=\large, anchor=west] at (11.9,2.55) {$w_{avg}$};
+  \node[dbox, rounded corners=5pt, text width=12.5cm, font=\Large, draw=dblue] at (6,-1.8) {$P(\text{partícula aleatória}) = \max\!\left(0,\ 1 - \dfrac{w_{fast}}{w_{slow}}\right)$};
+\end{tikzpicture}
+\end{document}

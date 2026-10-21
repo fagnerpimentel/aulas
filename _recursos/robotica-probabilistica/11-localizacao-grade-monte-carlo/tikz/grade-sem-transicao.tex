@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % painel A: problema
+  \node[font=\Large\bfseries, dred] at (3.5,5.0) {célula de 1 m, movimento de 10 cm};
+  \draw[dbody, fill=white, line width=1pt] (0,0.4) rectangle (7,3.6);
+  \draw[black!35, line width=0.6pt] (3.5,0.4) -- (3.5,3.6);
+  \fill[dblue!25] (0,0.4) rectangle (3.5,3.6);
+  \fill[dorange] (1.6,2.0) circle (0.12); \node[dsub, font=\normalsize] at (1.75,1.65) {centro};
+  \draw[dorange, ->, line width=1.2pt] (1.6,2.0) -- (1.95,2.0);
+  \node[dsub, font=\normalsize, anchor=south west] at (1.65,2.1) {10 cm};
+  \node[dlbl, font=\large] at (1.75,0.8) {célula $x_k$};
+  \node[dbox, rounded corners=5pt, draw=dred, text width=6.6cm, font=\large] at (3.5,-0.9) {a pose de destino continua \textbf{na mesma célula}: a predição nunca muda de célula};
+  % painel B: solução
+  \begin{scope}[shift={(9,0)}]
+    \node[font=\Large\bfseries, dgreen] at (3.5,5.0) {compensar: inflar o ruído};
+    \draw[daxis] (0,1.0) -- (7,1.0);
+    \draw[dorange, line width=1.2pt, domain=0.5:6.5, samples=60, smooth] plot (\x, {1.0+0.9*exp(-((\x-3.5)^2)/(2*0.4^2))});
+    \draw[dgreen, line width=1.6pt, domain=0.3:6.7, samples=60, smooth] plot (\x, {1.0+2.0*exp(-((\x-3.5)^2)/(2*1.1^2))});
+    \node[dorange, font=\normalsize, anchor=east] at (6.95,1.5) {modelo original};
+    \node[dgreen, font=\normalsize, anchor=east] at (6.95,3.15) {variância ampliada};
+    \node[dbox, rounded corners=5pt, draw=dgreen, text width=6.6cm, font=\large] at (3.5,-0.9) {mais suave, porém \textbf{menos informação}: o preço é perder precisão};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

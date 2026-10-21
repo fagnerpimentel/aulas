@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   bel/.style={fill=dblue, draw=none}]
+  \newcommand{\planta}{\draw[dbody, fill=white, line width=1pt] (0,0) rectangle (6,4); \draw[dbody, line width=1pt] (0,1.7) -- (1.6,1.7) (2.6,1.7) -- (6,1.7); \draw[dbody, line width=1pt] (3.0,1.7) -- (3.0,4); \draw[dbody, line width=1pt] (4.6,0) -- (4.6,1.2);}
+  \begin{scope}
+    \planta \fill[dblue!22] (0.08,0.08) rectangle (5.92,3.92);
+    \node[font=\small\bfseries] at (3,4.5) {(a) crença uniforme};
+  \end{scope}
+  \begin{scope}[shift={(7,0)}]
+    \planta
+    \fill[dblue!55] (0.4,0.4) rectangle (1.4,1.3); \fill[dblue!65] (3.6,0.4) rectangle (4.4,1.3); \fill[dblue!40] (3.3,2.3) rectangle (4.2,3.4);
+    \fill[dorange] (3.9,0.9) circle (0.12);
+    \foreach \a in {-40,-20,0,20,40} { \draw[dorange!70, line width=0.5pt] (3.9,0.9) -- ++(\a+90:0.8); }
+    \node[font=\small\bfseries] at (3,4.5) {(b) após o 1º \textit{scan}};
+  \end{scope}
+  \begin{scope}[shift={(14,0)}]
+    \planta
+    \fill[dblue!85] (3.9,0.85) circle (0.35);
+    \fill[dorange] (3.9,0.9) circle (0.12);
+    \node[font=\small\bfseries] at (3,4.5) {(c) após alguns \textit{scans}};
+  \end{scope}
+  \node[dsub, font=\scriptsize, align=center, text width=18cm] at (9.5,-0.9) {crença projetada no plano $x$-$y$ (a orientação $\theta$ é omitida); a massa de probabilidade se concentra na pose real};
+\end{tikzpicture}
+\end{document}

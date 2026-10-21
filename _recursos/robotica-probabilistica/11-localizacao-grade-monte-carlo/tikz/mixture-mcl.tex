@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+   bx/.style={dbox, rounded corners=8pt, text width=4.8cm, minimum height=1.6cm, font=\small}]
+  \node[bx, draw=dblue, line width=1.2pt] (a) at (0,1.6) {\textbf{MCL usual (cerca de 95\%)}\\ \scriptsize amostra do movimento, pesa pela medição};
+  \node[bx, draw=dorange, line width=1.2pt] (b) at (0,-1.0) {\textbf{inverso (cerca de 5\%)}\\ \scriptsize amostra de $p(z_t \mid x_t)$, pesa pelo movimento};
+  \node[bx, draw=dgreen, line width=1.5pt, text width=3.6cm] (c) at (7.2,0.3) {\textbf{une os dois conjuntos}\\ \scriptsize $\mathcal{X}_t$};
+  \draw[dtrans, line width=1.4pt] (a.east) -- (c.west |- a.east) -- (c.north west);
+  \draw[dmeas, line width=1.4pt] (b.east) -- (c.west |- b.east) -- (c.south west);
+  \node[dgreen, font=\scriptsize, align=left, anchor=north west] at (5.4,-1.9) {+ robusto a sensores precisos\\ + resolve o sequestro\\ $-$ amostrar de $p(z\mid x)$ é difícil};
+\end{tikzpicture}
+\end{document}

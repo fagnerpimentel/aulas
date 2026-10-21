@@ -23,3 +23,5 @@ listing:
 - [Filtro de Bayes para localização de robôs](pratica/exercicio-filtro-bayes.qmd)
 - [Filtro de Kalman com o TurtleBot3 no Gazebo](pratica/exercicio-filtro-kalman.qmd)
 - [Filtro de Kalman Estendido: localização com marco](pratica/exercicio-filtro-kalman-estendido.qmd)
+- [Filtros não paramétricos: histograma e partículas num corredor](pratica/exercicio-filtros-nao-parametricos.qmd)
+- [Localização de Markov e EKF com marcos: associação de dados e seus limites](pratica/exercicio-localizacao-markov-ekf.qmd)
