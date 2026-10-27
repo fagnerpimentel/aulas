@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[daxis, line width=1.4pt] (0,0) -- (14,0);
+  \foreach \y/\t/\v/\c in {3.6/{Menu Arquivo > Salvar}/4.6/dred, 2.1/{Botão da barra}/3.1/dorange, 0.6/{Atalho Ctrl+S}/1.6/dgreen} {
+    \node[font=\Large, anchor=east] at (-0.3,\y) {\t};
+    \fill[\c!75] (0,\y-0.5) rectangle (\v*2.4,\y+0.5);
+    \node[font=\Large\bfseries, \c, anchor=west] at (\v*2.4+0.3,\y) {\v\ s};
+  }
+  \node[font=\large, black!70, text width=13cm, align=center] at (6.5,-1.0) {a mesma tarefa em três métodos; estimativa pelo KLM};
+\end{tikzpicture}
+\end{document}

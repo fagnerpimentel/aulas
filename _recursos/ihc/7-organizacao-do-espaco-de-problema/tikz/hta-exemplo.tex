@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{n/.style={dbox, draw=dblue, line width=1.4pt, minimum width=4.4cm, minimum height=1.5cm, font=\large}, pl/.style={font=\large\bfseries, dorange, fill=white, inner sep=2pt}}
+  \node[n] (r) at (8.0,7.0) {0. Entregar trabalho};
+  \node[n] (a) at (2.6,3.9) {1. Preparar arquivo};
+  \node[n] (b) at (13.4,3.9) {2. Enviar no sistema};
+  \node[n] (a1) at (0.0,0.6) {1.1 Exportar PDF};
+  \node[n] (a2) at (5.2,0.6) {1.2 Compactar};
+  \node[n] (b1) at (10.8,0.6) {2.1 Escolher turma};
+  \node[n] (b2) at (16.0,0.6) {2.2 Anexar e enviar};
+  \draw[line width=1.2pt] (r.south) -- (a.north);
+  \draw[line width=1.2pt] (r.south) -- (b.north);
+  \draw[line width=1.2pt] (a.south) -- (a1.north);
+  \draw[line width=1.2pt] (a.south) -- (a2.north);
+  \draw[line width=1.2pt] (b.south) -- (b1.north);
+  \draw[line width=1.2pt] (b.south) -- (b2.north);
+  \node[pl] at (8.0,5.0) {plano 1 > 2};
+  \node[pl] at (2.6,2.2) {1 / 2};
+  \node[pl] at (13.4,2.2) {1 > 2};
+\end{tikzpicture}
+\end{document}

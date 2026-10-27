@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.9cm, minimum height=2.6cm, font=\Large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{>>}}\\ ativação: T2 só depois de T1};
+\node[c, draw=dgreen] at (4.5,0.0) {\textbf{\textcolor{dgreen}{[]}}\\ escolha: uma ou outra};
+\node[c, draw=dorange] at (9.0,0.0) {\textbf{\textcolor{dorange}{|||}}\\ concorrência: qualquer ordem};
+\node[c, draw=dred] at (13.5,0.0) {\textbf{\textcolor{dred}{[>}}\\ desativação: T2 interrompe T1};
+\node[c, draw=dblue] at (0.0,-3.1) {\textbf{\textcolor{dblue}{|>}}\\ suspensão e retomada};
+\node[c, draw=dgreen] at (4.5,-3.1) {\textbf{\textcolor{dgreen}{|[]|}}\\ concorrentes e comunicantes};
+\node[c, draw=dorange] at (9.0,-3.1) {\textbf{\textcolor{dorange}{|=|}}\\ independentes: uma por vez};
+\node[c, draw=dred] at (13.5,-3.1) {\textbf{\textcolor{dred}{[]>>}}\\ ativação com passagem de dados};
+\node[font=\Large, black!70, text width=17cm, align=center] at (6.75,-5.4) {operadores que ligam as tarefas no \textbf{CTT}};
+\end{tikzpicture}
+\end{document}

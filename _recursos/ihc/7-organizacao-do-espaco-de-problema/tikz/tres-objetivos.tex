@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=5.6cm, minimum height=4.4cm, font=\large, line width=1.5pt, align=left}}
+  \node[c, draw=dblue] at (0,0) {\textbf{\Large\textcolor{dblue}{Pessoais}}\\[4pt] não se sentir estúpido\\ não errar\\ divertir-se ou não se entediar};
+  \node[c, draw=dgreen] at (6.8,0) {\textbf{\Large\textcolor{dgreen}{Práticos}}\\[4pt] fazem a \textbf{ponte}\\ ex.: processar pedidos do cliente};
+  \node[c, draw=dorange] at (13.6,0) {\textbf{\Large\textcolor{dorange}{Corporativos}}\\[4pt] lucro e mercado\\ mantêm o foco no quadro maior};
+  \node[font=\Large, black!70, text width=18cm, align=center] at (6.8,-3.5) {os objetivos \textbf{pessoais} vêm primeiro e nunca devem ser violados};
+\end{tikzpicture}
+\end{document}

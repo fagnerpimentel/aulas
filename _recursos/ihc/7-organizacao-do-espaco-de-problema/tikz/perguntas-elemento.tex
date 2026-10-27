@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{q/.style={dbox, text width=7.6cm, minimum height=2.5cm, font=\large, line width=1.5pt, align=left}}
+  \node[q, draw=dblue] (o) at (-6.4,2.0) {\textbf{\textcolor{dblue}{Objetivo}}\\ por que o ator precisa dele?\\ que informações usa?};
+  \node[q, draw=dgreen] (a) at (6.4,2.0) {\textbf{\textcolor{dgreen}{Ambiente}}\\ onde, quando e com que dispositivos?\\ há pressão de tempo?};
+  \node[q, draw=dorange] (t) at (-6.4,-1.6) {\textbf{\textcolor{dorange}{Atores}}\\ o que os ajuda ou atrapalha?\\ de quem dependem?};
+  \node[q, draw=dred] (p) at (6.4,-1.6) {\textbf{\textcolor{dred}{Planejamento}}\\ como fazem hoje?\\ como gostariam de fazer?};
+  \node[circle, draw=dblue, fill=dblue!12, line width=2pt, minimum size=2.3cm, font=\Large\bfseries, text=dblue] (c) at (0,0.2) {cenário};
+  \foreach \n in {o,a,t,p} {\draw[dtrans, line width=1.6pt, -{Stealth[length=2.6mm]}] (\n) -- (c);}
+  \node[font=\Large, black!70, text width=20cm, align=center] at (0,-3.9) {numere as perguntas e marque no texto onde cada uma é respondida: \textbf{[1] [2] [3]}};
+\end{tikzpicture}
+\end{document}

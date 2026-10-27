@@ -34,6 +34,11 @@ pasta em `_recursos/` pelo campo `resource-path` no cabeçalho YAML.
 
 - **Robótica Probabilística** — estimação de estado, filtros bayesianos,
   localização e SLAM. Baseada em *Probabilistic Robotics* (Thrun, Burgard, Fox).
+- **Design de Jogos** — ideias, história, documentação, personagem, câmera, controles,
+  interface e design de níveis. Baseada em *Level Up! Um guia para o design de grandes jogos*
+  (Scott Rogers).
+- **Full Stack** — desenvolvimento web de ponta a ponta: HTML, CSS, JavaScript, Canvas,
+  servidor (Node.js) e banco de dados (MongoDB), com Git e GitHub.
 - **Interação Humano-Computador** — fatores humanos (percepção, cognição, afeto),
   usabilidade, experiência do usuário (UX) e métodos de avaliação. Baseada em
   *Interação Humano-Computador e Experiência do Usuário* (Barbosa, Barbosa, Darin,

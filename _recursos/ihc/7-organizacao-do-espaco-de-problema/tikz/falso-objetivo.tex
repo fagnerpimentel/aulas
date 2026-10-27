@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=4.0cm, minimum height=2.4cm, font=\large, line width=1.5pt}}
+  \node[c, draw=dred] (a) at (0,0) {\textbf{Falso objetivo}\\ ``rodar no navegador''};
+  \node[c, draw=dorange] (b) at (5.4,0) {\textbf{Por quê?}\\ ``para acessar de qualquer lugar''};
+  \node[c, draw=dgreen] (c) at (10.8,0) {\textbf{Objetivo verdadeiro}\\ acesso em qualquer lugar};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (a.east) -- (b.west);
+  \draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (b.east) -- (c.west);
+  \node[font=\Large, black!70, text width=14cm, align=center] at (5.4,-2.3) {pergunte ``por quê?'' até chegar a um \textbf{fim}, e não a um meio};
+\end{tikzpicture}
+\end{document}

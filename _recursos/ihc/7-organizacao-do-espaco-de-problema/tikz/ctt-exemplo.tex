@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{n/.style={dbox, draw=dblue, line width=1.4pt, minimum width=3.9cm, minimum height=1.5cm, font=\large}, op/.style={font=\Large\bfseries, dorange, fill=white, inner sep=1pt}}
+  \node[n, rounded corners=14pt] (r) at (6.0,6.2) {Pedir comida};
+  \node[n, rounded corners=14pt] (a) at (0.6,3.2) {Ver o cardápio};
+  \node[n] (b) at (6.0,3.2) {Montar o pedido};
+  \node[n] (c) at (11.4,3.2) {Confirmar};
+  \node[op] at (3.3,4.9) {>>}; \node[op] at (8.7,4.9) {>>};
+  \node[n] (b1) at (3.3,0.4) {Escolher prato};
+  \node[n] (b2) at (8.7,0.4) {Informar endereço};
+  \node[op] at (6.0,1.8) {|||};
+  \draw[line width=1.2pt] (r.south) -- (a.north);
+  \draw[line width=1.2pt] (r.south) -- (b.north);
+  \draw[line width=1.2pt] (r.south) -- (c.north);
+  \draw[line width=1.2pt] (b.south) -- (b1.north);
+  \draw[line width=1.2pt] (b.south) -- (b2.north);
+\end{tikzpicture}
+\end{document}

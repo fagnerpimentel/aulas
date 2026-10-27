@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=7.8cm, minimum height=4.6cm, font=\large, line width=1.5pt, align=left}}
+  \node[c, draw=dgreen] at (0,0) {\textbf{\Large\textcolor{dgreen}{Uso diário}}\\[4pt] poucas ações, muito frequentes\\ instruções \textbf{no ponto de uso}\\ atalhos e personalização};
+  \node[c, draw=dorange] at (8.9,0) {\textbf{\Large\textcolor{dorange}{Uso periódico}}\\[4pt] ex.: relatório anual\\ instruções claras embutidas\\ dispensa atalhos};
+  \node[font=\Large, black!70, text width=17cm, align=center] at (4.45,-3.4) {comece pelos cenários do \textbf{uso diário}; o resto vem se houver tempo};
+\end{tikzpicture}
+\end{document}

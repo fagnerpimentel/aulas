@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{o/.style={dbox, draw=dblue, line width=1.5pt, minimum width=3.6cm, minimum height=1.4cm, font=\large}}
+  \node[o] (g) at (0,3.2) {Objetivo};
+  \node[o, rounded corners=14pt] (p) at (5.0,3.2) {Operação};
+  \node[font=\large, black!70] at (0,1.9) {o que se quer};
+  \node[font=\large, black!70] at (5.0,1.9) {ação no nível mais baixo};
+  \node[font=\Large\bfseries, dblue] at (11.2,4.6) {planos};
+  \node[o, minimum width=2.8cm] at (9.3,3.0) {1 > 2};
+  \node[o, minimum width=2.8cm] at (12.4,3.0) {1 / 2};
+  \node[o, minimum width=2.8cm] at (15.5,3.0) {1 + 2};
+  \node[font=\large] at (9.3,1.9) {sequência};
+  \node[font=\large] at (12.4,1.9) {seleção};
+  \node[font=\large] at (15.5,1.9) {paralelo};
+  \node[font=\large, black!70, text width=17cm, align=center] at (7.7,0.3) {um \textbf{plano} diz em que ordem os subobjetivos levam ao objetivo maior};
+\end{tikzpicture}
+\end{document}

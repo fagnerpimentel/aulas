@@ -21,6 +21,10 @@ website:
         href: interacao-humano-robo/index.qmd
       - text: "Interação Humano-Computador"
         href: ihc/index.qmd
+      - text: "Full Stack"
+        href: fullstack/index.qmd
+      - text: "Design de Jogos"
+        href: design-de-jogos/index.qmd
   page-footer:
     center: "Prof. Dr. Fagner de Assis Moura Pimentel"
 

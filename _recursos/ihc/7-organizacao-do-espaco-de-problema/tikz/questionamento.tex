@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.9cm, minimum height=3.0cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Por quê?}}\\ condições e consequências};
+\node[c, draw=dgreen] at (4.5,0.0) {\textbf{\textcolor{dgreen}{Como?}}\\ sequência de ações detalhada};
+\node[c, draw=dorange] at (9.0,0.0) {\textbf{\textcolor{dorange}{O que é?}}\\ objetos e atributos};
+\node[c, draw=dred] at (13.5,0.0) {\textbf{\textcolor{dred}{X pode ser feito de Y?}}\\ verificação: sim ou não};
+\node[font=\Large, black!70, text width=17cm, align=center] at (6.75,-2.5) {divida o cenário em frases e \textbf{pergunte} sobre cada uma};
+\end{tikzpicture}
+\end{document}

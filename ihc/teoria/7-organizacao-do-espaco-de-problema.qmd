@@ -1,0 +1,343 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Organização do Espaço de Problema"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/7-organizacao-do-espaco-de-problema
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+    code-line-numbers: false
+---
+
+# Organização do Espaço de Problema
+
+::: {.esquerda}
+Capítulo 8 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Perfil de usuário** --- quem são os usuários e em quantos grupos se dividem
+- **Personas** e seus **objetivos** --- pessoas fictícias que representam grupos reais
+- **Cenários de problema** --- histórias sobre como o trabalho acontece hoje
+- **Análise de tarefas** --- **HTA**, **GOMS** (KLM e CMN) e **CTT**
+
+# Por que organizar o espaço de problema
+
+## Do dado ao modelo {.smaller}
+
+- Depois de coletar dados, é preciso **registrar, organizar, refinar e analisar** o que foi aprendido
+- Cada **representação** mostra o mundo sob uma perspectiva, com um foco e um nível de detalhe
+- Elas formam o **produto da etapa de análise**
+
+![](images/espaco-de-problema.svg){fig-align="center" width="100%"}
+
+# Perfil de Usuário
+
+## O que é um perfil {.smaller}
+
+- Uma **descrição detalhada das características** dos usuários cujos objetivos o sistema deve apoiar
+- Parte dos dados coletados (cargo, experiência, idade, atividades principais...) e **agrega os valores em grupos e faixas**
+- Calcula a **proporção** de usuários em cada perfil
+- Ajuda a entender **para quem** se constrói o produto e a **recrutar participantes** para análises e avaliações
+- É um processo **iterativo**: a ideia inicial costuma ser incompleta ou até equivocada
+
+![](images/perfil-grupos.svg){fig-align="center" width="100%"}
+
+## Quadro de perfis {.smaller}
+
+- Um **quadro** compara os perfis por característica
+- Nem todo usuário se encaixa: alguns ficam **fora de qualquer perfil**
+- Priorize as características-chave do **seu** produto
+
+![](images/perfil-quadro.svg){fig-align="center" height="400px"}
+
+# Personas
+
+## O que é uma persona {.smaller}
+
+- Um **personagem fictício**, arquétipo de um **grupo de usuários reais**
+- Serve para manter a equipe **focada no mesmo alvo** durante as discussões de design
+- É definida sobretudo por seus **objetivos**, refinados durante a investigação inicial
+- Exemplo de uso em reunião: "a Rita **nunca** usaria essa funcionalidade"
+
+## Usuário elástico x persona {.smaller}
+
+- Para Cooper, "**o usuário**" é um termo vago: vira um **usuário elástico**, que se contorce para atender a conveniência do momento
+- **Usuários reais não são elásticos**
+- Em vez de acomodar todos, projete para **uma persona específica**: cada recurso a mais para um grupo vira obstáculo para os outros
+
+![](images/usuario-elastico.svg){fig-align="center" width="95%"}
+
+## Elementos de uma persona {.smaller}
+
+![](images/persona-elementos.svg){fig-align="center" width="100%"}
+
+## Persona: um exemplo {.smaller}
+
+::: {.columns style="display: flex; align-items: center;"}
+
+::: {.column width="14%"}
+![](images/rita-avatar.svg){fig-align="center" width="40%"}
+:::
+
+::: {.column width="86%" style="font-size: 1.15em;"}
+**Rita Alves, 21 anos, aluna** --- "*quero entregar tudo sem correria*"
+:::
+
+:::
+
+>
+- Cursa o 5º semestre e **trabalha meio período**
+- Usa o celular para quase tudo; lê pouco manual
+- **Status:** persona primária
+- **Objetivos:** não perder prazos; saber o que já entregou; não passar vergonha por esquecer algo
+- **Tarefas:** consultar prazos (diária) e enviar trabalhos (semanal)
+
+## Da pesquisa à persona {.smaller}
+
+- É **fictícia**, mas construída com **dados reais** da pesquisa
+- Só **nome e detalhes pessoais** são inventados, mas baseas-se nos dados coletados.
+- Um **antiusuário** (ou persona negativa) seria, por exemplo, quem nunca usará o sistema (mas pode ser um potencial cliente ou influenciador)
+
+![](images/persona-conceito.svg){fig-align="center" width="100%"}
+
+## Três tipos de objetivos {.smaller}
+
+![](images/tres-objetivos.svg){fig-align="center" width="95%"}
+
+## Objetivos em três níveis {.smaller}
+
+- Com base nos níveis de processamento de Norman (visceral, comportamental e reflexivo), Cooper e colegas definem três tipos de objetivos do usuário:
+
+![](images/objetivos-tres-niveis.svg){fig-align="center" width="95%"}
+
+## Objetivo não é tarefa {.smaller}
+
+![](images/objetivo-vs-tarefa.svg){fig-align="center" width="95%"}
+
+# Cenários de Problema
+
+## O que é um cenário {.smaller}
+
+- Uma **história** sobre pessoas realizando uma atividade: concreta, rica em **contexto**, com usuários, processos e dados
+- Usado para **capturar requisitos**, levantar questões sobre a tecnologia, **explorar soluções** e **avaliar** o produto
+- Custa **menos tempo e esforço** do que modelos e protótipos complexos
+- Cada cenário tem **um ator principal e um objetivo principal**, com título curto e situação inicial
+- Com personas, os **atores** do cenário são as personas
+
+## Elementos de um cenário {.smaller}
+
+![](images/cenario-elementos.svg){fig-align="center" width="100%"}
+
+## Cenário de análise (ou de problema) {.smaller}
+
+- Conta como o **trabalho acontece hoje**, antes da tecnologia nova
+
+**Entrega de trabalho com atraso** --- *ator: Rita Alves (aluna)*
+
+> Às 23h50 de domingo, Rita termina o trabalho no celular e percebe que o sistema só aceita **PDF**. Ela envia o arquivo para o e-mail, abre o computador do irmão, converte e tenta enviar de novo. O prazo estoura **às 23h59** e o sistema não avisa quanto tempo falta. Rita manda uma mensagem ao professor para **pedir desculpas**.
+
+## Analisando o cenário {.smaller}
+
+- Problemas que o cenário **revela**:
+  - o sistema **não aceita o formato** em que o aluno já tem o arquivo
+  - **nenhum aviso** de prazo
+  - o aluno precisa **sair do sistema** para pedir ajuda
+- Cenários podem incluir **exceções**: eventos raros que mostram quando o produto vira problema
+- Cenário **não** é caso de uso: descreve **um ator específico** e **um caminho**, com planos e avaliações
+
+
+## Os problemas na linha do tempo {.smaller}
+
+![](images/cenario-problemas.svg){fig-align="center" width="100%"}
+
+## Questionamento sistemático {.smaller}
+
+- Cenários ficam **incompletos ou ambíguos**: divida-o em **frases** e **pergunte** sobre cada uma
+- As respostas geram **novas frases**; repita até ficar completo
+
+![](images/questionamento.svg){fig-align="center" width="100%"}
+
+## Perguntas por elemento {.smaller}
+
+- Também se pode perguntar por **elemento do cenário**:
+  - **objetivo**: por que o ator precisa dele? que informações usa?
+  - **ambiente**: onde, quando e com que dispositivos? há pressão de tempo?
+  - **atores**: o que os ajuda ou atrapalha? de quem dependem?
+  - **planejamento**: como fazem hoje e como gostariam?
+- Numere as perguntas e **marque no texto** do cenário onde cada uma é explorada
+
+## Do cenário às perguntas {.smaller}
+
+![](images/perguntas-elemento.svg){fig-align="center" width="100%"}
+
+## Quantos cenários? {.smaller}
+
+![](images/cenarios-cobertura.svg){fig-align="center" width="100%"}
+
+## Quais cenários primeiro? {.smaller}
+
+![](images/cenarios-frequencia.svg){fig-align="center" width="95%"}
+
+# Análise de Tarefas
+
+## O que é {.smaller}
+
+- Busca entender **qual é o trabalho** dos usuários, **como** o realizam e **por quê**
+- O trabalho é definido por **objetivos** das pessoas, não por listas de ações
+- Serve para **analisar a situação atual**, **projetar** ou **avaliar** um sistema
+- Os dados vêm de **observação, entrevistas, questionários, documentos e sistemas existentes**
+- Sempre é uma **simulação**: só se observa parte do trabalho, e observar já o altera
+
+![](images/comparar-modelos.svg){fig-align="center" width="90%"}
+
+<!-- SLIDES OCULTOS (HTA, GOMS e CTT): para reativar, apague esta linha e a linha de fechamento "FIM DOS SLIDES OCULTOS"
+
+# HTA: Análise Hierárquica de Tarefas
+
+## Ideia central {.smaller}
+
+- Criada nos anos 1960; parte dos **objetivos** e os **decompõe em subobjetivos**
+- Ajuda a ligar **o que se faz**, **por que** se faz e **o que acontece** se for feito errado
+- Procura os subobjetivos **mais difíceis** ou que geram mais **erros**
+- No nível mais baixo, cada subobjetivo é atingido por uma **operação**, a unidade fundamental
+
+## Elementos da HTA {.smaller}
+
+![](images/hta-elementos.svg){fig-align="center" width="100%"}
+
+## Operação e plano {.smaller}
+
+- Uma **operação** é especificada por **entrada** (*input*: o que dispara), **ação** e **retorno** (*feedback*: condição de sucesso)
+- Um **plano** define **a ordem** dos subobjetivos: **sequência**, **seleção** (conforme circunstâncias) ou **paralelo**
+- O mesmo objetivo pode ter **caminhos diferentes**, e uma ação pode servir a **vários objetivos**
+- Listar ações sem entender **para quê** leva a interpretações erradas
+
+## Exemplo de HTA {.smaller}
+
+![](images/hta-exemplo.svg){fig-align="center" width="100%"}
+
+## Tabela da HTA {.smaller}
+
+| Objetivo / operação | Problemas e recomendações |
+|---|---|
+| 0. Entregar trabalho (1 > 2) | **input:** arquivo pronto; **feedback:** aviso de recebimento |
+| 1. Preparar arquivo (1 / 2) | **problema:** só aceita PDF; **recomendação:** aceitar outros formatos |
+| 2. Enviar no sistema | **problema:** não mostra o prazo; **recomendação:** exibir contagem regressiva |
+
+## Passos da HTA {.smaller}
+
+![](images/hta-passos.svg){fig-align="center" width="100%"}
+
+## Quando parar de decompor {.smaller}
+
+![](images/criterio-pxc.svg){fig-align="center" width="95%"}
+
+## Hipóteses sobre erros {.smaller}
+
+- Ao analisar, formule **hipóteses** sobre o que afeta aprendizado e desempenho, usando os tipos de erro de **Reason**:
+  - **habilidade**: padrões automáticos; erros de força e coordenação
+  - **regra**: aplicar a regra errada por classificar mal a situação
+  - **conhecimento**: situação nova; planejamento consciente com informação incompleta
+
+# GOMS
+
+## Objetivos, operadores, métodos e regras {.smaller}
+
+![](images/goms-elementos.svg){fig-align="center" width="100%"}
+
+## Para que serve {.smaller}
+
+- Analisa o **desempenho de usuários competentes**, realizando tarefas dentro da sua competência e **sem errar**
+- **Quantitativo**: prevê o **tempo** de execução; **qualitativo**: apoia treinamento, ajuda e reprojeto
+- Pode mostrar **objetivos frequentes** com método ineficiente, **objetivos sem método** e **métodos inconsistentes**
+- **Não** revela objetivos que o analista esqueceu: parte de uma lista de objetivos já levantada
+
+## A família GOMS {.smaller}
+
+![](images/familia-goms.svg){fig-align="center" width="95%"}
+
+## KLM: operadores {.smaller}
+
+![](images/klm-operadores.svg){fig-align="center" width="100%"}
+
+## KLM: exemplo {.smaller}
+
+- **Tarefa:** salvar um arquivo, em três métodos
+- O **atalho** é quase **duas vezes** mais rápido que o botão e quase **três vezes** mais rápido que o menu
+
+![](images/klm-exemplo.svg){fig-align="center" height="320px"}
+
+## CMN-GOMS {.smaller}
+
+- Hierarquia estrita de objetivos; operadores em **sequência**; métodos escritos como **pseudocódigo** com submétodos e condições
+
+```text
+GOAL 0: enviar um arquivo por e-mail
+  GOAL 1: anexar o arquivo
+    METHOD 1.A: arrastar o arquivo para a mensagem
+    (SEL. RULE: a pasta e a mensagem estão visíveis)
+    METHOD 1.B: usar o botão "Anexar"
+    (SEL. RULE: a pasta não está visível)
+      OP 1.B.1: clicar em "Anexar"
+      OP 1.B.2: escolher o arquivo
+  GOAL 2: enviar a mensagem
+```
+
+## CPM-GOMS {.smaller}
+
+- Baseado no **processador humano de informações**: operadores **cognitivos, perceptivos e motores** em **paralelo**
+- Diagrama tipo PERT; o **caminho crítico** dá o tempo total previsto
+- Supõe usuário **muito experiente**: use só para tarefas com **decisões triviais**
+
+# CTT: Árvores de Tarefas Concorrentes
+
+## Tipos de tarefa {.smaller}
+
+![](images/ctt-tipos.svg){fig-align="center" width="100%"}
+
+## Relações entre tarefas {.smaller}
+
+![](images/ctt-relacoes.svg){fig-align="center" width="100%"}
+
+## Exemplo de CTT {.smaller}
+
+![](images/ctt-exemplo.svg){fig-align="center" height="440px"}
+
+## Vantagens e limites {.smaller}
+
+- Registra **explicitamente as relações** entre tarefas
+- Inclui tarefas **do usuário, do sistema e interativas**: já representa uma **solução de design da interação**
+- **Limite:** não tem elementos para **prevenção e tratamento de erros**
+
+FIM DOS SLIDES OCULTOS -->
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- **Perfil de usuário** agrupa usuários semelhantes e calcula a proporção de cada perfil
+- **Personas** são arquétipos com **objetivos** (de experiência, finais e de vida); objetivo não é tarefa
+- **Cenários de problema** contam como o trabalho acontece hoje e **revelam problemas**; o questionamento sistemático os completa
+- **HTA** decompõe objetivos; **GOMS** prevê desempenho de quem já domina; **CTT** representa tarefas e suas relações
+
+## Para pensar {.smaller}
+
+- **Perfis.** Trace os perfis de alunos e professores de um sistema de planejamento de aulas, divulgação de material e agendamento de provas. Que perguntas de **entrevista ou questionário** fornecem esses dados?
+- **Personas.** Crie o elenco de personas com base nos perfis: quais são **primárias**, **secundárias**, outros *stakeholders* e **antiusuários**?
+- **Cenários.** Escreva cenários de problema para os objetivos mais **frequentes** e mais **raros** de cada persona. Que **perguntas** cada cenário responde?
+- **Tarefas.** Faça a **HTA** (diagrama e tabela) de um dos cenários; depois estime com o **KLM** o tempo de uma tarefa em dois métodos e represente uma tarefa em **CTT**.
+
+## Leituras futuras {.smaller}
+
+- **Cooper (1999)** --- *The Inmates Are Running the Asylum* --- personas e design dirigido a objetivos
+- **Cooper et al. (2014)** --- *About Face: The Essentials of Interaction Design*
+- **Rosson e Carroll (2002)** --- *Usability Engineering* --- design baseado em cenários
+- **Diaper e Stanton (2003)** --- *The Handbook of Task Analysis for Human-Computer Interaction*
+- **Card, Moran e Newell (1983)** --- *The Psychology of Human-Computer Interaction* --- GOMS e KLM
+- **Paternò (1999)** --- *Model-Based Design and Evaluation of Interactive Applications* --- CTT
+- **Courage e Baxter (2005)** --- *Understanding Your Users* --- perfis e personas

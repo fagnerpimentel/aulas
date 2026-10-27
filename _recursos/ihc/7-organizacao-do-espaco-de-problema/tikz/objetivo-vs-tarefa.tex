@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=7.8cm, minimum height=4.0cm, font=\large, line width=1.5pt, align=left}}
+  \node[c, draw=dgreen] at (0,0) {\textbf{\Large\textcolor{dgreen}{Objetivo}}\\[4pt] uma condição \textbf{final}\\ bem estável no tempo\\ ex.: falar com a família};
+  \node[c, draw=dorange] at (8.9,0) {\textbf{\Large\textcolor{dorange}{Tarefa}}\\[4pt] processo \textbf{intermediário}\\ muda com a tecnologia\\ ex.: escrever uma carta};
+  \node[font=\Large, black!70, text width=17cm, align=center] at (4.45,-3.2) {projetar a partir dos \textbf{objetivos}, e não só das tarefas};
+\end{tikzpicture}
+\end{document}

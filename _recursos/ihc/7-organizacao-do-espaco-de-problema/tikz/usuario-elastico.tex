@@ -1,0 +1,10 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=7.8cm, minimum height=4.4cm, font=\large, line width=1.5pt, align=left}}
+  \node[c, draw=dred] at (0,0) {\textbf{\Large\textcolor{dred}{``O usuário''}}\\[4pt] vago e \textbf{elástico}\\ ora novato, ora especialista\\ cada designer imagina um};
+  \node[c, draw=dgreen] at (8.9,0) {\textbf{\Large\textcolor{dgreen}{A persona}}\\[4pt] uma pessoa \textbf{concreta}\\ objetivos, habilidades e contexto\\ todos projetam para o mesmo alvo};
+\end{tikzpicture}
+\end{document}

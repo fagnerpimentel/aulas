@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.2cm, minimum height=3.2cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Ciclo de vida}}\\ cada passo de um processo longo};
+\node[c, draw=dgreen] at (3.8,0.0) {\textbf{\textcolor{dgreen}{Públicos}}\\ tipos de usuário};
+\node[c, draw=dorange] at (7.6,0.0) {\textbf{\textcolor{dorange}{Funções}}\\ o que o produto faz};
+\node[c, draw=dred] at (11.4,0.0) {\textbf{\textcolor{dred}{Variantes}}\\ formas de fazer uma tarefa};
+\node[c, draw=dblue] at (15.2,0.0) {\textbf{\textcolor{dblue}{Métodos}}\\ diferentes caminhos para a mesma tarefa};
+\node[font=\Large, black!70, text width=18cm, align=center] at (7.6,-2.6) {Cooper: o \textbf{conjunto} de cenários deve cobrir estes cinco pontos};
+\end{tikzpicture}
+\end{document}

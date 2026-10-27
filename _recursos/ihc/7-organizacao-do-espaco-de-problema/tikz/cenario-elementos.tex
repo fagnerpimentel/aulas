@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.9cm, minimum height=2.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Ambiente}}\\ contexto e situação};
+\node[c, draw=dgreen] at (4.5,0.0) {\textbf{\textcolor{dgreen}{Atores}}\\ pessoas e suas características};
+\node[c, draw=dorange] at (9.0,0.0) {\textbf{\textcolor{dorange}{Objetivos}}\\ o que motiva as ações};
+\node[c, draw=dred] at (13.5,0.0) {\textbf{\textcolor{dred}{Planejamento}}\\ o que pensam antes de agir};
+\node[c, draw=dblue] at (0.0,-3.1) {\textbf{\textcolor{dblue}{Ações}}\\ comportamento observável};
+\node[c, draw=dgreen] at (4.5,-3.1) {\textbf{\textcolor{dgreen}{Eventos}}\\ reações do sistema e do ambiente};
+\node[c, draw=dorange] at (9.0,-3.1) {\textbf{\textcolor{dorange}{Avaliação}}\\ como interpretam o que ocorre};
+\node[c, draw=dred] at (13.5,-3.1) {\textbf{\textcolor{dred}{Título}}\\ descreve a situação em poucas palavras};
+\node[font=\Large, black!70, text width=17cm, align=center] at (6.75,-5.4) {um cenário é uma \textbf{história} concreta, com ator e objetivo principais};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=4.6cm, minimum height=2.8cm, font=\Large, line width=1.5pt}}
+  \node[c, draw=dblue] (p) at (0,0) {\textbf{p}\\ probabilidade de falha};
+  \node[font=\Huge] at (3.0,0) {$\times$};
+  \node[c, draw=dorange] (c) at (6.0,0) {\textbf{c}\\ custo da falha};
+  \node[font=\Huge] at (9.0,0) {$=$};
+  \node[c, draw=dgreen] at (12.2,0) {\textbf{risco}\\ aceitável? pare de decompor};
+  \node[font=\Large, black!70, text width=16cm, align=center] at (6.0,-2.6) {outra razão para parar: o problema já foi \textbf{identificado}};
+\end{tikzpicture}
+\end{document}

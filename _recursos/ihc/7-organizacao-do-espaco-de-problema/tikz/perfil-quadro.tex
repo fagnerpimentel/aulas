@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{h/.style={font=\large\bfseries, minimum height=0.9cm, minimum width=3.4cm, align=center}, v/.style={font=\large, minimum height=0.9cm, minimum width=3.4cm, align=center}, l/.style={font=\large, anchor=east}}
+  \node[h, text=dblue] at (6.0,5.6) {Perfil A};
+  \node[h, text=dorange] at (9.6,5.6) {Perfil B};
+  \draw[line width=1.2pt] (-0.4,5.1) -- (11.4,5.1);
+  \node[l] at (3.9,4.5) {professores no perfil};  \node[v] at (6.0,4.5) {47\%}; \node[v] at (9.6,4.5) {43\%};
+  \node[l] at (3.9,3.5) {faixa etária};  \node[v] at (6.0,3.5) {30 a 40}; \node[v] at (9.6,3.5) {40 a 50};
+  \node[l] at (3.9,2.5) {atitude perante tecnologia};  \node[v] at (6.0,2.5) {alta}; \node[v] at (9.6,2.5) {média};
+  \node[l] at (3.9,1.5) {estilo de aprendizado};  \node[v] at (6.4,1.5) {aprende fazendo}; \node[v] at (9.9,1.5) {lê o manual};
+  \node[font=\large, black!70, text width=11cm, align=center] at (5.5,0.2) {valores fictícios; 10\% dos usuários podem não caber em nenhum perfil};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.3cm, minimum height=3.4cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] (n0) at (0.0,0) {\textbf{\textcolor{dblue}{1. Dados coletados}}\\ entrevistas, questionários, campo};
+\node[c, draw=dgreen] (n1) at (4.1,0) {\textbf{\textcolor{dgreen}{2. Perfil de usuário}}\\ quem são e quantos};
+\node[c, draw=dorange] (n2) at (8.2,0) {\textbf{\textcolor{dorange}{3. Personas}}\\ arquétipos com objetivos};
+\node[c, draw=dred] (n3) at (12.3,0) {\textbf{\textcolor{dred}{4. Cenários}}\\ histórias de uso};
+\node[c, draw=dblue] (n4) at (16.4,0) {\textbf{\textcolor{dblue}{5. Tarefas}}\\ como os objetivos são atingidos};
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n0.east) -- (n1.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n1.east) -- (n2.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n2.east) -- (n3.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n3.east) -- (n4.west);
+\node[font=\Large, black!70, text width=17cm, align=center] at (8.2,-2.7) {cada representação \textbf{organiza} e \textbf{refina} o que foi aprendido};
+\end{tikzpicture}
+\end{document}

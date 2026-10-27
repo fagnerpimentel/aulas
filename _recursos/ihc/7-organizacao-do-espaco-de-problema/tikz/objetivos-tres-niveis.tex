@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=5.6cm, minimum height=4.6cm, font=\large, line width=1.5pt, align=left}}
+  \node[c, draw=dblue] at (0,0) {\textbf{\Large\textcolor{dblue}{De experiência}}\\[4pt] como quer \textbf{se sentir}\\ no controle, relaxado, focado\\ nível \textbf{visceral}};
+  \node[c, draw=dgreen] at (6.8,0) {\textbf{\Large\textcolor{dgreen}{Finais}}\\[4pt] o que quer \textbf{fazer}\\ ex.: concluir a lista do dia\\ nível \textbf{comportamental}};
+  \node[c, draw=dorange] at (13.6,0) {\textbf{\Large\textcolor{dorange}{De vida}}\\[4pt] quem quer \textbf{ser}\\ ex.: tornar-se especialista\\ nível \textbf{reflexivo}};
+\end{tikzpicture}
+\end{document}
