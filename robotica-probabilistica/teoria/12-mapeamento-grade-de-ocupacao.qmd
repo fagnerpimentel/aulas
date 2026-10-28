@@ -20,7 +20,6 @@ Capítulo 9 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.
 - Como cada célula do mapa guarda um **log-odds** (razão de chances em log), um valor que soma as evidências
 - Como combinar **vários sensores**
 - Como **aprender** o modelo do sensor
-- Por que olhar o **conjunto** das medições melhora o mapa (**MAP**)
 
 # Introdução
 
@@ -234,6 +233,8 @@ $$
 - O modelo inverso pode devolver um **número muito negativo** para as células sob o robô
 - Vale **incorporar o volume do robô** ao mapear, sobretudo se há pessoas no ambiente
 
+![](images/espaco-do-robo.svg){fig-align="center" width="95%"}
+
 # Fusão de Múltiplos Sensores
 
 Sensores diferentes enxergam **obstáculos diferentes**.
@@ -243,6 +244,8 @@ Sensores diferentes enxergam **obstáculos diferentes**.
 - **Ideia**: rodar o algoritmo com um modelo inverso **para cada** sensor
 - **Problema**: se o sensor A vê um obstáculo que o sensor B **não vê**, eles **discordam**
 - O mapa final passa a depender de **quantas vezes** cada sensor mede — indesejável
+
+![](images/filtro-unico-conflito.svg){fig-align="center" width="95%"}
 
 ## Um Mapa por Sensor {.smaller}
 
@@ -254,8 +257,6 @@ $$
 
 - Se **qualquer** sensor vê a célula ocupada, o mapa combinado a marca como ocupada
 - Tem **viés** para ocupado, mas é **mais seguro** para navegar
-
-## O Máximo dos Mapas {.smaller}
 
 ![](images/fusao-sensores.svg){fig-align="center" width="85%"}
 

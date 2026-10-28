@@ -578,3 +578,81 @@ def treino_1d():
     return "\n  ".join(out)
 
 w("treino-1d", treino_1d())
+
+# ---------- o espaço do próprio robô ----------
+def espaco_robo():
+    NR, NCc, S = 7, 9, 0.62
+    cr, cc = 3, 4                      # célula central (linha, coluna) do robô
+    cores = {'W': 'black!85', 'f': 'dgreen!20', '?': 'black!18', 'o': 'dred!60', 'F': 'dgreen!75'}
+    def base():
+        m = [['f'] * NCc for _ in range(NR)]
+        for c in range(NCc): m[0][c] = 'W'; m[NR - 1][c] = 'W'
+        return m
+    foot = [(r, c) for r in range(cr - 1, cr + 2) for c in range(cc - 1, cc + 2)]
+    m1 = base()
+    for r, c in foot: m1[r][c] = '?'
+    m1[cr - 1][cc + 1] = 'o'; m1[cr + 1][cc - 1] = 'o'
+    m2 = base()
+    for p in range(1, cc + 1):                      # trilha: poses anteriores ao longo da linha central
+        for r in range(cr - 1, cr + 2):
+            for c in range(p - 1, p + 2):
+                if 0 <= c < NCc: m2[r][c] = 'F'
+    P = NCc * S + 1.4
+    out = []
+    out.append(r"\useasboundingbox (-0.2,-3.0) rectangle (%.2f,%.2f);" % (2 * P + 1.0, NR * S + 1.0))
+    out.append(r"\node[font=\Large\bfseries, dblue] at (%.2f,%.2f) {só com as medições};" % (NCc * S / 2, NR * S + 0.5))
+    out.append(r"\node[font=\Large\bfseries, dgreen!60!black] at (%.2f,%.2f) {somando o espaço do robô};" % (P + NCc * S / 2, NR * S + 0.5))
+    out.append(grade(m1, 0, 0, S, cores))
+    out.append(grade(m2, P, 0, S, cores))
+    for ox in (0, P):
+        cx = ox + (cc + 0.5) * S; cy = (NR - 1 - cr + 0.5) * S
+        out.append(r"\draw[dblue, line width=2.4pt] (%.3f,%.3f) circle (%.3f);" % (cx, cy, 1.45 * S))
+        out.append(r"\fill[dblue] (%.3f,%.3f) circle (0.14);" % (cx, cy))
+    cy = (NR - 1 - cr + 0.5) * S
+    for p in range(1, cc):
+        out.append(r"\fill[dblue!60] (%.3f,%.3f) circle (0.08);" % (P + (p + 0.5) * S, cy))
+    out.append(r"\draw[dblue, -{Stealth[length=2.6mm]}, line width=1.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (P + 0.55 * S, cy, P + (cc + 0.5) * S - 0.5, cy))
+    # rótulos
+    out.append(r"\node[font=\large, dred, text width=3.6cm, align=center] at (%.2f,-0.75) {leituras erradas dentro do robô};" % (NCc * S / 2))
+    out.append(r"\node[font=\large, dgreen!60!black, text width=4.5cm, align=center] at (%.2f,-0.75) {$l$ muito negativo: \textbf{trilha livre}};" % (P + NCc * S / 2))
+    # legenda
+    itens = [("dgreen!75", "livre (muito negativo)"), ("dgreen!20", "livre"), ("dred!60", "ocupada"), ("black!18", "sem informação")]
+    x = 0.0
+    for c, t in itens:
+        out.append(r"\fill[%s] (%.2f,-2.05) rectangle ++(0.4,0.4);" % (c, x))
+        out.append(r"\draw[black!45, line width=0.5pt] (%.2f,-2.05) rectangle ++(0.4,0.4);" % x)
+        out.append(r"\node[font=\normalsize, anchor=west] at (%.2f,-1.85) {%s};" % (x + 0.5, t))
+        x += 0.5 + 0.17 * len(t) + 0.5
+    out.append(r"\node[font=\Large, black!75] at (%.2f,-2.75) {onde o robô esteve, \textbf{é livre}};" % (P - 0.55))
+    return "\n  ".join(out)
+
+w("espaco-do-robo", espaco_robo())
+
+# ---------- filtro único: o mesmo vidro, dois mapas ----------
+w("filtro-unico-conflito", r"""
+  \useasboundingbox (-3.6,-3.9) rectangle (22.4,5.6);
+  % ---- cena (vista de cima) ----
+  \node[font=\Large\bfseries, dblue] at (4.3,4.7) {o mesmo vidro};
+  \draw[black!85, line width=5pt] (8.6,-2.4) -- (8.6,3.6);
+  \node[font=\large, black!70] at (9.4,-2.9) {parede};
+  \draw[dblue!45, line width=7pt, line cap=butt] (5.7,-2.4) -- (5.7,3.6);
+  \node[font=\large\bfseries, dblue!70!black] at (5.7,4.15) {vidro};
+  % sonar (A): cone largo que para no vidro
+  \fill[dred!18] (0,0) -- (-15:5.5) arc(-15:15:5.5) -- cycle;
+  \draw[black!55, line width=0.9pt] (0,0) -- (-15:5.5) arc(-15:15:5.5) -- cycle;
+  \fill[dred!60] (5.45,-1.4) rectangle (5.95,1.4);
+  % laser (B): feixes finos que atravessam o vidro
+  \foreach \a in {-8,-4,0,4,8} {\draw[dgreen, line width=1.1pt] (0,0) -- (\a:8.55);}
+  \foreach \a in {-8,-4,0,4,8} {\fill[dgreen] (\a:8.55) circle (0.09);}
+  \fill[dblue] (0,0) circle (0.2);
+  \node[font=\large\bfseries, dred, anchor=east] at (-0.35,2.1) {A: sonar};
+  \node[font=\large, dred, anchor=east] at (-0.35,1.55) {vê o vidro};
+  \node[font=\large\bfseries, dgreen!60!black, anchor=east] at (-0.35,-1.55) {B: laser};
+  \node[font=\large, dgreen!60!black, anchor=east] at (-0.35,-2.1) {atravessa};
+  % ---- dois cenários para a mesma célula ----
+  \node[font=\Large\bfseries, dblue] at (16.6,4.7) {log-odds da célula do vidro};
+  \tikzset{c/.style={dbox, text width=9.2cm, minimum height=2.6cm, font=\large, line width=1.5pt, align=center}}
+  \node[c, draw=dgreen] at (16.6,2.2) {sonar mede \textbf{1 vez} e laser \textbf{5 vezes}\\[3pt] $0{,}85 - 5 \times 0{,}4 = \mathbf{-1{,}15}$\\ \textbf{\textcolor{dgreen!60!black}{o mapa diz: livre}}};
+  \node[c, draw=dred] at (16.6,-1.3) {sonar mede \textbf{5 vezes} e laser \textbf{1 vez}\\[3pt] $5 \times 0{,}85 - 0{,}4 = \mathbf{+3{,}85}$\\ \textbf{\textcolor{dred}{o mapa diz: ocupada}}};
+  \node[font=\Large, black!75] at (11.0,-3.5) {o resultado depende de \textbf{quantas vezes} cada sensor mede};
+""")
