@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dgreen, line width=2.4pt] (0,0) -- (6,0) -- (6,4) -- (0,4) -- cycle;
+  \node[font=\large, dgreen] at (3.0,5.2) {caminho verdadeiro (sólido)};
+  \draw[dred, dashed, line width=2.4pt] (0,0) -- (6,0) -- (6.5,3.8) -- (0.7,4.5) -- (1.5,0.9);
+  \node[font=\large, dred] at (3.4,-0.7) {estimado pela odometria (tracejado)};
+  \draw[dorange, <->, line width=1.8pt] (1.5,0.9) -- (0.08,0.08);
+  \node[font=\large\bfseries, dorange, anchor=west] at (7.2,2.4) {erro ao fechar o ciclo};
+  \draw[dorange, line width=1.2pt] (7.1,2.3) -- (4.0,1.5) -- (0.85,0.55);
+\end{tikzpicture}
+\end{document}

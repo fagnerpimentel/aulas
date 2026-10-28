@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[dstate, minimum size=3.0cm, font=\Large] (p) at (0,0) {pose $x_t$};
+  \node[dstate, minimum size=3.0cm, font=\Large] (m) at (9,0) {mapa $m$};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3.4mm]}, bend left=28] (p) to node[above, font=\large, text width=5cm, align=center] {para mapear preciso da pose} (m);
+  \draw[dmeas, line width=2pt, -{Stealth[length=3.4mm]}, bend left=28] (m) to node[below, font=\large, text width=5.4cm, align=center] {para me localizar preciso do mapa} (p);
+  \node[font=\Large, black!70] at (4.5,-3.1) {é o problema \textbf{SLAM}; nesta aula a pose é conhecida};
+\end{tikzpicture}
+\end{document}

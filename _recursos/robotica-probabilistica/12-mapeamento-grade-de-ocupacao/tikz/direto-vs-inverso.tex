@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{b/.style={dbox, minimum width=3.4cm, minimum height=1.7cm, font=\large, line width=1.5pt}}
+  \node[font=\Large\bfseries, dblue, anchor=west] at (0,5.4) {modelo de medição (direto): causa $\to$ efeito};
+  \node[b, draw=dblue] (a) at (1.8,3.9) {mapa $m$\\ pose $x$};
+  \node[b, draw=dgreen] (b) at (8.4,3.9) {medição $z$};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (a) -- node[above, font=\large] {$p(z\mid x,m)$} (b);
+  \node[font=\Large\bfseries, dorange, anchor=west] at (0,1.9) {modelo inverso: efeito $\to$ causa};
+  \node[b, draw=dgreen] (c) at (1.8,0.4) {medição $z$\\ pose $x$};
+  \node[b, draw=dorange] (d) at (8.4,0.4) {ocupação $m_i$};
+  \draw[dmeas, line width=2pt, -{Stealth[length=3mm]}] (c) -- node[above, font=\large] {$p(m_i\mid x,z)$} (d);
+\end{tikzpicture}
+\end{document}

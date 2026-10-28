@@ -1,0 +1,44 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[dgreen!75!white] (0.0,0) rectangle (0.5,1.4);
+  \fill[dgreen!69!white] (0.5,0) rectangle (1.0,1.4);
+  \fill[dgreen!63!white] (1.0,0) rectangle (1.5,1.4);
+  \fill[dgreen!58!white] (1.5,0) rectangle (2.0,1.4);
+  \fill[dgreen!52!white] (2.0,0) rectangle (2.5,1.4);
+  \fill[dgreen!47!white] (2.5,0) rectangle (3.0,1.4);
+  \fill[dgreen!41!white] (3.0,0) rectangle (3.5,1.4);
+  \fill[dgreen!36!white] (3.5,0) rectangle (4.0,1.4);
+  \fill[dgreen!30!white] (4.0,0) rectangle (4.5,1.4);
+  \fill[dgreen!25!white] (4.5,0) rectangle (5.0,1.4);
+  \fill[dgreen!19!white] (5.0,0) rectangle (5.5,1.4);
+  \fill[dgreen!13!white] (5.5,0) rectangle (6.0,1.4);
+  \fill[dgreen!8!white] (6.0,0) rectangle (6.5,1.4);
+  \fill[dgreen!2!white] (6.5,0) rectangle (7.0,1.4);
+  \fill[dred!2!white] (7.0,0) rectangle (7.5,1.4);
+  \fill[dred!8!white] (7.5,0) rectangle (8.0,1.4);
+  \fill[dred!13!white] (8.0,0) rectangle (8.5,1.4);
+  \fill[dred!19!white] (8.5,0) rectangle (9.0,1.4);
+  \fill[dred!24!white] (9.0,0) rectangle (9.5,1.4);
+  \fill[dred!30!white] (9.5,0) rectangle (10.0,1.4);
+  \fill[dred!36!white] (10.0,0) rectangle (10.5,1.4);
+  \fill[dred!41!white] (10.5,0) rectangle (11.0,1.4);
+  \fill[dred!47!white] (11.0,0) rectangle (11.5,1.4);
+  \fill[dred!52!white] (11.5,0) rectangle (12.0,1.4);
+  \fill[dred!58!white] (12.0,0) rectangle (12.5,1.4);
+  \fill[dred!63!white] (12.5,0) rectangle (13.0,1.4);
+  \fill[dred!69!white] (13.0,0) rectangle (13.5,1.4);
+  \fill[dred!75!white] (13.5,0) rectangle (14.0,1.4);
+  \draw[black!70, line width=1.4pt] (0,0) rectangle (14,1.4);
+  \draw[black!80, line width=2pt] (7,-0.2) -- (7,1.6);
+  \node[font=\Large\bfseries] at (7,2.2) {0 = 50\%};
+  \node[font=\Large\bfseries, dgreen] at (1.6,2.2) {livre};
+  \node[font=\Large\bfseries, dred] at (12.4,2.2) {ocupada};
+  \draw[dred, -{Stealth[length=3.4mm]}, line width=2.4pt] (7.3,-1.3) -- (10.3,-1.3);
+  \node[font=\large, dred, anchor=west] at (10.5,-1.3) {leitura ``ocupado'': $+0{,}85$};
+  \draw[dgreen, -{Stealth[length=3.4mm]}, line width=2.4pt] (6.7,-2.5) -- (3.7,-2.5);
+  \node[font=\large, dgreen, anchor=east] at (3.5,-2.5) {leitura ``livre'': $-0{,}4$};
+\end{tikzpicture}
+\end{document}

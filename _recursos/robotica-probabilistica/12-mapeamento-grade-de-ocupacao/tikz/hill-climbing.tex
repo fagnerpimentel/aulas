@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.1cm, minimum height=3.4cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] (n0) at (0.0,0) {\textbf{\textcolor{dblue}{1. Começa}}\\ mapa todo \textbf{livre}};
+\node[c, draw=dgreen] (n1) at (4.9,0) {\textbf{\textcolor{dgreen}{2. Testa}}\\ inverta o valor de uma célula $m_i$};
+\node[c, draw=dorange] (n2) at (9.8,0) {\textbf{\textcolor{dorange}{3. Decide}}\\ mantenha se a verossimilhança \textbf{aumenta}};
+\node[c, draw=dred] (n3) at (14.7,0) {\textbf{\textcolor{dred}{4. Repete}}\\ para todas as células até convergir};
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n0.east) -- (n1.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n1.east) -- (n2.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n2.east) -- (n3.west);
+\node[font=\Large, black!70, text width=16cm, align=center] at (7.35,-2.7) {escalada de colina: acha um máximo \textbf{local}};
+\end{tikzpicture}
+\end{document}

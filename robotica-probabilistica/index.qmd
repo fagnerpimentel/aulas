@@ -25,3 +25,5 @@ listing:
 - [Filtro de Kalman Estendido: localização com marco](pratica/exercicio-filtro-kalman-estendido.qmd)
 - [Filtros não paramétricos: histograma e partículas num corredor](pratica/exercicio-filtros-nao-parametricos.qmd)
 - [Localização de Markov e EKF com marcos: associação de dados e seus limites](pratica/exercicio-localizacao-markov-ekf.qmd)
+- [Localização por grade e Monte Carlo: sequestro e ambientes dinâmicos](pratica/exercicio-localizacao-grade-monte-carlo.qmd)
+- [Mapeamento por grade de ocupação: log-odds, pessoas, deriva da pose e fusão de sensores](pratica/exercicio-mapeamento-grade-ocupacao.qmd)

@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \def\bw{14}
+  \begin{scope}
+    \fill[dgreen!18] (0,0) -- (-\bw:5.0) arc(-\bw:\bw:5.0) -- cycle;
+    \fill[dred!55] (-\bw:5.0) arc(-\bw:\bw:5.0) -- (\bw:5.9) arc(\bw:-\bw:5.9) -- cycle;
+    \draw[black!70, line width=1.2pt] (0,0) -- (-\bw:5.9) arc(-\bw:\bw:5.9) -- cycle;
+    \fill[dblue] (0,0) circle (0.16);
+    \node[font=\Large\bfseries, dred] at (3.0,-3.0) {modelo inverso por célula};
+    \node[font=\large, text width=6.6cm, align=center] at (3.0,-3.9) {marca o \textbf{arco inteiro} como ocupado};
+  \end{scope}
+  \begin{scope}[shift={(9.4,0)}]
+    \fill[dgreen!18] (0,0) -- (-\bw:5.0) arc(-\bw:\bw:5.0) -- cycle;
+    \draw[black!70, line width=1.2pt] (0,0) -- (-\bw:5.9) arc(-\bw:\bw:5.9) -- cycle;
+    \fill[black!85] (5.35,0.45) rectangle +(0.45,0.45);
+    \fill[dblue] (0,0) circle (0.16);
+    \node[font=\Large\bfseries, dgreen] at (3.0,-3.0) {mapa MAP};
+    \node[font=\large, text width=6.6cm, align=center] at (3.0,-3.9) {\textbf{um} obstáculo no cone já explica a leitura};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

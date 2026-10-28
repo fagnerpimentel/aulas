@@ -1,0 +1,36 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{wall/.style={line width=3.2pt, black!85, line cap=round}, mov/.style={draw=dorange, fill=dorange!25, line width=1.4pt, rounded corners=2pt}}
+  % ---- planta do arquiteto ----
+  \node[font=\Large\bfseries, dblue] at (3.6,6.2) {planta do arquiteto};
+  \draw[wall] (0,0) rectangle (7.2,5.2);
+  \draw[wall] (3.8,0) -- (3.8,2.0); \draw[wall] (3.8,3.2) -- (3.8,5.2);
+  \node[font=\large, black!60] at (1.9,2.6) {sala};
+  \node[font=\large, black!60] at (5.5,2.6) {sala};
+  \node[font=\large, black!60] at (3.8,-0.6) {paredes e portas, nada mais};
+  % ---- seta ----
+  \draw[dtrans, line width=2.6pt, -{Stealth[length=3.6mm]}] (8.0,2.6) -- (9.4,2.6);
+  % ---- ambiente real ----
+  \begin{scope}[shift={(10.2,0)}]
+    \node[font=\Large\bfseries, dred] at (3.6,6.2) {ambiente real};
+    \draw[wall] (0,0) rectangle (7.2,5.2);
+    \draw[wall] (4.6,0) -- (4.6,1.6); \draw[wall] (4.6,2.8) -- (4.6,5.2);
+    \draw[wall, dred] (4.6,4.2) -- (6.2,4.2);
+    \draw[mov] (0.4,3.7) rectangle (2.4,4.7);
+    \draw[mov] (0.4,0.4) rectangle (1.2,2.0);
+    \draw[mov] (2.2,1.4) rectangle (3.6,2.4);
+    \foreach \x in {0.75,1.55} {\draw[mov] (\x+1.9,0.4) circle (0.28);}
+    \draw[mov] (5.2,0.4) rectangle (6.8,1.2);
+    \draw[mov] (5.3,2.3) rectangle (6.0,3.0);
+    \draw[mov] (6.2,2.3) rectangle (6.8,3.0);
+    \node[font=\large, dorange, anchor=east] at (-0.1,6.2) {};
+    \node[font=\large, black!60] at (3.6,-0.6) {móveis, divisória nova, caixas...};
+  \end{scope}
+  \node[font=\large\bfseries, dorange, text width=4cm, align=center] at (14.0,-1.6) {itens que a planta \textbf{não mostra}};
+  \node[font=\large\bfseries, dred, text width=4cm, align=center] at (17.2,6.9) {parede que \textbf{não existe} na planta};
+  \draw[dred, line width=1.4pt, -{Stealth[length=2.6mm]}] (16.9,6.5) -- (16.6,4.5);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[daxis, line width=1.2pt] (-7,0) -- (7.4,0) node[right, font=\large] {$l$};
+  \draw[daxis, line width=1.2pt] (0,-0.3) -- (0,5.0) node[above, font=\large] {$p$};
+  \draw[dblue, line width=2.6pt, domain=-6.5:6.5, samples=80, smooth, variable=\x] plot ({\x},{4.4/(1+exp(-\x))});
+  \draw[dguide] (-7,4.4) -- (7,4.4); \node[font=\large, anchor=east] at (-7.1,4.4) {1};
+  \draw[dguide] (-7,2.2) -- (0,2.2); \node[font=\large, anchor=east] at (-7.1,2.2) {0,5};
+  \node[font=\large, anchor=east] at (-7.1,0) {0};
+  \fill[dorange] (0,2.2) circle (0.16); \node[font=\large, dorange, anchor=west] at (0.3,1.7) {$l_0=0$ (prior 0,5)};
+  \node[font=\large, dgreen, anchor=north] at (5.4,3.6) {$l\to+\infty$: ocupada};
+  \node[font=\large, dred, anchor=south] at (-5.2,1.0) {$l\to-\infty$: livre};
+\end{tikzpicture}
+\end{document}

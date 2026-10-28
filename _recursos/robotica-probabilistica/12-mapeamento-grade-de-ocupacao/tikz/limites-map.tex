@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=3.9cm, minimum height=3.4cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Sem incerteza}}\\ devolve só a moda do posterior};
+\node[c, draw=dgreen] at (4.5,0.0) {\textbf{\textcolor{dgreen}{Em lote}}\\ precisa de todos os dados na memória};
+\node[c, draw=dorange] at (9.0,0.0) {\textbf{\textcolor{dorange}{Máximo local}}\\ na prática há poucos, ou nenhum};
+\node[c, draw=dred] at (13.5,0.0) {\textbf{\textcolor{dred}{Acelerar}}\\ comece pelo mapa padrão e atualize só as medições afetadas};
+\node[font=\Large, black!70, text width=17cm, align=center] at (6.75,-2.7) {sensibilidade por célula aproxima a incerteza, mas é otimista demais};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,71 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[font=\Large\bfseries, dblue, anchor=west] at (0,10.3) {1. Antes de medir: log-odds 0 em todas as células};
+  \draw[black!60, line width=0.9pt, fill=black!14] (1.9,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (2.7,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (3.5,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (4.3,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (5.1,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (5.9,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (6.700000000000001,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (7.5,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (8.3,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (9.1,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (9.9,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (10.7,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (11.500000000000002,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (12.3,9.05) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (13.100000000000001,8.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (13.9,9.05) {0};
+  \node[font=\Large\bfseries, dblue, anchor=west] at (0,7.3) {2. Leitura 1: o feixe vai da célula 1 até um obstáculo na 6};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (1.9,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (2.7,5.75) {-0,40};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (3.5,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (4.3,5.75) {-0,40};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (5.1,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (5.9,5.75) {-0,40};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (6.700000000000001,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (7.5,5.75) {-0,40};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (8.3,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (9.1,5.75) {-0,40};
+  \draw[black!60, line width=0.9pt, fill=dred!58] (9.9,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (10.7,5.75) {+0,85};
+  \draw[black!60, line width=0.9pt, fill=black!14] (11.500000000000002,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (12.3,5.75) {0};
+  \draw[black!60, line width=0.9pt, fill=black!14] (13.100000000000001,5.1) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (13.9,5.75) {0};
+  \draw[dblue, line width=2pt, <->, >={Stealth[length=2.4mm]}] (2.0,6.8) -- (10.7,6.8);
+  \node[font=\large, dblue, fill=white, inner sep=1pt] at (6.35,6.8) {feixe do robô};
+  \node[font=\Large\bfseries, dblue, anchor=west] at (0,3.6) {3. Leitura 2: o feixe vai da célula 3 ao mesmo obstáculo};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (1.9,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (2.7,2.05) {-0,40};
+  \node[font=\normalsize, black!70] at (2.7,1.1) {40\%};
+  \draw[black!60, line width=0.9pt, fill=dgreen!40] (3.5,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (4.3,2.05) {-0,40};
+  \node[font=\normalsize, black!70] at (4.3,1.1) {40\%};
+  \draw[black!60, line width=0.9pt, fill=dgreen!58] (5.1,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (5.9,2.05) {-0,80};
+  \node[font=\normalsize, black!70] at (5.9,1.1) {31\%};
+  \draw[black!60, line width=0.9pt, fill=dgreen!58] (6.700000000000001,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (7.5,2.05) {-0,80};
+  \node[font=\normalsize, black!70] at (7.5,1.1) {31\%};
+  \draw[black!60, line width=0.9pt, fill=dgreen!58] (8.3,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (9.1,2.05) {-0,80};
+  \node[font=\normalsize, black!70] at (9.1,1.1) {31\%};
+  \draw[black!60, line width=0.9pt, fill=dred!82] (9.9,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (10.7,2.05) {+1,70};
+  \node[font=\normalsize, black!70] at (10.7,1.1) {85\%};
+  \draw[black!60, line width=0.9pt, fill=black!14] (11.500000000000002,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (12.3,2.05) {0};
+  \node[font=\normalsize, black!70] at (12.3,1.1) {50\%};
+  \draw[black!60, line width=0.9pt, fill=black!14] (13.100000000000001,1.4) rectangle +(1.6,1.3);
+  \node[font=\large\bfseries] at (13.9,2.05) {0};
+  \node[font=\normalsize, black!70] at (13.9,1.1) {50\%};
+  \draw[dblue, line width=2pt, <->, >={Stealth[length=2.4mm]}] (5.2,3.1) -- (10.7,3.1);
+  \node[font=\large, dblue, fill=white, inner sep=1pt] at (7.95,3.1) {feixe do robô};
+  \node[font=\large, black!70, anchor=west] at (1.9,-1.3) {verde = tende a livre; vermelho = tende a ocupada; cinza = sem informação};
+\end{tikzpicture}
+\end{document}

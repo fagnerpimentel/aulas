@@ -1,0 +1,550 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Mapeamento por Grade de Ocupação"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/12-mapeamento-grade-de-ocupacao
+---
+
+# Mapeamento por Grade de Ocupação
+
+::: {.esquerda}
+Capítulo 9 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Como um robô **aprende o mapa** quando já sabe onde está?
+- Como cada célula do mapa guarda um **log-odds** (razão de chances em log), um valor que soma as evidências
+- Como combinar **vários sensores**
+- Como **aprender** o modelo do sensor
+- Por que olhar o **conjunto** das medições melhora o mapa (**MAP**)
+
+# Introdução
+
+Aprender o **mapa** quando a **pose** do robô é conhecida.
+
+## Por que aprender mapas? {.smaller}
+
+- Nas aulas de localização, o robô **recebia o mapa pronto**
+- Nem sempre isso é possível:
+  - os prédios raramente seguem a **planta** do arquiteto
+  - a planta não mostra **móveis** e outros objetos
+- Aprender o mapa **reduz o esforço de instalação** e deixa o robô **se adaptar a mudanças**
+- **Mapear é uma competência central** de robôs autônomos
+
+![](images/planta-vs-realidade.svg){fig-align="center" width="90%"}
+
+## Por que mapear é difícil {.smaller}
+
+- **Muitas possibilidades**: o número de mapas possíveis é gigantesco — o filtro de Bayes simples não dá conta
+- **"Ovo e galinha"**: para se localizar o robô precisa do mapa, e para mapear precisa da pose — é o problema **SLAM** (localização e mapeamento simultâneos)
+
+![](images/galinha-e-ovo.svg){fig-align="center" width="65%"}
+
+## Fatores que aumentam a dificuldade {.smaller}
+
+![](images/dificuldades-mapeamento.svg){fig-align="center" width="100%"}
+
+## O Problema dos Ciclos {.smaller}
+
+- Ir e voltar por um **corredor** permite corrigir o erro de odometria aos poucos
+- Em um **ciclo**, o robô volta por **outro caminho** — ao fechar o ciclo, o erro acumulado pode ser **enorme**
+
+![](images/ciclo-odometria.svg){fig-align="center" width="60%"}
+
+## Visão Geral {.smaller}
+
+- Nesta aula, o robô **já sabe exatamente onde está**: a pose chega pronta (da odometria ou de um SLAM)
+- Falta descobrir só o **mapa**, e é isso que a grade de ocupação faz
+- Na prática, isso vem **depois do SLAM**: ele estima a trajetória, e a grade usa essa trajetória para montar um mapa bom para **navegar**
+
+![](images/visao-geral.svg){fig-align="center" width="85%"}
+
+# A Ideia Central
+
+Cada célula do mapa guarda um **log-odds**: um valor que soma as evidências.
+
+## O Mapa como Grade {.smaller}
+
+::: columns
+
+::: {.column width="48%"}
+- O espaço é dividido em **células**
+- Cada célula é **ocupada** (1) ou **livre** (0)
+- Não sabemos o valor: guardamos a **probabilidade** de a célula estar ocupada
+- Células ainda não observadas ficam com a **probabilidade a priori** $p(m_i)$ (**cinza** nas figuras)
+- Quase sempre o mapa é **2D**: uma **fatia** do mundo 3D
+:::
+
+::: {.column width="52%"}
+![](images/grade-celulas.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## Um Log-Odds por Célula {.smaller}
+
+- Cada célula começa com log-odds **0** (50%: não sei)
+- Uma leitura que sugere **ocupado** faz o log-odds **subir**
+- Uma leitura que sugere **livre** faz o log-odds **descer**
+- As evidências se **somam**: mais leituras, mais certeza
+
+![](images/escala-logodds.svg){fig-align="center" width="70%"}
+
+## Exemplo: o Corredor Passo a Passo {.smaller}
+
+::: columns
+
+::: {.column width="38%"}
+- Um **corredor** de 8 células, visto em **uma dimensão**
+- Inicialmente todas valem **0** (sem informação)
+- Cada leitura **soma** um valor às células que o feixe atravessa:
+  - células **antes** do obstáculo: $-0{,}4$ (livre)
+  - célula do **obstáculo**: $+0{,}85$ (ocupada)
+  - células **depois**: não mudam
+:::
+
+::: {.column width="62%"}
+![](images/corredor-1d.svg){fig-align="center" width="100%"}
+:::
+
+:::
+
+## O que Aprendemos com o Exemplo {.smaller}
+
+- A célula 6 foi vista como **ocupada** duas vezes: log-odds $+1{,}70$ ($85\%$)
+- As células vistas **livres** duas vezes ficaram mais **negativas**
+- As células **atrás** do obstáculo continuam em $0$: **sem informação**
+- Cada nova leitura só **soma ou subtrai** — simples de calcular
+
+## Por que Log-Odds? {.smaller}
+
+- O **log-odds** de uma célula com probabilidade $p$ é:
+
+$$
+l = \log \frac{p}{1 - p}
+$$
+
+- **Vantagens**: somar é mais simples que multiplicar probabilidades, e evita números muito perto de $0$ ou $1$
+
+| Probabilidade $p$ | $0{,}1$ | $0{,}2$ | $0{,}3$ | $0{,}4$ | $0{,}5$ | $0{,}6$ | $0{,}7$ | $0{,}8$ | $0{,}9$ |
+|---|---|---|---|---|---|---|---|---|---|
+| Log-odds $l$ | $-2{,}20$ | $-1{,}39$ | $-0{,}85$ | $-0{,}41$ | $0$ | $+0{,}41$ | $+0{,}85$ | $+1{,}39$ | $+2{,}20$ |
+
+## Probabilidade × Log-Odds {.smaller}
+
+![](images/sigmoide-logodds.svg){fig-align="center" width="70%"}
+
+# Como o Robô Atualiza o Mapa
+
+Uma medição por vez, **célula por célula**.
+
+## O Ciclo de Atualização {.smaller}
+
+![](images/ciclo-atualizacao-robo.svg){fig-align="center" width="100%"}
+
+## O Algoritmo {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- É o ciclo anterior em **pseudocódigo**
+- Só as células no **campo perceptivo** de $z_t$ são atualizadas
+- Linha 4: soma a evidência do **modelo inverso** e subtrai o prior $l_0$ (o log-odds inicial)
+- Linha 6: as demais **não mudam**
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Mapeamento por grade de ocupação}\,\bigl(\{l_{t-1,i}\},\ x_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad \textbf{para toda célula } m_i \textbf{ faça} \\
+\text{3:}\quad\quad \textbf{se } m_i \text{ está no campo perceptivo de } z_t \textbf{ então} \\
+\text{4:}\quad\quad\quad l_{t,i} = l_{t-1,i} + \mathit{inverse\_sensor\_model}(m_i,\,x_t,\,z_t) - l_0 \\
+\text{5:}\quad\quad \textbf{senão} \\
+\text{6:}\quad\quad\quad l_{t,i} = l_{t-1,i} \\
+\text{7:}\quad\quad \textbf{fim} \\
+\text{8:}\quad \textbf{fim} \\
+\text{9:}\quad \textbf{retornar } \{l_{t,i}\} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## O Modelo Inverso do Sensor {.smaller}
+
+- Ele responde: "**dada esta leitura, o que ela sugere sobre esta célula?**"
+- É "inverso" porque vai do **efeito** (a medição) à **causa** (a ocupação)
+- Nas aulas de localização, o modelo de medição ia da **causa** ao **efeito**
+
+![](images/direto-vs-inverso.svg){fig-align="center" width="75%"}
+
+## O Cone do Sensor {.smaller}
+
+![](images/cone-sensor.svg){fig-align="center" width="85%"}
+
+## Sonar × Laser {.smaller}
+
+![](images/sonar-vs-laser.svg){fig-align="center" width="95%"}
+
+## Regras do Modelo Inverso Simples {.smaller}
+
+| Onde está a célula no feixe | O que o modelo devolve | Significa |
+|---|---|---|
+| **Antes** da distância medida | $l_{free}$ (negativo) | provavelmente **livre** |
+| **Na** distância medida ($\pm\alpha/2$) | $l_{occ}$ (positivo) | provavelmente **ocupada** |
+| **Depois** do obstáculo, ou **fora** do feixe | $l_0$ (o prior) | **sem informação** |
+
+- $\alpha$ é a **espessura** dos obstáculos e $\beta$ a **abertura** do feixe
+
+## Exemplo: uma Célula ao Longo do Tempo {.smaller}
+
+- Parâmetros: $l_0 = 0$, $l_{occ} = 0{,}85$ ($p \approx 0{,}70$) e $l_{free} = -0{,}4$ ($p \approx 0{,}40$)
+- A cada leitura que a cobre, o log-odds **soma** a evidência
+
+![](images/celula-no-tempo.svg){fig-align="center" width="62%"}
+
+## Resultado: um Mapa Quase Binário {.smaller}
+
+- O tom de cinza de cada célula é o **posterior de ocupação**: quanto mais escura, mais provável estar ocupada
+- Os mapas são probabilísticos, mas **convergem rápido** para perto de $1$ e de $0$
+- Comparado à planta do prédio, o mapa mostra os **obstáculos reais**, à altura do laser
+
+![](images/mapa-exemplo.svg){fig-align="center" width="62%"}
+
+## Filtrando Pessoas {.smaller}
+
+- Pessoas passando deixam **pontos espalhados** nos dados brutos
+- A grade **acumula evidência**: o espaço livre atravessado por muitas leituras vence os pontos isolados
+- Por isso o mapa serve **muito melhor à navegação** do que o conjunto de pontos
+
+![](images/pontos-vs-grade.svg){fig-align="center" width="90%"}
+
+## O Espaço do Próprio Robô {.smaller}
+
+- O espaço **ocupado pelo robô** em $x_t$ é obviamente **navegável**
+- O modelo inverso pode devolver um **número muito negativo** para as células sob o robô
+- Vale **incorporar o volume do robô** ao mapear, sobretudo se há pessoas no ambiente
+
+# Fusão de Múltiplos Sensores
+
+Sensores diferentes enxergam **obstáculos diferentes**.
+
+## Um Único Filtro de Bayes? {.smaller}
+
+- **Ideia**: rodar o algoritmo com um modelo inverso **para cada** sensor
+- **Problema**: se o sensor A vê um obstáculo que o sensor B **não vê**, eles **discordam**
+- O mapa final passa a depender de **quantas vezes** cada sensor mede — indesejável
+
+## Um Mapa por Sensor {.smaller}
+
+- **Melhor ideia**: um **mapa para cada sensor**, combinados pelo valor **mais conservador**:
+
+$$
+m_i = \max_k\, m_i^k
+$$
+
+- Se **qualquer** sensor vê a célula ocupada, o mapa combinado a marca como ocupada
+- Tem **viés** para ocupado, mas é **mais seguro** para navegar
+
+## O Máximo dos Mapas {.smaller}
+
+![](images/fusao-sensores.svg){fig-align="center" width="85%"}
+
+# Aprendendo Modelos Inversos
+
+E se não soubermos o modelo inverso?
+
+## O Truque: Simular e Aprender {.smaller}
+
+- Sabemos descrever o sensor da **causa ao efeito**: dado o mapa e a pose, **simulamos** a leitura
+- Podemos simular **muitas** situações e **ensinar** uma função a fazer o caminho de volta:
+  - entrada: **pose** e **medição**
+  - saída: **probabilidade** de a célula estar ocupada
+- O aprendizado pode ser um polinômio, uma regressão logística ou uma **rede neural**
+- O **modelo direto** é **estimado de dados do sensor**; a simulação só o usa para gerar exemplos — o inverso aprendido é **tão bom quanto ele**
+- O treino usa **mapas de exemplo** (até simulados) e é feito **antes**; depois, o modelo aprendido é usado em **ambientes novos**, **sem mapa**
+- O aprendizado é **opcional**: o algoritmo já funciona com $l_{occ}$ e $l_{free}$ **ajustados à mão**, sem mapa prévio
+
+<!-- SLIDES OCULTOS (34 a 46: aprendizado de modelos inversos e mapeamento MAP): para reativar, apague esta linha e a linha "FIM DOS SLIDES OCULTOS (34 a 46)"
+
+## Gerando os Exemplos {.smaller}
+
+![](images/amostragem-modelo.svg){fig-align="center" width="95%"}
+
+## Exemplo Numérico: o Cenário {.smaller}
+
+- **Mundo** em 1D com 9 células; cada célula é ocupada com probabilidade $0{,}2$ (o **prior**)
+- **Sensor**: lê a distância até a **primeira** célula ocupada, com **ruído** (desvio de $0{,}4$ célula)
+- **Treino**: sorteamos **muitos** mapas e anotamos, para cada leitura $z$ e cada célula $r$, se a célula estava ocupada
+- Alguns exemplos de treino:
+
+| Mapa sorteado (█ = ocupada) | Leitura $z$ | Célula $r$ | Ocupada? |
+|---|---|---|---|
+| `· · █ · · · █ · ·` | $3{,}0$ | $2$ | **não** |
+| `· · · · █ · · · ·` | $4{,}8$ | $5$ | **sim** |
+| `· · █ · · · · · ·` | $3{,}0$ | $5$ | **não** |
+| `· · · · · █ █ · ·` | $6{,}1$ | $5$ | **não** |
+| `· · █ · · · █ · █` | $3{,}4$ | $6$ | **não** |
+
+## Exemplo Numérico: o que a Função Aprende {.smaller}
+
+![](images/treino-1d.svg){fig-align="center" width="85%"}
+
+## O que o Aprendizado Deve Respeitar {.smaller}
+
+![](images/invariancias.svg){fig-align="center" width="100%"}
+
+## Exemplo: Rede Neural com Sonares {.smaller}
+
+- Uma **rede neural** aprende o modelo inverso de sonares em anel
+- Ela distingue **espaço livre** de **ocupado**; atrás dos obstáculos fica o **prior**
+- Uma **única** leitura errada **não basta** para prever um obstáculo
+- **Dados reais** costumam ser melhores que simulados — é um tema **pouco explorado**
+
+# Mapeamento MAP
+
+Olhar o **conjunto** das medições, e não célula por célula.
+
+## O Problema de Tratar Células Isoladas {.smaller}
+
+- O modelo inverso marca o **arco inteiro** à distância medida como ocupado
+- Duas leituras podem **discordar**; o algoritmo padrão "resolve" **somando** evidências — o resultado depende de **quantas** leituras de cada tipo houve
+- Mas existem mapas que explicam tudo **sem conflito**: basta **um obstáculo** em algum ponto do cone
+- Células vizinhas **não são independentes** — e o algoritmo padrão ignora isso
+
+## Arco Inteiro × Um Obstáculo {.smaller}
+
+![](images/arco-vs-ponto.svg){fig-align="center" width="75%"}
+
+## A Ideia do MAP {.smaller}
+
+- **MAP** = **m**áximo **a** **p**osteriori: procurar **o mapa mais provável** dadas **todas** as medições
+- Em vez do modelo inverso, usa o modelo de medição **convencional** (direto)
+- Como encontrar? **Escalada de colina**: começa com tudo livre e **inverte** uma célula por vez, se isso melhora o ajuste aos dados
+- É preciso que o prior de ocupação **não esteja perto de 1**, ou o mapa pode sair todo ocupado
+
+## Escalada de Colina {.smaller}
+
+![](images/hill-climbing.svg){fig-align="center" width="95%"}
+
+## Exemplo: a Porta Aberta {.smaller}
+
+- Um robô passa por uma **porta aberta**: algumas leituras entram pela porta, outras batem no batente
+- O algoritmo padrão **não** captura a abertura; o MAP modela a porta corretamente
+
+![](images/porta-aberta.svg){fig-align="center" width="95%"}
+
+## Limitações do MAP {.smaller}
+
+![](images/limites-map.svg){fig-align="center" width="100%"}
+
+## Comparando os Dois Algoritmos {.smaller}
+
+| | **Grade padrão** | **MAP** |
+|---|---|---|
+| Estima | **cada célula** separadamente | o **mapa inteiro** mais provável |
+| Modelo do sensor | **inverso** | **convencional** (direto) |
+| Dependências entre células | **ignoradas** | **mantidas** |
+| Execução | **incremental** | em **lote** |
+| Incerteza | probabilidade por célula | só aproximada |
+
+FIM DOS SLIDES OCULTOS (34 a 46) -->
+
+<!-- SLIDES OCULTOS (detalhes matemáticos do capítulo): para reativar, apague esta linha e a linha "FIM DOS SLIDES OCULTOS"
+
+## O Posterior que Queremos {.smaller}
+
+- O padrão-ouro de qualquer algoritmo de grade de ocupação é o **posterior sobre mapas**:
+
+$$
+p(m \mid z_{1:t},\, x_{1:t})
+$$
+
+- $z_{1:t}$: todas as medições;
+- $x_{1:t}$: a **trajetória** (todas as poses)
+- Os **controles** $u_{1:t}$ não aparecem — a trajetória já é conhecida
+- **Problema**: um mapa tem dezenas de milhares de células, logo há mais de $2^{10\,000}$ mapas — calcular o posterior de **cada um** é **inviável**
+
+## Decompondo o Problema {.smaller}
+
+- A abordagem padrão **quebra** o problema em um por célula:
+
+$$
+p(m_i \mid z_{1:t},\, x_{1:t})
+$$
+
+- Cada um é um problema **binário de estado estático** — já resolvido pelo **filtro de Bayes**
+- O posterior sobre mapas é **aproximado** pelo produto dos marginais:
+
+$$
+p(m \mid z_{1:t},\, x_{1:t}) \;=\; \prod_i p(m_i \mid z_{1:t},\, x_{1:t})
+$$
+
+- **Custo**: perdemos as **dependências entre células vizinhas** — voltaremos a isso no mapeamento MAP
+
+## Um Modelo Inverso Simples para Telêmetros {.smaller}
+
+::: columns
+::: {.column width="38%"}
+- Calcula o **índice do feixe** $k$ e a **distância** $r$ ao centro da célula
+- Fora do feixe, longe demais, ou **bem atrás** do obstáculo: devolve $l_0$ (**sem informação**)
+- Perto da distância medida (dentro de $\pm\alpha/2$): $l_{occ} > l_0$
+- Mais perto que a medição: $l_{free} < l_0$
+- $\alpha$: espessura dos obstáculos; $\beta$: abertura do feixe
+:::
+::: {.column width="62%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Modelo inverso (telêmetro)}\,\bigl(i,\ x_t,\ z_t\bigr) \\
+\hline
+\text{2:}\quad (x_i,\,y_i) = \text{centro da célula } m_i \\
+\text{3:}\quad r = \sqrt{(x_i - x)^2 + (y_i - y)^2} \\
+\text{4:}\quad \phi = \mathrm{atan2}(y_i - y,\ x_i - x) - \theta \\
+\text{5:}\quad k = \arg\min_j |\phi - \theta_{j,\mathrm{sens}}| \\
+\text{6:}\quad \textbf{se } r > \min(z_{\max},\, z_t^k + \alpha/2) \textbf{ ou } |\phi - \theta_{k,\mathrm{sens}}| > \beta/2 \\
+\quad\quad\ \ \textbf{então retornar } l_0 \\
+\text{7:}\quad \textbf{se } z_t^k < z_{\max} \textbf{ e } |r - z_t^k| < \alpha/2 \textbf{ então retornar } l_{occ} \\
+\text{8:}\quad \textbf{se } r \le z_t^k \textbf{ então retornar } l_{free} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Invertendo o Modelo de Medição {.smaller}
+
+- O algoritmo precisa do modelo inverso **marginalizado** $p(m_i \mid x, z)$; a tabela anterior era uma solução *ad hoc*
+- Com a regra de Bayes, supondo $p(m \mid x) = p(m)$ (a pose não diz nada sobre o mapa):
+
+$$
+p(m \mid x,\, z) = \eta\ p(z \mid x,\, m)\ p(m)
+$$
+
+- Para a célula $i$, escolhemos o marginal:
+
+$$
+p(m_i \mid x,\, z) = \eta \int_{m\,:\,m(i) = m_i} p(z \mid x,\, m)\ p(m)\ dm
+$$
+
+- A integral percorre **todos os mapas** com $m(i)=m_i$: **não pode ser calculada** — vamos aproximá-la
+
+## Aproveitando Invariâncias {.smaller}
+
+![](images/invariancias.svg){fig-align="center" width="100%"}
+
+- Para usar coordenadas **relativas**, leva-se a célula ao referencial do robô (translação e rotação por $-\theta$):
+
+$$
+\begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix}
+\begin{pmatrix} x_{m_i} - x \\ y_{m_i} - y \end{pmatrix}
+$$
+
+## A Função de Erro {.smaller}
+
+- O aproximador $f(\text{entrada}, W)$, com parâmetros $W$, devolve um valor em $[0, 1]$: a **probabilidade de ocupação**
+- Maximizamos a **log-verossimilhança** dos dados de treinamento; como $m_i^{[k]}\in\{0,1\}$:
+
+$$
+p\bigl(m_i^{[k]} \mid \text{entrada}^{[k]},\, W\bigr) = f(\cdot)^{m_i^{[k]}}\,\bigl(1 - f(\cdot)\bigr)^{1 - m_i^{[k]}}
+$$
+
+- O erro a **minimizar** (entropia cruzada) cabe em qualquer método de **descida de gradiente**, como a retropropagação:
+
+$$
+J(W) = -\sum_k \Bigl[\, m_i^{[k]} \log f(\cdot) + \bigl(1 - m_i^{[k]}\bigr) \log\bigl(1 - f(\cdot)\bigr) \Bigr]
+$$
+
+## A Moda do Posterior {.smaller}
+
+- Em vez do posterior completo, calcula-se a **moda** (o mapa mais provável):
+
+$$
+m^* = \arg\max_m \log p(m \mid z_{1:t},\, x_{1:t})
+$$
+
+- O posterior é a verossimilhança vezes o prior:
+
+$$
+\log p(m \mid z_{1:t},\, x_{1:t}) = \log p(z_{1:t} \mid x_{1:t},\, m) + \log p(m)
+$$
+
+- A verossimilhança é uma **soma** sobre as medições, e o prior vira $\sum_i m_i\, l_0$ mais um termo **independente do mapa**:
+
+$$
+m^* = \arg\max_m \ \sum_t \log p(z_t \mid x_t,\, m) \;+\; \sum_i m_i\, l_0
+$$
+
+## O Algoritmo MAP {.smaller}
+
+::: columns
+::: {.column width="34%"}
+- Começa com o mapa **todo livre** (linha 2)
+- **Inverte** o valor de uma célula quando isso **aumenta** a verossimilhança dos dados (linhas 4–6)
+- Usa o **modelo de medição convencional**, e não o inverso
+- Exige que o prior de ocupação **não esteja perto de 1** — senão pode devolver um mapa todo ocupado
+:::
+::: {.column width="66%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{MAP: mapeamento por grade}\,\bigl(x_{1:t},\ z_{1:t}\bigr) \\
+\hline
+\text{2:}\quad m = \{0\} \\
+\text{3:}\quad \textbf{repita até convergir} \\
+\text{4:}\quad\quad \textbf{para toda célula } m_i \textbf{ faça} \\
+\text{5:}\quad\quad\quad m_i = \arg\max_{k=0,1}\ \Bigl[\,k\,l_0 \\
+\quad\quad\quad\quad\quad\quad\quad +\, \sum_t \log \mathit{measurement\_model}\bigl( \\
+\quad\quad\quad\quad\quad\quad\quad\quad\quad z_t,\,x_t,\,m \text{ com } m_i = k\bigr)\Bigr] \\
+\text{6:}\quad\quad \textbf{fim} \\
+\text{7:}\quad \textbf{fim} \\
+\text{8:}\quad \textbf{retornar } m \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Incerteza Residual {.smaller}
+
+- O MAP devolve **uma** resposta, sem noção de incerteza
+- Uma **análise de sensibilidade** por célula aproxima a incerteza: quanto **inverter** a célula reduz a log-verossimilhança
+- O resultado lembra o mapa de ocupação comum: máxima incerteza **atrás dos obstáculos**
+- A aproximação é **otimista demais**: inspeciona a moda só **localmente**
+
+FIM DOS SLIDES OCULTOS -->
+
+# Resumo do Capítulo
+
+## Mapeamento por Grade de Ocupação {.smaller}
+
+- Cada célula guarda um **log-odds** que **sobe** com evidência de ocupado e **desce** com evidência de livre
+- O **modelo inverso** diz, para cada leitura, o que ela sugere sobre cada célula
+- Com **vários sensores**, é mais seguro manter **um mapa por sensor** e tomar o **máximo**
+- O modelo inverso pode ser **aprendido** simulando o sensor
+<!-- - O **MAP** procura o mapa que melhor explica **todas** as medições, mantendo as dependências — porém em **lote** e **sem incerteza** -->
+- Tudo isso exige a **pose exata**: o problema geral é o **SLAM**, tema da próxima aula
+
+## Para pensar {.smaller}
+
+- Por que somar o log-odds de uma célula a cada leitura faz sentido?
+- O que acontece com uma célula **atrás** de um obstáculo?
+- Por que um mapa **por sensor**, com o **máximo**, é mais seguro que um único filtro?
+<!-- - Em que situação o **MAP** produz um mapa melhor que o algoritmo padrão, e a que custo? -->

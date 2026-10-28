@@ -1,0 +1,51 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[font=\Large\bfseries, dblue] at (4.2,3.7) {Sonar};
+  \fill[dgreen!22] (0,0) -- (-14.0:5.32) arc(-14.0:14.0:5.32) -- cycle;
+  \fill[dred!55] (-14.0:5.32) arc(-14.0:14.0:5.32) -- (14.0:6.42) arc(14.0:-14.0:6.42) -- cycle;
+  \fill[black!12] (-14.0:6.42) arc(-14.0:14.0:6.42) -- (14.0:7.6) arc(14.0:-14.0:7.6) -- cycle;
+  \draw[black!60, line width=1pt] (0,0) -- (-14.0:7.6) arc(-14.0:14.0:7.6) -- cycle;
+  \fill[black!85] (5.75,0.95) rectangle +(0.5,0.5);
+  \fill[dblue] (0,0) circle (0.17);
+  \begin{scope}[shift={(11.0,0)}]
+  \node[font=\Large\bfseries, dblue] at (4.2,3.7) {Laser};
+  \fill[black!85] (5.75,0.95) rectangle +(0.5,0.5);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.374,-1.839);
+  \fill[black!30] (7.374,-1.839) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.473,-1.385);
+  \fill[black!30] (7.473,-1.385) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.543,-0.926);
+  \fill[black!30] (7.543,-0.926) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.586,-0.464);
+  \fill[black!30] (7.586,-0.464) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.6,0.0);
+  \fill[black!30] (7.6,0.0) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.586,0.464);
+  \fill[black!30] (7.586,0.464) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (7.543,0.926);
+  \fill[black!30] (7.543,0.926) circle (0.07);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (5.75,1.066);
+  \fill[dred!70] (5.75,1.066) circle (0.13);
+  \draw[dgreen, line width=1.2pt] (0,0) -- (5.75,1.434);
+  \fill[dred!70] (5.75,1.434) circle (0.13);
+  \fill[dblue] (0,0) circle (0.17);
+  \end{scope}
+  \node[font=\large, text width=7.8cm, align=left, anchor=north west] at (-0.4,-2.2) {\textbf{feixe largo} ($\approx 15^\circ$)\\ o obstáculo pode estar em \textbf{qualquer ponto do arco}\\ marca o \textbf{arco inteiro} como ocupado\\ leitura \textbf{menos confiável}};
+  \node[font=\large, text width=7.8cm, align=left, anchor=north west] at (10.6,-2.2) {\textbf{feixe muito estreito}\\ \textbf{muitos feixes} por varredura\\ o obstáculo aparece \textbf{onde está}\\ leitura \textbf{mais precisa}};
+  \fill[dgreen!22] (1.0,-6.1) rectangle +(0.35,0.35);
+  \draw[black!45, line width=0.5pt] (1.0,-6.1) rectangle +(0.35,0.35);
+  \node[font=\normalsize, anchor=west] at (1.5,-5.92) {livre};
+  \fill[dred!55] (5.6,-6.1) rectangle +(0.35,0.35);
+  \draw[black!45, line width=0.5pt] (5.6,-6.1) rectangle +(0.35,0.35);
+  \node[font=\normalsize, anchor=west] at (6.1,-5.92) {ocupada};
+  \fill[black!12] (10.2,-6.1) rectangle +(0.35,0.35);
+  \draw[black!45, line width=0.5pt] (10.2,-6.1) rectangle +(0.35,0.35);
+  \node[font=\normalsize, anchor=west] at (10.7,-5.92) {sem informação};
+  \fill[black!85] (14.799999999999999,-6.1) rectangle +(0.35,0.35);
+  \draw[black!45, line width=0.5pt] (14.799999999999999,-6.1) rectangle +(0.35,0.35);
+  \node[font=\normalsize, anchor=west] at (15.3,-5.92) {obstáculo real};
+\end{tikzpicture}
+\end{document}
