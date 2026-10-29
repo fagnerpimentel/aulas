@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[dbox, draw=dblue, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b0) at (0.00,0) {mapa\\\texttt{/map}};
+\node[dbox, draw=dgreen, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b1) at (3.55,0) {binarizar};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b0.east) -- (b1.west);
+\node[dbox, draw=dgreen, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b2) at (7.10,0) {inflar};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b1.east) -- (b2.west);
+\node[dbox, draw=dorange, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b3) at (10.65,0) {wavefront};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b2.east) -- (b3.west);
+\node[dbox, draw=dorange, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b4) at (14.20,0) {caminho};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b3.east) -- (b4.west);
+\node[dbox, draw=dblue, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b5) at (17.75,0) {mensagem\\\texttt{Path}};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b4.east) -- (b5.west);
+\node[dbox, draw=dred, line width=1.5pt, text width=2.7cm, minimum height=2.6cm, font=\Large] (b6) at (21.30,0) {controlador};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b5.east) -- (b6.west);
+\end{tikzpicture}
+\end{document}

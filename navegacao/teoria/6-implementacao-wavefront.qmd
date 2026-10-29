@@ -1,0 +1,609 @@
+---
+title: "Navegação"
+subtitle: "Implementação do Wavefront (NF1)"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/6-implementacao-wavefront
+format:
+  revealjs:
+    include-in-header:
+      text: |
+        <style>
+        .reveal div.sourceCode pre code { font-size: 1.3em; line-height: 1.3; max-height: none; }
+        </style>
+---
+
+# Implementação do Wavefront
+
+::: {.esquerda}
+Aula de implementação do algoritmo **wavefront** (*grassfire*, NF1), com base no capítulo 4 de **Choset et al.**, [*Principles of Robot Motion*](https://mitpress.mit.edu/9780262033275/principles-of-robot-motion/) (MIT Press, 2005).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="60%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **O conceito**: entrada, saída, vizinhança e a ideia da onda
+- **O algoritmo passo a passo**: a tabela de distâncias e a fila
+- **Do campo ao caminho**: descer o gradiente, casos de borda e uma demonstração interativa
+
+# Do Conceito ao Algoritmo
+
+## Recapitulando o grassfire {.smaller}
+
+- Na aula anterior vimos que, sobre uma decomposição em células, o **grassfire** propaga a **distância ao objetivo** célula a célula
+- O robô só precisa **descer o gradiente**: ir sempre para a vizinha de **menor distância**
+- ***Grassfire***, ***wavefront*** e ***brushfire*** são nomes do **mesmo algoritmo**: **NF1**
+    - **NF1** (*Navigation Function 1*) é a **função de navegação** (de Latombe) que a onda produz: o **número de passos** de cada célula até o objetivo
+
+![](images/descida-gradiente.svg){fig-align="center" width="100%"}
+
+## Entrada e saída {.smaller}
+
+::: columns
+::: {.column width="45%"}
+- **Entrada:** uma **grade** em que cada célula é **livre** ou **obstáculo**, mais as posições do **objetivo** G e do **início** S
+- A grade descreve o **mapa**; o **campo de distâncias** é uma tabela **separada**, criada pelo algoritmo
+- **Saída 1:** o **campo de distâncias**: para cada célula livre, quantos passos faltam até G
+- **Saída 2:** o **caminho** de S até G, obtido descendo esse campo
+- Células que **nenhuma onda alcança** ficam com distância **infinita**
+:::
+::: {.column width="55%"}
+![](images/grade-entrada.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Quem é vizinho de quem {.smaller}
+
+::: columns
+::: {.column width="45%"}
+- **4 vizinhos:** acima, abaixo, à esquerda e à direita; todo passo custa **1**
+- **8 vizinhos:** inclui as diagonais, que custam **$\sqrt{2}$**
+- Começamos com **4 vizinhos**, que é o caso mais simples: todos os passos custam o mesmo
+- A escolha muda **a forma do caminho**; aqui usamos **4 vizinhos**
+:::
+::: {.column width="55%"}
+![](images/vizinhancas.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## A ideia da onda {.smaller}
+
+- Coloque **0** no objetivo. Suas vizinhas livres recebem **1**; as vizinhas dessas, **2**; e assim por diante
+- A cada rodada, a **fronteira** da onda avança **um passo** para as células ainda não visitadas
+- Como todas as células de uma mesma rodada têm a **mesma distância**, a primeira vez que uma célula é alcançada já dá a **menor distância**
+- Obstáculos **bloqueiam** a onda: ela os contorna, como a água ao redor de uma pedra
+
+![](images/wavefront-etapas.svg){fig-align="center" width="100%"}
+
+## Por que uma fila {.smaller}
+
+- A fronteira da onda é uma **fila** (primeiro a entrar, primeiro a sair): as células de distância $d$ saem **antes** das de distância $d+1$
+- Isso é uma **busca em largura** (*BFS*) que começa no **objetivo** e visita **toda** a grade
+- Com uma **pilha** no lugar da fila, a busca iria fundo por um corredor e as distâncias **não** seriam as mínimas
+- Cada célula entra na fila **uma única vez**: o custo é **linear** no número de células
+
+## A fila em ação {.smaller}
+
+![](images/fila-em-acao.svg){fig-align="center" width="95%"}
+
+# Implementação Passo a Passo
+
+## O algoritmo em passos {.smaller}
+
+1. Crie uma **tabela de distâncias** do tamanho da grade e escreva **infinito** em todas as células (infinito = "ainda não visitada")
+2. Escreva **0** na célula do objetivo e **coloque o objetivo na fila**
+3. **Enquanto a fila não estiver vazia:**
+   1. **retire** a primeira célula da fila
+   2. para cada **vizinha** dentro da grade, **livre** e ainda **não visitada**: escreva a **distância da atual + 1** e **coloque-a na fila**
+4. **Devolva** a tabela de distâncias
+
+## Executando à mão {.smaller}
+
+::: columns
+::: {.column width="70%" style="font-size: 0.82em;"}
+As primeiras iterações da fila, para a grade do exemplo (objetivo em `(3,1)`):
+
+| Iteração | Sai da fila | Recebem distância e entram | Tamanho da fila |
+|---|---|---|---|
+| 1 | `(3,1)` | `(2,1)=1`, `(4,1)=1`, `(3,0)=1`, `(3,2)=1` | 4 |
+| 2 | `(2,1)` | `(1,1)=2`, `(2,0)=2`, `(2,2)=2` | 6 |
+| 3 | `(4,1)` | `(5,1)=2`, `(4,0)=2`, `(4,2)=2` | 8 |
+| 4 | `(3,0)` | --- | 7 |
+
+- A ordem das vizinhas é: **cima, baixo, esquerda, direita**
+:::
+::: {.column width="30%"}
+![](images/executando-a-mao-coluna.svg){fig-align="center" height="500px"}
+:::
+:::
+
+## Do campo de distâncias ao caminho {.smaller}
+
+1. Comece na **célula do robô** (o início)
+2. Se a distância dela for **infinita**, **não há rota**: nenhuma onda chegou até ali
+3. **Enquanto a distância da célula atual for maior que 0:** olhe as vizinhas, **vá para a de menor distância** e anote a célula no caminho
+4. Ao chegar à distância **0** você está no objetivo: **devolva** o caminho
+
+- Como a distância **diminui a cada passo**, o processo sempre termina no objetivo
+- No exemplo, do início em `(4,8)` são **10 passos** até o objetivo
+- Com o campo pronto, **qualquer outro início** também ganha seu caminho, sem recalcular nada
+
+## Construindo o caminho {.smaller}
+
+![](images/caminho-em-acao.svg){fig-align="center" width="95%"}
+
+## O campo e o caminho {.smaller}
+
+![](images/wavefront-resultado.svg){fig-align="center" width="70%"}
+
+## Casos de borda {.smaller}
+
+- **Objetivo dentro de um obstáculo:** a onda nunca deveria começar; **verifique** antes que o objetivo está numa célula **livre**
+- **Início isolado do objetivo** (uma parede fecha tudo): a distância do início fica **infinita** e **não há rota**; **o robô precisa saber disso**
+- **Início igual ao objetivo:** não há o que fazer; o caminho é só o próprio início
+- **Células desconhecidas** do mapa: decida se contam como **obstáculo** (conservador) ou **livres** (otimista)
+- **Empates** entre vizinhas de mesma distância: qualquer uma serve; a escolha só muda **a forma** do caminho
+
+## Experimente: o wavefront passo a passo {.smaller}
+
+Escolha o modo, **clique ou arraste** na grade e depois avance a onda.
+
+```{=html}
+<style>
+#wf{font-size:.8em;text-align:left;user-select:none}
+#wf .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+#wf button{font-size:1em;padding:3px 10px;cursor:pointer}
+#wf label{cursor:pointer}
+#wf .gd{display:grid;grid-template-columns:repeat(15,1fr);gap:1px;background:#999;width:100%;max-width:1000px;touch-action:none}
+#wf .ce{background:#fff;aspect-ratio:1.45;display:flex;align-items:center;justify-content:center;font-size:.95em;color:#333;cursor:pointer}
+#wf .ce.o{background:#333}
+#wf .ce.f{background:#e8a77f}
+#wf .ce.v{background:#c5d3e0}
+#wf .ce.p{box-shadow:inset 0 0 0 3px #B3541E}
+#wf .ce.g{background:#9C4B4B;color:#fff;font-weight:bold}
+#wf .ce.s{background:#4A7C59;color:#fff;font-weight:bold}
+#wf .info{margin-top:6px;min-height:1.4em}
+</style>
+<div id="wf" data-prevent-swipe>
+  <div class="bar">
+    <label><input type="radio" name="wfm" value="o" checked> obstáculo</label>
+    <label><input type="radio" name="wfm" value="g"> objetivo (G)</label>
+    <label><input type="radio" name="wfm" value="s"> início (S)</label>
+    <button id="wf-step">Avançar onda</button>
+    <button id="wf-run">Executar</button>
+    <button id="wf-clear">Limpar onda</button>
+    <button id="wf-reset">Reiniciar</button>
+  </div>
+  <div class="gd" id="wf-gd"></div>
+  <div class="info" id="wf-info"></div>
+</div>
+<script>
+(function(){
+  var R=9,C=15,gd=document.getElementById('wf-gd'),info=document.getElementById('wf-info');
+  var obs,G,S,dist,fr,k,fim,timer=null,cells=[],down=false,paint=null;
+  var V=[[-1,0],[1,0],[0,-1],[0,1]];
+  function init(){obs=[];for(var r=0;r<R;r++){obs.push([]);for(var c=0;c<C;c++)obs[r].push(false)}
+    for(r=1;r<=7;r++)obs[r][7]=true;obs[3][9]=obs[4][9]=obs[5][9]=true;obs[5][10]=obs[5][11]=true;
+    G=[4,2];S=[4,12];limpa()}
+  function limpa(){parar();dist=null;fr=[];k=0;fim=false;draw()}
+  function parar(){if(timer){clearInterval(timer);timer=null}}
+  function comeca(){dist=[];for(var r=0;r<R;r++){dist.push([]);for(var c=0;c<C;c++)dist[r].push(-1)}
+    dist[G[0]][G[1]]=0;fr=[[G[0],G[1]]];k=0;fim=false}
+  function passo(){
+    if(fim)return;if(!dist){if(obs[G[0]][G[1]]){info.textContent='O objetivo está em um obstáculo.';return}comeca();draw();return}
+    var nf=[];fr.forEach(function(p){V.forEach(function(v){var r=p[0]+v[0],c=p[1]+v[1];
+      if(r>=0&&r<R&&c>=0&&c<C&&!obs[r][c]&&dist[r][c]<0){dist[r][c]=k+1;nf.push([r,c])}})});
+    if(nf.length===0){fim=true;fr=[];parar()}else{fr=nf;k++}
+    draw()}
+  function rota(){if(!dist||dist[S[0]][S[1]]<0)return null;var p=[[S[0],S[1]]],r=S[0],c=S[1];
+    while(dist[r][c]>0){var b=null;V.forEach(function(v){var a=r+v[0],d=c+v[1];
+      if(a>=0&&a<R&&d>=0&&d<C&&dist[a][d]>=0&&(b===null||dist[a][d]<dist[b[0]][b[1]]))b=[a,d]});
+      r=b[0];c=b[1];p.push(b)}return p}
+  function draw(){var p=fim?rota():null,ps={};if(p)p.forEach(function(q){ps[q[0]+','+q[1]]=1});
+    var vis=0;
+    for(var r=0;r<R;r++)for(var c=0;c<C;c++){var e=cells[r*C+c],cl='ce',t='';
+      if(obs[r][c])cl+=' o';
+      else if(r===G[0]&&c===G[1]){cl+=' g';t='G'}
+      else if(r===S[0]&&c===S[1]){cl+=' s';t=(dist&&dist[r][c]>=0)?dist[r][c]:'S'}
+      else if(dist&&dist[r][c]>=0){cl+=' v';t=dist[r][c]}
+      if(dist&&dist[r][c]>=0&&!obs[r][c])vis++;
+      if(dist&&dist[r][c]===k&&!fim&&!obs[r][c]&&!(r===G[0]&&c===G[1]))cl=cl.replace(' v',' f');
+      if(ps[r+','+c])cl+=' p';
+      e.className=cl;e.textContent=t}
+    if(!dist)info.textContent='Clique em "Avançar onda" para iniciar a partir de G.';
+    else if(!fim)info.textContent='Onda '+k+': '+vis+' células visitadas.';
+    else if(p)info.textContent='Pronto: caminho de S até G com '+(p.length-1)+' passos ('+vis+' células visitadas).';
+    else info.textContent='Pronto: S não é alcançável a partir de G ('+vis+' células visitadas).'}
+  function modo(){return document.querySelector('#wf input[name=wfm]:checked').value}
+  function aplica(i,m){var r=Math.floor(i/C),c=i%C;
+    if(m==='o'){if((r===G[0]&&c===G[1])||(r===S[0]&&c===S[1]))return;obs[r][c]=paint}
+    else if(m==='g'&&!obs[r][c]){G=[r,c]}
+    else if(m==='s'&&!obs[r][c]){S=[r,c]}
+    limpa()}
+  for(var i=0;i<R*C;i++){(function(i){var e=document.createElement('div');e.className='ce';cells.push(e);gd.appendChild(e);
+    e.addEventListener('pointerdown',function(ev){ev.preventDefault();var m=modo();down=true;
+      var r=Math.floor(i/C),c=i%C;paint=!obs[r][c];aplica(i,m)});
+    e.addEventListener('pointerenter',function(){if(down&&modo()==='o')aplica(i,'o')})})(i)}
+  document.addEventListener('pointerup',function(){down=false});
+  document.getElementById('wf-step').onclick=function(){parar();passo()};
+  document.getElementById('wf-run').onclick=function(){parar();if(fim)limpa();timer=setInterval(passo,250)};
+  document.getElementById('wf-clear').onclick=limpa;
+  document.getElementById('wf-reset').onclick=init;
+  window.__wf={passo:passo,estado:function(){return {k:k,fim:fim,d:dist&&dist[S[0]][S[1]],info:info.textContent}}};
+  init();
+})();
+</script>
+```
+
+<!-- SLIDES OCULTOS (implementação em Python, variações [8 vizinhos, inflação, A*, replanejamento], ROS 2 e a conclusão original): para reativar, apague esta linha e a linha "FIM DOS SLIDES OCULTOS"
+
+## Representando a grade {.smaller}
+
+```python
+from collections import deque
+
+LIVRE, OBSTACULO = 0, 1
+INF = float("inf")
+
+VIZINHOS_4 = [(-1, 0), (1, 0), (0, -1), (0, 1)]   # cima, baixo, esquerda, direita
+
+TEXTO = [
+    ".........",
+    "....#....",
+    "....#.##.",
+    ".G..#..#.",
+    "....#..#S",
+    ".........",
+]
+grade = [[OBSTACULO if ch == "#" else LIVRE for ch in linha] for linha in TEXTO]
+G, S = (3, 1), (4, 8)          # (linha, coluna)
+```
+
+- A grade é uma **lista de listas**; cada posição é um par **(linha, coluna)**
+- `INF` marca as células **ainda não visitadas** (e, no fim, as **inalcançáveis**)
+
+## A função `wavefront` {.smaller}
+
+```python
+def dentro(grade, lin, col):
+    return 0 <= lin < len(grade) and 0 <= col < len(grade[0])
+
+
+def wavefront(grade, objetivo):
+    """Passos de cada célula livre até o objetivo (4 vizinhos)."""
+    n_lin, n_col = len(grade), len(grade[0])
+    dist = [[INF] * n_col for _ in range(n_lin)]
+    lin, col = objetivo
+    dist[lin][col] = 0
+    fila = deque([objetivo])
+    while fila:
+        lin, col = fila.popleft()
+        for dl, dc in VIZINHOS_4:
+            l, c = lin + dl, col + dc
+            if (dentro(grade, l, c) and grade[l][c] == LIVRE
+                    and dist[l][c] == INF):
+                dist[l][c] = dist[lin][col] + 1
+                fila.append((l, c))
+    return dist
+```
+
+## Lendo o código linha a linha {.smaller}
+
+- **`dist[...] = INF`**: ninguém foi visitado ainda; este valor também serve de **marca de "já visitada"**
+- **`fila = deque([objetivo])`**: a fronteira começa só com o objetivo; `popleft()` retira o **mais antigo**
+- **`dist[l][c] == INF`**: só entra na fila quem **nunca foi visto**, por isso cada célula entra uma vez
+- **A distância é atribuída ao enfileirar**, não ao desenfileirar: assim uma célula nunca é colocada duas vezes na fila
+- **`grade[l][c] == LIVRE`**: obstáculos **nunca** recebem distância e **bloqueiam** a onda
+
+## Do campo de distâncias ao caminho {.smaller}
+
+```python
+def caminho(dist, inicio, vizinhos=VIZINHOS_4):
+    """Descida do gradiente: sempre para a vizinha de menor distância."""
+    lin, col = inicio
+    if dist[lin][col] == INF:
+        return None  # o objetivo é inalcançável a partir daqui
+    rota = [inicio]
+    while dist[lin][col] > 0:
+        candidatas = [(lin + dl, col + dc) for dl, dc in vizinhos
+                      if dentro(dist, lin + dl, col + dc)]
+        lin, col = min(candidatas, key=lambda p: dist[p[0]][p[1]])
+        rota.append((lin, col))
+    return rota
+```
+
+- Em cada passo, vai para a **vizinha de menor distância**; como `dist` **diminui a cada passo**, o laço sempre termina em `dist == 0`, o objetivo
+- Se o início tem `INF`, **nenhuma onda chegou** a ele: devolvemos `None`
+
+## Juntando tudo {.smaller}
+
+```python
+dist = wavefront(grade, G)
+rota = caminho(dist, S)
+
+print("distância:", dist[S[0]][S[1]], "passos")
+print("caminho:", rota[:5], "...")
+```
+
+Saída:
+
+```text
+distância: 10 passos
+caminho: [(4, 8), (5, 8), (5, 7), (5, 6), (5, 5)] ...
+```
+
+- O caminho tem **exatamente** `dist[S]` passos, que é o **menor possível** com 4 vizinhos
+- Com o campo pronto, **qualquer outro início** também ganha seu caminho, sem recalcular nada
+
+## Custo do algoritmo {.smaller}
+
+- **Tempo:** cada célula entra na fila **uma vez** e examina **4 vizinhas**: $O(N)$, com $N$ o número de células
+- **Memória:** a matriz `dist` e a fila: também $O(N)$
+- Não depende da **forma dos obstáculos**, só do **tamanho da grade**
+- Em contrapartida, **uma grade fina e grande** (por exemplo, 5 cm por célula numa sala grande) tem **milhões de células**: o Python puro fica lento, e aí entram NumPy ou C++
+
+# Variações do Algoritmo
+
+## Oito vizinhos: o problema dos custos {.smaller}
+
+- Com **diagonais**, os passos custam **1** ou **$\sqrt{2}\approx 1{,}41$**: a fila deixa de ordenar as células por distância
+- A solução é uma **fila de prioridade** (*heap*): sempre processar a célula de **menor distância acumulada** ---  é o **algoritmo de Dijkstra**
+- Cuidado com as **quinas**: não permita uma diagonal que **corte o canto** de um obstáculo (o robô é maior que um ponto)
+- O custo sobe para $O(N \log N)$, e o caminho fica **mais curto e mais natural**
+- No código (próximo slide), o que muda: `deque` vira **`heapq`**, o passo custa `1` ou `√2`, e `if d > dist[lin][col]` descarta **entradas velhas** do heap
+
+## Código com 8 vizinhos {.smaller}
+
+```python
+def wavefront_8(grade, objetivo):
+    """8 vizinhos: a diagonal custa raiz de 2 (Dijkstra com heap)."""
+    n_lin, n_col = len(grade), len(grade[0])
+    dist = [[INF] * n_col for _ in range(n_lin)]
+    lin, col = objetivo
+    dist[lin][col] = 0.0
+    heap = [(0.0, lin, col)]
+    while heap:
+        d, lin, col = heapq.heappop(heap)
+        if d > dist[lin][col]:
+            continue  # entrada velha do heap
+        for dl, dc in VIZINHOS_8:
+            l, c = lin + dl, col + dc
+            if not dentro(grade, l, c) or grade[l][c] != LIVRE:
+                continue
+            if dl and dc and (grade[lin + dl][col] != LIVRE
+                              or grade[lin][col + dc] != LIVRE):
+                continue  # não corta a quina de um obstáculo
+            novo = d + (math.sqrt(2) if dl and dc else 1.0)
+            if novo < dist[l][c]:
+                dist[l][c] = novo
+                heapq.heappush(heap, (novo, l, c))
+    return dist
+```
+
+## 4 × 8 vizinhos {.smaller}
+
+![](images/comparacao-4-8.svg){fig-align="center" width="100%"}
+
+Nesta grade: **custo: 8,83 em 7 passos** com 8 vizinhos, contra **10 passos** com 4 vizinhos.
+
+## Inflar os obstáculos {.smaller}
+
+- O algoritmo trata o robô como um **ponto**; um robô real tem **tamanho**
+- A solução é **inflar** cada obstáculo pelo **raio do robô** (em células) e planejar sobre a grade inflada
+- Caminhos que passavam **rentes** à parede agora mantêm uma **margem de segurança**
+- Efeito colateral: **passagens estreitas** demais para o robô **desaparecem** do mapa, o que está certo
+
+```python
+def inflar(grade, raio):
+    """Marca como obstáculo as células a até `raio` de um obstáculo."""
+    n_lin, n_col = len(grade), len(grade[0])
+    saida = [linha[:] for linha in grade]
+    for lin in range(n_lin):
+        for col in range(n_col):
+            if grade[lin][col] != OBSTACULO:
+                continue
+            for dl in range(-raio, raio + 1):
+                for dc in range(-raio, raio + 1):
+                    l, c = lin + dl, col + dc
+                    if dl * dl + dc * dc <= raio * raio and dentro(grade, l, c):
+                        saida[l][c] = OBSTACULO
+    return saida
+```
+
+## O efeito da inflação {.smaller}
+
+![](images/inflar-obstaculos.svg){fig-align="center" width="100%"}
+
+## Wavefront × A\* {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- O **wavefront** calcula o campo para a grade **toda**: custa mais, mas serve para **qualquer início**
+- O **A\*** guia a busca por uma **heurística** (distância até o objetivo) e **para** ao chegar: expande **menos células**
+- Ambos dão o **mesmo custo ótimo** (com heurística admissível)
+- **Muitos robôs, um mesmo objetivo** ou **replanejar a partir de pontos diferentes**: wavefront; **um único par** início-objetivo: A\*
+:::
+::: {.column width="58%"}
+![](images/wavefront-astar.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## E se o mapa mudar? {.smaller}
+
+- Um obstáculo novo (uma pessoa, uma porta fechada) **invalida** parte do campo
+- A resposta simples: **recalcular tudo**; com grade pequena, é barato e funciona bem
+- Para grades grandes, existem versões **incrementais**: **D\* Lite** atualiza **só as células afetadas**
+- Decida **quando** replanejar: a cada ciclo, ou só quando o **sensor** detecta algo no caminho
+- O desvio **imediato** do obstáculo fica com a camada **reativa** (aula anterior): o wavefront dá a **estratégia**
+
+# Do Mapa ao Robô (ROS 2)
+
+## O mapa do ROS 2: `OccupancyGrid` {.smaller}
+
+::: columns
+::: {.column width="40%"}
+- Mensagem `nav_msgs/OccupancyGrid`, publicada em `/map`
+- `data`: **uma lista só**, com um valor por célula: **0** livre, **100** ocupada, **−1** desconhecida
+- `info.resolution`: **metros por célula**; `info.width` e `info.height`: tamanho em células
+- `info.origin`: onde fica a **célula (0,0)**, em metros, no frame do mapa
+:::
+::: {.column width="60%"}
+![](images/ocupacao-ros.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Convertendo mapa e coordenadas {.smaller}
+
+```python
+def ocupacao_para_grade(dados, largura, altura, limiar=50):
+    """OccupancyGrid.data (linha a linha; -1 = desconhecido) -> grade."""
+    grade = []
+    for lin in range(altura):
+        linha = dados[lin * largura:(lin + 1) * largura]
+        grade.append([OBSTACULO if v >= limiar or v < 0 else LIVRE
+                      for v in linha])
+    return grade
+
+
+def mundo_para_celula(x, y, origem_x, origem_y, resolucao):
+    lin = int((y - origem_y) // resolucao)
+    col = int((x - origem_x) // resolucao)
+    return lin, col
+
+
+def celula_para_mundo(lin, col, origem_x, origem_y, resolucao):
+    x = origem_x + (col + 0.5) * resolucao   # centro da célula
+    y = origem_y + (lin + 0.5) * resolucao
+    return x, y
+```
+
+- O mapa vira a **grade** que o `wavefront` espera (desconhecido conta como **obstáculo**)
+- O objetivo e o início chegam em **metros**; viram **(linha, coluna)** e, no fim, o caminho volta para **metros**
+
+## O pipeline completo {.smaller}
+
+![](images/pipeline-ros.svg){fig-align="center" width="100%"}
+
+- O **controlador** (aula de cinemática e de desvio de obstáculos) segue os pontos do `Path`
+- O planejador **só diz por onde ir**; **como** seguir é problema de outra camada
+
+## Esqueleto de um nó ROS 2: o mapa {.smaller}
+
+```python
+import rclpy
+from rclpy.node import Node
+from nav_msgs.msg import OccupancyGrid, Path
+from geometry_msgs.msg import PoseStamped
+from wavefront import *
+
+
+class PlanejadorWavefront(Node):
+    def __init__(self):
+        super().__init__("planejador_wavefront")
+        self.mapa = None
+        self.create_subscription(OccupancyGrid, "/map",
+                                 self.ao_receber_mapa, 1)
+        self.create_subscription(PoseStamped, "/goal_pose",
+                                 self.ao_receber_objetivo, 1)
+        self.pub = self.create_publisher(Path, "/plan", 1)
+
+    def ao_receber_mapa(self, msg):
+        self.mapa = msg
+        i = msg.info
+        grade = ocupacao_para_grade(msg.data, i.width, i.height)
+        self.grade = inflar(grade, raio=3)   # raio do robô, em células
+```
+
+## Esqueleto de um nó ROS 2: o objetivo {.smaller}
+
+```python
+    def ao_receber_objetivo(self, msg):     # método da mesma classe
+        info = self.mapa.info
+        o = info.origin.position
+        x, y = msg.pose.position.x, msg.pose.position.y
+        r = info.resolution
+        obj = mundo_para_celula(x, y, o.x, o.y, r)
+        ini = self.posicao_do_robo()    # via TF (não mostrado)
+
+        rota = caminho(wavefront(self.grade, obj), ini)
+        if rota is None:
+            self.get_logger().warn("objetivo inalcançável")
+            return
+
+        plano = Path()
+        plano.header.frame_id = "map"
+        for lin, col in rota:
+            p = PoseStamped()
+            p.header.frame_id = "map"
+            x, y = celula_para_mundo(lin, col, o.x, o.y, r)
+            p.pose.position.x, p.pose.position.y = x, y
+            plano.poses.append(p)
+        self.pub.publish(plano)
+```
+
+## Armadilhas comuns {.smaller}
+
+- **Linha × coluna:** `data[lin * largura + col]` e, no mundo, **`y` ↔ linha**, **`x` ↔ coluna**; trocar os dois é o erro mais comum
+- **Origem e orientação:** as fórmulas supõem o mapa **sem rotação** (`origin.orientation` nula)
+- **Frames:** objetivo, mapa e robô precisam estar no **mesmo frame** (`map`); use o **TF**
+- **Raio de inflação em células:** `ceil(raio_do_robô / resolução)`
+- **Desconhecido (−1):** tratar como livre pode levar o robô a lugares **nunca vistos**
+- **Desempenho:** mapas grandes pedem **NumPy**, **C++** ou o *costmap* e o planejador do **Nav2**, que já fazem tudo isso
+
+## O que vimos {.smaller}
+
+- O wavefront é uma **busca em largura a partir do objetivo**: uma **fila**, uma matriz de **distâncias** e **linear** no tamanho da grade
+- O **caminho** sai da **descida do gradiente**; células com distância infinita indicam que **não há rota**
+- Com **8 vizinhos** troca-se a fila por um **heap** (Dijkstra); **inflar** os obstáculos leva o tamanho do robô em conta
+- Frente ao **A\***, o wavefront entrega o campo para **qualquer início**; ao mudar o mapa, **recalcula** (ou usa **D\* Lite**)
+- No **ROS 2**, o `OccupancyGrid` vira a grade; cuidado com linha × coluna, origem e frames
+
+## Para pensar {.smaller}
+
+- Por que a distância é atribuída **ao enfileirar** e não ao desenfileirar? O que quebraria se fosse o contrário?
+- O que acontece com as distâncias se você trocar o `deque` por uma **pilha**?
+- Como adaptar o algoritmo a terrenos de **custos diferentes** (grama, asfalto, areia)? Dê o **custo** de cada passo e diga qual estrutura de dados usaria
+- Você tem **vinte robôs** e **um só objetivo**: vale mais o wavefront ou o A\*? E se fosse um objetivo **diferente** por robô?
+- Quando o robô deve **replanejar**: a cada ciclo, ou só quando algo muda?
+
+## No seu projeto {.smaller}
+
+- Para o robô que a sua equipe está programando ---
+  - **rode** o `wavefront.py` sobre um **mapa real** (por exemplo, o mapa de SLAM do TurtleBot3);
+  - escolha a **resolução** da grade e o **raio de inflação**, e justifique;
+  - **meça o tempo** do planejamento e compare **4 e 8 vizinhos**;
+  - defina **quando** replanejar e o que o robô faz quando **não há caminho**.
+
+## Leituras futuras {.smaller}
+
+- **Choset et al. (2005)** --- *Principles of Robot Motion* --- capítulo 4: funções potenciais e o *wave-front planner*
+- **Siegwart, Nourbakhsh \& Scaramuzza (2011)** --- *Introduction to Autonomous Mobile Robots* --- capítulo 6: planejamento e navegação
+- **Latombe (1991)** --- *Robot Motion Planning* --- a origem da função de navegação NF1
+- **Jarvis (1985)** --- *Collision-free trajectory planning using distance transforms* --- a transformada de distância aplicada a robôs
+- **Koenig \& Likhachev (2002)** --- *D\* Lite* --- replanejamento incremental
+- Documentação do **Nav2** (`nav2_costmap_2d` e `nav2_navfn_planner`): a implementação em uso real
+
+FIM DOS SLIDES OCULTOS -->
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- O wavefront é uma **busca em largura a partir do objetivo**: uma **fila** e uma **tabela de distâncias**
+- A onda avança **um passo por rodada**; **obstáculos a bloqueiam** e células nunca alcançadas ficam com distância **infinita**
+- O **caminho** sai de **descer o gradiente**: de cada célula, vá para a **vizinha de menor distância**
+- Um **único campo** serve para **qualquer início**
+
+## Para pensar {.smaller}
+
+- Por que a distância é escrita **ao colocar na fila** e não ao retirar? O que quebraria se fosse o contrário?
+- O que muda se trocarmos a **fila** por uma **pilha**?
+- O que o robô deve fazer quando a distância do início é **infinita**?
+- Você tem **vários robôs** e **um só objetivo**: é preciso recalcular o campo para cada um?
+
+## Leituras futuras {.smaller}
+
+- **Choset et al. (2005)** --- *Principles of Robot Motion* --- capítulo 4: funções potenciais e o *wave-front planner*
+- **Siegwart, Nourbakhsh \& Scaramuzza (2011)** --- *Introduction to Autonomous Mobile Robots* --- capítulo 6: planejamento e navegação
+- **Latombe (1991)** --- *Robot Motion Planning* --- a origem da função de navegação NF1
