@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[daxis, line width=1.2pt] (1.0,0.8) -- (16.8,0.8) node[right, font=\large] {tempo};
+  \draw[daxis, line width=1.2pt] (1.0,0.8) -- (1.0,7.6) node[above, font=\large] {comportamento};
+  \draw[black!40, dashed, line width=1.2pt] (6.4,0.8) -- (6.4,7.2);
+  \draw[black!40, dashed, line width=1.2pt] (11.4,0.8) -- (11.4,7.2);
+  \node[font=\large\bfseries, black!70] at (3.7,7.5) {valor de base};
+  \node[font=\large\bfseries, black!70] at (8.9,7.5) {durante a intervenção};
+  \node[font=\large\bfseries, black!70] at (14.0,7.5) {depois};
+  \draw[dgreen, line width=2.8pt, line join=round] (1.4,3.6) -- (6.4,3.6) -- (8.9,5.0) -- (11.4,6.3) -- (16.2,6.3);
+  \draw[dred, line width=2.8pt, line join=round] (1.4,3.6) -- (6.4,3.6) -- (8.9,2.6) -- (11.4,1.7) -- (16.2,1.7);
+  \draw[black!65, dashed, line width=2.2pt] (1.4,3.6) -- (16.2,3.6);
+  \node[font=\large\bfseries, dgreen, anchor=west] at (16.4,6.3) {participante A};
+  \node[font=\large\bfseries, dred, anchor=west] at (16.4,1.7) {participante B};
+  \node[font=\large\bfseries, black!65, anchor=west] at (16.4,3.6) {média};
+  \node[font=\large, black!75, text width=7.8cm, align=left, fill=dcream, inner sep=3pt] at (5.2,5.5) {a \textbf{média do grupo} esconde os efeitos: respostas opostas se anulam};
+  \node[font=\large, dblue, text width=7.5cm, align=left, fill=dcream, inner sep=3pt] at (5.2,1.8) {cada pessoa é o seu \textbf{próprio controle}};
+\end{tikzpicture}
+\end{document}

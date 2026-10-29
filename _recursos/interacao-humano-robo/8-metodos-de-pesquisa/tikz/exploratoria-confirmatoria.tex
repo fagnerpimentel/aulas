@@ -1,0 +1,10 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{p/.style={dbox, text width=8.4cm, minimum height=7.4cm, font=\Large, line width=1.6pt, align=left}}
+  \node[p, draw=dblue] at (0,0) {\textbf{\textcolor{dblue}{Exploratória}}\\[6pt] \textbf{Quando:} pouco se sabe sobre o fenômeno\\[6pt] \textbf{Pergunta:} como as pessoas adotam e usam um robô aspirador ao longo de um mês?\\[6pt] \textbf{Resultado:} descobrir que fatores importam};
+  \node[p, draw=dgreen] at (10.6,0) {\textbf{\textcolor{dgreen}{Confirmatória}}\\[6pt] \textbf{Quando:} já há base para prever o resultado\\[6pt] \textbf{Pergunta:} adolescentes limpam mais com um robô aspirador do que com um comum?\\[6pt] \textbf{Resultado:} testar a hipótese};
+\end{tikzpicture}
+\end{document}

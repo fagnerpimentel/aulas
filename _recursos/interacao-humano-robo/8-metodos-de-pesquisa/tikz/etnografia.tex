@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dgreen, line width=2.2pt, -{Stealth[length=3.5mm]}] (0.3,7.2) -- (18.3,7.2);
+  \foreach \x/\t in {1.5/{mês 1},5.5/{mês 6},9.5/{ano 1},13.5/{ano 2}} {\draw[dgreen, line width=1.8pt] (\x,6.9) -- (\x,7.5); \node[font=\large, black!70] at (\x,6.4) {\t};}
+  \draw[dgreen!70, line width=9pt, opacity=0.35, line cap=round] (1.5,7.2) -- (15.5,7.2);
+  \node[font=\Large\bfseries, dgreen] at (9.5,8.4) {observação \textbf{longa}: meses ou anos};
+  \node[font=\large, dorange, text width=4.5cm, align=center] at (16.8,8.3) {observação participante};
+  \draw[dorange, line width=1.3pt, -{Stealth[length=2.5mm]}] (16.8,7.85) -- (15.6,7.35);
+  \node[dstate, minimum size=3.1cm, font=\large\bfseries, align=center, draw=dgreen, line width=1.6pt] (c) at (9.5,3.2) {o que o\\ comportamento\\ significa};
+  \node[dbox, draw=dblue, line width=1.5pt, text width=3.4cm, minimum height=1.2cm, font=\large\bfseries] at (3.6,3.2) {social};
+  \node[dbox, draw=dorange, line width=1.5pt, text width=3.4cm, minimum height=1.2cm, font=\large\bfseries] at (15.4,4.3) {organizacional};
+  \node[dbox, draw=dred, line width=1.5pt, text width=3.4cm, minimum height=1.2cm, font=\large\bfseries] at (15.4,2.1) {cultural};
+  \draw[black!55, line width=1.3pt, -{Stealth[length=2.5mm]}] (5.4,3.2) -- (c.west);
+  \draw[black!55, line width=1.3pt, -{Stealth[length=2.5mm]}] (13.6,4.1) -- (c.north east);
+  \draw[black!55, line width=1.3pt, -{Stealth[length=2.5mm]}] (13.6,2.3) -- (c.south east);
+\end{tikzpicture}
+\end{document}

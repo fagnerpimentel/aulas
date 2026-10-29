@@ -1,0 +1,511 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Métodos de Pesquisa"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/8-metodos-de-pesquisa
+---
+
+# Métodos de Pesquisa
+
+::: {.esquerda}
+Capítulo 10 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- Como **formular** uma pergunta de pesquisa e escolher a abordagem
+- **Métodos** de estudo: usuários, questionários, sistema, observação, etnográfia e outros
+- **Participantes** e **contexto**: quem, quantos, onde e por quanto tempo
+<!-- - **Robô**, modo de interação e **medidas** -->
+<!-- - **Estatística** básica e boas práticas -->
+- **Ética** em estudos com pessoas
+
+## Como se pesquisa em IHR {.smaller}
+
+- Você já tem um robô e quer saber **como ele está se saindo**: o que as pessoas acham do aspecto? Como reagem ao comportamento? Vão aceitá-lo?
+- Toda pesquisa em IHR tem **pelo menos dois componentes**: o **humano** e o **robô**
+- Sem robô, é ciência social; sem humano, é robótica ou IA. A **unidade de análise** é sempre alguma forma de **interação** entre os dois
+- O **contexto** importa muito: laboratório, escola, hospital, cultura, área de aplicação
+
+![](images/hri-componentes.svg){fig-align="center" width="100%"}
+
+## Centrado no robô × centrado no usuário {.smaller}
+
+<!-- - **Centrado no robô:** desenvolver capacidades técnicas ou testar o que funciona melhor no projeto
+- **Centrado no usuário:** entender comportamento e cognição humanos que afetam o sucesso (um usuário extrovertido talvez prefira comunicação direta; um introvertido, indireta)
+- Cada vez mais, a pesquisa **junta os dois**: no **design iterativo**, o robô passa por ciclos de protótipo, teste, análise e ajuste
+- Hoje o padrão é a abordagem **experimental**, combinando métodos **qualitativos** e **quantitativos**
+
+## Dois Enfoques, um Ciclo {.smaller} -->
+
+![](images/centrado-robo-usuario.svg){fig-align="center" width="85%"}
+
+# Pergunta e Abordagem
+
+## Definir uma boa pergunta {.smaller}
+
+- É uma das tarefas **mais difíceis** do pesquisador: é preciso conhecer o que já foi feito e **replicar ou estender** esse trabalho
+
+<!-- 
+- A pergunta pode vir de uma **teoria** (as pessoas tratam robôs como sociais?) ou de uma **necessidade prática** (testar a usabilidade de uma função)
+- Procure em **várias áreas**: IHR, psicologia, sociologia, antropologia, design, comunicação
+- Pesquisas sobre interação **entre pessoas** servem de modelo para a interação com robôs
+
+## De Onde Vem a Pergunta {.smaller} -->
+
+![](images/boa-pergunta.svg){fig-align="center" width="90%"}
+
+## Exemplo: computadores como atores sociais {.smaller}
+
+- Nos anos 1990, **Reeves e Nass** propuseram que as pessoas tratam **computadores como parceiros humanos**
+
+<!-- - Exemplo: dão **notas melhores** quando o próprio computador pergunta sobre o seu desempenho do que quando avaliam em outro computador --- ou seja, **são educadas** com ele
+- Depois, essa linha de pesquisa foi levada ao IHR: **gênero atribuído a robôs**, modelos mentais, presença social, cuidado e educação
+- Mostra o caminho: pegar um **fenômeno bem estabelecido** e testá-lo com robôs
+
+## O Experimento de Reeves e Nass {.smaller}
+ -->
+
+![](images/reeves-nass.svg){fig-align="center" width="95%"}
+
+## Exploratória ou confirmatória? {.smaller}
+
+- **Exploratória:** o fenômeno ainda foi pouco estudado; busca-se o "**mapa do terreno**" e que fatores podem importar
+- **Confirmatória:** já há informação para formular uma **hipótese**, dizer **o que se espera** e **por quê**; a pergunta precisa ser **verificável**
+- Exemplo exploratório (Forlizzi e DiSalvo, 2006): um robô aspirador nas casas gerou surpresas --- as pessoas o tratavam como **ator social**
+
+![](images/exploratoria-confirmatoria.svg){fig-align="center" width="100%"}
+
+<!-- ## Registre a hipótese antes {.smaller}
+
+- Considere **registrar a hipótese** em sites como **OSF**, **AsPredicted** ou **ClinicalTrials**, antes de coletar dados
+- Assim fica claro que você **não ajustou a hipótese aos dados** nem relatou só os resultados convenientes
+- **No Brasil**, além do pré-registro, é obrigatória a aprovação do **CEP** (via **Plataforma Brasil**); ensaios clínicos podem ser registrados no **ReBEC**
+- Hipóteses também podem vir de **teorias sociais**: no experimento de **Asch**, as pessoas imitam o grupo mesmo sabendo que está errado
+- Com um grupo de **robôs** no lugar de pessoas: adultos **não** se conformam, mas **crianças** sim
+
+## Hipótese registrada, Asch e robôs {.smaller}
+
+![](images/registrar-hipotese.svg){fig-align="center" width="92%"} -->
+
+## Correlação ou causalidade? {.smaller}
+
+- **Correlação:** as variáveis mudam **juntas**, mas não sabemos **o que causa** a relação. Ter um robô aspirador e limpar mais podem estar ligados porque quem tem um já é mais organizado
+- **Causalidade:** exige um **experimento**: dividir os participantes **por sorteio** em grupos e tratar todos igual, **menos** a variável de interesse
+
+![](images/correlacao-causacao.svg){fig-align="center" width="100%"}
+
+<!--
+## Correlação sem causa {.smaller}
+
+- Mais bombeiros no incêndio, **mais dano**: isso **não** quer dizer que os bombeiros causam o dano
+- Às vezes a correlação aparece **do nada**, a chamada **correlação espúria**: o consumo de queijo por pessoa nos EUA tem correlação de 0,97 com mortes por enrolar-se nos lençóis
+- Quanto **mais testes** você faz, mais provável achar uma correlação espúria
+- Mesmo em pesquisa exploratória, **não teste tudo e qualquer coisa** 
+-->
+
+# Métodos de Estudo
+
+## Três famílias de métodos {.smaller}
+
+![](images/tipos-metodo.svg){fig-align="center" width="100%"}
+
+## Visão Geral dos Métodos {.smaller}
+
+![](images/visao-geral-metodos.svg){fig-align="center" width="95%"}
+
+# 1. Usuários
+
+**Método 1 de 8** · <span style="color:#1A6FB5">quantitativo</span>
+
+## Estudos com usuários {.smaller}
+
+- **Experimentos** em que pessoas interagem com um robô. A chave é **atribuir os participantes aleatoriamente** às **condições experimentais**
+- **Variável independente:** o que o pesquisador controla ou manipula (por exemplo, o **gênero do robô**, em dois níveis)
+- Se também importar o gênero de **quem vê o robô**, vira um segundo fator: **quase experimental**, pois não dá para sortear o gênero dos participantes
+<!-- - O desenho é um **2 × 2**: quatro grupos (as quatro células) -->
+
+<!-- ## Atribuição Aleatória {.smaller} -->
+
+![](images/atribuicao-aleatoria.svg){fig-align="center" width="95%"}
+
+<!-- ## O desenho 2 × 2 {.smaller}
+
+![](images/delineamento-2x2.svg){fig-align="center" width="100%"}
+
+## O que se mede e a verificação {.smaller}
+
+- **Variável dependente:** o que se **mede**, como a atribuição de calor humano ou de assertividade ao robô
+- Os estereótipos humanos aparecem também com robôs: ao manipular o gênero do robô, as pessoas lhe atribuem **traços estereotipados**
+- É preciso **validar** a variável independente: as pessoas **perceberam** o robô como masculino ou feminino? Para isso serve a **verificação da manipulação**
+- Só assim sabemos que a **operacionalização** (traduzir o conceito em manipulação ou medida) funcionou 
+
+## Variáveis e Verificação {.smaller}
+
+![](images/ver-medir-verificar.svg){fig-align="center" width="95%"}
+
+-->
+
+# 2. Questionários
+
+**Método 2 de 8** · <span style="color:#1A6FB5">quantitativo</span>
+
+## Estudos com questionário (*survey*) {.smaller}
+
+- Lista de perguntas, com **múltipla escolha** ou **escalas**. A mais comum é a escala **Likert**: a pessoa avalia o quanto concorda com "achei o robô amigável"
+- Outra é o **diferencial semântico**: avaliar entre dois opostos (assustador--amigável, competente--incompetente)
+- Dá para usar **escalas já validadas**: personalidade (*Big Five*) ou sociabilidade do robô (*RoSAS* - *Robotic Social Attributes Scale*)
+- Alcançam **centenas de participantes** e permitem investigar **correlações**
+
+<!-- ## Likert e Diferencial Semântico {.smaller} -->
+
+![](images/escalas-survey.svg){fig-align="center" width="95%"}
+
+# 3. Sistemas
+
+**Método 3 de 8** · <span style="color:#1A6FB5">quantitativo</span>
+
+## Estudos de sistema {.smaller}
+
+- Avaliam a **capacidade técnica** do robô, com o **mesmo rigor**: hipóteses verificáveis, protocolo e métricas claras
+- Exemplo: o reconhecimento de fala funciona com **crianças**? Melhor que pedir às crianças para falar com o robô é usar **gravações**, o que torna o teste **repetível**
+- Use **bases de dados** e **métricas** consagradas, como **acurácia**, **precisão** e **revocação**
+- Reconhecimento de fala: **taxa de erro de palavras** (*WER*) = (trocas + omissões + inclusões) ÷ palavras da frase real. "Can you bring me a drink please" reconhecida como "Can bring me a pink sneeze" dá (2 + 1 + 0) ÷ 7 ≈ 0,43
+
+<!-- ## Cálculo do WER {.smaller} -->
+
+![](images/wer.svg){fig-align="center" width="95%"}
+
+# 4. Observação
+
+**Método 4 de 8** · <span style="color:#B3541E">qual.</span> ou <span style="color:#1A6FB5">quant.</span>
+
+## Estudos observacionais {.smaller}
+
+- Observar como pessoas e robôs interagem em **contextos naturais**, sem intervir. Podem ser **exploratórios** (um robô foca em uma casa de repouso) ou **experimentos de campo**
+  - Exemplo exploratório: o robô-foca Paro em um espaço público de asilo; contaram as interações e viram **fatores sociais** (gênero, mediação social)
+  - Exemplo em shopping (ATR, Japão): observar o comportamento humano, **criar modelos** para o robô Robovie e **testar** se funcionaram
+- Coleta: **notas presenciais**, **vídeos** anotados e **registros (logs) do robô**
+
+<!-- ## Fontes de Observação {.smaller} -->
+
+![](images/fontes-observacao.svg){fig-align="center" width="95%"}
+
+<!-- ## Como observar e codificar {.smaller}
+
+- **Presencial:** vê o contexto todo, mas não dá para rever e é difícil ter **dois codificadores** ao mesmo tempo
+- **Vídeo:** pode ser **revisto**, e o esquema de códigos pode ser revisado; o enquadramento da câmera limita o que se vê e alguns locais proíbem gravar
+- **Logs do robô:** limitados ao que o robô percebe, mas mostram **estado do robô** e ações humanas ao mesmo tempo
+- Sempre use um **esquema de codificação**, testado em **piloto**, e verifique a **concordância entre codificadores**
+- A análise revela **padrões no tempo**: um olhar do robô seguido de atenção conjunta da pessoa
+
+## Vantagens e Limites de Cada Fonte {.smaller}
+
+![](images/pros-contras-observacao.svg){fig-align="center" width="95%"} -->
+
+# 5. Etnografia
+
+**Método 5 de 8** · <span style="color:#B3541E">qualitativo</span>
+
+## Estudos etnográficos {.smaller}
+
+- Observação **longa** (meses ou anos) para entender **o que os comportamentos significam** e como se ligam ao contexto social, organizacional e cultural
+- Baseia-se na **antropologia**; pode ter **observação participante**, em que o pesquisador toma parte na atividade
+- Ainda são **raros** no IHR, por dar trabalho e por faltarem robôs capazes de interações longas
+  - Exemplos: um robô de serviço em hospital por um ano (a **aceitação dependia do tipo de paciente**); 
+
+<!-- ## Etnografia ao Longo do Tempo {.smaller} -->
+
+![](images/etnografia.svg){fig-align="center" width="95%"}
+
+# 6. Conversa
+
+**Método 6 de 8** · <span style="color:#B3541E">qualitativo</span>
+
+## Análise da conversa {.smaller}
+
+- Relata em **grande detalhe** os aspectos verbais e não verbais da interação: grava, de preferência em **vídeo**, e produz uma transcrição bem detalhada
+- A transcrição inclui **pausas**, **risos**, comportamentos e até movimentos do olhar e postura, em resolução de **quadros do vídeo**
+- Foca em **troca de turnos**, sinais de retorno, **sobreposição**, reparos e marcadores do discurso
+<!-- - Exemplo: a **contingência** do retorno do robô mudou o jeito de os participantes **ensinarem** o robô iCub a empilhar formas -->
+
+<!-- ## Exemplo de Transcrição {.smaller} -->
+
+![](images/transcricao-conversa.svg){fig-align="center" width="95%"}
+
+# 7. *Crowd*
+
+**Método 7 de 8** · <span style="color:#1A6FB5">quantitativo</span>
+
+## Recrutar pela internet (*crowdsourcing*) {.smaller}
+
+- Coletar respostas de **muita gente** pela internet, com plataformas como **MTurk** e **Prolific**: rápido e barato, com recompensa de poucos dólares
+- Também serve para **avaliar comportamento do robô**, difícil de medir com fórmula: gestos, olhar, voz empática
+- **Desafio:** pouco controle sobre quem responde e **em que ambiente** (distraído, com fone, de qualquer jeito)
+- **Perguntas de verificação** (ex.: "clique na terceira opção") e **tempo mínimo** ajudam a filtrar; colete **mais dados** para compensar a variação
+
+<!-- ## Fluxo do *Crowdsourcing* {.smaller} -->
+
+![](images/crowdsourcing-fluxo.svg){fig-align="center" width="95%"}
+
+<!-- ## Quando o *crowdsourcing* não serve {.smaller}
+
+- Quando a **presença física** do robô é essencial
+- Quando o **efeito é pequeno** e se perde numa população grande e variada
+- Quando a população é **rara** na plataforma (idosos, professores de uma escola específica)
+- Quando é preciso **domínio do idioma**
+- Idade e **familiaridade com computador** importam; para crianças e pessoas com limitações, use **linguagem simples**, que ajuda a quase todo mundo
+
+## Quando Não Usar *Crowdsourcing* {.smaller}
+
+![](images/crowd-nao-serve.svg){fig-align="center" width="95%"} -->
+
+# 8. Casos
+
+**Método 8 de 8** · <span style="color:#B3541E">qualitativo</span>
+
+## Estudos de caso {.smaller}
+
+- Estudo **qualitativo** com **um participante** (ou poucos): mede-se um **valor de base** e compara-se com o comportamento **durante** e **depois** da intervenção; cada pessoa é o **próprio controle**
+- Usado quando os participantes são **raros** ou as **diferenças individuais** são grandes
+- Exemplo: crianças com **autismo** e o robô Probo, ou o robô Nao, com **muita variação** entre elas
+- A **média do grupo** poderia **esconder** efeitos, porque respostas opostas se anulam
+
+<!-- ## Estudo de Caso no Tempo {.smaller} -->
+
+![](images/estudo-de-caso.svg){fig-align="center" width="95%"}
+
+# Participantes e Contexto
+
+## Quem participa: a amostra {.smaller}
+
+- Os participantes mais comuns são **estudantes universitários**: formam a **amostra de conveniência**, fácil de acessar
+- O ideal seria uma amostra **grande e representativa**, que garante **validade externa**: os resultados valem fora do estudo
+- Em temas amplos (estereótipos, memória, medo de robôs), estudantes são "**quase** a população geral"; mas **equilibre** gênero e formação (alunos de computação são mais positivos com robôs)
+- Se a pergunta é sobre **idosos** ou **crianças com diabetes**, a amostra precisa ser **específica**
+
+<!-- ## Amostra de Conveniência × Representativa {.smaller} -->
+
+![](images/amostra-populacao.svg){fig-align="center" width="92%"}
+
+## Quantos participantes {.smaller}
+
+- Pessoas **variam**, e isso causa **ruído** nos dados: com amostra pequena é difícil detectar o efeito, a menos que ele seja enorme
+- Use ferramentas como o **G\*Power** para estimar o tamanho necessário; mas tempo, dinheiro e acesso podem limitar
+  - **G\*Power**: programa gratuito que calcula o **tamanho de amostra** a partir do **efeito esperado**, do **poder** e do **nível de significância**
+<!-- - Populações **difíceis de recrutar** podem exigir amostras pequenas, ou tratar cada pessoa como **caso individual** -->
+- Em estudos **qualitativos**, o critério é a **saturação**: parar quando os dados novos só **repetem** os temas já encontrados
+
+<!-- ## Tamanho da Amostra, G\*Power e Saturação {.smaller} -->
+
+![](images/quantos-participantes.svg){fig-align="center" width="100%"}
+
+<!-- ## Entre sujeitos × intra sujeitos {.smaller}
+
+- **Entre sujeitos:** cada participante é sorteado para **uma** condição; comparam-se as **médias dos grupos**
+- **Intra sujeitos:** a mesma pessoa vê **todas** as versões; há **menos ruído**, então precisa de **menos participantes**
+- Nem toda pergunta cabe no intra sujeitos (não dá para quebrar a segunda perna e recuperar de novo!)
+- Cuidado com o **efeito de ordem** (talvez o primeiro robô agrade mais, por novidade): use **contrabalanceamento**
+
+## Os dois delineamentos {.smaller}
+
+![](images/entre-intra-sujeitos.svg){fig-align="center" width="100%"} -->
+
+<!-- ## Laboratório × campo {.smaller}
+
+- **Laboratório:** o pesquisador **controla** apresentação, tarefa, ambiente e duração, o que permite manipular com precisão
+- **Campo** ("no mundo real"): a pessoa escolhe **como, quando e se** interage, e até pode **ignorar** o robô
+- No campo surgem **fenômenos emergentes**, novas variáveis e efeitos de contexto como **cultura institucional**
+- Estudos fora do laboratório ainda são **relativamente raros**
+
+## Curto prazo × longo prazo {.smaller}
+
+- A maioria dos estudos de laboratório foca nos "**primeiros 10 minutos**" da interação
+- O **efeito de novidade**: no início as pessoas reagem diferente de como reagirão depois, e a atitude **muda com o tempo**
+- Estudos curtos informam sobre o **primeiro encontro**; estudos longos (dias a anos) mostram como o robô se **integra** e como muda as relações entre as pessoas
+
+## As quatro combinações {.smaller}
+
+![](images/contexto-estudo.svg){fig-align="center" width="100%"} -->
+
+## Unidades sociais da interação {.smaller}
+
+- **Díade:** uma pessoa e um robô. É a mais comum, porque robôs eram difíceis de obter e manter
+- **Grupo:** na prática as pessoas costumam interagir com robôs **em grupo**. Exemplo: crianças só **maltratam** um robô no shopping quando estão em **grupo**
+<!-- - **Vários robôs:** em equipes, os robôs ganham mais **agência social**: soldados chegaram a sentir **tristeza** quando o robô da equipe foi destruído -->
+- **Organização:** como o robô se encaixa em **papéis, regras e valores** de escolas, hospitais ou do exército
+
+<!-- ## Díade, grupo e organização {.smaller} -->
+
+![](images/unidades-analise.svg){fig-align="center" width="100%"}
+
+## O efeito da organização {.smaller}
+
+- Estudar IHR em **organizações** é necessário para projetar bons robôs **e** boas estruturas sociais
+  - Introduzir um robô pode **reduzir** o trabalho de uns e **aumentar** o de outros; papéis diferentes (gerente, enfermeira, faxineiro) percebem o robô de formas diferentes
+  - Em um asilo, **uma única pessoa defensora** do robô fez outras tentarem usá-lo, criando um **ciclo positivo** de adoção
+ 
+<!-- ## Papéis e Ciclo de Adoção {.smaller} -->
+
+![](images/efeito-organizacao.svg){fig-align="center" width="100%"}
+
+<!-- # Robô, Interação e Medidas
+
+## Escolha do robô {.smaller}
+
+- O robô é uma **ferramenta de pesquisa**: dá para manipular **aparência**, comportamento, estilo de comunicação e **papel** na interação
+- Pode ser **comercial** (Nao, Furhat, QTrobot, Paro) ou um **protótipo próprio**; decida **hardware**, **software** e nível de **autonomia**
+- Mesmo comerciais exigem **programação básica**: ambientes visuais ajudam, e conhecer o **ROS** amplia muito o repertório de comportamentos
+
+## O mágico de Oz (*Wizard of Oz*) {.smaller}
+
+- Quando o foco **não** é desenvolver autonomia, o pesquisador **opera** o robô escondido, enquanto o participante acredita que ele é **autônomo**
+- Útil quando a tecnologia está **quase pronta** (como o reconhecimento de fala) e para testar **capacidades futuras**
+- Em experimentos, **limite o comportamento do mágico**, para que o robô se comporte de forma **igual** entre condições
+- O participante precisa ser **informado depois** (*debriefing*) sobre o engano
+
+## O truque do mágico {.smaller}
+
+![](images/wizard-of-oz.svg){fig-align="center" width="100%"}
+
+## Interação real × simulada {.smaller}
+
+- O ideal é a **interação presencial**, mas é comum mostrar só **fotos ou vídeos**
+- Há **debate**: uns acham os dois equivalentes, outros viram **experiência mais positiva** com o robô presente, e atitudes bem diferentes entre robô próximo e remoto
+- Só estímulo visual **limita a generalização**, mas serve para estudos **exploratórios**, para populações de acesso difícil (**comparar culturas**) e para pesquisas **on-line**
+
+## Medidas diretas × indiretas {.smaller}
+
+- **Diretas:** o participante responde sobre o que se mede (questionários e entrevistas). Têm **validade aparente** alta, mas a pessoa pode tentar **agradar** o pesquisador ou parecer bem
+- **Indiretas:** **tempo de reação**, rastreamento ocular, batimentos cardíacos e **condutância da pele**; revelam o que a pessoa não diz ou não sabe
+- Mas são **mais difíceis de aplicar e interpretar**: o suor mostra excitação, não se é **medo ou alegria**
+- **Combine** várias medidas e use medidas **validadas** ou **testadas em piloto**
+
+## Direto, indireto e a combinação {.smaller}
+
+![](images/medidas-diretas-indiretas.svg){fig-align="center" width="100%"}
+
+## Entrevistas em estudos de IHR {.smaller}
+
+- **Estruturada:** perguntas predeterminadas, em ordem; **semiestruturada:** o entrevistador pode sair do roteiro
+- Respostas abertas exigem **codificação trabalhosa** depois da transcrição
+- Complementam os questionários: um estudo de longo prazo com **entrevistas** mostrou por que as pessoas **não usam** um robô de comunicação em casa --- algumas ficam **desconfortáveis** com um robô desconhecido -->
+
+<!-- # Estatística
+
+## Três medidas por trás dos testes {.smaller}
+
+- Quase todo teste estatístico se baseia em três medidas: **tendência**, **variabilidade** e **número de observações**
+- Pense em escolher entre **dois restaurantes** pelas avaliações: a média, **quantas** avaliações e **quanto elas variam**
+- A **média** mais distante dá mais certeza; **mais respostas** dão uma estimativa mais fiel; **menos variação** dá mais confiança de que a média representa a qualidade
+- Mesmo com a moeda: 75% de caras em **4 lançamentos** não prova nada; em **1000**, convence
+
+## Tendência, amostra e variabilidade {.smaller}
+
+![](images/tres-medidas.svg){fig-align="center" width="100%"}
+
+## Estatística descritiva e inferencial {.smaller}
+
+- **Descritiva** (primeira etapa): **média**, **desvio-padrão** (ou faixa) e **número de participantes**; inclua dados demográficos e **dados excluídos**, com o motivo
+- **Inferencial:** combina tendência, amostra e variabilidade em uma **estatística de teste**, que gera o **valor-p**
+- **Valor-p:** a **probabilidade** de obter esses dados **se não houvesse efeito**. Quanto menor, mais confiança de que há uma diferença real
+- É a lógica do **teste de hipótese nula**: abaixo de **0,05**, o resultado é "significativo"
+
+## Os mal-entendidos sobre o valor-p {.smaller}
+
+- Com p ≤ 0,05, em **5%** dos casos sem efeito o resultado ainda parece significativo: é um **erro tipo I** (falso positivo)
+- O valor-p **não** é "a chance de erro tipo I": só vale **supondo que nada acontece**
+- O teste responde "qual a chance dos dados, se não houver efeito?", mas o que queremos saber é "**qual a chance de haver efeito, dados os dados?**" --- a chance de morrer dado um ataque de tubarão é alta; a de ataque de tubarão dado alguém morrendo, quase zero
+- Os valores-p **variam muito** entre repetições do mesmo estudo
+
+## Significância, tamanho e importância {.smaller}
+
+- **Significância**, **tamanho do efeito** e **importância** são coisas diferentes
+- O valor-p mostra **quão consistente** é o efeito; o **tamanho do efeito** mostra **quão grande** ele é
+- Exemplo: um tratamento que melhora a recuperação de **4% para 6%**: para **fungo no pé**, pouco importa; para um **câncer agressivo**, pode ser muito importante
+- Medidas comuns: **d de Cohen**, η² ou ω² (ANOVA), R² ajustado (regressão)
+
+## *P-hacking* {.smaller}
+
+- Se há 1 chance em 20 de falso positivo, **rodando testes suficientes** você acha um resultado "significativo" mesmo sem efeito real
+- Relatar **só** os significativos e omitir o resto faz parecer uma descoberta
+- É especialmente perigoso em **estudos observacionais**, em que é fácil medir muitas variáveis e testar combinações até algo dar significativo
+- Exemplo: testar a relação entre a **simpatia do robô** e outros 40 itens, sem nenhuma relação real: esperam-se cerca de **2 resultados significativos** ao acaso
+
+## Boas práticas {.smaller}
+
+- Relate **intervalos de confiança** e **tamanhos de efeito**, além do valor-p: mostram a **magnitude** e a **precisão** das estimativas
+- Garanta **poder estatístico** suficiente para evitar o **erro tipo II** (falso negativo): só o **tamanho da amostra** está sob o seu controle
+- **Replique**: a psicologia teve uma **crise de replicação**; no IHR isso ainda é pouco discutido, mas robôs comuns (Nao, Baxter) facilitam
+- **Registre** o estudo antes, **compartilhe código** e procedimentos, e considere a **inferência bayesiana**, que atualiza crenças prévias em vez de dar só "significativo ou não"
+
+## Erros tipo I e tipo II {.smaller}
+
+![](images/erros-tipo.svg){fig-align="center" width="100%"} -->
+
+# Ética
+
+## Ética em estudos de IHR {.smaller}
+
+- Qualquer pesquisa com pessoas exige **consentimento informado** *antes*: natureza do estudo, **voluntariedade**, riscos e benefícios, e o que será feito com os dados
+
+<!-- - Quando não dá para revelar o objetivo, usa-se uma **história de cobertura** ou **engano** (como no mágico de Oz) e, depois, o ***debriefing***
+- Isso é ainda mais crítico se o robô der **retorno falso** sobre a personalidade ou o desempenho da pessoa: ela deve saber que era **inventado** -->
+
+- Em pesquisa qualitativa, é comum **devolver os resultados** aos participantes, às vezes **construindo as interpretações em conjunto**
+
+<!-- ## Consentimento e Devolução dos Resultados {.smaller} -->
+
+![](images/consentimento.svg){fig-align="center" width="95%"}
+
+## O que há de específico em IHR {.smaller}
+
+- **Segurança física e psicológica** das pessoas perto de robôs
+- O **apego**: um idoso com um robô de companhia em casa pode **sofrer** no dia em que o robô é retirado
+- Consulte os **códigos de ética** (APA, antropologia, ACM) e o **comitê de ética** da sua universidade; a aprovação é exigida por muitas revistas
+- Reflita também sobre **onde buscar financiamento**, para quem a pesquisa pode servir e as **consequências sociais** de ter robôs em casas, asilos e espaços públicos
+
+<!-- ## Ética ao longo do estudo {.smaller} -->
+
+![](images/etica-estudo.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- A pesquisa em IHR estuda a **interação** entre humano e robô **num contexto**; a pergunta pode ser **exploratória** ou **confirmatória**, **correlacional** ou **causal**
+- Há muitos **métodos** (usuário, questionário, sistema, observação, etnografia, conversa, *crowdsourcing*, caso), que podem ser **misturados**
+- **Participantes**, tamanho da amostra, **contexto** e **duração** decidem o que as conclusões permitem generalizar
+
+<!-- - **Medidas** diretas e indiretas, **estatística** bem usada (tamanho de efeito, poder, replicação) -->
+
+- **Ética** dá confiança ao estudo
+
+## Para pensar {.smaller}
+
+- Em que situação **não é ético ou possível** responder uma pergunta com um experimento? Como lidar com **populações vulneráveis** (crianças, idosos com perda cognitiva)?
+- Você quer avaliar **quão bem um robô tutor ensina crianças**. Sua pergunta é **exploratória** ou **confirmatória**? Que **método** (usuários, observação, estudo de caso...) e que **amostra** escolheria?
+- Quando **estudantes universitários** bastam como amostra? Quando é preciso uma **amostra específica**, e o que se perde (a **validade externa**) com a de conveniência?
+- Como decidir **quantos participantes** usar em um estudo **quantitativo** (efeito esperado) e em um **qualitativo** (saturação)?
+- Como a avaliação de um **protótipo com usuários** difere de uma **avaliação de sistema**?
+- Um robô entra em um **asilo** ou **hospital**: quem **ganha** e quem **perde** trabalho? Quem poderia **defendê-lo**? E o que acontece com o **apego** se ele for retirado?
+
+## No seu projeto {.smaller}
+
+- Para o robô que a sua equipe está projetando ---
+  - escreva uma **pergunta de pesquisa** e diga se é **exploratória** ou **confirmatória**, e se busca **correlação** ou **causa**;
+  - escolha o **método** (ou a **combinação** de métodos) entre os oito vistos e **justifique**;
+  - defina a **população** e a **amostra** (conveniência ou representativa), o **tamanho** (G\*Power ou saturação) e a **validade externa** esperada;
+  - descreva a **unidade da interação** (díade, grupo ou organização) e como o robô se encaixa nos **papéis** de quem o usa;
+  - planeje os **cuidados éticos**: **consentimento informado**, aprovação do **comitê de ética** (no Brasil, o **CEP**), **devolução dos resultados**, **segurança** e **apego**.
+
+## Leituras futuras {.smaller}
+
+- **Baxter, Kennedy, Senft, Lemaignan \& Belpaeme (2016)** --- *From characterising three years of HRI to methodology and reporting recommendations*
+- **Field (2018)** --- *Discovering Statistics Using IBM SPSS Statistics*
+- **Hoffman \& Zhao (2020)** --- *A primer for conducting experiments in human–robot interaction*
+- **Fowler (2013)** --- *Survey Research Methods*
+- **Cohen (1994)** --- *The Earth Is Round (p < .05)*

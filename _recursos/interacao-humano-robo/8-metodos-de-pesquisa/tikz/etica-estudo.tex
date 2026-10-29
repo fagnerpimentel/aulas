@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{e/.style={dbox, text width=5.8cm, minimum height=6.6cm, font=\Large, line width=1.6pt, align=left}}
+  \node[e, draw=dblue] (a) at (0,0) {\textbf{\textcolor{dblue}{Antes}}\\[6pt] consentimento livre e informado\\ aprovação do comitê de ética\\ riscos e benefícios claros};
+  \node[e, draw=dgreen] (b) at (7.2,0) {\textbf{\textcolor{dgreen}{Durante}}\\[6pt] segurança física e psicológica\\ engano só se necessário\\ direito de desistir};
+  \node[e, draw=dorange] (c) at (14.4,0) {\textbf{\textcolor{dorange}{Depois}}\\[6pt] devolver os resultados\\ cuidar do apego: o que acontece quando o robô é retirado?};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (a.east) -- (b.west);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3.4mm]}] (b.east) -- (c.west);
+\end{tikzpicture}
+\end{document}

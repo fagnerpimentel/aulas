@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{t/.style={dbox, text width=5.7cm, minimum height=6.4cm, font=\Large, line width=1.5pt, align=left}}
+  \node[t, draw=dblue] at (0,0) {\textbf{\textcolor{dblue}{Tendência}}\\[4pt] a média\\[6pt] restaurante A: 4,8 estrelas\\ restaurante B: 3,2 estrelas};
+  \node[t, draw=dgreen] at (6.9,0) {\textbf{\textcolor{dgreen}{Tamanho da amostra}}\\[4pt] quantas respostas\\[6pt] A: 5 estrelas, 3 avaliações\\ B: 4,7 estrelas, 1000};
+  \node[t, draw=dorange] at (13.8,0) {\textbf{\textcolor{dorange}{Variabilidade}}\\[4pt] quanto variam\\[6pt] A: de 1 a 5 estrelas\\ B: quase todas 4};
+  \node[dbox, draw=dred, line width=1.6pt, text width=19.6cm, minimum height=1.6cm, font=\Large, align=center] at (6.9,-4.9) {os três juntos dizem \textbf{quanto confiar} na diferença entre as condições};
+\end{tikzpicture}
+\end{document}

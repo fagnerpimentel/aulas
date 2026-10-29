@@ -1,0 +1,24 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[font=\Large\bfseries, dblue] at (9.5,8.6) {escala Likert};
+  \node[font=\large, black!80] at (9.5,7.7) {``Achei o robô \textbf{amigável}.''};
+  \foreach \i/\t in {1/{discordo\\ totalmente},2/{discordo},3/{neutro},4/{concordo},5/{concordo\\ totalmente}} {
+    \draw[dblue, fill=white, line width=1.6pt] ({4.2+(\i-1)*2.7},6.4) circle (0.42);
+    \node[font=\large\bfseries] at ({4.2+(\i-1)*2.7},6.4) {\i};
+    \node[font=\normalsize, black!70, align=center, text width=2.4cm] at ({4.2+(\i-1)*2.7},5.25) {\t};
+  }
+  \node[font=\Large\bfseries, dgreen] at (9.5,3.9) {diferencial semântico};
+  \node[font=\Large, anchor=east] at (4.8,2.9) {assustador};
+  \node[font=\Large, anchor=west] at (14.5,2.9) {amigável};
+  \foreach \i in {1,...,7} {\draw[dgreen, fill=white, line width=1.5pt] ({5.3+(\i-1)*1.4},2.9) circle (0.3);}
+  \fill[dgreen] ({5.3+4*1.4},2.9) circle (0.19);
+  \node[font=\Large, anchor=east] at (4.8,1.7) {incompetente};
+  \node[font=\Large, anchor=west] at (14.5,1.7) {competente};
+  \foreach \i in {1,...,7} {\draw[dgreen, fill=white, line width=1.5pt] ({5.3+(\i-1)*1.4},1.7) circle (0.3);}
+  \fill[dgreen] ({5.3+5*1.4},1.7) circle (0.19);
+  \node[font=\large, black!75] at (9.5,0.4) {escalas validadas: \textbf{Big Five} $\cdot$ \textbf{RoSAS} $\cdot$ perguntas abertas};
+\end{tikzpicture}
+\end{document}

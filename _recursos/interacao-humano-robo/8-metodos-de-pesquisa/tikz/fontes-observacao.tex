@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=4.9cm, minimum height=1.8cm, font=\large\bfseries, line width=1.5pt, align=center}}
+  \node[dstate, minimum size=36mm, font=\large\bfseries, align=center, line width=1.5pt, draw=dgreen] (i) at (9.5,5.2) {interação\\ em contexto\\ natural};
+  \node[c, draw=dblue] (a) at (2.6,5.2) {notas presenciais};
+  \node[c, draw=dorange] (b) at (16.4,5.2) {vídeos anotados};
+  \node[c, draw=dgreen] (l) at (9.5,1.6) {registros (\emph{logs}) do robô};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (a.east) -- (i.west);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b.west) -- (i.east);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l.north) -- (i.south);
+  \node[font=\large, black!75, text width=7cm, align=center] at (4.2,8.4) {\textbf{exploratório}\\ ex.: o robô-foca Paro em um asilo};
+  \node[font=\large, black!75, text width=7cm, align=center] at (14.8,8.4) {\textbf{experimento de campo}\\ ex.: o Robovie em um shopping};
+\end{tikzpicture}
+\end{document}

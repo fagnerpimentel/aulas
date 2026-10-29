@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{w/.style={dbox, minimum width=2.1cm, minimum height=1.2cm, font=\Large, line width=1.3pt, inner sep=3pt}}
+  \node[font=\large\bfseries, anchor=east] at (3.3,6.0) {frase real};
+  \node[font=\large\bfseries, anchor=east] at (3.3,3.6) {reconhecida};
+  \foreach \i/\t in {1/Can,2/you,3/bring,4/me,5/a,6/drink,7/please} {\node[w, draw=black!55, fill=white] at ({4.6+(\i-1)*2.3},6.0) {\t};}
+  \foreach \i/\t in {1/Can,3/bring,4/me,5/a} {\node[w, draw=black!55, fill=white] at ({4.6+(\i-1)*2.3},3.6) {\t};}
+  \node[w, draw=dred, dashed, fill=dred!6] at ({4.6+1*2.3},3.6) {};
+  \node[w, draw=dorange, fill=dorange!15] at ({4.6+5*2.3},3.6) {pink};
+  \node[w, draw=dorange, fill=dorange!15] at ({4.6+6*2.3},3.6) {sneeze};
+  \draw[dred, line width=1.4pt, -{Stealth[length=2.6mm]}] ({4.6+1*2.3},5.35) -- ({4.6+1*2.3},4.25);
+  \node[font=\large\bfseries, dred] at ({4.6+1*2.3},2.5) {omissão (1)};
+  \node[font=\large\bfseries, dorange] at ({4.6+5.5*2.3},2.5) {trocas (2)};
+  \node[font=\Large, black!80] at (10.5,0.7) {$\mathrm{WER}=\dfrac{\text{trocas}+\text{omissões}+\text{inclusões}}{\text{palavras da frase real}}=\dfrac{2+1+0}{7}\approx 0{,}43$};
+\end{tikzpicture}
+\end{document}

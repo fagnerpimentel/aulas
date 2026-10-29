@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dorange, dashed, line width=1.6pt, rounded corners=10pt] (-1.2,-3.6) rectangle (19.2,4.9);
+  \node[font=\Large\bfseries, dorange] at (9,4.2) {contexto: laboratório, escola, hospital, cultura};
+  \node[dbox, text width=4.6cm, minimum height=2.6cm, font=\Large, line width=1.5pt, draw=dblue] (h) at (2.6,0.9) {\textbf{\textcolor{dblue}{Humano}}};
+  \node[dbox, text width=4.6cm, minimum height=2.6cm, font=\Large, line width=1.5pt, draw=dgreen] (r) at (15.4,0.9) {\textbf{\textcolor{dgreen}{Robô}}};
+  \node[dstate, minimum size=36mm, font=\Large\bfseries, align=center, line width=1.5pt] (i) at (9,0.9) {interação};
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (h.east) -- (i.west);
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (i.east) -- (r.west);
+  \node[font=\Large, black!70, align=center, text width=6cm] at (2.6,-1.9) {sem robô: ciências sociais};
+  \node[font=\Large, black!70, align=center, text width=6cm] at (15.4,-1.9) {sem humano: robótica e IA};
+  \node[font=\Large\bfseries, black!75, align=center, text width=6cm] at (9,-2.2) {a unidade de análise do IHR};
+\end{tikzpicture}
+\end{document}

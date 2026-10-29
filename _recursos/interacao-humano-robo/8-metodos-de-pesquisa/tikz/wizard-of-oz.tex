@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[circle, draw=dblue, fill=dblue!15!white, line width=1.5pt, minimum size=18mm] (u) at (0,2.4) {};
+  \node[font=\Large\bfseries, dblue] at (0,0.6) {participante};
+  \node[dbox, text width=3.6cm, minimum height=3.2cm, draw=dgreen, line width=1.6pt, font=\Large, align=center] (r) at (7.0,2.4) {\textbf{\textcolor{dgreen}{robô}}\\ parece autônomo};
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (u.east) -- (r.west);
+  \fill[dshade] (10.6,-0.3) rectangle (11.0,5.4);
+  \node[font=\large, black!60] at (10.8,-0.8) {cortina};
+  \node[dbox, text width=3.6cm, minimum height=3.2cm, draw=dorange, line width=1.6pt, font=\Large, align=center] (w) at (15.0,2.4) {\textbf{\textcolor{dorange}{mágico}}\\ pesquisador escondido};
+  \draw[dorange, dashed, line width=1.8pt, -{Stealth[length=3mm]}] (w.west) -- (r.east) node[pos=0.28, above, font=\large, yshift=2pt] {controla};
+  \node[font=\Large, black!75, align=center, text width=17cm] at (7.5,-1.6) {depois, o participante precisa ser informado: \textbf{debriefing}};
+\end{tikzpicture}
+\end{document}

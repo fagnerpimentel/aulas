@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, draw=dred, text width=8.4cm, minimum height=2.1cm, font=\large, line width=1.5pt, align=left}}
+  \node[c] at (4.6,6.9) {\textbf{\textcolor{dred}{$\times$} a presença física do robô é essencial}};
+  \node[c] at (14.4,6.9) {\textbf{\textcolor{dred}{$\times$} o efeito é pequeno}\\ se perde numa população grande e variada};
+  \node[c] at (4.6,4.3) {\textbf{\textcolor{dred}{$\times$} a população é rara na plataforma}\\ idosos, professores de uma escola específica};
+  \node[c] at (14.4,4.3) {\textbf{\textcolor{dred}{$\times$} é preciso domínio do idioma}};
+  \node[dbox, draw=dgreen, fill=dgreen!6, line width=1.5pt, text width=18.2cm, minimum height=1.7cm, font=\large, align=center] at (9.5,1.5) {idade e \textbf{familiaridade com computador} importam; para crianças e pessoas com limitações, \textbf{linguagem simples} ajuda quase todo mundo};
+  \node[font=\Large\bfseries, dred] at (9.5,8.5) {quando o \emph{crowdsourcing} não serve};
+\end{tikzpicture}
+\end{document}

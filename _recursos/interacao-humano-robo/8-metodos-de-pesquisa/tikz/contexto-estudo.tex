@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{q/.style={dbox, text width=6.6cm, minimum height=3.2cm, font=\Large, line width=1.3pt, align=center}}
+  \draw[daxis, line width=1.2pt] (-0.2,-0.2) -- (16.4,-0.2);
+  \draw[daxis, line width=1.2pt] (-0.2,-0.2) -- (-0.2,8.4);
+  \node[font=\Large\bfseries, black!70] at (3.3,-1.1) {laboratório};
+  \node[font=\Large\bfseries, black!70] at (10.9,-1.1) {campo (``no mundo real'')};
+  \node[font=\Large\bfseries, black!70, rotate=90] at (-1.2,1.9) {curto prazo};
+  \node[font=\Large\bfseries, black!70, rotate=90] at (-1.2,6.1) {longo prazo};
+  \node[q, draw=dblue] at (3.3,1.9) {\textbf{controle total}\\ ``os primeiros 10 minutos'', com efeito de novidade};
+  \node[q, draw=dgreen] at (10.9,1.9) {\textbf{reação espontânea}\\ a pessoa escolhe se interage};
+  \node[q, draw=dorange] at (3.3,6.1) {\textbf{raro}\\ exige robô confiável por semanas};
+  \node[q, draw=dred] at (10.9,6.1) {\textbf{adoção real}\\ muda rotinas e relações};
+\end{tikzpicture}
+\end{document}

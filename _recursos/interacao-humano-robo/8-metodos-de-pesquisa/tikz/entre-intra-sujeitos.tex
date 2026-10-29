@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{g/.style={dbox, text width=4.6cm, minimum height=1.7cm, font=\Large, line width=1.4pt, align=center}}
+  \node[font=\Large\bfseries, dblue] at (4.6,7.3) {Entre sujeitos};
+  \node[g, draw=black!70] (p1) at (0.4,3.8) {20 pessoas};
+  \node[g, draw=dblue] (a1) at (8.4,5.2) {10 veem o robô masculino};
+  \node[g, draw=dorange] (b1) at (8.4,2.4) {10 veem o robô feminino};
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (p1.east) -- (a1.west);
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (p1.east) -- (b1.west);
+  \node[font=\Large, black!70, align=center, text width=11cm] at (4.6,0.2) {cada pessoa faz \textbf{uma} condição; comparam-se as médias dos grupos};
+  \draw[black!35, line width=1pt] (11.6,-0.6) -- (11.6,7.6);
+  \node[font=\Large\bfseries, dgreen] at (18.0,7.3) {Intra sujeitos};
+  \node[g, draw=dblue] (c1) at (14.4,5.2) {metade: masculino $\rightarrow$ feminino};
+  \node[g, draw=dorange] (c2) at (14.4,2.4) {metade: feminino $\rightarrow$ masculino};
+  \node[font=\Large, black!70, align=center, text width=11cm] at (17.2,0.2) {cada pessoa faz \textbf{todas}; troca-se a ordem (\textbf{contrabalanceamento}) para evitar efeito de ordem};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[font=\Large\bfseries, dblue] at (4.4,6.2) {Correlação};
+  \node[dbox, text width=4.2cm, minimum height=1.8cm, font=\Large, draw=dblue, line width=1.5pt] (a) at (0.6,3.4) {tem robô aspirador};
+  \node[dbox, text width=4.2cm, minimum height=1.8cm, font=\Large, draw=dblue, line width=1.5pt] (b) at (8.2,3.4) {tempo limpando};
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (a.east) -- (b.west) node[midway, above, font=\Huge\bfseries, dorange] {?};
+  \node[font=\Large, black!70, align=center, text width=11cm] at (4.4,0.9) {os dois variam juntos, mas \textbf{não sabemos por quê}: talvez quem tem robô já seja mais organizado};
+  \draw[black!35, line width=1pt] (11.4,-0.6) -- (11.4,6.6);
+  \node[font=\Large\bfseries, dgreen] at (18.6,6.2) {Experimento};
+  \node[dbox, text width=3.4cm, minimum height=2.4cm, font=\Large, draw=black!70, align=center] (s) at (13.6,3.4) {participantes};
+  \node[dbox, text width=4.2cm, minimum height=1.6cm, font=\Large, draw=dgreen, line width=1.5pt, align=center] (g1) at (19.6,5.0) {robô aspirador};
+  \node[dbox, text width=4.2cm, minimum height=1.6cm, font=\Large, draw=dorange, line width=1.5pt, align=center] (g2) at (19.6,1.8) {aspirador comum};
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (s.east) -- (g1.west) node[midway, above, sloped, font=\large, xshift=-4pt] {sorteio};
+  \draw[dtrans, line width=1.6pt, -{Stealth[length=3mm]}] (s.east) -- (g2.west);
+  \node[font=\Large, black!70, align=center, text width=10cm] at (17.2,-0.0) {mede-se o tempo limpando nos dois grupos; a diferença vem da \textbf{manipulação}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{c/.style={dbox, text width=5.5cm, minimum height=3.3cm, font=\large, line width=1.6pt, align=center}, e/.style={dbox, draw=dorange, line width=1.5pt, text width=4.6cm, minimum height=1.5cm, font=\large, align=center}}
+  \node[c, draw=dgreen] (q) at (2.9,6.6) {\textbf{\textcolor{dgreen}{Qualitativos}}\\ captam as \textbf{qualidades} da interação\\ geram \textbf{hipóteses}\\ não provam correlação ou causa};
+  \node[c, draw=dblue] (n) at (16.1,6.6) {\textbf{\textcolor{dblue}{Quantitativos}}\\ questionários e experimentos\\ números e estatística\\ \textbf{previsões} e \textbf{causa e efeito}};
+  \node[c, draw=dorange, text width=4.4cm] (o) at (9.5,6.6) {\textbf{\textcolor{dorange}{Observacionais}}\\ podem produzir os \textbf{dois} tipos};
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (q.east) -- (o.west);
+  \draw[dtrans, line width=1.8pt, {Stealth[length=3mm]}-{Stealth[length=3mm]}] (o.east) -- (n.west);
+  \node[font=\Large\bfseries, dred] at (2.2,2.7) {Mistos};
+  \node[e] (a) at (5.7,1.6) {\textbf{explorar}\\ entrevistas e observação};
+  \node[e] (b) at (10.9,1.6) {gerar \textbf{hipóteses}};
+  \node[e] (d) at (16.1,1.6) {\textbf{confirmar} com experimento};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (a.east) -- (b.west);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b.east) -- (d.west);
+\end{tikzpicture}
+\end{document}

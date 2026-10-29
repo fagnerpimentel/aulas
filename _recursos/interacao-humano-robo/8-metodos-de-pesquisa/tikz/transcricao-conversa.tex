@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[dbox, draw=black!55, fill=white, line width=1.4pt, rounded corners=4pt] (0.2,0.4) rectangle (11.4,7.6);
+  \node[font=\large\bfseries, black!70, anchor=west] at (0.6,7.1) {transcrição};
+  \node[font=\Large\ttfamily, anchor=west] (l1) at (0.7,6.1) {1\ \ Pessoa:\ \ Pode me ajudar?};
+  \node[font=\Large\ttfamily, anchor=west] (l2) at (0.7,5.0) {2\ \ \ \ \ \ \ \ \ \ \ \ (0,8)};
+  \node[font=\Large\ttfamily, anchor=west] (l3) at (0.7,3.9) {3\ \ Robô:\ \ \ \ [Posso sim};
+  \node[font=\Large\ttfamily, anchor=west] (l4) at (0.7,2.8) {4\ \ Pessoa:\ \ [(risos) Ótimo};
+  \node[font=\Large\ttfamily, anchor=west] (l5) at (0.7,1.7) {5\ \ Robô:\ \ \ \ {[}olha para a pessoa{]}};
+  \draw[dred, line width=1.5pt, -{Stealth[length=2.6mm]}] (12.6,6.1) -- (l1.east);
+  \node[font=\large\bfseries, dred, anchor=west] at (12.8,6.1) {troca de turnos};
+  \draw[dorange, line width=1.5pt, -{Stealth[length=2.6mm]}] (12.6,5.0) -- (l2.east);
+  \node[font=\large\bfseries, dorange, anchor=west] at (12.8,5.0) {pausa (em segundos)};
+  \draw[dblue, line width=1.5pt, -{Stealth[length=2.6mm]}] (12.6,3.35) -- (l3.east);
+  \draw[dblue, line width=1.5pt, -{Stealth[length=2.6mm]}] (12.6,3.35) -- (l4.east);
+  \node[font=\large\bfseries, dblue, anchor=west] at (12.8,3.7) {sobreposição \texttt{[}};
+  \node[font=\large, dblue, anchor=west] at (12.8,3.15) {(falas ao mesmo tempo)};
+  \draw[dgreen, line width=1.5pt, -{Stealth[length=2.6mm]}] (12.6,1.7) -- (l5.east);
+  \node[font=\large\bfseries, dgreen, anchor=west] at (12.8,1.7) {risos e comportamentos};
+  \node[font=\large, black!70, text width=11cm, align=center] at (5.8,-0.4) {inclui também olhar, postura e movimentos, em resolução de \textbf{quadros de vídeo}};
+\end{tikzpicture}
+\end{document}

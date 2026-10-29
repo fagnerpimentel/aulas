@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \tikzset{chip/.style={dbox, draw=dblue, fill=dblue!8, line width=1.3pt, minimum width=2.8cm, minimum height=0.95cm, font=\large},
+           card/.style={dbox, text width=5.5cm, minimum height=2.7cm, font=\large, line width=1.6pt, align=center}}
+  % ---------- onde procurar ----------
+  \node[font=\Large\bfseries, dblue] at (9.6,9.3) {procure em várias áreas};
+  \node[chip] at (1.7,8.0) {IHR};
+  \node[chip] at (4.9,8.0) {psicologia};
+  \node[chip] at (8.1,8.0) {sociologia};
+  \node[chip] at (11.3,8.0) {antropologia};
+  \node[chip] at (14.5,8.0) {design};
+  \node[chip] at (17.7,8.0) {comunicação};
+  \draw[dblue, line width=1.5pt] (1.7,7.5) -- (1.7,7.0) -- (17.7,7.0) -- (17.7,7.5);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (9.6,7.0) -- (9.6,5.9);
+  % ---------- origens da pergunta ----------
+  \node[card, draw=dgreen] (t) at (3.0,4.6) {\textbf{\textcolor{dgreen}{Teoria}}\\ as pessoas tratam\\ robôs como sociais?};
+  \node[card, draw=dred] (n) at (16.2,4.6) {\textbf{\textcolor{dred}{Necessidade prática}}\\ testar a usabilidade\\ de uma função};
+  \node[dbox, draw=dorange, fill=dorange!10, line width=2pt, text width=5.2cm, minimum height=2.7cm, font=\Large\bfseries, align=center] (q) at (9.6,4.6) {\textcolor{dorange}{boa pergunta}\\[2pt] {\normalsize\mdseries replicar ou \textbf{estender}\\ o que já foi feito}};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (t.east) -- (q.west);
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (n.west) -- (q.east);
+  % ---------- modelo: interação entre pessoas ----------
+  \node[dbox, draw=black!55, fill=white, line width=1.4pt, text width=5.4cm, minimum height=1.4cm, font=\large, align=center] (p) at (3.3,0.6) {interação entre \textbf{pessoas}};
+  \node[dbox, draw=dgreen, fill=white, line width=1.4pt, text width=5.4cm, minimum height=1.4cm, font=\large, align=center] (r) at (15.9,0.6) {interação com \textbf{robôs}};
+  \draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (p.east) -- node[above, font=\large, black!75] {serve de modelo} (r.west);
+  \draw[black!50, dashed, line width=1.2pt, -{Stealth[length=2.6mm]}] (9.6,2.85) -- (9.6,1.2);
+\end{tikzpicture}
+\end{document}
