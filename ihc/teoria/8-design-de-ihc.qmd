@@ -291,14 +291,14 @@ Capítulo 9 do livro [**Interação Humano-Computador e Experiência do Usuário
 - Quando faz sentido o sistema pedir **confirmação** e quando é melhor gravar direto?
 - Que **adaptações** um sistema deveria deixar o **usuário** fazer, e quais deveria fazer **sozinho**?
 
-## No seu projeto {.smaller}
-
-- Para o sistema que sua equipe está projetando ---
-  - elabore **cenários de interação alternativos** a partir de um mesmo cenário de problema e liste as **perguntas** que surgiram;
-  - monte o **mapa de objetivos** e o **diagrama conceitual**;
-  - defina os **signos** (conteúdo, expressão, prevenção e recuperação);
-  - modele **tarefas** de alguns objetivos e a **interação em MoLIC**, um diagrama por papel;
-  - faça **esboços de interface** a partir do modelo de interação e planeje a **ajuda** e as **adaptações**.
+<!-- ## No seu projeto {.smaller} -->
+<!---->
+<!-- - Para o sistema que sua equipe está projetando --- -->
+<!--   - elabore **cenários de interação alternativos** a partir de um mesmo cenário de problema e liste as **perguntas** que surgiram; -->
+<!--   - monte o **mapa de objetivos** e o **diagrama conceitual**; -->
+<!--   - defina os **signos** (conteúdo, expressão, prevenção e recuperação); -->
+<!--   - modele **tarefas** de alguns objetivos e a **interação em MoLIC**, um diagrama por papel; -->
+<!--   - faça **esboços de interface** a partir do modelo de interação e planeje a **ajuda** e as **adaptações**. -->
 
 ## Leituras futuras {.smaller}
 
