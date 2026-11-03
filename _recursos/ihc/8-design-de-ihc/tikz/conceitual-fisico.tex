@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.2cm, minimum height=3.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] (n0) at (0.0,0) {\textbf{\textcolor{dblue}{1. Espaço do problema}}\\ quem usa, para quê e em que contexto};
+\node[c, draw=dgreen] (n1) at (6.0,0) {\textbf{\textcolor{dgreen}{2. Design conceitual}}\\ o que o usuário \textbf{pode fazer} e que \textbf{conceitos} precisa entender};
+\node[c, draw=dorange] (n2) at (12.0,0) {\textbf{\textcolor{dorange}{3. Design físico}}\\ \textbf{como} a solução aparece e responde na interface};
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n0.east) -- (n1.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n1.east) -- (n2.west);
+\node[font=\Large, black!70, text width=18cm, align=center] at (6.0,-2.8) {``Design é \textbf{como algo funciona}, não só o \emph{look and feel}'' (Steve Jobs)};
+\end{tikzpicture}
+\end{document}

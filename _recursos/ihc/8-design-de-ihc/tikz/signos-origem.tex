@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.3cm, minimum height=3.7cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Domínio}}\\ existe no mundo do usuário\\ ex.: nome e endereço de uma pessoa};
+\node[c, draw=dgreen] at (4.9,0.0) {\textbf{\textcolor{dgreen}{Convencional}}\\ já virou convenção na cultura dos usuários\\ ex.: \emph{zoom}, mapas};
+\node[c, draw=dorange] at (9.8,0.0) {\textbf{\textcolor{dorange}{Transformado}}\\ vem do domínio, com analogia\\ ex.: pasta, \emph{login} (assinatura)};
+\node[c, draw=dred] at (14.7,0.0) {\textbf{\textcolor{dred}{Aplicação}}\\ só faz sentido no sistema\\ ex.: \% de \emph{download}, enquadramento};
+
+\draw[dblue, line width=2.4pt, -{Stealth[length=4mm]}] (-2.0,-2.5) -- (16.8,-2.5);
+\node[font=\large\bfseries, dgreen, anchor=north west] at (-2.0,-2.75) {pouca explicação};
+\node[font=\large\bfseries, dred, anchor=north east] at (16.8,-2.75) {explicação completa};
+\node[font=\large, black!70, anchor=north] at (7.4,-3.5) {quanto \textbf{mais novo} para o usuário, \textbf{mais} o designer explica};
+\end{tikzpicture}
+\end{document}

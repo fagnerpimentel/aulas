@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.2cm, minimum height=2.6cm, font=\large, line width=1.6pt}}
+\node[dbox, draw=dblue, fill=dblue!8, line width=2pt, text width=8cm, minimum height=1.5cm, font=\Large\bfseries] (m) at (9.5,7.4) {Modelo conceitual};
+\node[c, draw=dblue] (a) at (3.5,4.0) {\textbf{\textcolor{dblue}{O que faz}}\\ o que o usuário pode fazer com o sistema};
+\node[c, draw=dgreen] (b) at (9.5,4.0) {\textbf{\textcolor{dgreen}{Como se comporta}}\\ e quais conceitos ele precisa entender};
+\node[c, draw=dorange] (c) at (15.5,4.0) {\textbf{\textcolor{dorange}{Com o que se parece}}\\ em termos de funcionamento, não de tela};
+\draw[black!55, line width=1.5pt, -{Stealth[length=3mm]}] (m.south) -- (b.north);
+\draw[black!55, line width=1.5pt, -{Stealth[length=3mm]}] (m.south west) -- (a.north);
+\draw[black!55, line width=1.5pt, -{Stealth[length=3mm]}] (m.south east) -- (c.north);
+\node[dbox, draw=dred, dashed, line width=1.5pt, text width=6.6cm, minimum height=1.5cm, font=\large] (n) at (4.4,0.5) {\textcolor{dred}{\textbf{não é}} esboço nem \emph{wireframes}};
+\node[dbox, draw=dgreen, fill=dgreen!6, line width=1.5pt, text width=8.2cm, minimum height=1.5cm, font=\large] at (14.0,0.5) {discutido com clientes e usuários \textbf{antes} da implementação};
+\end{tikzpicture}
+\end{document}

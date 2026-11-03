@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.5cm, minimum height=2.9cm, font=\large, line width=1.5pt}}
+\node[font=\Large\bfseries, dblue] at (6.1,8.7) {baseados em atividades};
+\draw[black!40, dashed, line width=1.2pt, rounded corners=8pt] (-0.2,0.2) rectangle (12.4,8.2);
+\node[c, draw=dblue] at (3.1,6.2) {\textbf{\textcolor{dblue}{Instrução}}\\ dar comandos ao sistema\\ ex.: roteador, linha de comando};
+\node[c, draw=dgreen] at (9.2,6.2) {\textbf{\textcolor{dgreen}{Conversação}}\\ falar em linguagem natural\\ ex.: assistente virtual};
+\node[c, draw=dorange] at (3.1,2.6) {\textbf{\textcolor{dorange}{Manipulação e navegação}}\\ agir sobre objetos na tela\\ ex.: editor de fotos, jogos};
+\node[c, draw=dred] at (9.2,2.6) {\textbf{\textcolor{dred}{Exploração e pesquisa}}\\ explorar e buscar informação\\ ex.: loja virtual, biblioteca};
+\node[font=\Large\bfseries, dgreen] at (16.0,8.7) {baseados em objetos};
+\draw[black!40, dashed, line width=1.2pt, rounded corners=8pt] (13.2,0.2) rectangle (18.8,8.2);
+\node[dbox, draw=dgreen, line width=1.5pt, text width=4.7cm, minimum height=6.6cm, font=\large, align=center] at (16.0,4.2) {transformam um \textbf{objeto do mundo real} em objeto digital\\[8pt] planilha: papel com células\\[4pt] \emph{desktop}: pasta e lixeira\\[4pt] calendário virtual\\[4pt] fichário de receitas};
+\end{tikzpicture}
+\end{document}

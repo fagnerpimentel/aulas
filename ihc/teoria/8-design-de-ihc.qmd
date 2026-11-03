@@ -1,0 +1,307 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Design de IHC"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/8-design-de-ihc
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+    code-line-numbers: false
+---
+
+# Design de IHC
+
+::: {.esquerda}
+Capítulo 9 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Design conceitual** --- planejar o conceito antes da interface; modelos e diagramas conceituais
+- **Cenários de interação** --- como a solução vai resolver os problemas
+- **Design centrado na comunicação** --- objetivos, signos, tarefas e a linguagem **MoLIC**
+- **Design da interface** --- estilos de interação, fidelidade e como sair da MoLIC para as telas
+- **Ajuda** e sistemas **adaptáveis** e **adaptativos**
+
+# Do problema à solução
+
+## O caminho do design {.smaller}
+
+- Na aula anterior  analisamos **a situação atual**; agora projetamos a **intervenção**: o sistema que apoia melhor os objetivos do usuário
+- Cada **representação** olha para um aspecto da solução e leva à seguinte: 
+  - o **conceito** (o que o sistema faz)
+  - a **interação** (como o usuário conversa com ele)
+  - a **interface** (como ele aparece)
+
+![](images/caminho-design.svg){fig-align="center" width="100%"}
+
+# Design Conceitual
+
+## Design não é só aparência {.smaller}
+
+- Quem pensa que design é a **aparência** (cores, formas, estilo) usa a palavra de um jeito muito restrito
+  - Steve Jobs: "Design é **como algo funciona**" --- não é só o *look and feel*
+  - Buckminster Fuller: "Quando termino, se a solução não for bonita, sei que está errada" --- primeiro vem **resolver o problema**
+- Por isso, depois de delimitar o problema, **não se começa pela interface gráfica**, e sim pelo **design conceitual** do ponto de vista do usuário
+
+## Primeiro o conceitual, depois o físico {.smaller}
+
+- Tipos de contatos: 
+  - **Contato conceitual:** o usuário **interpreta** a estrutura da aplicação
+  - **Contato físico:** ele **age** sobre a interface
+- Se a interpretação conceitual está errada, a ação física **frustra**: 
+  - um botão que parece clicável e não faz o esperado
+- O designer precisa **criar** o design conceitual coerente com os **modelos mentais** do usuário e **traduzi-lo** para a interface
+
+![](images/conceitual-fisico.svg){fig-align="center" width="100%"}
+
+## O que é um modelo conceitual {.smaller}
+
+- Uma descrição do sistema proposto em **ideias e conceitos integrados**: **o que** ele faz, **como** se comporta e **com o que** se parece (em termos de funcionamento, não de tela)
+- Define, em termos de **tarefas**, o que o usuário pode fazer e **que conceitos** precisa entender
+- **Não** é um esboço nem um conjunto de *wireframes*: é a **espinha dorsal** do sistema
+- Serve primeiro ao **próprio designer**: muitas vezes a equipe descobre que **não pensava na mesma solução**
+- Pode ser discutido com clientes e usuários **antes** da implementação, evitando retrabalho
+
+## Tipos de modelo conceitual {.smaller}
+
+- **Baseados em atividades:** inspirados no que o usuário faz; um tipo predomina, mas podem se combinar
+- **Baseados em objetos:** transformam um **objeto do mundo real** em digital, aproveitando o que o usuário já sabe sobre ele
+
+![](images/modelos-conceituais.svg){fig-align="center" width="100%"}
+
+## Quando usar cada tipo de atividade {.smaller}
+
+<!-- - **Instrução:** precisão e controle para quem domina a linguagem do sistema; curva de aprendizado **íngreme**
+- **Conversação:** natural e fácil para novatos, mas **menos precisa**; pode frustrar quando o sistema não entende
+- **Manipulação e navegação:** direta e visual (jogos, edição, realidade aumentada); fraca em tarefas **abstratas ou com muitas etapas**
+- **Exploração e pesquisa:** bom para buscas e catálogos; exige **boa estrutura da informação** para o usuário não se perder
+- **Objetos** (planilha, calendário): familiares e fáceis de aprender, mas a metáfora pode **limitar** funcionalidades novas
+
+## Tipos de Atividade: Prós e Cuidados {.smaller} -->
+
+![](images/quando-usar-atividade.svg){fig-align="center" width="100%"}
+
+## Diagrama conceitual {.smaller}
+
+- O modelo conceitual costuma culminar em um **diagrama conceitual**: um resumo visual, simples, para a equipe e os *stakeholders* terem um **vocabulário comum**
+- Elementos mínimos: **nós** (os conceitos), **conexões** (as relações, nomeadas com **verbos**) e o ***background*** (o contexto)
+- Antes de desenhar, faça a **análise de objeto e operação**: que coisas o usuário acessa, o que cada uma faz e que informação contém
+
+<!-- ## Exemplo: diagrama conceitual de um app de mapas {.smaller} -->
+
+![](images/diagrama-conceitual.svg){fig-align="center" width="100%"}
+
+## Como construir o diagrama {.smaller}
+
+![](images/passos-diagrama.svg){fig-align="center" height="520px"}
+
+## Dicas para um bom diagrama {.smaller}
+
+- **Deve ser:** completo, organizado e claro; descrever **todo** o conceito (sem "pontas soltas") e **evitar dependência de tecnologia** (não diga "Bluetooth" ou "Wi-Fi", diga "conexão sem fio")
+- **Evite:** não fazer diagrama algum; **misturar** domínios (contabilidade num diagrama de projetos)
+- **Evite confundir** o diagrama com **notas soltas**, com a **descrição da interface** (botões, cores) ou com um **diagrama de sequência**
+- Evite cores e rótulos em excesso, que atrapalham o entendimento
+
+# Cenários de Interação
+
+## Do cenário de problema ao cenário de interação {.smaller}
+
+- O **cenário de problema** descreve a situação **atual**
+- O **cenário de interação** descreve a **intervenção**: 
+  - ações do usuário e respostas do sistema
+
+![](images/cenarios-problema-interacao.svg){fig-align="center" width="100%"}
+
+- Vários cenários **alternativos** são comparados com as **mesmas perguntas**; pode sair uma terceira solução, e até o **problema** pode ser reenquadrado
+
+# Design Centrado na Comunicação
+
+## A metamensagem do designer {.smaller}
+
+- Na **engenharia semiótica**, o designer fala com o usuário por meio do **sistema, que fala em nome dele**
+- A mensagem: "este é o meu entendimento de **quem você é**, do que você **precisa** e **como**; este é o sistema que projetei, e **esta é a forma de usá-lo**"
+- Projetar a interação é **especificar as conversas** que o usuário terá com o sistema, inclusive as de **recuperação de rupturas**
+- O objetivo é **evitar rupturas comunicativas**
+
+## A interação como uma conversa {.smaller}
+
+- Toda conversa tem um **tópico**, que se desdobra em **diálogos** (subtópicos); o **foco** muda a cada **troca de turno**
+- Nas falas, os interlocutores usam **signos** para se referir aos elementos da conversa
+
+![](images/conversa-niveis.svg){fig-align="center" width="100%"}
+
+## Mapa de objetivos {.smaller}
+
+- Primeiro passo do design da interação: organizar **o que** o usuário quer alcançar, sem pensar no **como**
+- Os objetivos são **finais** (levam o usuário ao sistema) ou **instrumentais** (ajudam a alcançar um final), de forma **direta** (agora) ou **indireta** (no futuro)
+
+![](images/objetivos-tipos.svg){fig-align="center" width="100%"}
+
+## Exemplo de mapa de objetivos {.smaller}
+
+![](images/mapa-objetivos.svg){fig-align="center" width="100%"}
+
+## Esquema conceitual de signos: conteúdo {.smaller}
+
+- Um **signo** é toda **informação que aparece na conversa** entre o usuário e o sistema: num cadastro de trabalho, o título, a data de entrega e o peso
+- Pode ser **entidade** (uma "coisa": aluno, trabalho) ou **atributo** (uma característica: título, data de entrega)
+- Definir o **conteúdo** é decidir, antes da tela, **que valores cada atributo aceita**: **restrições** (data futura), **valor padrão** (peso 100%) e como **prevenir e recuperar** erros
+- Alguns atributos **identificam** a entidade (sinal de **+**): o usuário identifica o professor pelo **nome**, mesmo que o sistema use a matrícula por dentro
+
+## Exemplo de Esquema de Signos {.smaller}
+
+![](images/esquema-signos-conteudo.svg){fig-align="center" width="100%"}
+
+## Origem dos signos {.smaller}
+
+- Todo signo **vem de algum lugar**; a origem diz **quanta explicação** ele pede
+  - **Domínio** e **convencional**: o usuário já conhece, então **explique pouco**
+  - **Transformado**: vem de uma analogia, então explique **onde ela acaba** (a pasta digital não tem o limite da pasta de papel)
+  - **Aplicação**: só existe no sistema, então explique **do zero**
+
+![](images/signos-origem.svg){fig-align="center" width="100%"}
+
+## Prevenção e recuperação de rupturas {.smaller}
+
+- O designer prevê as **rupturas** e escolhe o apoio para cada uma
+  - **Prevenir:** passiva (explica), ativa (impede) e alerta (pede decisão)
+  - **recuperar:** apoiada (ajuda a corrigir) e captura de erro (orienta fora do sistema)
+- Prevenção **passiva** pede também **recuperação apoiada**, pois ninguém garante que a instrução será seguinte
+- Prevenção **ativa** deve **explicar** por que a ação não está disponível
+
+![](images/rupturas-mecanismos.svg){fig-align="center" width="100%"}
+
+<!-- ## Modelo de tarefas {.smaller} -->
+<!---->
+<!-- - Decompõe cada objetivo em **tarefas** e **operadores** (ações atômicas), incluindo estruturas de sequência, alternativa e iteração -->
+<!-- - Pare **antes** dos detalhes de interface ("digitar X", "pressionar botão Y"): isso facilita o **reúso** e evita decidir **cedo demais** -->
+<!-- - Nomeie do ponto de vista do **usuário**: "Examinar resultados", não "Apresentar resultados" -->
+<!-- - Em geral, **não** se modelam tarefas de todos os objetivos: só os de estrutura **mais complexa** -->
+<!---->
+<!-- ## Estruturas de tarefa {.smaller} -->
+<!---->
+<!-- ![](images/tarefas-estruturas.svg){fig-align="center" height="520px"} -->
+<!---->
+
+# MoLIC {.smaller}
+
+- A **MoLIC** (*Modeling Language for Interaction as Conversation*) representa as **conversas** que o usuário pode travar com o sistema
+
+## Modelar a interação como conversa {.smaller}
+
+- Motiva o designer a refletir sobre **rupturas**, **conversas alternativas** e **relações entre objetivos**
+- Um diagrama **por papel de usuário**, partindo do mapa de objetivos; é para **uso humano**, não um modelo formal para o computador
+- Duas etapas: **tópicos e mudanças de tópico**, depois **diálogos, falas e signos**
+
+<!-- ## MoLIC: Visão Geral {.smaller} -->
+
+![](images/molic-visao-geral.svg){fig-align="center" width="100%"}
+
+## Elementos da MoLIC {.smaller}
+
+![](images/molic-elementos.svg){fig-align="center" height="520px"}
+
+## Exemplo: buscar material {.smaller}
+
+![](images/molic-exemplo.svg){fig-align="center" height="520px"}
+
+# Interface
+
+## Estilos de interação {.smaller}
+
+- Do **design da interação** passamos à **interface**:
+  - A parte física com que o usuário tem contato
+
+![](images/estilos-interacao.svg){fig-align="center" width="100%"}
+
+- Um mesmo sistema costuma **combinar** estilos, que aproveita os pontos fortes de cada um
+
+## Representações da interface {.smaller}
+
+<!-- - **Interface**  -->
+  <!-- - **abstrata:** define agrupamentos e características dos elementos -->
+  <!-- - **concreta:** posições e *widgets* escolhidos -->
+<!-- - Fidelidade -->
+
+- **Baixa fidelidade:** esboços à mão
+- **Média fidelidade:** *wireframes* digitais com textos reais
+- **alta fidelidade:** desenho completo, com cores, fontes e tamanhos
+
+<!-- - **Funcionalidade:** de *wireframes* estáticos a **protótipos funcionais**, que incluem também os signos dinâmicos -->
+
+![](images/fidelidade.svg){fig-align="center" width="100%"}
+
+## Da MoLIC para a interface {.smaller}
+
+![](images/molic-para-interface.svg){fig-align="center" height="520px"}
+
+## Expressão dos signos {.smaller}
+
+- O **esquema de signos** diz **o que** o signo aceita; a **expressão** diz **como ele aparece**: o elemento da tela que o mostra ou deixa o usuário preencher
+- Se só o **designer** fala sobre o signo (mostrar o título), a expressão é de **saída** (rótulo); se **designer e usuário** falam (digitar, escolher), é de **entrada** (caixa de texto, calendário, lista)
+
+![](images/expressao-signos.svg){fig-align="center" width="100%"}
+
+# Ajuda
+
+## Sistema de ajuda {.smaller}
+
+- É uma **comunicação direta** do designer com o usuário: ajuda a entender a solução e a **se recuperar de rupturas**
+- Muitas respostas já saem dos **modelos** construídos
+  - As de **motivação** ("por que usar? como me beneficia?") devem ser escritas pelo projetista **no início**
+- O acesso deve ser **contextual**, **em camadas** e **sob demanda**, por perguntas como "O que é isto?" e "Para que serve isto?"
+
+<!-- ## Como o usuário acessa a ajuda {.smaller} -->
+
+![](images/ajuda-acesso.svg){fig-align="center" width="100%"}
+
+## De onde vêm as respostas da ajuda {.smaller}
+
+![](images/ajuda-perguntas.svg){fig-align="center" height="520px"}
+
+## Sistemas adaptáveis e adaptativos {.smaller}
+
+- Ninguém prevê o uso **depois** do design: as pessoas **adaptam** o comportamento, mudam o mundo e **usam de formas não previstas**
+  - **Adaptáveis:** o usuário configura ou estende
+  - **adaptativos:** o sistema se ajusta sozinho
+
+![](images/adaptavel-adaptativo.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- **Design conceitual primeiro:** o modelo e o diagrama conceitual dizem **o que** o sistema faz, antes da interface
+- **Cenários de interação** comparam soluções alternativas, **sem detalhes de interface**
+- No design **centrado na comunicação**: 
+  - **mapa de objetivos**, **signos**, **rupturas**, **tarefas** e **MoLIC**
+- Só então a **interface**: 
+  - estilo de interação, fidelidade e mapeamento da MoLIC para as telas
+- **Ajuda** e **adaptação** ampliam a competência comunicativa do sistema
+
+## Para pensar {.smaller}
+
+- Por que começar pelo **modelo conceitual** e não pelas "telinhas"? O que a equipe pode descobrir ao desenhá-lo junta?
+- Para um sistema que você usa, qual é o modelo conceitual: **atividade** ou **objeto**? Qual **metáfora** ele usa e onde ela **limita**?
+- Dê um exemplo de **prevenção ativa** e um de **recuperação apoiada** em um aplicativo. Há **prevenção passiva** sem recuperação?
+- Quando faz sentido o sistema pedir **confirmação** e quando é melhor gravar direto?
+- Que **adaptações** um sistema deveria deixar o **usuário** fazer, e quais deveria fazer **sozinho**?
+
+## No seu projeto {.smaller}
+
+- Para o sistema que sua equipe está projetando ---
+  - elabore **cenários de interação alternativos** a partir de um mesmo cenário de problema e liste as **perguntas** que surgiram;
+  - monte o **mapa de objetivos** e o **diagrama conceitual**;
+  - defina os **signos** (conteúdo, expressão, prevenção e recuperação);
+  - modele **tarefas** de alguns objetivos e a **interação em MoLIC**, um diagrama por papel;
+  - faça **esboços de interface** a partir do modelo de interação e planeje a **ajuda** e as **adaptações**.
+
+## Leituras futuras {.smaller}
+
+- **Johnson \& Henderson (2002)** --- *Conceptual models: begin by designing what to design*
+- **Brown (2006)** --- *Communicating Design*
+- **Norman (2013)** --- *The Design of Everyday Things*

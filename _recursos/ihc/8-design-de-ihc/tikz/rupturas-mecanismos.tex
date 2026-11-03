@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=7.6cm, minimum height=2.3cm, font=\large, line width=1.6pt},
+        sg/.style={circle, fill=white, line width=1.5pt, font=\normalsize\bfseries, inner sep=1pt, minimum size=0.95cm}}
+\node[font=\Large\bfseries, dblue] at (4.4,9.3) {prevenir (antes)};
+\node[font=\Large\bfseries, dorange] at (15.0,9.3) {recuperar (depois)};
+\node[c, draw=dblue] (pp) at (4.4,7.3) {\textbf{\textcolor{dblue}{Prevenção passiva}}\\ explica a linguagem\\ \small ex.: dica ``(dd/mm/aaaa)''};
+\node[c, draw=dgreen] (pa) at (4.4,4.6) {\textbf{\textcolor{dgreen}{Prevenção ativa}}\\ impede a fala inválida\\ \small ex.: botão desabilitado};
+\node[c, draw=dred] (al) at (4.4,1.9) {\textbf{\textcolor{dred}{Alerta}}\\ pede uma decisão ao usuário\\ \small ex.: ``o arquivo já existe, sobrescrever?''};
+\draw[dred, dashed, line width=2.2pt] (9.7,0.4) -- (9.7,8.8);
+\node[font=\large\bfseries, dred, fill=dcream, inner sep=3pt, rotate=90] at (9.7,4.6) {ruptura};
+\node[c, draw=dorange] (ra) at (15.0,6.2) {\textbf{\textcolor{dorange}{Recuperação apoiada}}\\ ajuda o usuário a corrigir\\ \small ex.: destaca o campo com erro};
+\node[c, draw=dred] (ce) at (15.0,2.9) {\textbf{\textcolor{dred}{Captura de erro}}\\ orienta o que fazer fora do sistema\\ \small ex.: ``copie o arquivo de novo''};
+\node[sg, draw=dblue, text=dblue] at ($(pp.north west)+(0.1,-0.1)$) {PP};
+\node[sg, draw=dgreen, text=dgreen] at ($(pa.north west)+(0.1,-0.1)$) {PA};
+\node[sg, draw=dred, text=dred] at ($(al.north west)+(0.1,-0.1)$) {AL};
+\node[sg, draw=dorange, text=dorange] at ($(ra.north west)+(0.1,-0.1)$) {RA};
+\node[sg, draw=dred, text=dred] at ($(ce.north west)+(0.1,-0.1)$) {CE};
+\end{tikzpicture}
+\end{document}

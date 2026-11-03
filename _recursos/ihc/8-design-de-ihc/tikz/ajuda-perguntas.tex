@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[font=\Large\bfseries, black!75] at (3.9,8.6) {dúvida do usuário};
+\node[font=\Large\bfseries, black!75] at (14.6,8.6) {onde está a resposta};
+\node[dbox, draw=dblue, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l0) at (3.9,7.4) {O que posso fazer com isto?};
+\node[dbox, draw=dblue, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r0) at (14.6,7.4) {objetivos: personas, cenários, mapa de objetivos};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l0.east) -- (r0.west);
+\node[dbox, draw=dgreen, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l1) at (3.9,6.1) {O que é isto? O que faz?};
+\node[dbox, draw=dgreen, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r1) at (14.6,6.1) {conceitual (domínio) e operacional (interface)};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l1.east) -- (r1.west);
+\node[dbox, draw=dorange, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l2) at (3.9,4.8) {Como faço isto?};
+\node[dbox, draw=dorange, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r2) at (14.6,4.8) {modelos de tarefas e de interação};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l2.east) -- (r2.west);
+\node[dbox, draw=dred, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l3) at (3.9,3.5) {O que posso fazer agora?};
+\node[dbox, draw=dred, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r3) at (14.6,3.5) {cena atual e precondições satisfeitas};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l3.east) -- (r3.west);
+\node[dbox, draw=dblue, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l4) at (3.9,2.2) {O que está acontecendo? Por quê?};
+\node[dbox, draw=dblue, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r4) at (14.6,2.2) {falas do sistema e \emph{feedback}};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l4.east) -- (r4.west);
+\node[dbox, draw=dgreen, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l5) at (3.9,0.9) {Onde estou? O que fiz?};
+\node[dbox, draw=dgreen, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r5) at (14.6,0.9) {histórico de interação do usuário};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l5.east) -- (r5.west);
+\node[dbox, draw=dorange, line width=1.5pt, text width=7.6cm, minimum height=1.0cm, font=\large] (l6) at (3.9,-0.4) {Por que devo usar? Como me beneficia?};
+\node[dbox, draw=dorange, line width=1.5pt, text width=9.4cm, minimum height=1.0cm, font=\large] (r6) at (14.6,-0.4) {intenção de design, registrada no início};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (l6.east) -- (r6.west);
+\end{tikzpicture}
+\end{document}

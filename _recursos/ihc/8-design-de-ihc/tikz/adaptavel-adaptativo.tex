@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=8.4cm, minimum height=5.6cm, font=\large, line width=1.6pt, align=left, anchor=north}}
+\node[c, draw=dblue] at (4.6,7.6) {\textbf{\textcolor{dblue}{Adaptável}}: o \textbf{usuário} configura ou estende\\[6pt] $\bullet$ comunicar o que pode ser mudado\\ $\bullet$ permitir que ele faça a mudança\\ $\bullet$ explicar as consequências e ajudar a testar\\ $\bullet$ restringir o que muda, para preservar a identidade do sistema};
+\node[c, draw=dgreen] at (14.4,7.6) {\textbf{\textcolor{dgreen}{Adaptativo}}: o \textbf{sistema} se ajusta sozinho\\[6pt] $\bullet$ comunicar cada mudança feita\\ $\bullet$ permitir \textbf{desfazer} a adaptação\\ $\bullet$ permitir impedir novas adaptações\\ $\bullet$ aprender com o \emph{feedback} do usuário};
+\node[dbox, draw=dblue, text width=2.2cm, font=\large\bfseries, minimum height=1.0cm] (u1) at (1.8,0.4) {usuário};
+\node[dbox, draw=dblue, text width=2.2cm, font=\large\bfseries, minimum height=1.0cm] (s1) at (7.4,0.4) {sistema};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (u1.east) -- (s1.west);
+\node[dbox, draw=dgreen, text width=2.2cm, font=\large\bfseries, minimum height=1.0cm] (s2) at (11.6,0.4) {sistema};
+\node[dbox, draw=dgreen, text width=2.2cm, font=\large\bfseries, minimum height=1.0cm] (u2) at (17.2,0.4) {usuário};
+\draw[dgreen, line width=2pt, -{Stealth[length=3.2mm]}] (s2.east) -- (u2.west);
+\end{tikzpicture}
+\end{document}

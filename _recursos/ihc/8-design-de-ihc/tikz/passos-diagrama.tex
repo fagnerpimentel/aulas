@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.5cm, minimum height=2.9cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{1. Listar elementos}}\\ os conceitos-chave para resolver o problema do usuário};
+\node[c, draw=dgreen] at (6.1,0.0) {\textbf{\textcolor{dgreen}{2. Pensar as relações}}\\ como esses elementos se relacionam entre si};
+\node[c, draw=dorange] at (12.2,0.0) {\textbf{\textcolor{dorange}{3. Eleger a relação principal}}\\ a atividade central do usuário no sistema};
+\node[c, draw=dred] at (0.0,-3.4) {\textbf{\textcolor{dred}{4. Desenhar nós e conexões}}\\ círculos para conceitos, linhas com \textbf{verbos}; o ``quê'', não o ``como''};
+\node[c, draw=dblue] at (6.1,-3.4) {\textbf{\textcolor{dblue}{5. Expandir}}\\ acrescentar as demais relações e conceitos};
+\node[c, draw=dgreen] at (12.2,-3.4) {\textbf{\textcolor{dgreen}{6. Refinar}}\\ manter claro e organizado; agrupar com cores e formas};
+\node[font=\Large, black!70, text width=17cm, align=center] at (6.1,-5.85) {processo \textbf{iterativo}: volte a qualquer passo};
+\end{tikzpicture}
+\end{document}

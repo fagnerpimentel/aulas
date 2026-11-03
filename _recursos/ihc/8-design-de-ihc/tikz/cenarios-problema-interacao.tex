@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.6cm, minimum height=3.5cm, font=\large, line width=1.6pt}}
+\node[c, draw=dred] (p) at (2.9,4.3) {\textbf{\textcolor{dred}{Cenário de problema}}\\ a secretária cadastra todos os projetos finais e trava no coorientador externo};
+\node[c, draw=dblue] (a) at (11.4,7.0) {\textbf{\textcolor{dblue}{Cenário de interação A}}\\ o \textbf{professor} orientador cadastra os projetos dos seus alunos};
+\node[c, draw=dgreen] (b) at (11.4,1.6) {\textbf{\textcolor{dgreen}{Cenário de interação B}}\\ o \textbf{próprio aluno} cadastra o seu projeto};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (p.east) -- (a.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (p.east) -- (b.west);
+\node[dbox, draw=dorange, fill=dorange!8, line width=1.6pt, text width=4.4cm, minimum height=6.4cm, font=\large, align=center] at (17.0,4.3) {\textbf{perguntas}\\ quem cadastra?\\ quando?\\ que dados?\\ quem confirma?\\[6pt] pode surgir uma \textbf{solução C}, mistura de A e B};
+\node[font=\large, black!65, text width=5.4cm, align=center] at (2.9,1.2) {\textbf{sem} detalhes de interface (``lista \emph{dropdown}'')};
+\end{tikzpicture}
+\end{document}

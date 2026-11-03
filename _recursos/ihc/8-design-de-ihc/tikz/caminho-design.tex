@@ -1,0 +1,27 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{g/.style={dbox, fill=dshade!35, draw=black!40, line width=1.2pt, rounded corners=8pt},
+        c/.style={dbox, text width=3.9cm, minimum height=1.35cm, font=\large, line width=1.5pt},
+        m/.style={dbox, text width=4.2cm, minimum height=1.35cm, font=\large, line width=1.5pt}}
+\node[g, minimum width=4.8cm, minimum height=6.6cm] at (2.4,4.1) {};
+\node[font=\Large\bfseries, dblue, text width=4.4cm, align=center] at (2.4,7.0) {design conceitual};
+\node[c, draw=dblue] at (2.4,5.4) {modelo conceitual};
+\node[c, draw=dblue] at (2.4,3.5) {cenários de interação};
+\node[g, minimum width=9.6cm, minimum height=6.6cm] at (10.1,4.1) {};
+\node[font=\Large\bfseries, dgreen] at (10.1,7.0) {design da interação};
+\node[m, draw=dgreen] at (7.8,5.4) {mapa de objetivos};
+\node[m, draw=dgreen] at (12.4,5.4) {esquema de signos};
+\node[m, draw=dgreen] at (7.8,3.5) {modelo de tarefas};
+\node[m, draw=dgreen] at (12.4,3.5) {modelo de interação (MoLIC)};
+\node[g, minimum width=3.8cm, minimum height=6.6cm] at (17.3,4.1) {};
+\node[font=\Large\bfseries, dorange, text width=3.6cm, align=center] at (17.3,7.0) {interface};
+\node[dbox, draw=dorange, text width=3.2cm, minimum height=1.35cm, font=\large, line width=1.5pt] at (17.3,5.4) {esboços e wireframes};
+\node[dbox, draw=dorange, text width=3.2cm, minimum height=1.35cm, font=\large, line width=1.5pt] at (17.3,3.5) {protótipo};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (4.85,4.1) -- (5.25,4.1);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (14.95,4.1) -- (15.35,4.1);
+\node[font=\Large, black!70, text width=18cm, align=center] at (9.7,0.3) {cada representação destaca \textbf{um aspecto} da solução e leva ao passo seguinte};
+\end{tikzpicture}
+\end{document}

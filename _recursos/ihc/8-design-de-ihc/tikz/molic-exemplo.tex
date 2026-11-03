@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{s/.style={dbox, draw=dblue, rounded corners=10pt, line width=1.6pt, font=\large, inner sep=4pt},
+        l/.style={font=\normalsize, fill=dcream, inner sep=1.5pt},
+        a/.style={dtrans, line width=1.7pt, -{Stealth[length=3mm]}},
+        r/.style={dred, dash pattern=on 7pt off 4pt, line width=1.7pt, -{Stealth[length=3mm]}}}
+\node[s, minimum width=3.6cm, minimum height=1.6cm] (b) at (2.4,4.4) {Buscar material};
+\node[draw=black, fill=black, minimum size=1.1cm, inner sep=0pt] (x) at (8.3,4.4) {};
+\node[s, minimum width=4.2cm, minimum height=1.6cm] (l) at (14.7,4.4) {Examinar lista de material};
+\node[s, minimum width=4.4cm, minimum height=1.6cm] (g) at (8.3,8.0) {Examinar progresso da busca};
+\node[s, minimum width=3.6cm, minimum height=1.4cm] (e) at (14.7,0.8) {Editar material};
+\draw[a] (b.east) -- node[l, pos=0.5] {u: iniciar busca} (x.west);
+\draw[a] (x.east) -- node[l, pos=0.5, align=center] {d: n itens\\ encontrados} (l.west);
+\draw[black!60, line width=1.5pt, -{Stealth[length=2.6mm]}] (x.north) -- node[l, align=center, pos=0.42] {d: \%n\\ concluída} (g.south);
+\draw[r] (g.west) to[bend right=25] node[l, pos=0.45] {u: cancelar} (b.north);
+\draw[r] (x.south) -- ++(0,-1.9) -| node[l, pos=0.25, align=center] {d: nenhum item\\ encontrado} (b.south);
+\draw[a] (l.south) -- node[l] {u: editar material X} (e.north);
+\node[font=\large, black!70, text width=6cm, align=left, anchor=west] at (0.1,0.5) {linha \textcolor{dred}{tracejada} = recuperação de ruptura};
+\end{tikzpicture}
+\end{document}
