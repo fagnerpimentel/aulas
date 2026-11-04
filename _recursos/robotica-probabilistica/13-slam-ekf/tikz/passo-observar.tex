@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[dorange, fill=dorange!20, line width=1.6pt] (1.5,1.6) -- (2.6,1.9) -- (1.5,2.3) -- cycle;
+\node[font=\large\bfseries, dorange] at (1.6,0.9) {robô};
+\draw[dorange, dashed, line width=2pt, -{Stealth[length=3.2mm]}] (2.6,1.95) -- (6.6,5.2);
+\draw[dblue, fill=dblue!10, line width=1.4pt] (7.0,5.5) ellipse (0.8 and 0.6); \fill[dorange] (7.0,5.5) circle (0.13);
+\node[font=\large\bfseries, dorange, anchor=east, text width=3cm, align=right] at (4.3,4.6) {esperado};
+\draw[black, line width=2.2pt, -{Stealth[length=3.4mm]}] (2.6,1.85) -- (7.7,4.35);
+\fill[black] (7.9,4.45) circle (0.14);
+\node[font=\large\bfseries, black, anchor=west] at (8.1,4.1) {medido};
+\draw[dred, line width=2.4pt, -{Stealth[length=3mm]}] (7.25,5.2) -- (7.8,4.65);
+\node[font=\large\bfseries, dred, anchor=west] at (8.4,5.3) {diferença};
+\node[font=\large\bfseries, dblue] at (7.0,6.5) {marco no mapa};
+\tikzset{b/.style={dbox, text width=7.4cm, minimum height=1.9cm, font=\large, line width=1.6pt, anchor=west}}
+\node[b, draw=black] at (11.3,6.7) {\textbf{Medição}\\ alcance, ângulo e assinatura de um marco};
+\node[b, draw=dorange] at (11.3,4.2) {\textbf{\textcolor{dorange}{Esperado}}\\ calculado a partir do estado atual};
+\node[b, draw=dred] at (11.3,1.7) {\textbf{\textcolor{dred}{Diferença}}\\ é a correção a ser aplicada};
+\end{tikzpicture}
+\end{document}

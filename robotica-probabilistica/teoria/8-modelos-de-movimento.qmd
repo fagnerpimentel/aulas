@@ -1,0 +1,490 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Modelos de Movimento"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/8-modelos-de-movimento
+---
+
+# Modelos de Movimento
+
+::: {.esquerda}
+Capítulo 5 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Cinemática probabilística** — pose do robô e o modelo de movimento $p(x_t \mid u_t, x_{t-1})$
+- **Modelo de velocidade** — controle por velocidades translacional e rotacional
+- **Modelo de odometria** — controle por leituras de odometria
+- **Movimento e mapas** — como o mapa restringe o movimento do robô
+
+# Introdução
+
+Os modelos de movimento implementam a **predição** dos filtros de Bayes.
+
+## O Papel do Modelo de Movimento {.smaller}
+
+- Este capítulo e o próximo descrevem os dois componentes que faltam para implementar os filtros: o modelo de **movimento** e o de **medição**
+- O modelo de movimento é a **probabilidade de transição de estado** $p(x_t \mid u_t, x_{t-1})$, essencial na **predição** do filtro de Bayes
+- A cinemática é estudada há décadas, quase sempre na forma **determinística**; aqui o resultado de um controle é **incerto** (ruído de controle, efeitos não modelados) e descrito por uma **posteriori**
+- Escopo: robôs móveis em **ambientes planares** — sem manipuladores nem dinâmica
+
+![](images/papel-modelos.svg){fig-align="center" width="70%"}
+
+## Quanto Detalhar o Modelo? {.smaller}
+
+- Os modelos determinísticos de atuadores são "**probabilizados**" ao somar **variáveis de ruído** que caracterizam a incerteza
+- Na prática, a **forma exata** do modelo importa menos que **prever alguma incerteza**
+- Muitos modelos de sucesso **superestimam** a incerteza — assim os algoritmos ficam mais **robustos** a violações da hipótese de Markov (estado não modelado, aproximações do algoritmo)
+
+## Configuração Cinemática e Pose {.smaller}
+
+- **Cinemática**: cálculo do efeito das ações de controle sobre a **configuração** do robô
+- Um robô rígido em 3-D tem seis variáveis (três coordenadas e três ângulos de Euler); no plano, a **pose** tem **três**:
+
+$$
+x_t = \begin{pmatrix} x \\ y \\ \theta \end{pmatrix}
+$$
+
+- $\theta$ é a orientação (*bearing*, direção de avanço); com $\theta = 0$ o robô aponta para o eixo $x$
+- Pose **sem orientação** é a **posição** (*location*), vetor $(x,\ y)^{\top}$
+
+![](images/pose-robo.svg){fig-align="center" width="62%"}
+
+## Cinemática Probabilística {.smaller}
+
+- O modelo de movimento é a densidade condicional $p(x_t \mid u_t, x_{t-1})$: a **distribuição da pose** $x_t$ ao executar $u_t$ a partir de $x_{t-1}$
+- Na figura, quanto mais escura a região, mais provável a pose; a densidade é 3-D, projetada em $x$-$y$
+- Dois modelos complementares, conforme a informação de movimento $u_t$:
+  - **velocidade** — $u_t$ são comandos de velocidade enviados aos motores
+  - **odometria** — $u_t$ vem da odometria (distância percorrida, ângulo girado)
+
+![](images/movimento-posterior.svg){fig-align="center" width="85%"}
+
+# Modelo de Velocidade
+
+O controle é um par de velocidades: **translacional** $v_t$ e **rotacional** $\omega_t$.
+
+## O Controle por Velocidades {.smaller}
+
+- Muitos robôs comerciais são comandados assim: tração **diferencial**, **Ackermann**, **síncrona** e algumas bases holonômicas
+- Não cobre robôs sem restrições não holonômicas (rodas **Mecanum**, robôs com **pernas**)
+
+$$
+u_t = \begin{pmatrix} v_t \\ \omega_t \end{pmatrix}
+$$
+
+- Convenção: $\omega_t > 0$ gira **no sentido anti-horário** (à esquerda); $v_t > 0$ é movimento **para frente**
+
+![](images/velocidade-v-omega.svg){fig-align="center" width="70%"}
+
+## Movimento sem Ruído {.smaller}
+
+- Com $v$ e $\omega$ **constantes** em $(t-1, t]$, o robô descreve um **círculo** de raio
+
+$$
+r = \frac{v}{\omega} \qquad (v = \omega\, r)
+$$
+
+- Centro do círculo, a partir de $x_{t-1} = (x,\ y,\ \theta)^{\top}$:
+
+$$
+x_c = x - \frac{v}{\omega}\sin\theta \qquad y_c = y + \frac{v}{\omega}\cos\theta
+$$
+
+- Pose após $\Delta t$:
+
+$$
+\begin{pmatrix} x' \\ y' \\ \theta' \end{pmatrix} =
+\begin{pmatrix} x \\ y \\ \theta \end{pmatrix} +
+\begin{pmatrix}
+-\frac{v}{\omega}\sin\theta + \frac{v}{\omega}\sin(\theta + \omega\Delta t) \\
+\ \ \frac{v}{\omega}\cos\theta - \frac{v}{\omega}\cos(\theta + \omega\Delta t) \\
+\omega\,\Delta t
+\end{pmatrix}
+$$
+
+## O Arco de Círculo {.smaller}
+
+- Velocidades variáveis: usar $\Delta t$ **pequeno** e **concatenar** os arcos
+- $\omega = 0$: o círculo tem raio infinito — o robô anda em **linha reta**
+
+![](images/velocidade-circulo.svg){fig-align="center" width="62%"}
+
+## Movimento com Ruído {.smaller}
+
+- As velocidades reais **diferem** das comandadas por um ruído $\varepsilon_b$ de média zero e variância $b$:
+
+$$
+\begin{pmatrix} \hat v \\ \hat \omega \end{pmatrix} =
+\begin{pmatrix} v \\ \omega \end{pmatrix} +
+\begin{pmatrix}
+\varepsilon_{\alpha_1 |v| + \alpha_2 |\omega|} \\
+\varepsilon_{\alpha_3 |v| + \alpha_4 |\omega|}
+\end{pmatrix}
+$$
+
+- A variância do erro é **proporcional** à velocidade comandada
+- $\alpha_1, \dots, \alpha_4 \ge 0$ são parâmetros **específicos do robô**: quanto menos preciso o robô, maiores
+- Substituir $(v,\omega)$ por $(\hat v, \hat\omega)$ no movimento sem ruído dá a pose após o movimento ruidoso
+
+## Distribuições do Ruído {.smaller}
+
+- **Normal** — densidade de uma gaussiana com variância $b$; suporte em toda a reta real
+- **Triangular** — densidade não nula só em $(-\sqrt{6b},\ \sqrt{6b})$:
+
+$$
+\varepsilon_b(a) = \begin{cases} 0 & |a| > \sqrt{6b} \\[2pt] \dfrac{\sqrt{6b} - |a|}{6b} & \text{caso contrário} \end{cases}
+$$
+
+![](images/distribuicoes-ruido.svg){fig-align="center" width="70%"}
+
+## A Rotação Final {.smaller}
+
+- Só com ruído em $v$ e $\omega$, todas as poses finais ficam numa **variedade 2-D** dentro do espaço 3-D de poses: a densidade é **degenerada**
+- Isso é um problema para os **filtros de Bayes**
+- Solução: um terceiro termo de ruído, uma **rotação final** $\hat\gamma$ ao chegar à pose final:
+
+$$
+\theta' = \theta + \hat\omega\,\Delta t + \hat\gamma\,\Delta t
+\qquad
+\hat\gamma = \varepsilon_{\alpha_5 |v| + \alpha_6 |\omega|}
+$$
+
+![](images/velocidade-orientacao-final.svg){fig-align="center" width="70%"}
+
+## Cálculo da Probabilidade (Forma Fechada) {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entrada**: $x_{t-1} = (x\ y\ \theta)^{\top}$, controle $u_t = (v\ \omega)^{\top}$ e pose hipotética $x_t = (x'\ y'\ \theta')^{\top}$
+- Linhas 2–9: **invertem** o modelo — acham o controle $(\hat v, \hat\omega)$ e a rotação final $\hat\gamma$ que levariam de $x_{t-1}$ a $x_t$
+- Linha 10: o erro entre o **comandado** e o **inferido**; os três erros são **independentes**, e a probabilidade é o produto
+- $\mathrm{prob}(a,b)$: probabilidade de $a$ sob distribuição de média zero e variância $b$
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Modelo de velocidade}\,\bigl(x_t,\ u_t,\ x_{t-1}\bigr) \\
+\hline
+\text{2:}\quad \mu = \tfrac12\,\dfrac{(x-x')\cos\theta + (y-y')\sin\theta}{(y-y')\cos\theta - (x-x')\sin\theta} \\
+\text{3:}\quad x^{*} = \tfrac{x+x'}{2} + \mu\,(y-y') \\
+\text{4:}\quad y^{*} = \tfrac{y+y'}{2} + \mu\,(x'-x) \\
+\text{5:}\quad r^{*} = \sqrt{(x-x^{*})^2 + (y-y^{*})^2} \\
+\text{6:}\quad \Delta\theta = \mathrm{atan2}(y'-y^{*},\,x'-x^{*}) - \mathrm{atan2}(y-y^{*},\,x-x^{*}) \\
+\text{7:}\quad \hat v = \dfrac{\Delta\theta}{\Delta t}\,r^{*} \qquad \text{8:}\quad \hat\omega = \dfrac{\Delta\theta}{\Delta t} \\
+\text{9:}\quad \hat\gamma = \dfrac{\theta'-\theta}{\Delta t} - \hat\omega \\
+\text{10:}\quad \textbf{retornar } \mathrm{prob}(v-\hat v,\ \alpha_1|v|+\alpha_2|\omega|) \\
+\quad\quad\ \cdot\ \mathrm{prob}(\omega-\hat\omega,\ \alpha_3|v|+\alpha_4|\omega|) \\
+\quad\quad\ \cdot\ \mathrm{prob}(\hat\gamma,\ \alpha_5|v|+\alpha_6|\omega|) \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## As Funções $\mathrm{prob}$ {.smaller}
+
+::: {.pseudo}
+
+$$
+\begin{array}{ll}
+\hline
+\textbf{prob normal}\,(a,\,b) & \textbf{prob triangular}\,(a,\,b) \\
+\hline
+\textbf{retornar } \dfrac{1}{\sqrt{2\pi b}}\,e^{-\frac12\,\frac{a^2}{b}} &
+\textbf{se } |a| > \sqrt{6b}\ \textbf{ então retornar } 0 \\
+& \textbf{senão retornar } \dfrac{\sqrt{6b} - |a|}{6b} \\
+\hline
+\end{array}
+$$
+
+:::
+
+- Qualquer uma das duas implementa o ruído de média zero e variância $b$
+- A escolha da distribuição de erro é um **detalhe** do modelo, não da estrutura do algoritmo
+
+## A Influência dos Parâmetros {.smaller}
+
+- Mesmo comando $(v, \omega)$ em todas as figuras; só mudam $\alpha_1, \dots, \alpha_6$
+- Em **(a)** erros **moderados**; em **(b)** **menos** erro angular e **mais** erro translacional; em **(c)** **muito** erro angular e **pouco** erro translacional
+
+![](images/velocidade-ruidos-alfa.svg){fig-align="center" width="100%"}
+
+## Amostragem do Modelo de Velocidade {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Amostrar** $x_t \sim p(x_t \mid u_t, x_{t-1})$ é diferente de **calcular** a densidade
+- Linhas 2–4: **perturbam** os controles pelo ruído do modelo
+- Linhas 5–7: usam os valores ruidosos para gerar a **nova pose**
+- Amostrar só exige **simular o movimento** (modelo direto); calcular a densidade exige o modelo **inverso**
+- Por isso os **filtros de partículas** — que só precisam de amostras — são atraentes
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Amostrar velocidade}\,\bigl(u_t,\ x_{t-1}\bigr) \\
+\hline
+\text{2:}\quad \hat v = v + \mathrm{sample}(\alpha_1|v| + \alpha_2|\omega|) \\
+\text{3:}\quad \hat\omega = \omega + \mathrm{sample}(\alpha_3|v| + \alpha_4|\omega|) \\
+\text{4:}\quad \hat\gamma = \mathrm{sample}(\alpha_5|v| + \alpha_6|\omega|) \\
+\text{5:}\quad x' = x - \tfrac{\hat v}{\hat\omega}\sin\theta + \tfrac{\hat v}{\hat\omega}\sin(\theta + \hat\omega\Delta t) \\
+\text{6:}\quad y' = y + \tfrac{\hat v}{\hat\omega}\cos\theta - \tfrac{\hat v}{\hat\omega}\cos(\theta + \hat\omega\Delta t) \\
+\text{7:}\quad \theta' = \theta + \hat\omega\Delta t + \hat\gamma\Delta t \\
+\text{8:}\quad \textbf{retornar } x_t = (x',\ y',\ \theta')^{\top} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Como Amostrar o Ruído {.smaller}
+
+::: {.pseudo}
+
+$$
+\begin{array}{ll}
+\hline
+\textbf{amostra normal}\,(b) & \textbf{amostra triangular}\,(b) \\
+\hline
+\textbf{retornar } \dfrac{b}{6}\displaystyle\sum_{i=1}^{12}\mathrm{rand}(-1,1) &
+\textbf{retornar } b\cdot \mathrm{rand}(-1,1)\cdot \mathrm{rand}(-1,1) \\
+\hline
+\end{array}
+$$
+
+:::
+
+- $\mathrm{rand}(x,y)$: gerador pseudoaleatório **uniforme** em $[x, y]$
+- A soma de 12 uniformes aproxima uma **normal** (teorema central do limite)
+- É por **amostragem** que se obtêm as nuvens de 500 poses nas figuras do capítulo
+
+## Esboço da Derivação da Forma Fechada {.smaller}
+
+- O centro do círculo está **ortogonal** à direção inicial e sobre a reta que passa pelo **ponto médio** de $(x,y)$ e $(x',y')$, ortogonal ao segmento entre eles; resolvendo:
+$$
+\mu = \frac12\,\frac{(x-x')\cos\theta + (y-y')\sin\theta}{(y-y')\cos\theta - (x-x')\sin\theta}
+$$
+- Do centro $(x^{*}, y^{*})$ obtêm-se o **raio** $r^{*}$, a variação de direção $\Delta\theta$ e a distância percorrida $\Delta\mathrm{dist} = r^{*}\,\Delta\theta$
+- Daí as velocidades **inferidas** e a rotação final:
+
+$$
+\hat v = \frac{\Delta\mathrm{dist}}{\Delta t} \qquad \hat\omega = \frac{\Delta\theta}{\Delta t} \qquad \hat\gamma = \frac{\theta'-\theta}{\Delta t} - \hat\omega
+$$
+
+- Os erros $v - \hat v$, $\omega - \hat\omega$ e $\hat\gamma$ têm as probabilidades do modelo de ruído; como são independentes, $p(x_t \mid u_t, x_{t-1})$ é o **produto**
+
+# Modelo de Odometria
+
+Em vez de velocidades, usa as **leituras de odometria** como base do movimento.
+
+## Odometria como Controle {.smaller}
+
+- A odometria vem da integração dos **encoders das rodas**; muitos robôs a fornecem periodicamente (ex.: a cada 0,1 s)
+- Costuma ser **mais precisa** que as velocidades — embora também tenha **deriva** e **escorregamento** — mas só fica disponível **depois** do movimento
+  - sem problema para **filtros**; inutilizável para **planejamento** e controle
+- Tecnicamente, odometria é **medição**, não controle; tratá-la como controle mantém o **estado pequeno**
+- A odometria reporta poses $\bar x_{t-1}$ e $\bar x_t$ num referencial interno de **relação desconhecida** com o mundo (conhecê-la resolveria a localização!)
+- A **diferença relativa** entre as duas é um bom estimador da diferença entre as poses reais
+
+## Os Referenciais do Mundo e da Odometria {.smaller}
+
+![](images/odometria-referencial.svg){fig-align="center" width="80%"}
+
+## Decomposição em Três Movimentos {.smaller}
+
+- O movimento é decomposto em: uma **rotação** $\delta_{rot1}$, uma **translação** $\delta_{trans}$ e uma segunda **rotação** $\delta_{rot2}$
+
+$$
+\begin{aligned}
+\delta_{rot1} &= \mathrm{atan2}(\bar y' - \bar y,\ \bar x' - \bar x) - \bar\theta \\
+\delta_{trans} &= \sqrt{(\bar x - \bar x')^2 + (\bar y - \bar y')^2} \\
+\delta_{rot2} &= \bar\theta' - \bar\theta - \delta_{rot1}
+\end{aligned}
+$$
+
+- Os três parâmetros são **estatística suficiente** do movimento relativo, e supõe-se **ruído independente** em cada um
+- Há **mais um parâmetro** que no modelo de velocidade, por isso **não** há a degeneração que exigiu a rotação final
+
+## Os Três Movimentos da Odometria {.smaller}
+
+![](images/odometria-3-passos.svg){fig-align="center" width="85%"}
+
+## Cálculo da Probabilidade (Forma Fechada) {.smaller}
+
+::: columns
+::: {.column width="38%"}
+- **Entrada**: pose anterior $x_{t-1}$, par de poses de odometria $u_t = (\bar x_{t-1},\ \bar x_t)$ e pose hipotética $x_t$
+- Linhas 2–4: parâmetros relativos **medidos** pela odometria
+- Linhas 5–7: parâmetros correspondentes às poses $x_{t-1}$ e $x_t$ **hipotéticas**
+- Linhas 8–10: probabilidades dos **erros**; linha 11: o **produto**
+- Os ângulos devem ficar em $[-\pi, \pi]$: esquecer de **normalizar** a diferença é um erro comum que causa **divergência**
+:::
+::: {.column width="62%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Modelo de odometria}\,\bigl(x_t,\ u_t,\ x_{t-1}\bigr) \\
+\hline
+\text{2:}\quad \delta_{rot1} = \mathrm{atan2}(\bar y' - \bar y,\ \bar x' - \bar x) - \bar\theta \\
+\text{3:}\quad \delta_{trans} = \sqrt{(\bar x - \bar x')^2 + (\bar y - \bar y')^2} \\
+\text{4:}\quad \delta_{rot2} = \bar\theta' - \bar\theta - \delta_{rot1} \\
+\text{5:}\quad \hat\delta_{rot1} = \mathrm{atan2}(y' - y,\ x' - x) - \theta \\
+\text{6:}\quad \hat\delta_{trans} = \sqrt{(x - x')^2 + (y - y')^2} \\
+\text{7:}\quad \hat\delta_{rot2} = \theta' - \theta - \hat\delta_{rot1} \\
+\text{8:}\quad p_1 = \mathrm{prob}(\delta_{rot1} - \hat\delta_{rot1},\ \alpha_1\hat\delta_{rot1} + \alpha_2\hat\delta_{trans}) \\
+\text{9:}\quad p_2 = \mathrm{prob}(\delta_{trans} - \hat\delta_{trans},\ \alpha_3\hat\delta_{trans} + \alpha_4(\hat\delta_{rot1} + \hat\delta_{rot2})) \\
+\text{10:}\quad p_3 = \mathrm{prob}(\delta_{rot2} - \hat\delta_{rot2},\ \alpha_1\hat\delta_{rot2} + \alpha_2\hat\delta_{trans}) \\
+\text{11:}\quad \textbf{retornar } p_1 \cdot p_2 \cdot p_3 \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## A Influência dos Parâmetros {.smaller}
+
+- Quatro parâmetros $\alpha_1, \dots, \alpha_4$ específicos do robô
+- Em **(a)** o caso **típico**; em **(b)** erro de **translação** muito grande; em **(c)** erro de **rotação** muito grande
+- Compare com o modelo de velocidade: quanto **menor** o intervalo entre atualizações, **mais parecidos** os dois — para um robô interno atualizado a cada 0,1 s, a diferença é pequena
+- Em geral, o modelo de **odometria é preferível** quando aplicável
+
+![](images/odometria-amostras-ruido.svg){fig-align="center" width="100%"}
+
+## Amostragem do Modelo de Odometria {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linhas 2–4: recuperam os três parâmetros **medidos**
+- Linhas 5–7: **perturbam** cada parâmetro com ruído
+- Linhas 8–10: aplicam a **rotação, a translação e a rotação** ruidosas à pose anterior
+- Mais simples que a forma fechada: **dispensa** o modelo inverso
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Amostrar odometria}\,\bigl(u_t,\ x_{t-1}\bigr) \\
+\hline
+\text{2-4:}\quad \delta_{rot1},\ \delta_{trans},\ \delta_{rot2} \text{ a partir de } (\bar x_{t-1},\ \bar x_t) \\
+\text{5:}\quad \hat\delta_{rot1} = \delta_{rot1} - \mathrm{sample}(\alpha_1\delta_{rot1} + \alpha_2\delta_{trans}) \\
+\text{6:}\quad \hat\delta_{trans} = \delta_{trans} - \mathrm{sample}(\alpha_3\delta_{trans} + \alpha_4(\delta_{rot1} + \delta_{rot2})) \\
+\text{7:}\quad \hat\delta_{rot2} = \delta_{rot2} - \mathrm{sample}(\alpha_1\delta_{rot2} + \alpha_2\delta_{trans}) \\
+\text{8:}\quad x' = x + \hat\delta_{trans}\cos(\theta + \hat\delta_{rot1}) \\
+\text{9:}\quad y' = y + \hat\delta_{trans}\sin(\theta + \hat\delta_{rot1}) \\
+\text{10:}\quad \theta' = \theta + \hat\delta_{rot1} + \hat\delta_{rot2} \\
+\text{11:}\quad \textbf{retornar } x_t = (x',\ y',\ \theta')^{\top} \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## A Incerteza Cresce com o Movimento {.smaller}
+
+- Sobrepondo conjuntos de amostras de **vários instantes**, para um robô **sem sensores**, vê-se a incerteza se espalhar
+- Cada passo aplica o modelo de movimento do **filtro de partículas** às poses do conjunto anterior
+
+![](images/incerteza-crescente.svg){fig-align="center" width="70%"}
+
+## Velocidade × Odometria {.smaller}
+
+| | Modelo de velocidade | Modelo de odometria |
+|---|:--:|:--:|
+| **Informação de movimento** | $(v,\ \omega)$ comandados | par de poses $(\bar x_{t-1},\ \bar x_t)$ |
+| **Parâmetros de ruído** | $\alpha_1, \dots, \alpha_6$ | $\alpha_1, \dots, \alpha_4$ |
+| **Rotação final** | necessária (evita a degeneração) | não necessária |
+| **Precisão** | menor | maior |
+| **Disponibilidade** | antes do movimento | só depois |
+| **Uso típico** | **planejamento** probabilístico | **estimação** |
+
+# Movimento e Mapas
+
+## O Modelo de Movimento com Mapa {.smaller}
+
+- Até aqui o movimento foi descrito **no vácuo**; com um **mapa** $m$ sabemos onde o robô pode (ou não) estar
+- O modelo $p(x_t \mid u_t, x_{t-1}, m)$ difere do $p(x_t \mid u_t, x_{t-1})$ e é mais preciso, mas **difícil de calcular** de forma fechada
+- Aproximação, boa se $x_{t-1}$ e $x_t$ estão **próximos** (menos que meio diâmetro do robô):
+
+$$
+p(x_t \mid u_t, x_{t-1}, m) = \eta\ p(x_t \mid u_t, x_{t-1})\ p(x_t \mid m)
+$$
+
+- $p(x_t \mid m)$ mede a **consistência** da pose com o mapa; em mapas de ocupação é $0$ se o robô **colide** com uma célula ocupada, e constante caso contrário
+
+## Movimento Condicionado ao Mapa {.smaller}
+
+![](images/movimento-mapa.svg){fig-align="center" width="85%"}
+
+## Algoritmos com Mapa {.smaller}
+
+::: {.pseudo}
+
+$$
+\begin{array}{ll}
+\hline
+\textbf{Modelo com mapa}\,(x_t, u_t, x_{t-1}, m) & \textbf{Amostrar com mapa}\,(u_t, x_{t-1}, m) \\
+\hline
+\textbf{retornar } p(x_t \mid u_t, x_{t-1}) \cdot p(x_t \mid m) &
+\textbf{repetir} \\
+& \quad x_t = \mathrm{sample\_motion\_model}(u_t, x_{t-1}) \\
+& \quad \pi = p(x_t \mid m) \\
+& \textbf{até } \pi > 0 \\
+& \textbf{retornar } \langle x_t,\ \pi\rangle \\
+\hline
+\end{array}
+$$
+
+:::
+
+- Reaproveita **qualquer** dos modelos anteriores, só multiplicando por $p(x_t \mid m)$
+- A versão de amostragem devolve uma amostra **ponderada** (fator de importância $\propto p(x_t \mid m)$); é preciso garantir que o laço **termine**
+
+## Limites da Aproximação {.smaller}
+
+- A região marcada (∗) na figura tem probabilidade **não nula**, mas o robô só chegaria lá **atravessando a parede**
+- Causa: verifica-se a consistência só na pose **final** $x_t$, não no **caminho**
+- Por Bayes: $p(x_t \mid u_t, x_{t-1}, m) = \eta\ p(m \mid x_t, u_t, x_{t-1})\ p(x_t \mid u_t, x_{t-1})$
+- A aproximação supõe $p(m \mid x_t, u_t, x_{t-1}) \approx p(m \mid x_t)$, descartando a informação sobre o **caminho**
+- O erro só ocorre para **movimentos grandes**; com **alta frequência de atualização** e ruídos limitados, a aproximação é **justa**
+- Lição: a **frequência de atualização** do filtro altera os resultados
+
+# Resumo do Capítulo
+
+## Modelos de Movimento {.smaller}
+
+- **Velocidade**: controle $(v, \omega)$ durante $\Delta t$; dois ruídos (em $v$ e $\omega$) **não bastam** para uma posterior sem degeneração — daí o terceiro, de **rotação final**
+- **Odometria**: três parâmetros (rotação, translação, rotação), todos com ruído; leituras de odometria tratadas **como controles**
+- Cada modelo tem **duas implementações**: **forma fechada** (inverte o modelo) e **amostragem** (modelo direto); os **filtros de partículas** usam a amostragem
+- Com um **mapa**, multiplica-se por $p(x_t \mid m)$ para excluir poses inconsistentes
+
+![](images/modelos-2x2.svg){fig-align="center" width="62%"}
+
+## Para pensar {.smaller}
+
+- Por que dois ruídos ($v$ e $\omega$) geram uma densidade **degenerada** e como a rotação final resolve isso?
+- Por que a **amostragem** é mais fácil de implementar que o cálculo da densidade?
+- Quando o modelo de **odometria** é preferível ao de velocidade? E o contrário?
+- Por que a aproximação do modelo com mapa piora com **movimentos grandes**?

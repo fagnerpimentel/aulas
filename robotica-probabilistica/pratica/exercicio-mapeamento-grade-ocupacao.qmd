@@ -1,0 +1,478 @@
+---
+title: "Exercício: Mapeamento por Grade de Ocupação"
+subtitle: "Log-odds, modelo inverso do sensor, pessoas, deriva da pose e fusão de sensores"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Disciplina:** Robótica Probabilística
+- **Duração estimada:** 2 horas
+- **Pré-requisitos:**
+   - Aula de Mapeamento por Grade de Ocupação
+   - Exercícios de Filtro de Bayes e Filtros Não Paramétricos concluídos
+   - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Explicar por que **aprender o mapa** é difícil e que simplificação o mapeamento por grade faz (a **pose é conhecida**).
+- Usar o **log-odds** para acumular evidência por célula e converter entre **log-odds** e **probabilidade**.
+- Descrever o **modelo inverso** de um telêmetro (**livre**, **ocupada**, **sem informação**) e o papel de $\alpha$ e $\beta$.
+- Explicar por que a fusão de vários sensores com **um mapa por sensor** e o **máximo** é mais segura que um filtro único.
+- Implementar em Python o **modelo inverso** e a **atualização** do mapa, e usá-los para investigar o efeito da **espessura $\alpha$**, de **pessoas** no ambiente, da **deriva da pose** e de **dois sensores** com percepções diferentes.
+
+---
+
+## Cenário
+
+Um robô percorre uma arena de $10 \times 8$ m (paredes de $0{,}3$ m e **três obstáculos**) e **conhece sua pose exata** $(x, y, \theta)$ a cada passo, vinda, por exemplo, de um SLAM. O mapa $m$ é desconhecido: uma **grade** de células de $0{,}1$ m (100 × 80 células), todas com log-odds $l_0 = 0$ ($p = 0{,}5$, "não sei").
+
+A cada passo, o robô lê um **telêmetro** com **120 feixes** (um a cada $3^\circ$, cobrindo $360^\circ$) e alcance máximo $z_{\max} = 4$ m. Cada leitura tem ruído gaussiano $\sigma_z = 0{,}05$ m e em $3\%$ dos feixes vem um valor **aleatório** (*outlier*). O percurso tem **145 poses**: um laço pela arena e uma travessia central.
+
+O **modelo inverso** simples (aula) devolve, para cada célula $m_i$ e leitura $z_t$ (com $k$ o feixe mais próximo da célula, $r$ a distância do robô ao centro da célula e $\phi$ o seu ângulo):
+
+| Onde está a célula | Valor | Significa |
+|---|---|---|
+| **Antes** do alcance medido ($r \le z^k$) | $l_{free} = -0{,}4$ | provavelmente livre |
+| **No** alcance medido ($\lvert r - z^k \rvert < \alpha/2$ e $z^k < z_{\max}$) | $l_{occ} = +0{,}85$ | provavelmente ocupada |
+| **Depois** do obstáculo, ou **fora** do feixe ($\lvert \phi - \theta_k \rvert > \beta/2$) | $l_0 = 0$ | sem informação |
+
+A atualização é $l_{t,i} = l_{t-1,i} + \mathit{inverse\_sensor\_model}(m_i, x_t, z_t) - l_0$, e a probabilidade de ocupação é $p = 1 - \dfrac{1}{1 + e^{l}}$.
+
+---
+
+## Parte 1 — Fundamentação teórica (sem calculadora)
+
+1. Sobre **por que mapear** e **por que é difícil**:
+   a. Por que não basta o robô receber a **planta** do prédio? Cite dois motivos.
+   b. Explique o problema do **"ovo e galinha"** e diga qual simplificação o mapeamento por grade faz para escapar dele. Qual é o nome do problema geral?
+   c. Por que **fechar um ciclo** é difícil quando o erro de odometria se acumula?
+
+2. Sobre a **grade de ocupação**:
+   a. O que cada célula guarda e o que significa uma célula **ainda não observada**?
+   b. Por que o filtro de Bayes simples **não** consegue estimar o mapa inteiro de uma vez, e como a grade contorna isso? Que dependência ela **perde**?
+
+3. Sobre o **log-odds**:
+   a. Escreva a definição de $l$ em função de $p$ e diga o que significam $l = 0$, $l > 0$ e $l < 0$.
+   b. Cite duas **vantagens** de guardar $l$ em vez de $p$.
+   c. Por que somar a evidência a cada leitura **aumenta a certeza** quando as leituras concordam e **diminui** quando discordam?
+
+4. Sobre o **modelo inverso**:
+   a. Qual é a diferença entre o modelo de medição **direto** (usado na localização) e o **inverso**? Qual vai da **causa ao efeito**?
+   b. Em um feixe do telêmetro, o que o modelo devolve para células **antes**, **no** e **depois** do alcance medido? Por que as células **depois** do obstáculo ficam em $l_0$?
+   c. O que representam $\alpha$ e $\beta$? O que acontece se $\alpha$ for **muito maior** que a espessura real das paredes?
+
+5. Sobre **vários sensores**:
+   a. Por que usar **um único filtro** com os modelos inversos de todos os sensores é problemático quando um sensor enxerga um obstáculo que o outro **não** enxerga?
+   b. Como funciona a solução de **um mapa por sensor** e o **máximo**? Qual é o **viés** e por que ele é aceitável para navegação?
+
+---
+
+## Parte 2 — Cálculo manual
+
+Use $l_{occ} = +0{,}85$, $l_{free} = -0{,}4$ e $l_0 = 0$. Probabilidade: $p = 1 - 1/(1 + e^{l})$.
+
+### 2a — Um corredor passo a passo
+
+Um corredor de **8 células** (numeradas de 1 a 8, a partir do robô, **em uma dimensão**). Em cada leitura, o feixe bate na célula $k$: as células **$1$ a $k-1$** somam $l_{free}$, a célula **$k$** soma $l_{occ}$ e as células **depois de $k$** não mudam. Chegam, em ordem, quatro leituras: $k = 5,\ 5,\ 6,\ 5$ (a terceira é um ***outlier***).
+
+1. Complete a tabela de log-odds e de probabilidade **depois das quatro leituras**:
+
+   | Célula | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+   |---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+   | $l$ | | | | | | | | |
+   | $p$ | | | | | | | | |
+
+2. O *outlier* ($k=6$) fez a célula 6 parecer ocupada? Compare $p$ das células 5 e 6 e explique o que a **acumulação** de evidência fez.
+
+### 2b — Quantas leituras?
+
+1. Quantas leituras **consecutivas** de "ocupada" são necessárias para que uma célula com $l_0 = 0$ chegue a $p \ge 0{,}95$? (Use $\ln\frac{0{,}95}{0{,}05} \approx 2{,}94$.)
+2. Depois dessas leituras, uma pessoa que estava ali **sai**. Quantas leituras de "livre" são necessárias até a célula voltar a $p < 0{,}5$?
+3. Se o log-odds fosse **limitado** a $[-3,\ +3]$, quantas leituras de "livre" seriam necessárias a partir do limite superior? O que isso diz sobre a **adaptação a mudanças**?
+
+### 2c — Dois sensores
+
+Uma **parede de vidro** é vista como **ocupada** pelo sonar (5 leituras) e como **livre** pelo laser, que a atravessa (20 leituras). Para uma célula do vidro:
+
+1. Calcule $l$ e $p$ com **um filtro único** (soma das evidências dos dois sensores).
+2. Calcule $l$ e $p$ com **um mapa por sensor** e o **máximo**.
+3. Qual é a decisão correta para a navegação? O que muda se o laser fizer 40 leituras em vez de 20?
+
+---
+
+## Parte 3 — Implementação em Python
+
+Crie uma pasta com **três arquivos**: `cenario.py` (fornecido), `mapeamento.py` (**você implementa**) e `experimentos.py` (fornecido). Instale `numpy` e `matplotlib`.
+
+### 3.1 — Código fornecido (`cenario.py`)
+
+Cria o mundo (com uma **parede de vidro** que só o sonar enxerga), o percurso, o sensor simulado e as métricas:
+
+- `precisão`: fração das células marcadas como ocupadas que estão a no máximo **1 célula** de um obstáculo real;
+- `cobertura`: fração da superfície real marcada como ocupada (tolerância de 1 célula);
+- `fantasmas`: células marcadas como ocupadas a **mais de 1 célula** de qualquer obstáculo real.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+RES = 0.1                      # lado da célula (m)
+LARG, ALT = 10.0, 8.0          # arena (m)
+NX, NY = int(LARG / RES), int(ALT / RES)
+
+# centros das células (linha = y, coluna = x)
+CX, CY = np.meshgrid((np.arange(NX) + 0.5) * RES, (np.arange(NY) + 0.5) * RES)
+
+
+def caixa(m, x0, y0, x1, y1):
+    m[int(y0 / RES):int(y1 / RES), int(x0 / RES):int(x1 / RES)] = True
+
+
+def cria_mundo():
+    """Devolve (ocupado, vidro): 'vidro' só o sonar enxerga; o laser atravessa."""
+    occ = np.zeros((NY, NX), bool)
+    occ[:3, :] = occ[-3:, :] = occ[:, :3] = occ[:, -3:] = True      # paredes
+    caixa(occ, 2.5, 2.0, 4.0, 3.5)
+    caixa(occ, 6.0, 4.5, 8.0, 5.0)
+    caixa(occ, 4.5, 4.8, 5.0, 6.0)
+    vidro = np.zeros((NY, NX), bool)
+    caixa(vidro, 7.0, 1.5, 7.2, 3.5)
+    return occ, vidro
+
+
+def percurso(passo=0.25):
+    """Poses (x, y, theta) de um laço pela arena e uma travessia central."""
+    pts = [(1.2, 1.2), (8.8, 1.2), (8.8, 6.8), (1.2, 6.8), (1.2, 1.2),
+           (1.2, 4.0), (8.8, 4.0)]
+    poses = []
+    for (xa, ya), (xb, yb) in zip(pts[:-1], pts[1:]):
+        n = max(1, int(round(np.hypot(xb - xa, yb - ya) / passo)))
+        th = np.arctan2(yb - ya, xb - xa)
+        for i in range(n):
+            poses.append((xa + (xb - xa) * i / n, ya + (yb - ya) * i / n, th))
+    return np.array(poses)
+
+
+class Sensor:
+    """Telêmetro com 'n' feixes em 360 graus."""
+
+    def __init__(self, n=120, zmax=4.0, sigma=0.05, p_out=0.03, ve_vidro=False):
+        self.angs = np.linspace(-np.pi, np.pi, n, endpoint=False)
+        self.zmax, self.sigma, self.p_out = zmax, sigma, p_out
+        self.ve_vidro = ve_vidro
+        self.beta = 2 * np.pi / n          # abertura de cada feixe
+
+    def le(self, pose, occ, vidro, rng):
+        x, y, th = pose
+        r = np.arange(0.0, self.zmax, 0.02)[None, :]
+        a = (th + self.angs)[:, None]
+        ix = np.clip(((x + r * np.cos(a)) / RES).astype(int), 0, NX - 1)
+        iy = np.clip(((y + r * np.sin(a)) / RES).astype(int), 0, NY - 1)
+        bate = occ[iy, ix] | (vidro[iy, ix] if self.ve_vidro else False)
+        primeiro = np.argmax(bate, axis=1)
+        z = np.where(bate.any(axis=1), r[0, primeiro], self.zmax)
+        z = z + rng.normal(0, self.sigma, z.shape) * (z < self.zmax)
+        outlier = rng.random(z.shape) < self.p_out
+        z = np.where(outlier, rng.uniform(0, self.zmax, z.shape), z)
+        return np.clip(z, 0.0, self.zmax)
+
+
+def dilata(m):
+    """Dilata uma máscara booleana em 1 célula (vizinhança 3 x 3)."""
+    d = m.copy()
+    for dy in (-1, 0, 1):
+        for dx in (-1, 0, 1):
+            d |= np.roll(np.roll(m, dy, axis=0), dx, axis=1)
+    return d
+
+
+def avalia(L, verdade):
+    """(precisão, cobertura): as células marcadas como ocupadas ficam a no
+    máximo 1 célula de um obstáculo real? Quanto da superfície real foi
+    marcada? (tolerância de 1 célula: o modelo inverso espalha a evidência)."""
+    ocupadas = L > 0
+    superficie = verdade & ~(np.roll(verdade, 1, 0) & np.roll(verdade, -1, 0) &
+                             np.roll(verdade, 1, 1) & np.roll(verdade, -1, 1))
+    prec = np.sum(ocupadas & dilata(verdade)) / max(1, ocupadas.sum())
+    cob = np.sum(superficie & dilata(ocupadas)) / max(1, superficie.sum())
+    return prec, cob
+
+
+def mostra(L, titulo="", verdade=None):
+    """Desenha a probabilidade de ocupação (preto = ocupada, branco = livre)."""
+    p = 1.0 - 1.0 / (1.0 + np.exp(L))
+    plt.imshow(p, origin="lower", cmap="gray_r", vmin=0, vmax=1,
+               extent=(0, LARG, 0, ALT))
+    if verdade is not None:
+        plt.contour(CX, CY, verdade.astype(float), [0.5], colors="r",
+                    linewidths=0.8)
+    plt.title(titulo)
+    plt.xlabel("x (m)")
+    plt.ylabel("y (m)")
+```
+
+### 3.2 — O que você implementa (`mapeamento.py`)
+
+Implemente `modelo_inverso`, `atualiza` e `prob`. O modelo inverso deve ser **vetorizado** (sem laços sobre células), seguindo as linhas 3 a 8 do algoritmo. A função recebe **toda a grade** de uma vez (`CX` e `CY` guardam os centros das células).
+
+```python
+import numpy as np
+from cenario import CX, CY, NX, NY
+
+L_OCC, L_FREE = 0.85, -0.4      # log-odds de ocupada e de livre (l0 = 0)
+ALFA = 0.2                      # espessura dos obstáculos (m)
+
+
+def modelo_inverso(pose, z, angs, zmax, beta, alfa=ALFA,
+                   l_occ=L_OCC, l_free=L_FREE):
+    """Log-odds que a leitura z sugere para CADA célula (l0 = 0).
+
+    pose = (x, y, theta); z = alcances medidos (um por feixe);
+    angs = ângulos dos feixes no referencial do robô; beta = abertura do feixe.
+    Devolve uma matriz (NY, NX), vetorizada com CX e CY (centros das células).
+    """
+    x, y, th = pose
+    # TODO 1: r = distância do robô ao centro de cada célula            (linha 3)
+    # TODO 2: phi = ângulo da célula no referencial do robô             (linha 4)
+    # TODO 3: k = índice do feixe mais próximo de phi (cuidado com a
+    #         diferença de ângulos, que deve ficar em [-pi, pi])        (linha 5)
+    # TODO 4: fora = célula além de min(zmax, z[k] + alfa/2) ou fora da
+    #         abertura do feixe (|phi - angs[k]| > beta/2)              (linha 6)
+    # TODO 5: ocupada se z[k] < zmax e |r - z[k]| < alfa/2              (linha 7)
+    # TODO 6: livre se r <= z[k]                                        (linha 8)
+    # Devolva 0 em "fora", l_occ nas ocupadas, l_free nas livres e 0 no resto.
+    raise NotImplementedError
+
+
+def atualiza(L, pose, z, sensor, lmax=None, **kw):
+    """Soma a evidência da leitura z ao log-odds L (linha 4 do algoritmo).
+
+    Se lmax não for None, limite o log-odds ao intervalo [-lmax, lmax].
+    """
+    # TODO 7
+    raise NotImplementedError
+
+
+def prob(L):
+    """Probabilidade de ocupação a partir do log-odds."""
+    # TODO 8: p = 1 - 1 / (1 + exp(l))
+    raise NotImplementedError
+```
+
+**Teste.** Salve como `teste.py`; antes de seguir, `python teste.py` deve imprimir `ok`:
+
+```python
+import numpy as np
+from mapeamento import modelo_inverso, atualiza, prob
+
+# Robô no centro da célula (5, 5) olhando para +x, um feixe com z = 2,0 m.
+inc = modelo_inverso((0.55, 0.55, 0.0), np.array([2.0]), np.array([0.0]),
+                     zmax=4.0, beta=0.2)
+assert inc[5, 25] == 0.85          # r = 2,0 m: onde o feixe bateu
+assert inc[5, 15] == -0.4          # r = 1,0 m: antes do obstáculo
+assert inc[5, 35] == 0.0           # r = 3,0 m: atrás do obstáculo
+assert inc[30, 5] == 0.0           # fora da abertura do feixe
+assert abs(prob(np.log(0.7 / 0.3)) - 0.7) < 1e-9
+print("ok")
+```
+
+### 3.3 — Mapa base
+
+O `experimentos.py` (abaixo) constrói o mapa com a pose exata e imprime a **precisão** e a **cobertura**. Para **ver** o mapa (o contorno vermelho é a **verdade**), use:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from cenario import Sensor, mostra
+from experimentos import occ, poses, percorre
+
+L = percorre(Sensor(), np.random.default_rng(1))
+mostra(L, "Mapa base", occ)
+plt.show()
+```
+
+Anote a **precisão** e a **cobertura**. Compare as regiões **cinzas** do mapa com as **brancas** e **pretas**: onde o robô não tem informação?
+
+### 3.4 — Experimentos (`experimentos.py`, fornecido)
+
+```python
+import numpy as np
+from cenario import (NX, NY, RES, caixa, cria_mundo, percurso, Sensor,
+                     dilata, avalia)
+from mapeamento import atualiza
+
+occ, vidro = cria_mundo()
+poses = percurso()
+
+
+def fantasmas(mapa, verdade):
+    """Células marcadas a mais de 1 célula de um obstáculo real."""
+    return int(np.sum(mapa & ~dilata(verdade)))
+
+
+def pessoa(i):
+    """Máscara de uma pessoa (0,4 x 0,4 m) que cruza a arena nos passos 30-60."""
+    m = np.zeros((NY, NX), bool)
+    if 30 <= i < 60:
+        x = 3.0 + 0.12 * (i - 30)
+        caixa(m, x, 5.6, x + 0.4, 6.0)
+    return m
+
+
+def percorre(sensor, rng, pose_est=None, com_pessoa=False, cada=1,
+             L=None, so_pontos=False):
+    """Percorre o trajeto lendo o sensor. Devolve o log-odds (ou os pontos)."""
+    L = np.zeros((NY, NX)) if L is None else L
+    pontos = np.zeros((NY, NX), bool)
+    for i, p in enumerate(poses):
+        if i % cada:
+            continue
+        mundo = occ | pessoa(i) if com_pessoa else occ
+        z = sensor.le(p, mundo, vidro, rng)
+        if so_pontos:                      # só marca onde cada feixe bateu
+            a = p[2] + sensor.angs
+            ok = z < sensor.zmax
+            ix = np.clip(((p[0] + z * np.cos(a)) / RES).astype(int), 0, NX - 1)
+            iy = np.clip(((p[1] + z * np.sin(a)) / RES).astype(int), 0, NY - 1)
+            pontos[iy[ok], ix[ok]] = True
+        else:
+            pe = p if pose_est is None else pose_est[i]
+            L = atualiza(L, pe, z, sensor)
+    return pontos if so_pontos else L
+
+
+def experimento_pessoas(seed=1):
+    pontos = percorre(Sensor(), np.random.default_rng(seed),
+                      com_pessoa=True, so_pontos=True)
+    L = percorre(Sensor(), np.random.default_rng(seed), com_pessoa=True)
+    print("Pontos brutos: fantasmas =", fantasmas(pontos, occ))
+    print("Grade        : fantasmas =", fantasmas(L > 0, occ))
+
+
+def experimento_alfa(seed=1):
+    for alfa in (0.05, 0.1, 0.2, 0.4, 0.8):
+        sensor = Sensor()
+        rng = np.random.default_rng(seed)
+        L = np.zeros((NY, NX))
+        for p in poses:
+            L = atualiza(L, p, sensor.le(p, occ, vidro, rng), sensor, alfa=alfa)
+        prec, cob = avalia(L, occ)
+        print(f"alfa={alfa:.2f} m: ocupadas {int((L > 0).sum()):4d} "
+              f"(verdade {int(occ.sum())}), precisão {prec:.2f}")
+
+
+def experimento_deriva(seed=1):
+    n = len(poses)
+    for sx, sth in [(0, 0), (0.01, 0.003), (0.02, 0.006), (0.04, 0.012)]:
+        r = np.random.default_rng(seed + 10)
+        ruido = np.column_stack([r.normal(0, sx, n), r.normal(0, sx, n),
+                                 r.normal(0, sth, n)])
+        est = poses + np.cumsum(ruido, axis=0)
+        L = percorre(Sensor(), np.random.default_rng(seed), pose_est=est)
+        prec, cob = avalia(L, occ)
+        erro = np.hypot(*(est - poses)[-1, :2])
+        print(f"sx={sx:.2f} m, sth={sth:.3f} rad: erro final {erro:.2f} m, "
+              f"precisão {prec:.2f}, fantasmas {fantasmas(L > 0, occ)}")
+
+
+def experimento_sensores(seed=1, cada_sonar=4):
+    laser = Sensor()                                  # não enxerga o vidro
+    sonar = Sensor(n=30, zmax=3.0, sigma=0.15, p_out=0.05, ve_vidro=True)
+    verdade = occ | vidro
+    rng = np.random.default_rng(seed)
+    La = np.zeros((NY, NX))
+    Lb = np.zeros((NY, NX))
+    Lu = np.zeros((NY, NX))                           # filtro único
+    for i, p in enumerate(poses):
+        za = laser.le(p, occ, vidro, rng)
+        La = atualiza(La, p, za, laser)
+        Lu = atualiza(Lu, p, za, laser)
+        if i % cada_sonar == 0:
+            zb = sonar.le(p, occ, vidro, rng)
+            Lb = atualiza(Lb, p, zb, sonar)
+            Lu = atualiza(Lu, p, zb, sonar)
+    for nome, L in [("laser", La), ("sonar", Lb), ("filtro único", Lu),
+                    ("máximo", np.maximum(La, Lb))]:
+        prec, cob = avalia(L, verdade)
+        print(f"{nome:13s}: vidro marcado {np.mean(L[vidro] > 0):4.0%}, "
+              f"precisão {prec:.2f}, fantasmas {fantasmas(L > 0, verdade)}")
+
+
+if __name__ == "__main__":
+    L = percorre(Sensor(), np.random.default_rng(1))
+    print("Mapa base: precisão %.2f, cobertura %.2f" % avalia(L, occ))
+    experimento_alfa()
+    experimento_pessoas()
+    experimento_deriva()
+    experimento_sensores()
+```
+
+Execute cada experimento e **preencha** as tabelas:
+
+**(a) Espessura $\alpha$** (`experimento_alfa`)
+
+| $\alpha$ (m) | 0,05 | 0,10 | 0,20 | 0,40 | 0,80 |
+|---|:-:|:-:|:-:|:-:|:-:|
+| Células ocupadas (verdade: ____) | | | | | |
+| Precisão | | | | | |
+
+Qual valor de $\alpha$ reproduz melhor a **espessura real** das paredes? O que acontece com $\alpha$ muito **pequeno** e muito **grande**?
+
+**(b) Pessoas** (`experimento_pessoas`): uma pessoa cruza a arena entre os passos 30 e 60.
+
+| Método | Fantasmas |
+|---|:-:|
+| Pontos brutos (todo ponto onde um feixe bateu) | |
+| Grade de ocupação | |
+
+Por que a grade **filtra** a pessoa e os *outliers*? Por que o mapa de pontos é **pior para navegar**?
+
+**(c) Deriva da pose** (`experimento_deriva`): a pose usada no mapa tem erro **acumulado** (a pose verdadeira continua a mesma).
+
+| Ruído por passo ($\sigma_x$, $\sigma_\theta$) | Erro final (m) | Precisão | Fantasmas |
+|---|:-:|:-:|:-:|
+| (0; 0) | | | |
+| (0,01; 0,003) | | | |
+| (0,02; 0,006) | | | |
+| (0,04; 0,012) | | | |
+
+Mostre os mapas com e sem deriva (para o mapa com deriva, use o trecho abaixo, com a maior deriva da tabela):
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from cenario import Sensor, mostra
+from experimentos import occ, poses, percorre
+
+n = len(poses)
+r = np.random.default_rng(11)
+ruido = np.column_stack([r.normal(0, 0.04, n), r.normal(0, 0.04, n),
+                         r.normal(0, 0.012, n)])
+est = poses + np.cumsum(ruido, axis=0)          # pose estimada com deriva
+L = percorre(Sensor(), np.random.default_rng(1), pose_est=est)
+mostra(L, "Mapa com deriva", occ)
+plt.show()
+```
+
+O que aparece nas paredes? Por que isso mostra que **mapear exige a pose** e leva ao **SLAM**?
+
+**(d) Dois sensores** (`experimento_sensores`): o **laser** não enxerga o vidro; o **sonar** (mais lento, ruidoso e com feixe de $12^\circ$) enxerga.
+
+| Mapa | Vidro marcado | Precisão | Fantasmas |
+|---|:-:|:-:|:-:|
+| Laser | | | |
+| Sonar | | | |
+| Filtro único (soma) | | | |
+| Máximo dos mapas | | | |
+
+Qual é o **custo** do máximo (compare a precisão e os fantasmas com os do laser)? Por que ele ainda é a melhor escolha para a **navegação**? Como isso se relaciona com a **2c**?
+
+---
+
+## Entregáveis
+
+- Respostas da **Parte 1** e os cálculos e resultados da **Parte 2** (tabelas completas).
+- `mapeamento.py` funcionando (`ok` no teste) e as **figuras** do mapa base e do mapa com deriva.
+- As **quatro tabelas** da Parte 3.4, com as respostas curtas.

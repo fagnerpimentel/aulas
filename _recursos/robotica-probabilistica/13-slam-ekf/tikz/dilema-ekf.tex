@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=7.6cm, minimum height=3.6cm, font=\large, line width=1.7pt}}
+\node[c, draw=dgreen] (a) at (4.2,5.2) {\textbf{\textcolor{dgreen}{Associação por máxima verossimilhança}}\\ funciona bem em mapas \textbf{densos}, com muitos marcos};
+\node[c, draw=dred] (b) at (14.8,5.2) {\textbf{\textcolor{dred}{EKF}}\\ só aguenta mapas \textbf{esparsos}: o custo cresce com $N^2$};
+\draw[dred, line width=2.4pt, {Stealth[length=3.4mm]}-{Stealth[length=3.4mm]}] (a.east) -- node[above, font=\Large\bfseries, dred] {dilema} (b.west);
+\node[dbox, draw=dblue, fill=dblue!8, line width=1.7pt, text width=15.6cm, minimum height=1.8cm, font=\large] at (9.5,1.3) {\textbf{próximos capítulos}: algoritmos que aguentam \textbf{mapas bem maiores} e associação de dados \textbf{mais robusta}};
+\draw[dblue, line width=1.8pt, -{Stealth[length=3mm]}] (9.5,3.2) -- (9.5,2.3);
+\end{tikzpicture}
+\end{document}

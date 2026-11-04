@@ -1,0 +1,587 @@
+---
+title: "Robótica Probabilística"
+subtitle: "Modelos de Medição"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/9-modelos-de-medicao
+---
+
+# Modelos de Medição
+
+::: {.esquerda}
+Capítulo 6 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Mapas** e o modelo de medição $p(z_t \mid x_t, m)$
+- **Modelo de feixe** de telêmetros — mistura de quatro causas de erro e aprendizado dos parâmetros
+- **Campos de verossimilhança** — um modelo suave e eficiente
+- **Modelos por correlação** de mapas
+- **Modelos baseados em *features*** — *landmarks*
+
+# Introdução
+
+O modelo de medição implementa a **correção** dos filtros de Bayes.
+
+## O Papel do Modelo de Medição {.smaller}
+
+- Os modelos de medição descrevem o **processo de formação** das medições de sensores no mundo físico
+- Cada sensor tem seu modelo: câmeras, por **geometria projetiva**; sonares, pela **onda sonora** e sua reflexão
+- Formalmente, é uma densidade condicional:
+
+$$
+p(z_t \mid x_t, m)
+$$
+
+em que $x_t$ é a pose, $z_t$ a medição e $m$ o **mapa** do ambiente
+
+- O foco aqui são **telêmetros**, mas os princípios valem para qualquer sensor (câmera, leitor de código de barras de *landmarks*)
+
+![](images/papel-modelos-medicao.svg){fig-align="center" width="70%"}
+
+## Modelando o Ruído {.smaller}
+
+- A robótica probabilística modela **explicitamente** o ruído dos sensores
+- Um modelo $p(z_t \mid x_t)$, em vez de uma função determinística $z_t = f(x_t)$, acomoda a incerteza do próprio modelo: dá para usar modelos **bem grosseiros**
+- Na prática, é difícil modelar um sensor com exatidão: leva **muito tempo** e pode exigir variáveis de estado **desconhecidas** (ex.: o material da superfície)
+- Ainda assim, é preciso capturar os **diferentes tipos** de incerteza que afetam a medição
+
+## O Ruído do Sonar {.smaller}
+
+- O sonar tem dificuldade em medir superfícies lisas **em ângulo**: o eco não volta ao sensor — a **reflexão especular** leva a distâncias grandes demais
+- Outros erros: **leituras curtas**, por interferência (*cross-talk*) entre sensores — o som é lento — ou por objetos não modelados, como **pessoas**
+- Esse "ruído" é bastante **previsível**, tecnicamente
+
+![](images/sonar-reflexao-especular.svg){fig-align="center" width="62%"}
+
+## Um *Scan* Típico de Ultrassom {.smaller}
+
+- Um anel de **24 sonares** num corredor: a maioria das medidas é a distância ao objeto mais próximo no cone de medição
+- Algumas medições **falham** em detectar qualquer objeto
+
+![](images/scan-ultrassom.svg){fig-align="center" width="70%"}
+
+## Várias Medições por Instante {.smaller}
+
+- Muitos sensores geram **mais de um valor** por consulta: câmeras (matrizes de valores), telêmetros (varreduras de distâncias)
+- Com $K$ valores por medição, $z_t = \{z_t^1, \dots, z_t^K\}$; aproxima-se por um **produto**:
+
+$$
+p(z_t \mid x_t, m) = \prod_{k=1}^{K} p(z_t^k \mid x_t, m)
+$$
+
+- Equivale a supor **ruído independente** entre os valores — como a hipótese de Markov faz entre instantes
+- É verdadeira só no caso **ideal**: pessoas corrompem vários feixes vizinhos, há erros no mapa, aproximações na posteriori...
+
+# Mapas
+
+## Mapas do Ambiente {.smaller}
+
+- Um mapa é uma **lista de objetos** do ambiente com suas propriedades:
+
+$$
+m = \{m_1,\ m_2,\ \dots,\ m_N\}
+$$
+
+- **Baseado em *features*** — $n$ é o índice de uma *feature*; $m_n$ guarda suas propriedades e sua **posição**
+  - mais fácil de **ajustar** posições (comum em **mapeamento**)
+- **Baseado em localização** — $n$ indexa uma **posição**; em mapas planares, $m_{x,y}$
+  - **volumétricos**: rotulam toda posição, inclusive o **espaço livre**
+- **Mapa de ocupação em grade** (capítulo 9): valor binário de ocupação por posição — ótimo para **navegação**
+
+## Dois Tipos de Mapa {.smaller}
+
+![](images/mapas-tipos.svg){fig-align="center" width="75%"}
+
+# Modelo de Feixe
+
+Um modelo físico aproximado de **telêmetros**, medindo ao longo de um feixe.
+
+## Mistura de Quatro Causas de Erro {.smaller}
+
+- Distância medida por feixe (laser) ou dentro de um cone (ultrassom)
+- O modelo desejado é uma **mistura de quatro densidades**, uma por tipo de erro:
+  1. **Medida correta com ruído local** — $p_{hit}$
+  2. **Objetos inesperados** — $p_{short}$
+  3. **Falhas** de detecção — $p_{max}$
+  4. **Medidas aleatórias** — $p_{rand}$
+
+## As Quatro Componentes do Modelo de Feixe {.smaller}
+
+![](images/feixe-componentes.svg){fig-align="center" width="70%"}
+
+## A Distância Esperada: *Ray Casting* {.smaller}
+
+- $z_t^{k*}$ é a distância "**verdadeira**" ao objeto medido
+- Em mapas baseados em **localização**, obtém-se por ***ray casting***; em mapas de *features*, procurando a *feature* mais próxima no cone
+
+![](images/raycasting.svg){fig-align="center" width="70%"}
+
+## 1. Medida Correta com Ruído Local {.smaller}
+
+- Mesmo medindo o objeto certo, o sensor tem **erro** (resolução limitada, efeitos atmosféricos)
+- Modelo: gaussiana **estreita** de média $z_t^{k*}$ e desvio $\sigma_{hit}$, truncada em $[0,\ z_{max}]$:
+
+$$
+p_{hit}(z_t^k \mid x_t, m) =
+\begin{cases}
+\eta\ \mathcal{N}(z_t^k;\ z_t^{k*},\ \sigma_{hit}^2) & 0 \le z_t^k \le z_{max} \\
+0 & \text{caso contrário}
+\end{cases}
+$$
+
+- $\eta = \left(\int_0^{z_{max}} \mathcal{N}(z_t^k;\ z_t^{k*},\ \sigma_{hit}^2)\,dz_t^k\right)^{-1}$ **normaliza**
+- $\sigma_{hit}$ é um parâmetro **intrínseco** do modelo
+
+## 2. Objetos Inesperados {.smaller}
+
+- O mapa é **estático**, o ambiente não: pessoas e objetos fora do mapa causam leituras **mais curtas** que $z_t^{k*}$
+- A chance de sentir um objeto inesperado **diminui com a distância**: para medir $z_2 > z_1$, é preciso que o segundo objeto esteja presente e o primeiro **ausente**
+- Modelo: **distribuição exponencial**, truncada em $[0,\ z_t^{k*}]$:
+
+$$
+p_{short}(z_t^k \mid x_t, m) =
+\begin{cases}
+\eta\ \lambda_{short}\, e^{-\lambda_{short} z_t^k} & 0 \le z_t^k \le z_t^{k*} \\
+0 & \text{caso contrário}
+\end{cases}
+\qquad
+\eta = \frac{1}{1 - e^{-\lambda_{short} z_t^{k*}}}
+$$
+
+## 3. Falhas e 4. Medidas Aleatórias {.smaller}
+
+- **Falhas**: obstáculos não detectados — sonar com superfícies em ângulo; laser com objetos pretos ou luz forte. O resultado típico é a leitura de **alcance máximo**:
+
+$$
+p_{max}(z_t^k \mid x_t, m) = I(z_t^k = z_{max})
+$$
+
+- **Medidas aleatórias**: leituras sem explicação (fantasmas de sonar, *cross-talk*), modeladas por uma **uniforme** em $[0,\ z_{max}]$:
+
+$$
+p_{rand}(z_t^k \mid x_t, m) =
+\begin{cases}
+\dfrac{1}{z_{max}} & 0 \le z_t^k < z_{max} \\[4pt]
+0 & \text{caso contrário}
+\end{cases}
+$$
+
+## A Mistura {.smaller}
+
+- As quatro densidades são combinadas por uma **média ponderada**, com $z_{hit} + z_{short} + z_{max} + z_{rand} = 1$:
+
+$$
+p(z_t^k \mid x_t, m) = z_{hit}\, p_{hit} + z_{short}\, p_{short} + z_{max}\, p_{max} + z_{rand}\, p_{rand}
+$$
+
+- A densidade resultante preserva as características das **quatro** componentes
+
+![](images/feixe-mistura.svg){fig-align="center" width="70%"}
+
+## Algoritmo do Modelo de Feixe {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entrada**: varredura completa $z_t$, pose $x_t$ e mapa $m$
+- Laço externo: **multiplica** as probabilidades de cada feixe (independência)
+- Linha 4: *ray casting* para a distância **sem ruído**
+- Linha 5: a **mistura** das quatro densidades
+- Saída: $p(z_t \mid x_t, m)$
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Modelo de feixe}\,\bigl(z_t,\ x_t,\ m\bigr) \\
+\hline
+\text{2:}\quad q = 1 \\
+\text{3:}\quad \textbf{para } k = 1 \textbf{ até } K \textbf{ faça} \\
+\text{4:}\quad\quad \text{calcular } z_t^{k*} \text{ por } \textit{ray casting} \\
+\text{5:}\quad\quad p = z_{hit}\,p_{hit}(z_t^k \mid x_t, m) + z_{short}\,p_{short}(z_t^k \mid x_t, m) \\
+\text{6:}\quad\quad\quad\ + z_{max}\,p_{max}(z_t^k \mid x_t, m) + z_{rand}\,p_{rand}(z_t^k \mid x_t, m) \\
+\text{7:}\quad\quad q = q \cdot p \\
+\text{8:}\quad \textbf{retornar } q \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Ajustando os Parâmetros Intrínsecos {.smaller}
+
+- Parâmetros $\Theta = \{z_{hit}, z_{short}, z_{max}, z_{rand}, \sigma_{hit}, \lambda_{short}\}$
+- Pode-se ajustar **à mão**, ou **aprender dos dados**: maximizar a verossimilhança de um conjunto de referência $Z = \{z_i\}$ com poses $X = \{x_i\}$ e mapa $m$ — **estimação de máxima verossimilhança (ML)**:
+
+$$
+\Theta^{*} = \arg\max_{\Theta}\ p(Z \mid X, m, \Theta)
+$$
+
+- Dados reais: o **sonar** tem muito mais ruído e falhas (muitas leituras de alcance máximo); o **laser** é mais preciso, mas também erra ocasionalmente
+
+![](images/dados-sonar-laser.svg){fig-align="center" width="70%"}
+
+## O Algoritmo de Aprendizado (EM) {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Instância do algoritmo **EM** (esperança–maximização); exige boa **inicialização** de $\sigma_{hit}$ e $\lambda_{short}$
+- Linhas 3–9 (**passo E**): $e_{i,xxx}$ é a probabilidade de a medição $z_i$ ter sido causada por "xxx"
+- Linhas 10–15 (**passo M**): reestimam os parâmetros com essas expectativas
+- **Itera**: cerca de uma dúzia de iterações bastam
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Aprender parâmetros}\,\bigl(Z,\ X,\ m\bigr) \\
+\hline
+\text{2:}\quad \textbf{repetir até convergir} \\
+\text{3-9:}\quad\quad \text{para todo } z_i:\ \eta = [p_{hit} + p_{short} + p_{max} + p_{rand}]^{-1} \\
+\text{6-9:}\quad\quad\quad e_{i,xxx} = \eta\; p_{xxx}(z_i \mid x_i, m),\quad xxx \in \{hit, short, max, rand\} \\
+\text{10-13:}\quad\quad z_{xxx} = |Z|^{-1} \textstyle\sum_i e_{i,xxx} \\
+\text{14:}\quad\quad \sigma_{hit} = \sqrt{\dfrac{1}{\sum_i e_{i,hit}}\ \sum_i e_{i,hit}\,(z_i - z_i^{*})^2} \\
+\text{15:}\quad\quad \lambda_{short} = \dfrac{\sum_i e_{i,short}}{\sum_i e_{i,short}\,z_i} \\
+\text{16:}\quad \textbf{retornar } \Theta \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## O Algoritmo em Duas Etapas {.smaller}
+
+- Os parâmetros dependem das **expectativas** e vice-versa — por isso o algoritmo **itera**
+
+![](images/em-iteracao.svg){fig-align="center" width="70%"}
+
+## Esboço da Derivação {.smaller}
+
+- Se a causa $c_i$ de cada medida fosse **conhecida**, os estimadores seriam diretos:
+
+$$
+z_{xxx} = \frac{|Z_{xxx}|}{|Z|}
+\qquad
+\sigma_{hit} = \sqrt{\frac{1}{|Z_{hit}|}\sum_{z_i \in Z_{hit}} (z_i - z_i^{*})^2}
+\qquad
+\lambda_{short} = \frac{|Z_{short}|}{\sum_{z_i \in Z_{short}} z_i}
+$$
+
+- Como as causas são **desconhecidas**, não há solução fechada: o EM maximiza a **esperança** da log-verossimilhança sobre as variáveis latentes $c_i$
+- Trocam-se as atribuições **rígidas** por **suaves**, ponderadas pelas expectativas $e_{i,xxx}$ — daí as fórmulas do algoritmo
+
+## A Verossimilhança em Ação {.smaller}
+
+- Um *scan* de 180° colocado numa **mapa de ocupação**: $p(z_t \mid x_t, m)$ é avaliada em todas as posições (maximizando sobre a orientação)
+- Toda a região de alta verossimilhança fica no **corredor**: o *scan* é geometricamente mais consistente com o corredor que com as salas
+- A massa se espalha pelo corredor: **um** *scan* não basta — a **simetria** do corredor e a orientação desconhecida (duas faixas, uma para cada direção possível)
+
+![](images/verossimilhanca-por-pose.svg){fig-align="center" width="70%"}
+
+## Considerações Práticas do Modelo de Feixe {.smaller}
+
+- **Custo**: *ray casting* por feixe e por pose; usar **poucos feixes** (ex.: 8 de 360, espaçados) reduz o custo **e** a sensibilidade a ruído correlacionado
+- **Excesso de confiança**: com dependências fortes entre feixes, usar uma versão mais "fraca":
+
+$$
+p(z_t^k \mid x_t, m)^{\alpha}, \qquad \alpha < 1
+$$
+
+- Os parâmetros também podem ser **treinados no contexto** da aplicação (ex.: gradiente descendente sobre vários instantes de localização)
+- **Pré-calcular** o *ray casting* numa grade fina 3-D (ex.: 15 cm e 2°): troca cálculo por **consulta** a tabela, uma ordem de grandeza mais rápida
+
+## O Expoente $\alpha$ Reduz a Informação {.smaller}
+
+![](images/alpha-expoente.svg){fig-align="center" width="70%"}
+
+# Campos de Verossimilhança
+
+Um modelo **suave** e eficiente, sem *ray casting*.
+
+## Limites do Modelo de Feixe {.smaller}
+
+- **Falta de suavidade** — em ambientes com muitos objetos pequenos (cadeiras, mesas), pequenas mudanças de pose alteram muito a distância esperada; $p(z_t^k \mid x_t, m)$ é muito **descontínua** em $x_t$ (sobretudo na orientação)
+  - aproximações da crença podem **perder** o estado correto
+  - métodos de **subida de encosta** caem em máximos locais
+- **Custo computacional** — o *ray casting* é caro; pré-calcular exige tabelas enormes (3-D)
+- O **campo de verossimilhança** supera ambos, embora seja *ad hoc* e **sem explicação física plausível**
+
+![](images/beam-vs-campo-suavidade.svg){fig-align="center" width="70%"}
+
+## A Ideia: Projetar o Ponto Final {.smaller}
+
+- Projeta-se o **ponto final** de cada feixe no referencial global do mapa, dados a pose $x_t = (x\ y\ \theta)^{\top}$, a posição $(x_{k,sens}\ y_{k,sens})^{\top}$ do sensor no robô e a direção $\theta_{k,sens}$ do feixe:
+
+$$
+\begin{pmatrix} x_{z_t^k} \\ y_{z_t^k} \end{pmatrix} =
+\begin{pmatrix} x \\ y \end{pmatrix} +
+\begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}
+\begin{pmatrix} x_{k,sens} \\ y_{k,sens} \end{pmatrix} +
+z_t^k \begin{pmatrix} \cos(\theta + \theta_{k,sens}) \\ \sin(\theta + \theta_{k,sens}) \end{pmatrix}
+$$
+
+- Só tem sentido se o sensor **detecta** um obstáculo: as leituras de **alcance máximo** são **descartadas**
+
+## As Fontes de Incerteza {.smaller}
+
+- Três fontes, como antes:
+  1. **Ruído de medição** — gaussiana de média zero sobre a distância $dist$ entre o ponto final e o **obstáculo mais próximo** no mapa:
+$$
+p_{hit}(z_t^k \mid x_t, m) = \varepsilon_{\sigma_{hit}^2}(dist)
+$$
+  2. **Falhas** — pico $p_{max}$ no alcance máximo
+  3. **Medidas aleatórias** — uniforme $p_{rand}$
+- A mistura: $z_{hit}\,p_{hit} + z_{rand}\,p_{rand} + z_{max}\,p_{max}$ — os pesos podem ser ajustados à mão ou aprendidos por ML
+
+![](images/campo-verossimilhanca.svg){fig-align="center" width="62%"}
+
+## O Campo ao Longo do Feixe {.smaller}
+
+- Ao longo de um feixe, $p(z_t^k \mid x_t, m)$ combina um **pico** em cada obstáculo próximo, o piso **uniforme** $p_{rand}$ e o pico em $z_{max}$
+- A representação da probabilidade de detectar um obstáculo em função das coordenadas globais $x$-$y$ é o **campo de verossimilhança**
+
+![](images/campo-ao-longo-do-feixe.svg){fig-align="center" width="70%"}
+
+## Algoritmo do Campo de Verossimilhança {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- Linha 4: leituras de **alcance máximo** são ignoradas
+- Linhas 5–6: **projetam** o ponto final no mapa
+- Linha 7: **distância** ao obstáculo mais próximo (busca do vizinho mais próximo)
+- Linha 8: mistura de uma normal e de uma uniforme
+- O custo está na linha 7: **pré-calcular o campo** — a medição vira transformação de coordenadas e **consulta** à tabela
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Campo de verossimilhança}\,\bigl(z_t,\ x_t,\ m\bigr) \\
+\hline
+\text{2:}\quad q = 1 \\
+\text{3:}\quad \textbf{para todo } k \textbf{ faça} \\
+\text{4:}\quad\quad \textbf{se } z_t^k \ne z_{max} \\
+\text{5:}\quad\quad\quad x_{z_t^k} = x + x_{k,sens}\cos\theta - y_{k,sens}\sin\theta + z_t^k\cos(\theta + \theta_{k,sens}) \\
+\text{6:}\quad\quad\quad y_{z_t^k} = y + y_{k,sens}\cos\theta + x_{k,sens}\sin\theta + z_t^k\sin(\theta + \theta_{k,sens}) \\
+\text{7:}\quad\quad\quad dist^2 = \min_{x',y'}\ \bigl\{(x_{z_t^k} - x')^2 + (y_{z_t^k} - y')^2\bigr\} \\
+\text{8:}\quad\quad\quad q = q \cdot \bigl(z_{hit}\,\mathrm{prob}(dist^2,\ \sigma_{hit}^2) + z_{rand}/z_{max}\bigr) \\
+\text{9:}\quad \textbf{retornar } q \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Vantagens e Limites {.smaller}
+
+- **Vantagem 1: suavidade** — pequenas mudanças de pose alteram pouco a distribuição
+- **Vantagem 2**: o pré-cálculo é **2-D**, não 3-D — mais compacto
+- **Limites**: não modela **pessoas** (leituras curtas); trata o sensor como se pudesse **ver através de paredes**; ignora a **incerteza do mapa** (áreas inexploradas)
+
+![](images/campo-limitacoes.svg){fig-align="center" width="85%"}
+
+## Extensões {.smaller}
+
+- Três categorias no mapa: **ocupado**, **livre** e **desconhecido**; em áreas desconhecidas, toda medida é **igualmente provável** (densidade uniforme)
+- Campos de verossimilhança sobre o **espaço visível** do *scan* mais recente definem um **mapa local**
+- Extensão **simétrica**: casa o *scan* com o mapa nos **dois** sentidos — importante nos capítulos de **mapeamento**; as melhores implementações a usam
+
+# Modelos por Correlação
+
+## Correlação entre Mapas {.smaller}
+
+- Compilam-se poucos *scans* seguidos num **mapa local** $m_{local}$ (mapa de ocupação) e **compara-se** com o mapa global $m$
+- Já no mesmo referencial, a **correlação** mede a semelhança:
+
+$$
+\rho_{m,\,m_{local},\,x_t} =
+\frac{\sum_{x,y}(m_{x,y} - \bar m)(m_{x,y,local} - \bar m)}
+{\sqrt{\sum_{x,y}(m_{x,y} - \bar m)^2\ \sum_{x,y}(m_{x,y,local} - \bar m)^2}}
+$$
+
+- $\bar m = \frac{1}{2N}\sum_{x,y}(m_{x,y} + m_{x,y,local})$ é o valor médio na sobreposição ($N$ células)
+- $\rho \in [-1, 1]$; o modelo usa $p(m_{local} \mid x_t, m) = \max\{\rho,\ 0\}$
+
+## Mapa Local × Mapa Global {.smaller}
+
+![](images/correlacao-mapas.svg){fig-align="center" width="85%"}
+
+## Propriedades da Correlação {.smaller}
+
+- Fácil de calcular, como o campo de verossimilhança, mas **não suave** na pose $x_t$
+  - uma forma de suavizar: **convoluir** o mapa com um núcleo gaussiano
+- **Vantagem**: considera explicitamente o **espaço livre** — o campo só considera os pontos finais (espaço ocupado ou ruído)
+- **Desvantagens**:
+  - mapas locais podem ir **além do alcance** do sensor (áreas em 0,5): risco de "ver através de paredes"
+  - **sem explicação física**: correlação é a distância quadrática normalizada, que não é a característica do ruído de telêmetros
+
+# Modelos Baseados em *Features*
+
+## Extração de *Features* {.smaller}
+
+- Os modelos anteriores usam **medições brutas**; aqui se extrai um conjunto pequeno de ***features*** $f(z_t)$ de medições de alta dimensão
+- Grande vantagem: **redução** enorme da complexidade — inferir no espaço de *features* pode ser ordens de grandeza mais barato
+- Telêmetros: **retas**, **cantos** (paredes, quinas) e mínimos locais (troncos); câmeras: bordas, padrões, objetos; também **lugares** (corredores, cruzamentos)
+
+![](images/features-vs-brutas.svg){fig-align="center" width="70%"}
+
+## Medições de *Landmarks* {.smaller}
+
+- Muitas vezes as *features* correspondem a objetos físicos — ***landmarks*** (batentes de portas, troncos, quinas de prédios)
+- Modelo comum: o sensor mede o **alcance** $r$ e o **azimute** $\phi$ no referencial do robô, e talvez uma **assinatura** $s$ (ex.: cor média):
+
+$$
+f(z_t) = \{f_t^1,\ f_t^2,\ \dots\} = \left\{ \begin{pmatrix} r_t^1 \\ \phi_t^1 \\ s_t^1 \end{pmatrix},\ \begin{pmatrix} r_t^2 \\ \phi_t^2 \\ s_t^2 \end{pmatrix},\ \dots \right\}
+$$
+
+- O número de *features* **varia** a cada instante; supõe-se **independência condicional** entre elas:
+
+$$
+p(f(z_t) \mid x_t, m) = \prod_i p(r_t^i,\ \phi_t^i,\ s_t^i \mid x_t, m)
+$$
+
+![](images/landmark-alcance-azimute.svg){fig-align="center" width="62%"}
+
+## O Modelo Geométrico {.smaller}
+
+- Mapa baseado em *features*: $m = \{m_1, m_2, \dots\}$, cada uma com posição $(m_{j,x},\, m_{j,y})$ e assinatura $s_j$
+- Se a $i$-ésima *feature* do instante $t$ é o $j$-ésimo *landmark*, com ruído gaussiano **independente**:
+
+$$
+\begin{pmatrix} r_t^i \\ \phi_t^i \\ s_t^i \end{pmatrix} =
+\begin{pmatrix}
+\sqrt{(m_{j,x} - x)^2 + (m_{j,y} - y)^2} \\
+\mathrm{atan2}(m_{j,y} - y,\ m_{j,x} - x) - \theta \\
+s_j
+\end{pmatrix} +
+\begin{pmatrix} \varepsilon_{\sigma_r^2} \\ \varepsilon_{\sigma_\phi^2} \\ \varepsilon_{\sigma_s^2} \end{pmatrix}
+$$
+
+- A **correspondência** $c_t^i \in \{1, \dots, N+1\}$ diz qual *landmark* gerou a *feature*; $c_t^i = N+1$ é uma observação **sem correspondência** no mapa (*landmarks* espúrios, ou novos no **mapeamento**)
+
+## Algoritmo com Correspondência Conhecida {.smaller}
+
+::: columns
+::: {.column width="42%"}
+- **Entrada**: *feature* observada $f_t^i = (r_t^i\ \phi_t^i\ s_t^i)^{\top}$, identidade verdadeira $c_t^i$, pose $x_t$ e mapa $m$
+- Linhas 3–4: alcance e azimute **verdadeiros** até o *landmark*
+- Linha 5: probabilidade das três medidas, com ruído **independente**
+- Saída: $p(f_t^i \mid c_t^i, m, x_t)$
+:::
+::: {.column width="58%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Modelo de } \textit{landmark}\,\bigl(f_t^i,\ c_t^i,\ x_t,\ m\bigr) \\
+\hline
+\text{2:}\quad j = c_t^i \\
+\text{3:}\quad \hat r = \sqrt{(m_{j,x} - x)^2 + (m_{j,y} - y)^2} \\
+\text{4:}\quad \hat\phi = \mathrm{atan2}(m_{j,y} - y,\ m_{j,x} - x) \\
+\text{5:}\quad q = \mathrm{prob}(r_t^i - \hat r,\ \sigma_r^2)\cdot \mathrm{prob}(\phi_t^i - \hat\phi,\ \sigma_\phi^2) \\
+\quad\quad\quad \cdot\ \mathrm{prob}(s_t^i - s_j,\ \sigma_s^2) \\
+\text{6:}\quad \textbf{retornar } q \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Amostrando Poses {.smaller}
+
+- Às vezes é útil **amostrar poses** $x_t$ consistentes com uma medição — por exemplo, para dar **palpites iniciais** na localização global
+- Em geral é difícil; para o modelo de *landmarks* é possível, supondo uma **priori uniforme**: $p(x_t \mid f_t^i, c_t^i, m) = \eta\ p(f_t^i \mid c_t^i, x_t, m)$
+- Mesmo sem ruído, uma observação **não determina** a pose: o robô pode estar em qualquer ponto de um **círculo** em torno do *landmark* — alcance e azimute são duas restrições num espaço 3-D
+- A amostragem sorteia o **parâmetro livre** $\hat\gamma$ (posição no círculo)
+
+![](images/landmark-anel-poses.svg){fig-align="center" width="62%"}
+
+## Algoritmo de Amostragem de Poses {.smaller}
+
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{Amostrar pose de } \textit{landmark}\,\bigl(f_t^i,\ c_t^i,\ m\bigr) \\
+\hline
+\text{2:}\quad j = c_t^i \\
+\text{3:}\quad \hat\gamma = \mathrm{rand}(0,\ 2\pi) \\
+\text{4:}\quad \hat r = r_t^i + \mathrm{sample}(\sigma_r^2) \\
+\text{5:}\quad \hat\phi = \phi_t^i + \mathrm{sample}(\sigma_\phi^2) \\
+\text{6:}\quad x = m_{j,x} + \hat r\cos\hat\gamma \qquad \text{7:}\quad y = m_{j,y} + \hat r\sin\hat\gamma \\
+\text{8:}\quad \theta = \hat\gamma - \pi - \hat\phi \\
+\text{9:}\quad \textbf{retornar } (x,\ y,\ \theta)^{\top} \\
+\hline
+\end{array}
+$$
+
+:::
+
+- Linhas 4–5: perturbam alcance e azimute (a média e a medida são tratadas **simetricamente** numa gaussiana)
+- Linhas 6–8: recuperam a pose correspondente a $\hat\gamma$, $\hat r$ e $\hat\phi$
+
+## *Features* Não São Estatística Suficiente {.smaller}
+
+- Muitos algoritmos não usam a **assinatura**; sem ela, todos os *landmarks* parecem iguais e a **associação de dados** fica mais difícil
+- O modelo é **crude** e não captura a física da formação de *features*, mas funciona bem em muitas aplicações
+- Reduzir medições a *features* tem um **preço**: é comum (e equivocado) tomá-las por estatística suficiente, $p(f(z_t) \mid x_t, m) \approx p(z_t \mid x_t, m)$
+- **Muita informação se perde**: com a visão toda você sabe onde está; só com a posição de batentes e janelas, não — pode faltar informação para a localização **global**
+- Com computadores rápidos, as *features* perderam espaço para **medições densas** e mapas por localização — mas são úteis para **introduzir** conceitos
+
+# Considerações Práticas
+
+## Escolhendo o Modelo {.smaller}
+
+| | Feixe | Campo de verossimilhança | Correlação | *Features* |
+|---|:--:|:--:|:--:|:--:|
+| **Entrada** | medição bruta | medição bruta | mapas locais | *landmarks* |
+| **Base física** | plausível | *ad hoc* | nenhuma | grosseira |
+| **Suavidade na pose** | baixa | **alta** | baixa | depende |
+| **Custo** | alto (*ray casting*) | baixo (tabela 2-D) | baixo | **muito baixo** |
+| **Espaço livre** | via *ray casting* | não considera | considera | — |
+| **Informação usada** | muita | muita | muita | pouca |
+
+## Dicas {.smaller}
+
+- Escolha o modelo ponderando **realismo físico** e **propriedades** desejáveis para o algoritmo que o usa (ex.: filtros de partículas pedem suavidade)
+- Regra geral: quanto **mais preciso**, **melhor**; as *features* extraem pouco, mas têm boas propriedades computacionais
+- Ao ajustar parâmetros, é útil **inflar a incerteza**: ignorar dependências leva à **superconfiança**
+- Reduzir a informação com o expoente $\alpha$ é melhor que projetar em *features*: **não adiciona variância** extra ao resultado
+
+# Resumo do Capítulo
+
+## Modelos de Medição {.smaller}
+
+- **Feixe**: mistura de quatro causas (medida correta, objeto inesperado, falha, aleatória), com *ray casting*; parâmetros por **ML/EM**
+- **Campo de verossimilhança**: distância ao obstáculo mais próximo — **suave** e mais eficiente, porém *ad hoc*
+- **Correlação**: compara o mapa local ao global; considera o espaço livre
+- ***Features***: alcance, azimute e assinatura de *landmarks*; ganho computacional, **perda de informação**
+- Em todos: independência entre medições e o **expoente** $\alpha$ para evitar superconfiança
+
+![](images/resumo-cap6.svg){fig-align="center" width="85%"}
+
+## Para pensar {.smaller}
+
+- Por que o modelo de feixe é uma **mistura** de quatro densidades? O que cada uma representa?
+- Por que a verossimilhança de $z_i$ não pode ser maximizada diretamente e como o EM contorna isso?
+- Por que o campo de verossimilhança é mais **suave** que o modelo de feixe?
+- Por que uma observação de *landmark* não determina a pose do robô?

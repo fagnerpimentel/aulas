@@ -1,0 +1,195 @@
+---
+title: "Exercício: Filtros Não Paramétricos"
+subtitle: "Filtro de histograma e filtro de partículas para localização em corredor"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Disciplina:** Robótica Probabilística
+- **Duração estimada:** 2 horas
+- **Pré-requisitos:**
+   - Aula de Filtros Não Paramétricos
+   - Exercício do Filtro de Bayes concluído
+   - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Explicar por que **histogramas** e **partículas** conseguem representar uma crença com **vários picos**, e quando isso é necessário.
+- Descrever o ciclo do **filtro de partículas** (inicialização, previsão, correção, reamostragem, estimativa) e o papel dos **pesos** e da **reamostragem**.
+- Executar à mão um passo do filtro de partículas (pesos, **reamostragem de baixa variância** e estimativa) e calcular a **média circular** de ângulos.
+- Implementar um filtro de partículas em Python e investigar, com experimentos, o efeito do **número de partículas**, da **perda de diversidade** e do **momento de reamostrar**.
+
+---
+
+## Cenário
+
+Um robô anda por um **corredor** de $L = 20$ m. O mapa é conhecido: há **três portas**, em $x = 3$, $x = 7$ e $x = 12$ m. O robô **não sabe onde começou**. A cada passo ele:
+
+- **anda** aproximadamente $u = 0{,}5$ m para a frente (o movimento tem um pequeno ruído);
+- **olha** para o lado com um sensor binário que responde `porta` ($z = 1$) ou `não-porta` ($z = 0$).
+
+O sensor é imperfeito. O robô está "**perto**" de uma porta quando $|x - x_{\text{porta}}| \le 0{,}75$ m, e
+
+$$
+p(z = \text{porta} \mid \text{perto}) = 0{,}95, \qquad
+p(z = \text{porta} \mid \text{longe}) = 0{,}03,
+$$
+
+e, claro, $p(z = \text{não-porta} \mid x) = 1 - p(z = \text{porta} \mid x)$. Esse mesmo modelo vale para as Partes 2 e 3.
+
+---
+
+## Parte 1 — Fundamentação teórica (sem calculadora)
+
+1. O robô está em dúvida entre **dois lugares** do corredor (por exemplo, "estou em frente à porta A *ou* em frente à porta B"). Por que uma **gaussiana** não representa bem essa crença? O que o **histograma** e as **partículas** têm em **comum** e em que são **diferentes**?
+
+2. No filtro de histograma, o que acontece com a **precisão** e com o **custo** quando as regiões ficam menores? Compare a **grade estática** com a **decomposição dinâmica** e diga em que situação você preferiria cada uma.
+
+3. No filtro de partículas, qual é o papel do **peso** de uma partícula? Por que a **reamostragem** copia as partículas de peso alto e descarta as de peso baixo? O que aconteceria se o filtro **só atualizasse os pesos**, sem nunca reamostrar?
+
+4. Imagine um robô **parado e sem nenhum sensor**: a crença não deveria mudar. Mesmo assim, se reamostrarmos aleatoriamente a cada ciclo, o conjunto de partículas acaba sendo formado por cópias de poucas partículas. Explique **por que** isso acontece e cite **duas** formas de diminuir o problema.
+
+5. Para cada situação abaixo, diga **qual é o problema** do filtro de partículas e **uma solução**:
+   a. O filtro usa **uma única partícula**.
+   b. O sensor é **muito preciso** e o movimento é **muito ruidoso**: quase nenhuma partícula cai onde o sensor "aceita".
+   c. Por azar, a reamostragem eliminou **todas** as partículas perto da posição real do robô.
+
+6. Duas perguntas sobre a **estimativa final** do filtro de partículas:
+   a. Por que a **média ponderada** das posições pode ser um mau resumo quando as partículas formam **dois grupos**?
+   b. Por que a média comum **não serve** para **ângulos**? Como se calcula a **média circular**?
+
+---
+
+## Parte 2 — Cálculo manual
+
+### 2a — Um passo do filtro de partículas
+
+Use o modelo de sensor do enunciado. O filtro tem $M = 5$ partículas que **já foram movidas** (etapa de previsão) e estão em
+
+$$
+x^{[1]} = 1{,}5,\quad x^{[2]} = 3{,}0,\quad x^{[3]} = 4{,}5,\quad x^{[4]} = 7{,}0,\quad x^{[5]} = 9{,}5 \quad (\text{m}).
+$$
+
+O sensor responde $z = \text{porta}$. Calcule:
+
+1. O **peso** de cada partícula, $w^{[m]} = p(z \mid x^{[m]})$, e os pesos **normalizados**.
+2. A **estimativa** $\hat x$ (média ponderada) **antes** de reamostrar.
+3. A **reamostragem de baixa variância**: monte os pesos acumulados, use o sorteio $r = 0{,}1$ (isto é, $r \in [0,\ 1/M)$) e os ponteiros $r,\ r + \tfrac{1}{M},\ r + \tfrac{2}{M},\dots$ para obter as **5 novas partículas**.
+4. A estimativa (média simples) **depois** de reamostrar.
+
+**Perguntas de reflexão:** (i) A partícula em $4{,}5$ m tinha um peso muito pequeno e **sobreviveu**, enquanto as de $1{,}5$ m e $9{,}5$ m (também de peso pequeno) **sumiram**. Isso é um erro do algoritmo? (ii) Onde caiu a estimativa e por que isso é um problema?
+
+### 2b — Média circular
+
+Três partículas de um robô com **direção** estimada, com os pesos indicados:
+
+| partícula | $\theta$ | peso $w$ |
+|:--:|:--:|:--:|
+| 1 | $350^{\circ}$ | $0{,}5$ |
+| 2 | $10^{\circ}$ | $0{,}3$ |
+| 3 | $30^{\circ}$ | $0{,}2$ |
+
+Calcule (a) a **média ponderada comum** dos ângulos e (b) a **média circular**, $\hat\theta = \mathrm{atan2}(S,\ C)$ com $S = \sum_m w^{[m]}\sin\theta^{[m]}$ e $C = \sum_m w^{[m]}\cos\theta^{[m]}$. Compare e comente.
+
+---
+
+## Parte 3 — Implementação: filtro de partículas em Python
+
+Simulação em Python puro (sem ROS/Gazebo), no mesmo corredor do enunciado. O código abaixo já traz o **modelo de sensor** e o **simulador**; você implementa o filtro.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+L = 20.0                                   # comprimento do corredor (m)
+PORTAS = np.array([3.0, 7.0, 12.0])        # posições das portas (m)
+TOL = 0.75                                 # "perto": |x - porta| <= TOL
+P_PERTO, P_LONGE = 0.95, 0.03              # p(z = porta | perto / longe)
+
+
+def p_porta(x, p_perto=P_PERTO, p_longe=P_LONGE):
+    """p(z = porta | x) para um vetor de posições x."""
+    perto = np.min(np.abs(x[:, None] - PORTAS[None, :]), axis=1) <= TOL
+    return np.where(perto, p_perto, p_longe)
+
+
+def verossimilhanca(z, x, p_perto=P_PERTO, p_longe=P_LONGE):
+    """p(z | x), com z = 1 (porta) ou z = 0 (não-porta)."""
+    p = p_porta(x, p_perto, p_longe)
+    return p if z == 1 else 1.0 - p
+
+
+def simular(n_passos=24, x0=1.0, u=0.5, sigma_mov=0.05, seed=0,
+            p_perto=P_PERTO, p_longe=P_LONGE):
+    """Devolve a posição real e a leitura do sensor (1 = porta) em cada passo."""
+    rng = np.random.default_rng(seed)
+    x_real, zs = [x0], []
+    for _ in range(n_passos):
+        x_real.append(float(np.clip(x_real[-1] + u + rng.normal(0, sigma_mov), 0, L)))
+        p = p_porta(np.array([x_real[-1]]), p_perto, p_longe)[0]
+        zs.append(int(rng.random() < p))
+    return np.array(x_real[1:]), np.array(zs)
+
+
+def prever(x, u, sigma_mov, rng):
+    """Move todas as partículas de u, com ruído gaussiano; mantém em [0, L]."""
+    # TODO
+    ...
+
+
+def pesar(x, z):
+    """Pesos normalizados w[m] = p(z | x[m]) / soma."""
+    # TODO
+    ...
+
+
+def reamostrar_multinomial(x, w, rng):
+    """Sorteia M índices COM reposição, com chance proporcional a w.
+    Devolve (novas partículas, índices sorteados)."""
+    # TODO
+    ...
+
+
+def reamostrar_baixa_variancia(x, w, rng, r=None):
+    """Um único sorteio r em [0, 1/M); ponteiros r + m/M (use r, se dado).
+    Devolve (novas partículas, índices sorteados)."""
+    # TODO
+    ...
+
+
+def n_eff(w):
+    """Número efetivo de partículas: 1 / soma(w^2)."""
+    # TODO
+    ...
+
+
+def filtro(zs, M=500, u=0.5, sigma_mov=0.05, modo="sempre",
+           reamostrador=reamostrar_baixa_variancia, seed=1, guardar=False):
+    """Roda o filtro de partículas sobre as leituras zs.
+    modo: 'sempre' (reamostra todo passo), 'neff' (só se N_eff < M/2) ou 'nunca'.
+    Devolve (estimativas, histórico se guardar=True, nº de reamostragens)."""
+    # TODO: 1. inicialização (partículas espalhadas por todo o corredor)
+    # TODO: a cada leitura z -> 2. previsão, 3. correção (acumule os pesos),
+    #       4. reamostragem (conforme `modo`), 5. estimativa (média ponderada)
+    ...
+```
+
+**Tarefas:**
+
+1. Implemente as funções acima, **sem fixar** os valores do corredor dentro delas.
+2. **Valide** com a Parte 2a: com $x = [1{,}5;\ 3{,}0;\ 4{,}5;\ 7{,}0;\ 9{,}5]$ e $z = 1$, `pesar` e `reamostrar_baixa_variancia(..., r=0.1)` devem reproduzir os resultados da mão.
+3. **Experimento principal.** Rode `filtro(zs, M=500, guardar=True)` com `simular(seed=0)` e faça **três gráficos** no mesmo eixo de passos: (a) as partículas (um ponto por partícula por passo), a posição real e a estimativa; (b) o erro $|\hat x - x|$; (c) o **desvio padrão** das partículas. Descreva **quantos grupos** de partículas existem ao longo do tempo e **o que faz** o número de grupos diminuir. Em que momentos a estimativa (média) fica **longe** da posição real, e por quê?
+4. **Experimento 1 — número de partículas.** Para $M \in \{5,\ 20,\ 50,\ 200,\ 500,\ 2000\}$, rode **30 simulações** (`seed = 0, ..., 29`; use `seed = 100 + s` no filtro) e calcule o **erro final médio** e a **fração de falhas** (erro final $> 1$ m). Faça o gráfico (fração de falhas $\times$ $M$) e comente.
+5. **Experimento 2 — perda de diversidade.** Com $M = 100$, **robô parado e sem sensor** (pesos todos iguais), aplique **50 reamostragens** seguidas e conte, a cada uma, quantas partículas **distintas** (por índice de origem) restam, para a reamostragem **multinomial** e para a de **baixa variância**. Plote as duas curvas e explique.
+6. **Experimento 3 — quando reamostrar.** Compare `modo="sempre"`, `"neff"` e `"nunca"` com $M = 500$: **erro final médio**, **fração de falhas** e **número de reamostragens**. Para `"nunca"`, calcule também o $N_{\text{eff}}$ no final da execução e interprete.
+7. **Desafio (opcional).** (a) Implemente `media_circular(theta_graus, w)` e confira com a Parte 2b e com $350^{\circ}$ e $10^{\circ}$. (b) Teste a "solução de último recurso" contra a **falta de partículas** perto da verdade: depois de cada reamostragem, **substitua** uma fração (0%, 5% e 10%) das partículas por posições sorteadas **aleatoriamente** no corredor. Com $M = 50$ e $M = 200$, compare a **fração de falhas** e o **erro final médio**. Ajudou? Qual é o **custo**? (c) Compare, em uma frase, o filtro de partículas com o de histograma (células de $0{,}2$ m) para este corredor: quando você usaria cada um?
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas).
+- **Parte 2:** os cálculos de 2a e 2b com as contas intermediárias visíveis.
+- **Parte 3:** o código Python completo, os gráficos dos itens 3 a 6 e as respostas escritas dos itens 3 a 6 (e do desafio, se realizado).

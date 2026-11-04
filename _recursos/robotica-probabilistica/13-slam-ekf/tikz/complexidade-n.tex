@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[daxis, line width=1.2pt] (1.2,1.4) -- (14.2,1.4) node[right, font=\large] {$N$ marcos};
+\draw[daxis, line width=1.2pt] (1.2,1.4) -- (1.2,8.2) node[above, font=\large] {tempo e memória};
+\draw[dblue, line width=2.6pt, domain=0:6.4, samples=40] plot (\x+1.2, {1.4+0.16*\x*\x});
+\draw[dred, dashed, line width=1.5pt] (7.0,1.4) -- (7.0,8.0);
+\node[font=\large\bfseries, dred, anchor=east, text width=5.2cm, align=right] at (6.85,7.4) {$\approx$ 1.000 marcos:\\ limite prático do EKF SLAM};
+\node[font=\large\bfseries, dblue] at (3.0,6.2) {$\propto N^2$};
+\node[dbox, draw=dorange, fill=dorange!8, line width=1.6pt, text width=4.4cm, minimum height=2.2cm, font=\large] at (16.6,4.0) {mapas desejados: $10^6$ marcos ou mais};
+\end{tikzpicture}
+\end{document}

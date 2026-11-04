@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.4cm, minimum height=2.2cm, font=\large, line width=1.6pt},
+        q/.style={dbox, draw=dblue, text width=4.6cm, minimum height=2.2cm, font=\large, line width=1.6pt},
+        a/.style={dtrans, line width=1.9pt, -{Stealth[length=3mm]}},
+        l/.style={font=\large\bfseries, fill=dcream, inner sep=2pt}}
+\node[c, draw=dred] (n) at (2.4,4.6) {\textbf{\textcolor{dred}{Observação nova}}\\ longe de todos os marcos};
+\node[c, draw=dorange, fill=dorange!8] (p) at (8.2,4.6) {\textbf{\textcolor{dorange}{Lista provisória}}\\ \textbf{não} corrige a pose};
+\node[q] (d) at (14.2,4.6) {vista \textbf{de novo} e a incerteza \textbf{encolheu}?};
+\node[c, draw=dgreen, fill=dgreen!8] (m) at (14.2,1.2) {\textbf{\textcolor{dgreen}{Entra no mapa}}};
+\node[c, draw=black!55, dashed] (x) at (14.2,8.0) {\textbf{descartada}\\ era ruído};
+\draw[a] (n.east) -- (p.west);
+\draw[a] (p.east) -- (d.west);
+\draw[a, dgreen] (d.south) -- node[l, text=dgreen] {sim} (m.north);
+\draw[a, dred] (d.north) -- node[l, text=dred] {não} (x.south);
+\end{tikzpicture}
+\end{document}

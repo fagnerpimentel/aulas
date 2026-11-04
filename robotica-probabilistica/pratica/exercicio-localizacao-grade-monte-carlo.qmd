@@ -1,0 +1,375 @@
+---
+title: "Exercício: Localização por Grade e Monte Carlo"
+subtitle: "Localização global, sequestro e ambientes dinâmicos com sonares"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Disciplina:** Robótica Probabilística
+- **Duração estimada:** 2 horas
+- **Pré-requisitos:**
+   - Aula de Localização por Grade e Monte Carlo
+   - Exercício de Filtros Não Paramétricos concluído (a reamostragem de baixa variância é reaproveitada)
+   - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Explicar por que a **localização por grade** e o **MCL** resolvem a localização **global**, e por que o EKF não resolve.
+- Descrever o efeito da **resolução da grade** sobre o erro e o tempo, e o ajuste que uma grade grossa exige.
+- Explicar como o **MCL aumentado** detecta o sequestro comparando as médias **rápida** e **lenta** da verossimilhança, e calcular a probabilidade de semear partículas aleatórias.
+- Implementar o **MCL** em Python e usá-lo, junto com a localização por grade fornecida, para investigar **resolução**, **sequestro** e **ambientes dinâmicos** (rejeição de leituras curtas).
+
+---
+
+## Cenário
+
+Um robô anda numa arena de $12 \times 8$ m com **quatro obstáculos** e um mapa $m$ conhecido. A pose é $(x, y)$ (a orientação é conhecida, e o robô se move alinhado aos eixos). A cada passo ele:
+
+- **anda** $0{,}25$ m (o controle é $u_t = (\Delta x,\ \Delta y)$), com ruído gaussiano $\sigma_u = 0{,}03$ m por eixo;
+- **mede** a distância à parede ou ao obstáculo mais próximo com **dois sonares**, um apontado para a **esquerda** e outro para a **direita** (alcance máximo de $4$ m).
+
+O sensor é ruidoso: cada leitura é o alcance esperado $\hat z$ com ruído gaussiano $\sigma_z = 0{,}30$ m, mas em $30\%$ das leituras o resultado é um valor **aleatório** (uniforme em $[0,\ 4]$ m). O modelo de medição usado pelos filtros é
+
+$$
+p(z \mid x, m) = \prod_{k=1}^{2} \left[\, 0{,}7\, \mathcal N(z_k;\ \hat z_k,\ \sigma_z^2) + \frac{0{,}3}{4} \right],
+$$
+
+onde $\hat z_k$ é o alcance esperado do sonar $k$ na pose $x$ (calculado a partir do mapa). O percurso tem **71 passos** (cerca de $18$ m). O robô **não sabe onde começou**: é um problema de **localização global**.
+
+---
+
+## Parte 1 — Fundamentação teórica (sem calculadora)
+
+1. Sobre os algoritmos **não paramétricos** de localização (grade e MCL):
+   a. O que eles processam e que tipo de informação aproveitam que o EKF não aproveita?
+   b. Que problemas eles resolvem e o EKF **não** resolve? **Justifique** por que o EKF falha nesses casos.
+
+2. Sobre a **localização por grade**:
+   a. O que fazem as linhas 3 (movimento) e 4 (medição) do algoritmo? Onde entra a **convolução**?
+   b. Como a **resolução** das células afeta o **erro** e o **tempo**? Diferencie a grade **topológica** da **métrica**.
+   c. Um robô a $10$ cm/s, atualizado a cada $1$ s, numa grade de células de $1$ m: o que acontece com a versão básica do algoritmo? Cite as **duas** formas de compensar uma grade grossa e o **custo** delas.
+
+3. Sobre o **MCL**:
+   a. Quais são as etapas das linhas 4, 5 e 8 a 11? Por que **medir só muda os pesos** e quem **concentra** as partículas onde a crença é alta?
+   b. O que o número de partículas $M$ troca? O que significa "amostrar até chegar o próximo par $u_t, z_t$"?
+
+4. Sobre o **sequestro do robô**:
+   a. Por que o MCL **básico** não se recupera?
+   b. Qual é a ideia das **partículas aleatórias** e por que elas devem ser semeadas **só quando necessário**?
+   c. Como o filtro percebe que está perdido? O que representa o **peso médio** $w_{avg}$?
+
+5. Sobre as médias $w_{slow}$ e $w_{fast}$ do **MCL aumentado**:
+   a. Por que usar **duas** médias móveis, e não só o peso médio instantâneo?
+   b. O que se espera de cada média diante de um **ruído momentâneo** e diante de um **sequestro**?
+   c. Interprete a probabilidade $\max(0,\ 1 - w_{fast}/w_{slow})$ de semear uma partícula aleatória. Quando ela vale zero?
+
+6. Sobre o **sensor muito preciso** e os **ambientes dinâmicos**:
+   a. Por que um sensor muito preciso deixa o MCL **ineficiente**? Qual é a solução simples?
+   b. O que é **estado oculto** e por que pessoas andando em volta do robô violam a hipótese de Markov?
+   c. Por que **rejeitar leituras curtas** é seguro, mas rejeitar leituras **longas** não seria?
+
+---
+
+## Parte 2 — Cálculo manual
+
+### 2a — Um passo da localização por grade
+
+Corredor 1D com **8 células**. A crença antes do passo é
+
+$$
+bel(x_{t-1}) = (0{,}1;\ 0{,}4;\ 0{,}3;\ 0{,}1;\ 0{,}1;\ 0;\ 0;\ 0).
+$$
+
+O robô recebe o comando "andar uma célula à direita". O movimento tem ruído: $10\%$ de chance de andar $0$ células, $80\%$ de andar $1$ e $10\%$ de andar $2$ (um **núcleo** $(0{,}1;\ 0{,}8;\ 0{,}1)$).
+
+1. Calcule a crença prevista $\overline{bel}$ (a convolução da crença com o núcleo) e confira que ela soma $1$.
+2. O sensor detecta uma **porta**, que existe nas células $3$ e $6$ (contando a partir de $1$). A verossimilhança é $0{,}8$ nas células com porta e $0{,}2$ nas demais. Calcule a crença corrigida $bel(x_t)$, com os valores não normalizados e a normalização.
+3. Onde está a **moda** e quantas hipóteses a crença ainda mantém? O que isso mostra sobre a grade?
+4. Agora imagine células **grandes**, em que o robô andaria só $0{,}25$ célula por passo. O que faz a versão **básica** (arredondar o deslocamento)? Calcule $\overline{bel}$ da crença acima na versão **estocástica**, que reparte a massa entre $0$ e $1$ célula com pesos $0{,}75$ e $0{,}25$ (sem borrar).
+
+### 2b — As médias rápida e lenta do MCL aumentado
+
+Use $\alpha_{slow} = 0{,}1$ e $\alpha_{fast} = 0{,}5$ e comece com $w_{slow} = w_{fast} = 0{,}20$. O peso médio observado é $w_{avg} = 0{,}18$ no passo $1$ (ruído) e $w_{avg} = 0{,}02$ nos passos $2$ e $3$ (o robô foi **sequestrado** no passo $2$). A atualização é $\text{nova} = \text{antiga} + \alpha\,(w_{avg} - \text{antiga})$.
+
+1. Calcule $w_{slow}$ e $w_{fast}$ nos passos $1$, $2$ e $3$.
+2. Calcule, em cada passo, a probabilidade $\max(0,\ 1 - w_{fast}/w_{slow})$ e, com $M = 1000$ partículas, o número esperado de partículas aleatórias semeadas.
+3. Interprete: o que o filtro "pensa" no passo $1$, no $2$ e no $3$?
+
+---
+
+## Parte 3 — Implementação: MCL em Python
+
+Simulação em Python puro (sem ROS/Gazebo). O código abaixo traz o **mundo**, o **simulador**, alguns auxiliares e a **localização por grade já pronta** (`grade_loc`, para comparação); você implementa o **MCL**.
+
+```python
+import time
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+# ------------------ mundo e sensor (fornecidos no enunciado) ------------------
+LARG, ALT = 12.0, 8.0                        # arena (m)
+RES = 0.05                                   # resolução do mapa de ocupação (m)
+OBSTACULOS = [(3.0, 0.0, 3.6, 3.5), (6.0, 4.5, 6.6, 8.0),    # (x0, y0, x1, y1)
+              (8.5, 2.0, 10.0, 3.0), (1.5, 5.0, 3.0, 6.0)]
+ALCANCE = 4.0                                # alcance máximo dos sonares (m)
+DIRS = np.array([[1, 0], [-1, 0]], float)    # dois sonares: direita e esquerda
+NB = len(DIRS)
+SIGMA_Z = 0.30                               # ruído do sensor (m)
+SIGMA_U = 0.03                               # ruído do movimento, por eixo (m)
+P_HIT, P_RAND, P_SHORT = 0.7, 0.3, 0.5       # mistura do modelo do sensor
+
+
+def _mapa_ocupacao():
+    occ = np.zeros((int(LARG / RES), int(ALT / RES)), bool)
+    for x0, y0, x1, y1 in OBSTACULOS:
+        occ[int(x0 / RES):int(x1 / RES), int(y0 / RES):int(y1 / RES)] = True
+    return occ
+
+
+OCC = _mapa_ocupacao()
+
+
+def ocupado(x, y):
+    """True se (x, y) está fora da arena ou dentro de um obstáculo (vetorizado)."""
+    x, y = np.asarray(x), np.asarray(y)
+    ix, iy = (x / RES).astype(int), (y / RES).astype(int)
+    fora = (x < 0) | (y < 0) | (x >= LARG) | (y >= ALT)
+    ixc = np.clip(ix, 0, OCC.shape[0] - 1)
+    iyc = np.clip(iy, 0, OCC.shape[1] - 1)
+    return fora | OCC[ixc, iyc]
+
+
+def _tabela_alcances():
+    """Alcance esperado de cada sonar a partir do centro de cada célula do mapa."""
+    nx, ny = OCC.shape
+    X, Y = np.meshgrid((np.arange(nx) + 0.5) * RES, (np.arange(ny) + 0.5) * RES,
+                       indexing="ij")
+    tab = np.full((nx, ny, NB), ALCANCE)
+    for k, d in enumerate(DIRS):
+        livre = np.ones((nx, ny), bool)
+        for s in range(1, int(ALCANCE / RES) + 1):
+            bate = livre & ocupado(X + d[0] * s * RES, Y + d[1] * s * RES)
+            tab[bate, k] = (s - 0.5) * RES
+            livre &= ~bate
+    tab[OCC] = 0.0
+    return tab
+
+
+TAB = _tabela_alcances()
+
+
+def esperado(x, y):
+    """Alcances esperados (N, 2) dos sonares nas posições (x, y)."""
+    ix = np.clip((np.asarray(x) / RES).astype(int), 0, OCC.shape[0] - 1)
+    iy = np.clip((np.asarray(y) / RES).astype(int), 0, OCC.shape[1] - 1)
+    return TAB[ix, iy]
+
+
+def verossimilhanca(z, x, y, sigma=SIGMA_Z, usar=None):
+    """p(z | x, y, mapa): produto, sobre os sonares, de 'hit' gaussiano + ruído
+    uniforme. `usar` (opcional) é uma máscara dos sonares a considerar."""
+    ez = esperado(x, y)
+    hit = P_HIT * np.exp(-0.5 * ((z - ez) / sigma) ** 2)
+    p = hit / (sigma * np.sqrt(2 * np.pi)) + P_RAND / ALCANCE
+    if usar is not None:
+        p = np.where(usar, p, 1.0)
+    return np.prod(p, axis=-1)
+
+
+def livre_aleatorio(n, rng):
+    """n posições sorteadas uniformemente no espaço livre."""
+    pts = rng.uniform([0, 0], [LARG, ALT], (3 * n + 50, 2))
+    return pts[~ocupado(pts[:, 0], pts[:, 1])][:n]
+
+
+def trajetoria(passo=0.25):
+    """Controles (dx, dy) por pontos de passagem: (pose inicial, controles)."""
+    pts = [(1.0, 4.25), (4.8, 4.25), (4.8, 1.5), (7.5, 1.5), (7.5, 6.5),
+           (11.0, 6.5)]
+    u = []
+    for a, b in zip(pts[:-1], pts[1:]):
+        d = np.array(b) - np.array(a)
+        n = int(round(np.linalg.norm(d) / passo))
+        u += [tuple(d / n)] * n
+    return pts[0], u
+
+
+def simular(seed=0, p_pessoa=0.0, sequestro=None):
+    """(poses reais, controles, leituras, pose inicial). `sequestro=(t, (x, y))`
+    teleporta o robô no passo t. `p_pessoa`: chance, a cada passo, de surgir uma
+    'pessoa' que encurta um sonar aleatório por 5 passos."""
+    rng = np.random.default_rng(seed)
+    x0, u_list = trajetoria()
+    pos = np.array(x0, float)
+    poses, zs, bloqueio = [], [], {}
+    for t, u in enumerate(u_list):
+        novo = pos + np.array(u) + rng.normal(0, SIGMA_U, 2)
+        pos = novo if not ocupado(*novo) else pos + np.array(u)
+        if sequestro is not None and t == sequestro[0]:
+            pos = np.array(sequestro[1], float)
+        e = esperado(pos[0:1], pos[1:2])[0]
+        z = np.minimum(e + rng.normal(0, SIGMA_Z, NB), ALCANCE)
+        z[rng.random(NB) < P_RAND] = rng.uniform(0, ALCANCE)
+        if rng.random() < p_pessoa:
+            bloqueio[int(rng.integers(NB))] = [5, rng.uniform(0.4, 1.2)]
+        for k in list(bloqueio):
+            if e[k] > bloqueio[k][1]:
+                z[k] = min(z[k], bloqueio[k][1])
+            bloqueio[k][0] -= 1
+            if bloqueio[k][0] <= 0:
+                del bloqueio[k]
+        poses.append(pos.copy())
+        zs.append(np.clip(z, 0, ALCANCE))
+    return np.array(poses), u_list, zs, x0
+
+
+def erro_pos(est, poses):
+    return np.hypot(*(est - poses).T)
+
+
+def passo_convergencia(erro, lim=0.5):
+    """Primeiro passo (1, 2, ...) a partir do qual o erro fica sempre < lim."""
+    ok = erro < lim
+    return next((t + 1 for t in range(len(erro)) if ok[t:].all()), None)
+
+
+# --------------------- auxiliares (fornecidos no enunciado) ---------------------
+def grade_inicial(c):
+    """Grade de células c x c (m): crença uniforme sobre as livres e os centros."""
+    nx, ny = int(round(LARG / c)), int(round(ALT / c))
+    X, Y = np.meshgrid((np.arange(nx) + 0.5) * c, (np.arange(ny) + 0.5) * c,
+                       indexing="ij")
+    livre = ~ocupado(X, Y)
+    return livre / livre.sum(), X, Y, livre
+
+
+def deslocar(a, dx, dy):
+    """Desloca o array de (dx, dy) células (inteiras), preenchendo com zeros."""
+    out = np.zeros_like(a)
+    nx, ny = a.shape
+    xs, xd = (slice(0, nx - dx), slice(dx, nx)) if dx >= 0 else \
+             (slice(-dx, nx), slice(0, nx + dx))
+    ys, yd = (slice(0, ny - dy), slice(dy, ny)) if dy >= 0 else \
+             (slice(-dy, ny), slice(0, ny + dy))
+    out[xd, yd] = a[xs, ys]
+    return out
+
+
+def borrar(a, sigma_cel):
+    """Convolução gaussiana separável (σ em células); σ pequeno = sem borrar."""
+    if sigma_cel < 0.3:
+        return a
+    r = int(np.ceil(3 * sigma_cel))
+    w = np.exp(-0.5 * (np.arange(-r, r + 1) / sigma_cel) ** 2)
+    w /= w.sum()
+    for eixo in (0, 1):
+        out = np.zeros_like(a)
+        for k, wk in zip(range(-r, r + 1), w):
+            out += wk * (deslocar(a, k, 0) if eixo == 0 else deslocar(a, 0, k))
+        a = out
+    return a
+
+
+def moda(P, raio=0.75, lado=0.5):
+    """Média das partículas perto da célula (lado x lado) mais povoada."""
+    h = {}
+    for p in P:
+        h.setdefault((int(p[0] // lado), int(p[1] // lado)), []).append(p)
+    centro = np.mean(h[max(h, key=lambda k: len(h[k]))], axis=0)
+    return P[np.hypot(*(P - centro).T) <= raio].mean(axis=0)
+
+
+def rejeitar_curtas(P, z, chi=0.5, p_short=P_SHORT):
+    """Máscara (por sonar) das medições a USAR: descarta o sonar se a probabilidade
+    a posteriori de a leitura ser do tipo 'short' (média sobre as partículas)
+    passa de chi. 'short': leitura mais curta que a esperada (uniforme em
+    [0, ez))."""
+    ez = np.maximum(esperado(P[:, 0], P[:, 1]), 1e-3)
+    hit = P_HIT * np.exp(-0.5 * ((z - ez) / SIGMA_Z) ** 2)
+    hit = hit / (SIGMA_Z * np.sqrt(2 * np.pi))
+    short = np.where(z < ez, p_short / ez, 0.0)
+    post = short / (hit + P_RAND / ALCANCE + short)
+    return post.mean(axis=0) <= chi
+
+
+# ----------------- localização por grade (fornecida no enunciado) -----------------
+def grade_mov(bel, u, c, estocastico=False):
+    """Movimento sobre a grade, com o ruído SIGMA_U. Básica: desloca round(u/c)
+    células. Estocástica: reparte a massa entre os deslocamentos inteiros vizinhos
+    de u/c, com peso dado pela parte fracionária (transições para as vizinhas)."""
+    sx, sy = u[0] / c, u[1] / c
+    if not estocastico:
+        out = deslocar(bel, int(round(sx)), int(round(sy)))
+    else:
+        ix, iy = int(np.floor(sx)), int(np.floor(sy))
+        fx, fy = sx - ix, sy - iy
+        out = ((1 - fx) * (1 - fy) * deslocar(bel, ix, iy)
+               + fx * (1 - fy) * deslocar(bel, ix + 1, iy)
+               + (1 - fx) * fy * deslocar(bel, ix, iy + 1)
+               + fx * fy * deslocar(bel, ix + 1, iy + 1))
+    return borrar(out, SIGMA_U / c)
+
+
+def grade_med(bel, z, X, Y, livre):
+    """Medição: multiplica pela verossimilhança no centro da célula e normaliza."""
+    out = bel * verossimilhanca(z, X, Y) * livre
+    return out / out.sum()
+
+
+def grade_loc(u_list, zs, c=0.25, estocastico=False, piso=0.0):
+    """Localização por grade; devolve a célula mais provável a cada passo.
+    `piso` mistura uma fração de crença uniforme ao fim de cada passo."""
+    bel, X, Y, livre = grade_inicial(c)
+    unif = livre / livre.sum()
+    est = []
+    for u, z in zip(u_list, zs):
+        bel = grade_mov(bel, u, c, estocastico)
+        bel = grade_med(bel, z, X, Y, livre)
+        bel = (1 - piso) * bel + piso * unif
+        i = np.unravel_index(np.argmax(bel), bel.shape)
+        est.append((X[i], Y[i]))
+    return np.array(est)
+```
+
+```python
+def prever(P, u, rng):
+    """Move as partículas de u com ruído; partículas que bateriam ficam paradas."""
+    # TODO
+    ...
+
+
+def reamostrar(P, w, rng):
+    """Reamostragem de baixa variância (w normalizado)."""
+    # TODO
+    ...
+
+
+def mcl(u_list, zs, M=1000, rejeitar=None, seed=1, x_ini=None):
+    """MCL básico. Devolve as estimativas (use `moda`) a cada passo.
+    x_ini: pose inicial conhecida (rastreamento); None = localização global.
+    rejeitar(P, z) -> máscara dos sonares a usar (passe-a a `verossimilhanca`)."""
+    # TODO
+    ...
+```
+
+**Tarefas:**
+
+1. Implemente `prever`, `reamostrar` e `mcl`.
+2. **Valide.** (a) Reproduza 2a e 2b em poucas linhas de Python (`np.convolve` e um laço) e confira com a mão. (b) Em `reamostrar`, com pesos **iguais** cada partícula deve aparecer **exatamente uma vez**; com $w = (0{,}5;\ 0{,}5;\ 0;\ 0)$ sobre 4 partículas, só as duas primeiras podem aparecer, duas vezes cada. Em `prever`, nenhuma partícula pode entrar num obstáculo.
+3. **Experimento principal (localização global, `seed=0`).** Rode `grade_loc` (fornecida; $c = 0{,}25$ m, estocástica) e `mcl` ($M = 1000$) sobre `simular(seed=0)`. Faça: (a) o mapa, a trajetória real e as estimativas dos dois filtros; (b) o erro de posição dos dois ao longo dos passos. Em que passo cada filtro **converge** (`passo_convergencia`)? Por que, no começo, o erro é grande? Faça também um gráfico das **partículas** do MCL nos passos 1, 5, 10 e 20 e comente os grupos que aparecem.
+4. **Experimento 1 — resolução da grade.** Para $c \in \{1{,}0;\ 0{,}5;\ 0{,}25;\ 0{,}1\}$ m, com a atualização de movimento **básica** e a **estocástica**, rode 30 simulações (`seed = 0, ..., 29`) e reporte o **erro final médio**, a **fração de falhas** (erro final $> 1 + c/2$ m) e o **tempo** médio por execução. Compare as duas versões e explique o que você observa na versão básica (inclusive nos casos $c = 0{,}25$ e $c = 0{,}1$ m, lembrando que o robô anda $0{,}25$ m por passo).
+5. **Experimento 2 — robô sequestrado.** Com `simular(seed=s, sequestro=(40, (0.75, 3.0)))` (30 simulações; use `seed = 100 + s` nos filtros), compare: a grade **sem piso** e com `piso=1e-4` e o MCL ($M = 1000$). Reporte o **erro final médio**, a fração que **se recuperou** (erro final $< 0{,}7$ m) e os **passos até se recuperar**. Explique cada resultado.
+6. **Experimento 3 — ambiente dinâmico.** Com `simular(seed=s, p_pessoa=p)` para $p \in \{0{,}15;\ 0{,}30\}$ (40 simulações), rode o MCL em **rastreamento** ($M = 500$, `x_ini` = pose inicial conhecida, `seed = 100 + s`) **sem** e **com** `rejeitar=rejeitar_curtas`. Reporte o **erro médio** (sobre todos os passos) e a fração das execuções que **perderam a pose** (erro máximo $> 1{,}5$ m). Comente.
+7. **Desafio (opcional).** (a) Na grade grossa, a aula sugere também **inflar a variância do sensor** em metade do diâmetro da célula, $\sigma_z^2 \to \sigma_z^2 + (c/2)^2$ (altere `grade_med` para passar `sigma=` a `verossimilhanca`). Compare o erro final para $c \in \{1{,}0;\ 0{,}5;\ 0{,}25;\ 0{,}1\}$ m, com a atualização estocástica, e explique o resultado. (b) Compare, em poucas linhas, a grade e o MCL para uma pose $(x, y, \theta)$ num mapa grande: quando você escolheria cada um?
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas).
+- **Parte 2:** os cálculos de 2a e 2b com as contas intermediárias visíveis.
+- **Parte 3:** o código Python completo, os gráficos do item 3 e as respostas escritas dos itens 3 a 6 (e do desafio, se realizado).

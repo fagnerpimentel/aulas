@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.3cm, minimum height=3.7cm, font=\large, line width=1.6pt}}
+\node[c, draw=dblue] (a) at (3.0,5.2) {\textbf{\textcolor{dblue}{1. Mover}}\\ prevê a nova pose\\ os marcos ficam parados\\ a incerteza da pose \textbf{cresce}};
+\node[c, draw=dgreen] (b) at (9.5,5.2) {\textbf{\textcolor{dgreen}{2. Observar}}\\ para cada marco visto, compara o \textbf{esperado} com o \textbf{medido}};
+\node[c, draw=dorange] (c) at (16.0,5.2) {\textbf{\textcolor{dorange}{3. Corrigir}}\\ o ganho atualiza a \textbf{pose} \textbf{e o mapa inteiro}};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (a.east) -- (b.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (b.east) -- (c.west);
+\node[dbox, draw=dred, fill=dred!6, line width=1.5pt, text width=5.6cm, minimum height=1.5cm, font=\large] (n) at (9.5,1.5) {\textbf{marco novo}: inicia na posição \textbf{medida}};
+\draw[dred, line width=1.5pt, -{Stealth[length=3mm]}] (n.north) -- (b.south);
+\draw[black!55, line width=1.3pt, -{Stealth[length=3mm]}, rounded corners=8pt] (c.north) -- ++(0,1.5) -| (a.north);
+\node[font=\large, black!70, fill=dcream, inner sep=2pt] at (9.5,8.2) {a cada passo de tempo};
+\end{tikzpicture}
+\end{document}

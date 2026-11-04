@@ -1,0 +1,302 @@
+---
+title: "Robótica Probabilística"
+subtitle: "SLAM com Filtro de Kalman Estendido"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/13-slam-ekf
+format:
+  revealjs:
+    include-in-header:
+      text: |
+        <style>
+          /* divisor com título longo: reduz só o h1 para caber na coluna de 40% */
+          .reveal .slides section.corresp > h1 { font-size: 1.1em !important; }
+        </style>
+---
+
+# SLAM com Filtro de Kalman Estendido
+
+::: {.esquerda}
+Capítulo 10 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- O que é **SLAM**: estimar o **mapa** e a **própria pose** ao mesmo tempo
+- Como o **filtro de Kalman estendido** (EKF) faz isso, guardando **robô e marcos** em um só estado
+- Por que **observar um marco** melhora **todos os outros**
+- O que fazer quando **não sabemos qual marco é qual**
+- Os **limites** do EKF SLAM e o que vem a seguir
+
+# O Problema
+
+Estimar o mapa e a própria pose, ao mesmo tempo.
+
+## O que é SLAM {.smaller}
+
+- Na aula passada, o robô **já sabia a pose**; agora ele **não conhece nem o mapa nem as próprias poses**
+- Só tem as **medições** dos sensores e os **controles** que enviou
+- **SLAM** (*Simultaneous Localization and Mapping*): o robô **adquire o mapa** enquanto **se localiza** nele
+
+![](images/slam-entradas-saidas.svg){fig-align="center" width="100%"}
+
+## Mais Difícil que Localizar e que Mapear {.smaller}
+
+- **Localização:** o **mapa é conhecido**; só a pose é estimada
+- **Mapeamento com poses conhecidas:** a **pose é conhecida**; só o mapa é estimado
+- **SLAM:** **nenhum dos dois** é conhecido, e os dois são estimados **ao longo do caminho**
+  - É o velho problema do **ovo e da galinha**: para se localizar é preciso do mapa, e para mapear é preciso da pose
+
+## Duas Versões do Problema {.smaller}
+
+- **SLAM online:** estima a **pose atual** e o mapa; os dados passados são **processados e descartados**
+- **SLAM completo** (*full*): estima o **caminho inteiro** e o mapa
+
+![](images/online-vs-full.svg){fig-align="center" width="100%"}
+
+## Uma Parte Contínua e uma Discreta {.smaller}
+
+- **Contínua:** a **posição** do robô e dos marcos (números reais)
+- **Discreta:** a **correspondência**: o objeto visto agora é **o mesmo** de antes ou **um novo**?
+- Já vimos isso na **localização EKF**: estimar a pose e, antes, decidir **qual marco** foi visto
+
+![](images/continuo-discreto.svg){fig-align="center" width="100%"}
+
+## Por que É Tão Difícil {.smaller}
+
+- O **posterior completo** é o "padrão-ouro", mas quase sempre **inviável**
+- **Dimensão enorme:** mapas com **dezenas de milhares** de marcos têm posteriores em espaços de **$10^5$ dimensões** ou mais (na localização, eram 3)
+- **Correspondências:** o número de atribuições possíveis **cresce exponencialmente** com o tempo
+- Por isso, os algoritmos práticos usam **aproximações**
+
+# EKF SLAM
+
+O filtro de Kalman estendido aplicado ao SLAM online.
+
+## A Ideia do EKF SLAM {.smaller}
+
+- É o algoritmo SLAM **mais antigo** e talvez o **mais influente**
+- Aplica o **EKF** ao SLAM **online**, com associação de dados por **máxima verossimilhança**: cada medição é ligada ao **marco que mais provavelmente a produziu**
+- Para funcionar, aceita três **limitações**:
+  - **Mapa de marcos pontuais**, em geral **menos de 1.000**
+  - **Ruído gaussiano**, com incerteza **pequena** (senão a linearização falha)
+  - **Só observações positivas**: não usa a **ausência** de um marco
+
+![](images/tres-limitacoes.svg){fig-align="center" width="100%"}
+
+## O Estado Combinado {.smaller}
+
+- Na localização EKF, o estado era a **pose** (3 números)
+- No EKF SLAM, o estado guarda **pose e mapa juntos**: o **vetor combinado**
+- Cada marco ocupa **3 números**: $x$, $y$ e a **assinatura** $s$
+- Com $N$ marcos, são **$3N+3$** números
+
+![](images/estado-combinado.svg){fig-align="center" width="100%"}
+
+## A Covariância do Mapa {.smaller}
+
+- A covariância também cresce: é uma matriz **$(3N+3)\times(3N+3)$**
+- Os blocos **fora da diagonal** ligam as incertezas do robô e dos marcos
+- Ela é **cheia**: quase não tem zeros
+
+![](images/covariancia-blocos.svg){fig-align="center" width="100%"}
+
+## O Ponto de Partida {.smaller}
+
+- A **pose inicial** é a origem do sistema de coordenadas: **sem incerteza**
+- **Nenhum marco** é conhecido: sua incerteza inicial é **infinita**
+  - Aqui o **número $N$ de marcos é conhecido** (correspondência conhecida)
+  - Com correspondência desconhecida, o mapa **começa vazio** e **cresce** a cada marco novo
+- Ao ver um marco pela primeira vez, ele ganha uma **posição estimada**
+
+![](images/ponto-de-partida.svg){fig-align="center" width="100%"}
+
+## Os Passos do Algoritmo {.smaller}
+
+![](images/passos-ekf-slam.svg){fig-align="center" width="100%"}
+
+## Passo 1: Mover {.smaller}
+
+- O movimento **só muda a pose**: os **marcos ficam parados**
+- Aplica-se o **modelo de movimento** apenas às **3 primeiras posições** do estado
+- A incerteza **da pose cresce**; a do mapa e as ligações entre eles **não mudam** neste passo
+
+![](images/passo-mover.svg){fig-align="center" width="100%"}
+
+## Passo 2: Observar {.smaller}
+
+- Cada medição traz **alcance**, **ângulo** e **assinatura** de um marco
+- O filtro calcula **o que esperaria ver** daquele marco, dado o estado atual
+- A diferença entre o **medido** e o **esperado** é a **correção** a ser aplicada
+
+![](images/passo-observar.svg){fig-align="center" width="100%"}
+
+## Marco Visto pela Primeira Vez {.smaller}
+
+- Se o marco **nunca foi visto**, ele é **inicializado** na posição que a **medição indica**
+- Isso importa: começar do zero daria uma **linearização péssima**
+- Só é possível porque a medição (alcance e ângulo) tem **a mesma dimensão** da posição do marco
+- Com **câmeras**, que medem só o ângulo, é preciso **triangular** a partir de várias observações
+
+![](images/marco-novo.svg){fig-align="center" width="100%"}
+
+## Passo 3: Corrigir {.smaller}
+
+- O **ganho de Kalman** é uma matriz **cheia**: a correção chega a **todas as variáveis**
+- Observar **um marco** melhora a pose do robô **e**, por causa das correlações, **os demais marcos**
+- Não é preciso guardar as poses passadas: essa dependência fica nos **elementos fora da diagonal** da covariância
+
+![](images/passo-corrigir.svg){fig-align="center" width="100%"}
+
+## O Ciclo do EKF SLAM {.smaller}
+
+![](images/ciclo-ekf-slam.svg){fig-align="center" width="100%"}
+
+## O Efeito de Fechar um Ciclo {.smaller}
+
+- Enquanto o robô anda, a **incerteza da pose cresce**, e a dos marcos novos também 
+- Ao **rever o primeiro marco**, a pose melhora **muito**, e as incertezas **de todos os marcos** diminuem
+- É a característica **mais importante** do SLAM: a informação que localiza o robô **se espalha pelo mapa**
+
+![](images/fechar-ciclo.svg){fig-align="center" width="100%"}
+
+## Tudo Fica Correlacionado {.smaller}
+
+- Com o tempo, as estimativas de **todos** os $x$ e $y$ ficam **totalmente correlacionadas**
+- O mapa passa a ser conhecido **em termos relativos**: a posição **entre** os marcos
+- A posição **absoluta**, em relação à origem, continua **incerta**, e não há como resolvê-la
+
+![](images/correlacao-mapa.svg){fig-align="center" width="100%"}
+
+## O Custo Computacional {.smaller}
+
+- Memória e tempo de atualização crescem com **$N^2$**, o número de marcos ao quadrado
+- Na prática, isso limita o EKF SLAM a mapas com **menos de 1.000 marcos**
+- Queremos mapas com **$10^6$ marcos** ou mais
+
+![](images/complexidade-n.svg){fig-align="center" width="85%"}
+
+# Correspondências {.corresp}
+
+Qual marco é qual?
+
+## Máxima Verossimilhança Incremental {.smaller}
+
+- Para cada medição, o filtro **cria a hipótese** de um **marco novo** e a compara com **todos os marcos do mapa**
+- Mede a **distância de Mahalanobis** até cada um (a distância em **desvios-padrão**)
+- Se a distância a **todos** passa de um **limiar** $\alpha$, cria um **marco novo**; senão, usa o **mais provável**
+
+![](images/mahalanobis-decisao.svg){fig-align="center" width="100%"}
+
+## O Algoritmo, em Alto Nível {.smaller}
+
+::: columns
+::: {.column width="38%"}
+- Mesmo **ciclo** de antes, com a **associação** feita na hora
+- A **associação** nunca é revista: é **incremental**
+- O custo cresce com $N$, pois cada medição é comparada com **todos** os marcos (restringir aos **próximos** ajuda)
+:::
+::: {.column width="62%"}
+::: {.pseudo}
+
+$$
+\begin{array}{l}
+\hline
+\textbf{EKF SLAM}\,\bigl(\mu,\ \Sigma,\ u,\ z\bigr) \\
+\hline
+\text{1:}\quad \textbf{mover: } \bar\mu,\ \bar\Sigma \leftarrow \text{modelo de movimento} \\
+\text{2:}\quad \textbf{para cada medição } z^i \textbf{ faça} \\
+\text{3:}\quad\quad \text{hipótese de marco novo na posição medida} \\
+\text{4:}\quad\quad \textbf{para cada marco } k \textbf{ faça} \\
+\text{5:}\quad\quad\quad \text{calcular esperado, ganho e distância } \pi_k \\
+\text{6:}\quad\quad \textbf{se } \pi_k > \alpha \textbf{ para todo } k \text{: marco novo} \\
+\text{7:}\quad\quad \textbf{senão: } j = \arg\min_k \pi_k \\
+\text{8:}\quad \textbf{corrigir: } \mu,\ \Sigma \text{ com o marco } j \\
+\text{9:}\quad \textbf{retornar } \mu,\ \Sigma \\
+\hline
+\end{array}
+$$
+
+:::
+:::
+:::
+
+## Gerenciando o Mapa: Lista Provisória {.smaller}
+
+- **Medições falsas** (ruído, reflexos, objetos que não são marcos) podem criar **marcos falsos**, que atrapalham a localização
+- Solução simples: o marco novo vai para uma **lista provisória**, que **não corrige** a pose
+- Se for **visto de novo** e sua incerteza **encolher**, entra no mapa; senão, é **descartado**
+
+![](images/lista-provisoria.svg){fig-align="center" width="85%"}
+
+## Evidência de Existência do Marco {.smaller}
+
+- Outra técnica: guardar a **evidência** $o_j$ de que o marco $j$ existe, como um **log-odds** 
+  - **Visto**, sobe um valor fixo
+  - **dentro do alcance e não visto**, desce
+- Se cair abaixo de um **limiar**, o marco é **removido** do mapa
+
+![](images/evidencia-marco.svg){fig-align="center" width="95%"}
+
+## Confusão de Marcos {.smaller}
+
+- A associação por máxima verossimilhança é **frágil**: 
+  - confundir dois marcos pode **estragar** o mapa
+- Duas soluções: **afastar** os marcos e **escolher marcos distintos** (as **assinaturas**)
+- Há um **compromisso**: **muitos** marcos aumentam a confusão; **poucos** pioram a localização
+
+![](images/confusao-marcos.svg){fig-align="center" width="100%"}
+
+<!-- ## Exemplo: Robô Submarino {.smaller} -->
+<!---->
+<!-- - O robô **Oberon** (Universidade de Sydney) tem um **sonar de feixe fino**, que enxerga até **50 m** -->
+<!-- - Os pesquisadores colocaram na água **hastes verticais**, a cerca de **10 m** uma da outra, e havia um **penhasco** ao fundo -->
+<!-- - O robô passou pelos marcos, **deu a volta** e **voltou** -->
+<!-- - No fim, classificou **14 objetos** como marcos: as hastes **e** outros pontos do terreno, com **pouca incerteza** na pose -->
+
+# Limites
+
+O valor do EKF SLAM é, sobretudo, **histórico**.
+
+## Limites do EKF SLAM {.smaller}
+
+- **Escolher marcos** descarta **quase todos os dados** dos sensores
+- Custo **quadrático**: só aguenta mapas **esparsos**
+- A associação **incremental** não pode ser **corrigida** depois
+- É um algoritmo de SLAM **online**: não serve para o SLAM **completo**, porque o estado e a covariância **cresceriam sem limite**
+
+![](images/limites-ekf.svg){fig-align="center" width="100%"}
+
+## O Dilema {.smaller}
+
+- Poucos marcos tornam a **associação** de dados **mais difícil**
+- É como olhar uma sala inteira, que você reconhece, e **só saber onde estão as lâmpadas**: a decisão fica **muito mais incerta**
+- Mapas densos facilitariam a associação, mas o **EKF** exige mapas **esparsos**
+
+![](images/dilema-ekf.svg){fig-align="center" width="100%"}
+
+# Resumo
+
+## SLAM com EKF {.smaller}
+
+- **SLAM** estima o **mapa e a pose** ao mesmo tempo, nas versões **online** e **completa**
+- O **EKF SLAM** guarda **robô e marcos** em um só estado e usa a **covariância** para espalhar a informação
+- Com **correspondência desconhecida**, usa **máxima verossimilhança** incremental
+- **Lista provisória** e **evidência** por marco ajudam a descartar marcos falsos
+- Limites: marcos **bem escolhidos**, mapas **pequenos**, associação **frágil**
+- Os próximos capítulos tratam de algoritmos para **mapas muito maiores**
+
+## Para pensar {.smaller}
+
+- Por que o SLAM é **mais difícil** que a localização e que o mapeamento com poses conhecidas?
+- Por que **rever o primeiro marco** melhora **todos** os outros?
+- O que muda no EKF SLAM quando o robô **vê um marco novo**?
+- Por que **muitos marcos** podem **piorar** a associação de dados, e **poucos** também?
+- Por que o EKF SLAM **não** serve para o SLAM completo?
+
+## Leituras futuras {.smaller}
+
+- **Thrun, Burgard \& Fox (2005)** --- *Probabilistic Robotics*, capítulos 11 e 12 (forma de informação e SEIF)
+- **Thrun \& Montemerlo (2006)** --- *The GraphSLAM Algorithm with Applications to Large-Scale Mapping of Urban Structures*

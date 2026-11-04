@@ -1,0 +1,261 @@
+---
+title: "Exercício: Localização de Markov e EKF com Marcos"
+subtitle: "Associação de dados, rastreamento de posição e seus limites"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+format: html
+---
+
+- **Disciplina:** Robótica Probabilística
+- **Duração estimada:** 2 horas
+- **Pré-requisitos:**
+   - Aula de Localização de Markov e Gaussiana
+   - Exercícios do Filtro de Bayes e do Filtro de Kalman Estendido concluídos
+   - Python (`numpy`, `matplotlib`)
+
+## Objetivos de aprendizagem
+
+Ao final deste exercício, o aluno deve ser capaz de:
+
+- Classificar um problema de localização (rastreamento de posição, localização global ou robô sequestrado) e dizer quando uma crença **gaussiana** é adequada.
+- Explicar como a **localização de Markov** (filtro de Bayes com um mapa) se especializa na **localização EKF** com marcos.
+- Executar à mão uma **correção EKF** com um marco, e a **associação por máxima verossimilhança** com a **distância de Mahalanobis** e o **limiar** de rejeição.
+- Implementar a localização EKF com marcos em Python e investigar **onde ela funciona e onde falha**: correspondência desconhecida, *outliers*, incerteza inicial e robô sequestrado.
+
+---
+
+## Cenário
+
+Um robô com rodas anda numa arena de aproximadamente $12 \times 11$ m. O mapa $m$ é uma lista de **marcos** pontuais de posição conhecida. A pose é $x_t = (x,\ y,\ \theta)^\top$.
+
+- **Movimento.** O controle é $u_t = (v_t,\ \omega_t)$ (velocidade de avanço e de giro), aplicado por $\Delta t = 1$ s. Com $\omega \neq 0$ e $\rho = v/\omega$:
+
+$$
+g(u_t, \mu_{t-1}) = \mu_{t-1} +
+\begin{pmatrix}
+-\rho\sin\theta + \rho\sin(\theta + \omega\,\Delta t) \\
+\ \ \rho\cos\theta - \rho\cos(\theta + \omega\,\Delta t) \\
+\omega\,\Delta t
+\end{pmatrix},
+\qquad
+G_t = \dfrac{\partial g}{\partial x}.
+$$
+
+Com $\omega = 0$ (reta): $\bar\mu_t = \mu_{t-1} + (v\Delta t\cos\theta,\ v\Delta t\sin\theta,\ 0)^\top$. O ruído do movimento é $R = \operatorname{diag}(0{,}05^2,\ 0{,}05^2,\ 0{,}02^2)$.
+
+- **Medição.** O sensor enxerga os marcos a até $4$ m e, para cada um, devolve a **distância** $r$ e a **direção** $\phi$ (em relação à frente do robô). Com $\delta = (m_x - x,\ m_y - y)$ e $q = \delta^\top\delta$:
+
+$$
+h(\mu, m) = \begin{pmatrix} \sqrt{q} \\ \operatorname{atan2}(\delta_y, \delta_x) - \theta \end{pmatrix},
+\qquad
+Q = \operatorname{diag}(0{,}10^2,\ 0{,}03^2).
+$$
+
+- **Correspondência.** Quando ela é **conhecida**, cada medição vem com o índice $j$ do marco que a gerou. Quando é **desconhecida**, o filtro precisa **descobrir** $j$ (Parte 3). Neste exercício a "assinatura" do marco é justamente esse índice.
+- **Percurso.** 60 passos: três retas ($v = 0{,}4$ m/s) de 12 passos, cada uma seguida de uma curva ($\omega = 0{,}2$ rad/s) de 8 passos. Pose inicial $(1,\ 1,\ 0)$ e crença inicial $\mu_0 = (1,\ 1,\ 0)$, $\Sigma_0 = \operatorname{diag}(0{,}1^2,\ 0{,}1^2,\ 0{,}05^2)$.
+
+---
+
+## Parte 1 — Fundamentação teórica (sem calculadora)
+
+1. Classifique cada situação como **rastreamento de posição**, **localização global** ou **robô sequestrado**, e diga se uma **gaussiana** é uma boa representação da crença:
+   a. O robô é ligado **exatamente** sobre a marca desenhada no chão e começa a andar.
+   b. O robô é ligado num ponto **qualquer** do prédio, sem nenhuma informação sobre onde está.
+   c. Um robô que andava bem localizado é **carregado** para outro andar do prédio, sem aviso.
+
+2. A **localização de Markov** é o filtro de Bayes com um **mapa** $m$ como entrada extra.
+   a. Em quais etapas do algoritmo (previsão e/ou correção) o mapa aparece?
+   b. Qual é a **crença inicial** $bel(x_0)$ para: pose **conhecida**, pose **desconhecida** e conhecimento **parcial** (o robô só sabe que está num certo corredor)?
+   c. A localização EKF é um **caso particular** da localização de Markov. Qual é a restrição sobre a crença, e o que o mapa passa a ser?
+
+3. Sobre a **correspondência**:
+   a. O que é a variável $c_t^i$ e por que a etapa de correção **precisa** dela?
+   b. Na matriz $H_t^i$ da aula, a terceira linha (a da **assinatura**) é toda zero. Por que a assinatura não ajuda a corrigir a **pose**?
+
+4. Sobre a **correspondência desconhecida** (máxima verossimilhança, ML):
+   a. Descreva o procedimento: o que o filtro testa e como escolhe o marco.
+   b. Por que se usa a **distância de Mahalanobis** em vez da distância em metros entre a medição e a esperada?
+   c. Qual é o papel do **limiar** e da hipótese de "**nenhum marco**" ($c = N + 1$)?
+   d. Cite **duas** formas de reduzir o risco de associação errada e explique por que elas se **opõem**.
+
+5. Sobre o **MHT**:
+   a. Como ele representa a crença?
+   b. Por que, sem **poda**, o número de hipóteses cresce exponencialmente? O que a poda com limiar $\psi_{\min}$ garante?
+   c. Em que situação você preferiria o MHT à EKF? Qual é o preço?
+
+---
+
+## Parte 2 — Cálculo manual
+
+### 2a — Correção EKF com um marco (correspondência conhecida)
+
+Use o modelo do cenário. Após a previsão, o robô tem
+
+$$
+\bar\mu_t = (0,\ 0,\ 0)^\top, \qquad
+\bar\Sigma_t = \operatorname{diag}(0{,}1,\ 0{,}1,\ 0{,}05).
+$$
+
+Ele vê o marco $A = (3,\ 4)$ e mede $z = (r,\ \phi) = (5{,}2,\ 0{,}85)$ (em m e rad). Calcule:
+
+1. $\delta$, $q$ e a medição esperada $\hat z = h(\bar\mu_t, A)$.
+2. O Jacobiano $H_t$ ($2 \times 3$) avaliado em $\bar\mu_t$.
+3. $S = H_t\bar\Sigma_t H_t^\top + Q$, o ganho de Kalman $K_t = \bar\Sigma_t H_t^\top S^{-1}$ e a inovação $\nu = z - \hat z$.
+4. A pose corrigida $\mu_t = \bar\mu_t + K_t\,\nu$ e os **desvios-padrão** $\sqrt{\Sigma_{t,xx}}$, $\sqrt{\Sigma_{t,yy}}$, $\sqrt{\Sigma_{t,\theta\theta}}$ (a diagonal de $\Sigma_t = (I - K_tH_t)\bar\Sigma_t$).
+
+**Perguntas de reflexão:** (i) O sinal do ajuste em $x$ e $y$ faz sentido, sabendo que o marco foi medido **mais longe** que o esperado? (ii) Qual desvio-padrão diminuiu **proporcionalmente mais**? Por quê?
+
+### 2b — Associação por máxima verossimilhança
+
+Na mesma situação (mesmos $\bar\mu_t$, $\bar\Sigma_t$ e $z = (5{,}2;\ 0{,}85)$), o robô **não sabe** qual marco viu. Há dois candidatos: $A = (3,\ 4)$ e $B = (4,\ 3)$, ambos a $5$ m do robô.
+
+1. Calcule, para cada candidato, a medição esperada $\hat z$, a matriz $\Psi = H\bar\Sigma_t H^\top + Q$ e a distância de Mahalanobis (ao quadrado) $d = (z - \hat z)^\top\Psi^{-1}(z - \hat z)$. Qual marco a ML escolhe?
+2. Usando o limiar $d_{\max} = 9{,}21$ (cerca de 99% para 2 graus de liberdade), a medição foi aceita?
+3. Agora uma segunda medição, $z' = (3{,}0;\ -1{,}0)$, vinda de um objeto qualquer que não é marco. O que a ML **sem limiar** faria? E **com limiar**? (Calcule $d$ para $A$ e para $B$.)
+
+*Dica:* em 2a e 2b as matrizes $S$ e $\Psi$ saem **diagonais**.
+
+---
+
+## Parte 3 — Implementação: localização EKF com marcos
+
+Simulação em Python puro (sem ROS/Gazebo). O código abaixo traz o **mundo** (o simulador, que tem a sua própria implementação do movimento e do sensor, independente da sua) e o mapa; você implementa o **filtro**.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+DT = 1.0                                    # passo de tempo (s)
+ALCANCE = 4.0                               # alcance máximo do sensor (m)
+R = np.diag([0.05**2, 0.05**2, 0.02**2])    # ruído do movimento (x, y, theta)
+Q = np.diag([0.10**2, 0.03**2])             # ruído do sensor (r, phi)
+MARCOS = np.array([[2.5, 4.5], [6.0, 5.5], [9.5, 5.0], [4.0, 9.0], [10.0, 9.5]])
+MU0 = np.array([1.0, 1.0, 0.0])             # pose inicial (verdadeira e crença)
+S0 = np.diag([0.1**2, 0.1**2, 0.05**2])     # incerteza inicial
+LIMIAR = 9.21                               # limiar de Mahalanobis (~99%, 2 g.l.)
+
+
+def wrap(a):
+    """Normaliza um ângulo para (-pi, pi]."""
+    return (a + np.pi) % (2 * np.pi) - np.pi
+
+
+def controles(n=60):
+    """3 retas (12 passos, v = 0,4) alternadas com 3 curvas (8 passos, w = 0,2)."""
+    return [(0.4, 0.2 if t % 20 >= 12 else 0.0) for t in range(n)]
+
+
+def _mover_real(x, u):
+    v, w = u
+    if abs(w) < 1e-9:
+        return x + np.array([v * DT * np.cos(x[2]), v * DT * np.sin(x[2]), 0.0])
+    r = v / w
+    return x + np.array([-r * np.sin(x[2]) + r * np.sin(x[2] + w * DT),
+                         r * np.cos(x[2]) - r * np.cos(x[2] + w * DT), w * DT])
+
+
+def _medir_real(x, m):
+    d = m - x[:2]
+    return np.array([np.hypot(*d), wrap(np.arctan2(d[1], d[0]) - x[2])])
+
+
+def simular(seed=0, n=60, p_out=0.0, sequestro=None, marcos=MARCOS):
+    """Devolve (poses reais, controles, medições). Cada medição é uma lista de
+    (j, z): j = índice do marco (-1 = outlier) e z = (r, phi)."""
+    rng = np.random.default_rng(seed)
+    x, u_list, poses, zs = MU0.copy(), controles(n), [], []
+    for t, u in enumerate(u_list):
+        x = _mover_real(x, u) + rng.multivariate_normal(np.zeros(3), R)
+        x[2] = wrap(x[2])
+        if sequestro is not None and t == sequestro[0]:
+            x = np.array(sequestro[1], float)           # robô teleportado
+        obs = []
+        for j, m in enumerate(marcos):
+            z = _medir_real(x, m)
+            if z[0] <= ALCANCE:
+                z = z + rng.multivariate_normal(np.zeros(2), Q)
+                obs.append((j, np.array([z[0], wrap(z[1])])))
+        if rng.random() < p_out:                         # medição espúria
+            obs.append((-1, np.array([rng.uniform(1, ALCANCE),
+                                      rng.uniform(-np.pi, np.pi)])))
+        poses.append(x.copy())
+        zs.append(obs)
+    return np.array(poses), u_list, zs
+
+
+def erro_pos(est, poses):
+    return np.hypot(*(est[:, :2] - poses[:, :2]).T)
+
+
+# --------------------------- o que você implementa ---------------------------
+def g(mu, u):
+    """Modelo de movimento (sem ruído): pose prevista. Trate w ~ 0 (reta)."""
+    # TODO
+    ...
+
+
+def G(mu, u):
+    """Jacobiano de g em relação a (x, y, theta): 3 x 3."""
+    # TODO
+    ...
+
+
+def h(mu, m):
+    """Medição esperada (r, phi) do marco m, estando o robô em mu."""
+    # TODO
+    ...
+
+
+def H(mu, m):
+    """Jacobiano de h em relação a (x, y, theta): 2 x 3."""
+    # TODO
+    ...
+
+
+def predicao(mu, S, u):
+    """Linhas 2 a 4 da aula: devolve (pose prevista, incerteza prevista)."""
+    # TODO
+    ...
+
+
+def atualiza(mu, S, z, m):
+    """Correção com UM marco m: devolve (nova pose, nova incerteza).
+    Cuidado: o ângulo da inovação z - h(mu, m) também precisa de wrap()."""
+    # TODO
+    ...
+
+
+def mahalanobis(mu, S, z, m):
+    """Distância de Mahalanobis (ao quadrado) entre z e a medição esperada de m."""
+    # TODO
+    ...
+
+
+def ekf(u_list, zs, modo="conhecida", limiar=None, mu0=MU0, S0=S0, marcos=MARCOS):
+    """Localização EKF.
+    modo 'conhecida': usa o índice j de cada medição (ignora os outliers, j < 0).
+    modo 'ml': escolhe o marco de menor distância de Mahalanobis; se `limiar` for
+               dado e a menor distância o superar, REJEITA a medição.
+    Processe os marcos UM POR VEZ (cada correção usa a crença já corrigida).
+    Devolve (estimativas Nx3, desvios-padrão Nx3, nº de associações erradas
+    aceitas, nº de medições rejeitadas)."""
+    # TODO
+    ...
+```
+
+**Tarefas:**
+
+1. Implemente as funções acima.
+2. **Valide** com a Parte 2: `atualiza` com os dados de 2a deve reproduzir $\mu_t$ e $\Sigma_t$; `mahalanobis` deve reproduzir as distâncias de 2b.
+3. **Experimento principal.** Rode `ekf` com correspondência conhecida sobre `simular(seed=0)` e faça: (a) a trajetória real e a estimada, com os marcos; (b) o erro de posição ao longo dos passos; (c) $\sigma_x$ e $\sigma_y$ ao longo dos passos. Em quais trechos a incerteza **cresce** e em quais **diminui**? Relacione com o número de marcos visíveis.
+4. **Experimento 1 — associação de dados.** Para 30 simulações (`seed = 0, ..., 29`), compare `conhecida`, `ml` sem limiar e `ml` com `LIMIAR`, **sem outliers** e com `p_out = 0.25`. Reporte o **erro médio de posição** (média dos passos) e a **fração de falhas** (erro final $> 1$ m). Comente.
+5. **Experimento 2 — incerteza inicial da orientação.** Com `ml` e `LIMIAR`, para $\sigma_{\theta,0} \in \{5^\circ,\ 20^\circ,\ 45^\circ,\ 60^\circ,\ 90^\circ\}$ e 40 simulações, comece o filtro com `mu0 = (1, 1, ±σ)` (sinal sorteado com `np.random.default_rng(1000 + s)`) e `S0 = diag(0.1², 0.1², σ²)`. Reporte a fração de falhas e o número médio de associações erradas. Repita com correspondência **conhecida**. O que você conclui sobre o **ponto fraco** do filtro?
+6. **Experimento 3 — robô sequestrado.** Com `simular(seed=s, sequestro=(30, (3.0, 7.0, 0.5)))` (30 simulações), compare `conhecida` e `ml` com limiar: o erro de posição logo depois do sequestro (passo 32) e o erro final. Algum dos dois se recupera? Por quê?
+7. **Desafio (opcional).** (a) A aula **soma** as contribuições de vários marcos nas linhas 14 e 15 (todos os $K_t^i$ calculados com a crença **prevista**). Implemente essa versão ao pé da letra, com correspondência conhecida, e compare com a sua versão "um marco por vez": erro médio, e o **menor autovalor** de $\Sigma_t$ ao longo da execução. O que acontece, e por que "somar" é uma aproximação perigosa? (b) Qual dos Experimentos 2 e 3 um filtro **não paramétrico** (histograma ou partículas) resolveria, e a que custo?
+
+---
+
+## Entregáveis
+
+- **Parte 1:** respostas escritas (à mão ou digitadas).
+- **Parte 2:** os cálculos de 2a e 2b com as contas intermediárias visíveis.
+- **Parte 3:** o código Python completo, os gráficos do item 3 e as respostas escritas dos itens 3 a 6 (e do desafio, se realizado).
