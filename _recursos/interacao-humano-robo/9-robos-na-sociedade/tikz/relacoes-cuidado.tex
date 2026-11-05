@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.9cm, minimum height=2.5cm, font=\large, line width=1.7pt},
+        a/.style={dtrans, line width=2pt, -{Stealth[length=3.2mm]}}}
+\node[c, draw=dblue] (a) at (3.0,6.2) {\textbf{\textcolor{dblue}{Ferramenta}}\\ só um instrumento};
+\node[c, draw=dgreen] (b) at (9.7,6.2) {\textbf{\textcolor{dgreen}{Ferramenta social}}\\ com capacidades sociais};
+\node[c, draw=dorange] (d) at (16.4,6.2) {\textbf{\textcolor{dorange}{Parceiro}}\\ uma relação, de fato};
+\draw[a] (a.east) -- (b.west); \draw[a] (b.east) -- (d.west);
+\node[font=\large\bfseries] at (9.7,8.1) {quanto mais \textbf{vínculo emocional} $\rightarrow$};
+\node[dbox, draw=dred, fill=dred!6, line width=1.7pt, text width=17.4cm, minimum height=2.8cm, font=\large] at (9.7,2.0) {\textbf{O argumento de Sparrow e Sparrow (2006)}\\ mesmo um cuidador robótico perfeito seria antiético: uma relação só é significativa entre quem pode sentir \textbf{afeto e preocupação recíprocos}; \textbf{imitar} o cuidado nunca substitui o real};
+\end{tikzpicture}
+\end{document}

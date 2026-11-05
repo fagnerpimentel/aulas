@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[daxis, line width=1.2pt] (0.8,1.6) -- (18.6,1.6) node[right, font=\large] {tempo};
+\draw[daxis, line width=1.2pt] (0.8,1.6) -- (0.8,7.4) node[above, font=\large] {solidão};
+\draw[black!35, dashed, line width=1.1pt] (6.4,1.6) -- (6.4,7.0);
+\draw[black!35, dashed, line width=1.1pt] (13.6,1.6) -- (13.6,7.0);
+\draw[dred, line width=3.2pt, line join=round] (1.2,4.4) -- (6.4,4.4) -- (7.0,2.4) -- (13.6,2.4) -- (14.2,6.4) -- (18.2,6.4);
+\node[font=\large\bfseries, black!70, text width=5cm, align=center] at (3.8,7.5) {rotina do asilo};
+\node[font=\large\bfseries, dgreen, text width=7cm, align=center] at (10.0,7.5) {3 semanas com o robô};
+\node[font=\large\bfseries, dred, text width=4.4cm, align=center] at (16.2,7.5) {robô devolvido};
+\node[font=\large, dgreen, text width=6.4cm, align=center] at (10.0,3.5) {companhia, jogos de memória, nunca discute};
+\node[font=\large, dred, text width=4.4cm, align=center] at (16.2,5.4) {\textbf{ainda mais} sozinha do que antes};
+\node[font=\large, text width=18cm, align=center] at (9.7,0.5) {o apego se forma rápido; \textbf{retirar} o robô ao fim do estudo tem consequências emocionais};
+\end{tikzpicture}
+\end{document}

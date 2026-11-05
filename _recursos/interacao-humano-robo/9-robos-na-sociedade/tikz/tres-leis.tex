@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[black!55, line width=2.2pt, -{Stealth[length=3.4mm]}] (0.3,8.0) -- (0.3,0.5);
+\node[font=\large\bfseries, rotate=90] at (-0.35,4.3) {prioridade};
+\node[circle, draw=dred, fill=dred!15, line width=1.8pt, minimum size=1.1cm, font=\Large\bfseries] at (1.5,7.3) {0};
+\node[dbox, draw=dred, line width=1.7pt, text width=15.2cm, minimum height=1.5cm, font=\large, anchor=west] at (2.4,7.3) {Um robô não pode causar mal à \textbf{humanidade} nem, por omissão, permitir que ela sofra dano};
+\node[circle, draw=dorange, fill=dorange!15, line width=1.8pt, minimum size=1.1cm, font=\Large\bfseries] at (1.5,5.25) {1};
+\node[dbox, draw=dorange, line width=1.7pt, text width=15.2cm, minimum height=1.5cm, font=\large, anchor=west] at (2.4,5.25) {Um robô não pode ferir um \textbf{ser humano} nem, por omissão, permitir que ele sofra dano};
+\node[circle, draw=dgreen, fill=dgreen!15, line width=1.8pt, minimum size=1.1cm, font=\Large\bfseries] at (1.5,3.2) {2};
+\node[dbox, draw=dgreen, line width=1.7pt, text width=15.2cm, minimum height=1.5cm, font=\large, anchor=west] at (2.4,3.2) {Um robô deve \textbf{obedecer} às ordens dos humanos, exceto se conflitarem com a Primeira Lei};
+\node[circle, draw=dblue, fill=dblue!15, line width=1.8pt, minimum size=1.1cm, font=\Large\bfseries] at (1.5,1.1500000000000004) {3};
+\node[dbox, draw=dblue, line width=1.7pt, text width=15.2cm, minimum height=1.5cm, font=\large, anchor=west] at (2.4,1.1500000000000004) {Um robô deve \textbf{proteger a própria existência}, desde que não conflite com a Primeira ou a Segunda Lei};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\fill[dorange!70] (1.6,1.0) rectangle (4.6,7.2);
+\fill[dblue!75] (6.4,1.0) rectangle (9.4,2.6);
+\node[font=\large\bfseries, dorange, text width=4.4cm, align=center] at (3.1,7.9) {expectativa\\ (ficção)};
+\node[font=\large\bfseries, dblue, text width=4.4cm, align=center] at (7.9,3.5) {capacidade\\ real};
+\draw[dred, line width=2.4pt, {Stealth[length=3.4mm]}-{Stealth[length=3.4mm]}] (11.0,2.7) -- (11.0,7.0);
+\node[font=\Large\bfseries, dred, anchor=west] at (11.4,5.3) {lacuna};
+\node[font=\large, dred, anchor=west, text width=4.6cm] at (11.4,4.3) {leva à \textbf{decepção} ao interagir com um robô de verdade};
+\node[dbox, draw=black!50, fill=white, line width=1.4pt, text width=5.4cm, minimum height=1.5cm, font=\large] at (15.9,1.4) {o \textbf{primeiro contato} com robôs é, quase sempre, \textbf{na tela}};
+\end{tikzpicture}
+\end{document}

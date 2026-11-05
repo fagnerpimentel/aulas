@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.4cm, minimum height=2.6cm, font=\large, line width=1.6pt}}
+\node[font=\large\bfseries, dblue] at (4.4,8.4) {Quem participa dos estudos};
+\node[font=\large\bfseries, dorange] at (15.0,8.4) {Quem constrói os robôs};
+\node[k, draw=dblue] (a) at (4.4,6.5) {\textbf{homens sobrerrepresentados} entre os participantes\\ {\normalsize (estudos de HRI, 2006--2021)}};
+\node[k, draw=dblue] (b) at (4.4,3.4) {gênero tratado como \textbf{binário}};
+\node[k, draw=dorange] (c) at (15.0,6.5) {\textbf{poucos} desenvolvedores de países em desenvolvimento};
+\node[k, draw=dorange] (d) at (15.0,3.4) {\textbf{poucas} soluções para ambientes com \textbf{poucos recursos}};
+\node[dbox, draw=dred, dashed, fill=dred!6, line width=1.8pt, text width=9.6cm, minimum height=1.7cm, font=\large] (e) at (9.7,0.4) {a falta de diversidade pode \textbf{agravar o viés} no design dos robôs};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (b.south) -- (b.south |- e.north) -- (e.north west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (d.south) -- (d.south |- e.north) -- (e.north east);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=4.6cm, minimum height=1.9cm, font=\large, line width=1.6pt}}
+\node[font=\large\bfseries, dorange, anchor=west] at (0.2,8.3) {Mágico de Oz};
+\node[k, draw=dblue, dashed] (a) at (2.9,6.6) {\textbf{operador} escondido comanda o robô};
+\node[k, draw=dorange] (b) at (9.7,6.6) {o robô \textbf{parece autônomo}};
+\node[k, draw=dred] (c) at (16.5,6.6) {\textbf{expectativas infladas}: a tecnologia parece mais avançada};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (a.east) -- (b.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (b.east) -- (c.west);
+\node[font=\large\bfseries, dblue, anchor=west] at (0.2,4.3) {Persuasão};
+\node[k, draw=dblue] (d) at (2.9,2.6) {robô \textbf{persuasivo}\\ {\normalsize (ex.: hábitos de saúde)}};
+\node[k, draw=dgreen] (e) at (9.7,2.6) {muda \textbf{atitudes} e \textbf{comportamentos}};
+\node[k, draw=dred, dashed] (f) at (16.5,2.6) {\textbf{explora o vínculo social} sem \textbf{consentimento} nem consciência?};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (d.east) -- (e.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (e.east) -- (f.west);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[circle, draw=black!70, fill=dshade!60, line width=2.4pt, minimum size=3.2cm, font=\Large\bfseries, align=center] (c) at (9.7,4.3) {Ética\\ em HRI};
+\node[dbox, draw=dblue, fill=dblue!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dblue] (t0) at (9.70,7.80) {Robôs na\\ pesquisa};
+\draw[black!45, line width=1.4pt] (c) -- (t0);
+\node[dbox, draw=dgreen, fill=dgreen!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dgreen] (t1) at (14.86,6.48) {Necessidades\\ emocionais};
+\draw[black!45, line width=1.4pt] (c) -- (t1);
+\node[dbox, draw=dorange, fill=dorange!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dorange] (t2) at (16.13,3.52) {Persuasão};
+\draw[black!45, line width=1.4pt] (c) -- (t2);
+\node[dbox, draw=dred, fill=dred!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dred] (t3) at (12.56,1.15) {Abuso de\\ robôs};
+\draw[black!45, line width=1.4pt] (c) -- (t3);
+\node[dbox, draw=dblue, fill=dblue!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dblue] (t4) at (6.84,1.15) {Trabalho};
+\draw[black!45, line width=1.4pt] (c) -- (t4);
+\node[dbox, draw=dgreen, fill=dgreen!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dgreen] (t5) at (3.27,3.52) {Atitudes\\ ambivalentes};
+\draw[black!45, line width=1.4pt] (c) -- (t5);
+\node[dbox, draw=dorange, fill=dorange!8, line width=1.7pt, text width=3.0cm, minimum height=1.4cm, font=\large\bfseries, text=dorange] (t6) at (4.54,6.48) {Diversidade\\ e inclusão};
+\draw[black!45, line width=1.4pt] (c) -- (t6);
+\end{tikzpicture}
+\end{document}

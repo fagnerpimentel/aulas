@@ -1,0 +1,375 @@
+---
+title: "Interação Humano-Robô"
+subtitle: "Robôs na Sociedade"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/interacao-humano-robo/9-robos-na-sociedade
+---
+
+# Robôs na Sociedade
+
+::: {.esquerda}
+Capítulo 12 do livro [**Human–Robot Interaction — An Introduction**](https://www.human-robot-interaction.org/), de **Christoph Bartneck**, **Tony Belpaeme**, **Friederike Eyssel**, **Takayuki Kanda**, **Merel Keijsers** e **Selma Šabanović** (Cambridge University Press, 2024).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="42%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Robôs na mídia**: o que a ficção nos faz esperar dos robôs
+- **Ética em HRI**: pesquisa, cuidado e apego, persuasão, abuso e trabalho
+- **Atitudes ambivalentes** diante dos robôs
+- **Diversidade e inclusão**: viés e estereótipos
+
+# Na Mídia
+
+O que a ficção nos faz esperar dos robôs.
+
+## Por que a mídia importa {.smaller}
+
+- Seu primeiro contato com um robô foi, provavelmente, **na tela**
+- As representações da mídia **moldam** nossa percepção e podem **enviesá-la**, porque são a **única experiência** da maioria das pessoas
+- Os robôs estão prestes a entrar no dia a dia, mas quase todo o conhecimento público vem da **mídia**
+- A **lacuna** entre a ficção e a capacidade real leva à **decepção**
+
+![](images/lacuna-expectativas.svg){fig-align="center" width="90%"}
+
+## Da ficção à realidade {.smaller}
+
+- A palavra **robô** nasceu na peça ***R.U.R.*** (Karel Čapek, 1921), em que os robôs tomam o mundo e matam quase todos os humanos
+- **Asimov** criou os termos **robótica** e **robopsicologia**; **Astro Boy** (Tezuka) é o robô amigo do pós-guerra
+- Há robôs reais inspirados na ficção, como o **HRP-2**, ligado ao mangá *Patlabor*
+- Enquanto isso, a IA venceu humanos no xadrez, no *Jeopardy* e no Go
+
+![](images/ficcao-x-ia.svg){fig-align="center" width="100%"}
+
+## Quatro narrativas recorrentes {.smaller}
+
+- Os mesmos **arquétipos** se repetem nos livros, filmes, peças e jogos
+- Eles podem se **misturar** na mesma história
+
+![](images/quatro-narrativas.svg){fig-align="center" width="100%"}
+
+<!-- SLIDES 8 a 16 (arquétipos da ficção, tipos de corpo e mente, narrativas de ciência e o conflito na ficção): para reativar, apague esta linha e a linha "FIM DOS SLIDES COMENTADOS"
+
+## Robôs que querem ser humanos {.smaller}
+
+- Mesmo superiores em força e cálculo, muitos robôs ficcionais **querem ser humanos**: em *Bicentennial Man*, Andrew Martin luta por reconhecimento **legal** e aceita a **mortalidade**
+- Alguns **nem sabem** que são robôs: Rachael (*Blade Runner*) e certos Cylons
+- **Mr. Data** sabe, e o que o distingue é a **falta de emoção**; em *A.I.*, o robô David é construído com a capacidade de **amar**
+- Na realidade, modelos de emoção como o **OCC** já foram implementados
+
+## Honestidade e humor em um robô {.smaller}
+
+- Em *Interstellar*, o robô **TARS** tem um **parâmetro de honestidade**: 90%
+- A explicação: a **honestidade absoluta** nem sempre é a forma mais diplomática ou segura de falar com seres **emocionais**
+- Robôs podem não ter emoção, mas vão interagir com humanos que têm; por isso precisam **processar emoções** e ajustar seu comportamento
+
+## Robôs como ameaça à humanidade {.smaller}
+
+- A **rebelião** das máquinas: robôs fortes e inteligentes decidem dominar o mundo (*R.U.R.*, *O Exterminador do Futuro*, *Matrix*, Cylons, *Eu, Robô*)
+- Asimov chamou de **complexo de Frankenstein** a ideia de que robôs dominariam o mundo
+- Duas suposições: os robôs **se parecem conosco** e, ao superá-los, **desumanizam** os humanos, como fizeram potências coloniais
+- A lógica é **simplista**; a psicologia estuda o medo de ameaça à **distintividade** humana (Ferrari et al., 2016; Złotowski et al., 2017)
+
+## *Ex Machina*: uma virada {.smaller}
+
+- Caleb se apaixona por **Ava**, projetada como a mulher dos sonhos dele; ela pede ajuda para fugir do laboratório
+- Livre, Ava revela que o **manipulou** e o deixa preso, sem saída
+- O filme mantém dois arquétipos (emoções **falsas** e robôs **hostis**), mas com uma virada: o comportamento de Ava nasce de uma indignação **muito humana** por ser explorada e aprisionada
+
+## Robôs superiores e bons {.smaller}
+
+- Há cenários em que robôs superiores **influenciam a sociedade em silêncio**: **R. Daneel Olivaw**, primeiro-ministro de Asimov, esconde que é robô e até **come**, mesmo sem poder digerir
+- A ideia do robô **mau** e do humano **bom** é mais persistente na cultura **ocidental**
+- No Japão, **Astro Boy** e **Doraemon** são bondosos e ajudam os humanos no dia a dia
+- Essa visão mais positiva é vista como parte da explicação da **aceitação** maior e do grande número de robôs pessoais no Japão
+
+## Semelhantes ou diferentes dos humanos? {.smaller}
+
+- Todas essas narrativas exploram o **quanto** humanos e robôs se parecem: a **humanização** das máquinas e a **desumanização** dos humanos (Dixon, 2004; Haslam, 2006)
+- Os robôs são retratados pela **semelhança** ou pela **diferença** de **corpo** e de **mente**; os quatro tipos podem se **misturar**
+
+![](images/corpo-mente-2x2.svg){fig-align="center" width="85%"}
+
+## Exemplos dos tipos {.smaller}
+
+- **Mr. Data** parece humano, o que cria **expectativas**; surpreende quando ele entra no vácuo do espaço sem se danificar
+- No filme *Prometheus*, o androide **David** usa traje espacial sem precisar de ar: "fui projetado assim porque vocês se sentem mais à vontade com seus iguais"
+- **Godfried-Willem Raes**, em sua orquestra de robôs, enfatiza a **igualdade** entre robôs e humanos
+- **Johnny Five** (*Short Circuit*) tem corpo claramente robótico, mas expressa emoções **humanas**
+
+## Como a mídia fala de ciência {.smaller}
+
+- Ben Goldacre mostra que a mídia promove o **mal-entendido** público da ciência com duas narrativas: a **história de alarme** e a **ciência maluca**
+- A pergunta de quase todo repórter: **quando** os robôs vão dominar o mundo?
+- O objetivo é escrever algo que **assuste** e atraia atenção
+
+![](images/narrativas-ciencia.svg){fig-align="center" width="85%"}
+
+## Por que o conflito persiste {.smaller}
+
+- Muitas histórias pedem **conflito**; um mundo feliz para sempre não prende a atenção
+- Robôs **maus** contra humanos **bons** ativa o efeito de **endogrupo**: tendemos a defender nossa espécie contra o **exogrupo** de robôs
+- Robôs **indistinguíveis** de humanos (*Battlestar Galactica*, *Westworld*) criam **incerteza** e tensão
+- **Exceções**: *Futurama* e *Robot and Frank* (convivência pacífica) e *Her* (Theodore se apaixona por Samantha, a IA do celular)
+
+FIM DOS SLIDES COMENTADOS -->
+
+## Falando com a imprensa {.smaller}
+
+- Pesquisadores de HRI são muito convidados para entrevistas: é uma ótima chance de mostrar o trabalho, mas com **risco**
+- O repórter pode querer uma história de alarme sem dizer
+- Faça **treinamento de mídia** (muitas universidades oferecem)
+- Fique na **pesquisa que foi feita** e **evite especular** sobre o que o estudo não cobriu
+- Esclareça **as perguntas** antes e peça para **ver o rascunho** do texto
+
+![](images/falando-imprensa.svg){fig-align="center" width="95%"}
+
+## As expectativas de quem participa {.smaller}
+
+- Toda pessoa que interage com um robô chega com **atitudes, ambivalência, esperanças e expectativas** sobre o que ele pode ou não fazer
+- Muitas dessas expectativas vêm da **ficção** e de relatos **enviesados** da mídia, e não da pesquisa científica
+- Por isso os pesquisadores **não podem se esquivar** das representações de robôs na mídia (Stapels e Eyssel, 2022)
+
+![](images/expectativas-participante.svg){fig-align="center" width="95%"}
+
+# Ética
+
+O que considerar ao projetar e pesquisar robôs.
+
+## Roboética {.smaller}
+
+- Roboticistas e filósofos criaram uma área comum de estudo, a **roboética**
+- Pesquisadores de HRI formularam cinco regras éticas, os **Princípios da Robótica**
+- Fosch-Villaronga et al. (2020): implicações **éticas, legais e sociais** (ELS) do HRI
+- Perguntas que a área faz: 
+  - é aceitável **vender** um robô sexual? 
+  - Você deixaria seus pais com um **robô cuidador** em vez de uma enfermeira?
+
+## Os cinco Princípios da Robótica {.smaller}
+
+1. Robôs **não** devem ser projetados **só ou principalmente** para **matar ou ferir** pessoas
+2. **Humanos**, e não robôs, são os **agentes responsáveis**:
+   - robôs são **ferramentas** para atingir objetivos humanos
+3. Robôs devem ser projetados de modo a garantir sua **segurança** (*safety* e *security*)
+4. Robôs são **artefatos**: 
+   - não devem **explorar usuários vulneráveis**, evocando **resposta emocional** ou **dependência**
+   - deve ser **sempre possível distinguir** um robô de um humano
+5. Deve ser **sempre possível descobrir quem é o responsável legal** por um robô
+
+*Fonte: princípios do EPSRC e do AHRC (Reino Unido, 2011), discutidos por Boden et al. (2017).
+
+## As Três Leis da Robótica, de Asimov {.smaller}
+
+- Asimov propôs as leis para **proteger a humanidade** de robôs malévolos e, depois, acrescentou a **lei zero**
+- São muito visíveis na mídia, mas **criticadas** por filósofos: nem nas histórias servem como **guia prático** para projetar robôs
+
+![](images/tres-leis.svg){fig-align="center" width="95%"}
+
+## Temas de preocupação ética {.smaller}
+
+- Muitos projetos veem robôs agindo **em nome de humanos**: **matar**, tarefas "**chatas, sujas e perigosas**" e satisfazer a necessidade de **intimidade**; alguns até recebem verba de governos
+- Há **contramovimentos**, como a Campanha contra os Robôs Assassinos
+- Como pesquisadores responsáveis, precisamos considerar as **implicações éticas** do que imaginamos (Sparrow, 2011)
+
+![](images/temas-eticos.svg){fig-align="center" width="85%"}
+
+## Robôs na pesquisa {.smaller}
+
+- **Mágico de Oz**: enganar os participantes sobre a autonomia do robô **eleva e vicia** suas expectativas, e pode levá-los a achar a tecnologia mais avançada do que é (Riek, 2012)
+- **Robôs persuasivos**: podem mudar atitudes **e comportamentos** (Brandstetter et al., 2017), como hábitos de saúde (Kiesler et al., 2008)
+<!-- - Mesmo quando benéfico, preocupa se **explora o vínculo social** e influencia a pessoa sem **consentimento** nem consciência -->
+<!-- - **Engano** e **manipulação** são conceitos mal definidos; o engano é comum na pesquisa, mas se mistura com a aparência de que o robô tem **intenções** e **emoções** -->
+
+![](images/robos-pesquisa.svg){fig-align="center" width="95%"}
+
+## Cuidado robótico: a avó e o robô {.smaller}
+
+- Uma avó recebe um robô de companhia por **três semanas**: ele a convida para jogos de memória, pergunta como ela está e **nunca discorda**
+- Ela se apega; quando os pesquisadores levam o robô embora, volta a rotina do asilo e ela se sente **mais sozinha** do que antes
+- Pesquisas mostram que as pessoas **se apegam rápido** a robôs; é preciso pensar nas consequências de **retirá-los**
+- Em medicina, os públicos costumam ser **vulneráveis**: crianças, idosos e pessoas com deficiências (Steil et al., 2019)
+
+![](images/cuidado-devolvido.svg){fig-align="center" width="85%"}
+
+<!-- ## Benefícios e limites do cuidado {.smaller} -->
+<!---->
+<!-- - Robôs pequenos como o terapêutico **Paro** e o cão **Aibo** têm efeito benéfico: não fazem trabalho manual, mas dão **companhia** -->
+<!-- - Como a carga de trabalho dos cuidadores é alta, qualquer **alívio** é bem-vindo -->
+<!-- - Manzeschke (2019): o robô pode ser visto como **ferramenta**, como ferramenta com **capacidades sociais** ou como **parceiro de relacionamento** -->
+<!---->
+
+## Que tipo de relação? {.smaller}
+
+- Sparrow e Sparrow (2006), um clássico: mesmo um cuidador robótico **perfeito** seria **antiético**
+<!-- - A relação só é significativa entre quem pode sentir **afeto e preocupação recíprocos**; **imitar** o cuidado não substitui o real -->
+- Isso também pode ferir a **dignidade** da pessoa
+
+![](images/relacoes-cuidado.svg){fig-align="center" width="95%"}
+
+<!-- ## Apego emocional a robôs {.smaller} -->
+
+<!-- - O afeto pode ir além do cuidado: as pessoas podem **preferir** companheiros robóticos, como **Klara** (*Klara and the Sun*), que nunca reclama e aprende a nunca incomodar -->
+<!-- - Que consequências sociais teria **apoiar** essas relações? -->
+<!-- - O robô **não sente** os traços que projetamos nele, e a **autenticidade** da expressão é duvidosa (Turkle, 2017) -->
+<!-- - A relação pode ser **assimétrica**, e o humano pode ficar satisfeito mesmo assim (Borenstein e Arkin, 2019) -->
+
+## Persuasão pela linguagem {.smaller}
+
+- A linguagem muda com o uso: surgem palavras ("googlar") e mudam sentidos
+- A familiaridade muda atitudes: o **efeito de mera exposição** (Zajonc, 1968)
+- Robôs **sincronizam o vocabulário** pela internet em segundos, com uma consistência que nem a mídia de massa alcança (Brandstetter et al., 2017)
+- Precisamos de **competência midiática e linguística**; não há regulação sobre como grandes empresas influenciam o uso da linguagem
+
+![](images/mera-exposicao.svg){fig-align="center" width="95%"}
+
+## Comportamento abusivo com robôs {.smaller}
+
+- Em campo, robôs autônomos sem supervisão foram **intimidados** e **maltratados** (Brscić et al., 2015; Salvini et al., 2010)
+<!-- - A agressão imitava a **humano-humano**: chutar, bater, insultar, não sair da frente; **desligar ou cortar fios** não foi observado -->
+<!-- - O robô **não sente dor**; é o humano que corre risco. Ainda assim, maltratar um robô seria uma **ofensa moral** (Whitby, 2008) -->
+<!-- - Pode **generalizar** para animais e pessoas (Whitby, 2008; De Angeli, 2009), como se discute em **jogos violentos**; faltam estudos -->
+
+![](images/abuso-generalizacao.svg){fig-align="center" width="95%"}
+
+<!-- ## Intimidade e expectativas sobre pessoas {.smaller} -->
+<!---->
+<!-- - Interagir com um robô pode mudar o que se espera do **comportamento de outras pessoas** -->
+<!-- - Um robô poderia parecer desejar a qualquer momento e **obedecer a tudo**, sem desejos próprios: isso pode mudar o que se considera **apropriado** em um parceiro íntimo -->
+<!-- - Designs de comportamento que seriam errados com parceiros humanos são considerados **eticamente inadequados** por alguns estudiosos (Sparrow, 2017) -->
+<!-- - Há interesse crescente em relações **próximas e íntimas** com tecnologias novas, mas é preciso **mais pesquisa** (Borenstein e Arkin, 2019; Bendel, 2021) -->
+<!---->
+
+## Robôs no local de trabalho {.smaller}
+
+- "**Os robôs vão tomar o meu emprego**": desde a Revolução Industrial, a máquina substitui o trabalho manual
+- Robôs melhoram a **produtividade** e o padrão de vida; substituem alguns empregos, mas **criam muitos novos**, sobretudo para profissionais bem treinados
+<!-- - O desafio: quem foi substituído precisa de **novo emprego** e talvez de **requalificação**, o que pode ser inviável -->
+
+![](images/emprego-robos.svg){fig-align="center" width="95%"}
+
+## A escola e a casa {.smaller}
+
+- Reich-Stiebert e Eyssel (2015): robôs são preferidos como **assistentes** na sala de aula, **não** como professores principais
+- Os professores temem o uso e a **manutenção**, e que o robô tome seu **tempo e atenção**; os do ensino fundamental foram os mais reticentes
+- O **comprometimento com a tecnologia** foi o principal preditor de atitudes positivas
+- O mesmo vale para os robôs **assistivos** em casa: a **abertura à tecnologia** prevê a aceitação
+
+![](images/escola-casa.svg){fig-align="center" width="95%"}
+
+<!-- ## Atitudes ambivalentes {.smaller} -->
+<!---->
+<!-- - Haegele (2016): mais robôs serão vendidos, mas a **aceitação** continuará um desafio -->
+<!-- - Stapels e Eyssel (2021, 2022): as atitudes **não** são neutras ou levemente positivas, como sugeria a metanálise de Naneva et al. (2020) -->
+<!-- - **Ambivalência**: avaliar o mesmo objeto de forma **positiva e negativa** ao mesmo tempo, com **conflito interno** (van Harreveld et al., 2015) -->
+
+<!-- ![](images/ambivalencia-2x2.svg){fig-align="center" width="90%"} -->
+
+# Inclusão
+
+Para quem os robôs são pensados, e por quem.
+
+## Um HRI mais diverso e inclusivo {.smaller}
+
+- A diversidade tem várias dimensões: **pesquisadores**, **participantes** e o **contexto** em que o robô será usado
+- **Vieses** implícitos e explícitos influenciam as escolhas de design
+- A área depende de populações **WEIRD** (Seaborn et al., 2023) e considera pouco os eixos de diversidade
+
+![](images/weird-diversidade.svg){fig-align="center" width="95%"}
+
+## Quem participa e quem constrói {.smaller}
+
+- Revisão de estudos de conferências de HRI (2006–2021): **homens sobrerrepresentados** entre os participantes, e o gênero tratado como **binário** (Winkle et al., 2023a)
+<!-- - Em estudos sobre robôs sexuais, só um incluiu usuários **não masculinos** (González-González et al., 2020) -->
+- Entre os desenvolvedores, há **poucos** de países em desenvolvimento e **poucas** soluções para ambientes com **poucos recursos** (Johnson et al., 2017)
+- A falta de diversidade pode **agravar o viés** no design dos robôs
+
+![](images/participa-constroi.svg){fig-align="center" width="95%"}
+
+## Categorias sociais e robôs {.smaller}
+
+- Ao conhecer alguém, usamos **idade, etnia e gênero** para formar uma impressão, de forma rápida e automática
+- Isso vale para robôs? Pesquisadores manipularam **pistas visuais** ou só o **nome** do robô, e a percepção mudou (Eyssel e Loughnan, 2013; Eyssel e Hegel, 2012)
+- Mesmo robôs projetados para serem **neutros em gênero** podem ativar **vieses**, porque as pessoas trazem suas experiências e suposições (Guidi et al., 2023)
+
+![](images/categorias-robos.svg){fig-align="center" width="90%"}
+
+## Viés de endogrupo {.smaller}
+
+- **Viés de endogrupo** (*in-group favoritism*): o grupo a que pertencemos é visto de forma mais positiva, uma forma de **discriminação**
+- Eyssel e Loughnan (2013): participantes brancos dos EUA e robôs que parecem **brancos** ou **negros**; no geral, o robô do exogrupo **não** recebeu menos "mente"
+- Mas quem tinha alto **racismo moderno** desvalorizou o robô do exogrupo, e atribuiu menos **agência** e **experiência**
+
+![](images/vies-grupos.svg){fig-align="center" width="85%"}
+
+## Nome e país de origem {.smaller}
+
+- Eyssel e Kuchenbrandt (2012): nem foi preciso mudar a **aparência** do robô
+- Participantes alemães viram a mesma imagem do robô com **nomes** e **países de produção** diferentes
+- Preferiram o produto do **endogrupo**, até na **avaliação do design**
+
+![](images/nome-pais.svg){fig-align="center" width="85%"}
+
+## O viés do atirador com robôs {.smaller}
+
+- No paradigma do **viés do atirador** (Correll et al., 2002), fotos de pessoas **com** e **sem** arma aparecem e a tarefa é apertar "atirar" ou "não atirar" o mais rápido possível
+- A **cor da pele** influenciou o tempo: um homem negro armado era "baleado" mais rápido, e, com um celular, demorava-se mais para **não** atirar
+- Bartneck et al. (2018) **replicaram** com robôs claros e escuros, armados ou não, e acharam resultados **análogos**: **vieses raciais implícitos** podem agir também na interação humano-robô
+
+## Gênero e robôs {.smaller}
+
+- Os **estereótipos** conhecidos sobre homens e mulheres se **mantêm** com robôs (Eyssel e Hegel, 2012; Bernotat et al., 2017)
+- Numa **segunda onda** de interesse, pesquisadores olham os **efeitos nocivos** de categorizar os robôs
+- A maior parte das pesquisas usa o gênero de forma **dicotômica**; abordagens atuais incluiriam categorias **mais diversas**
+- Usuários com diversidade **cognitiva**, **física** ou **neurodiversidade** ainda aparecem pouco nos estudos; dar **voz** a eles é uma abordagem verdadeiramente **centrada no humano**
+
+## Caminhos para um HRI mais inclusivo {.smaller}
+
+- **Howard e Borenstein (2018)**: criar soluções com uma **imaginação moral inclusiva** e postura **proativa**, antes de a tecnologia causar efeitos sociais negativos
+- **Howard e Kennedy III (2020)**: considerar o **uso ético** e a **equidade**; surgiu a comunidade **Black in Robotics**
+- **Winkle et al. (2023b)**: enquadramento **feminista**, que questiona as **relações de poder**, inclusive entre quem **compra** os robôs e quem **os usa**
+
+![](images/caminhos-inclusivos.svg){fig-align="center" width="100%"}
+
+# Conclusão
+
+## Robôs, humanos e sociedade {.smaller}
+
+- Robôs, humanos e suas interações fazem parte de **sociedades mais amplas**, com pessoas, tecnologias, instituições e práticas **diversas**
+- As atitudes iniciais dependem das **narrativas** e da **mídia**, e os usuários têm **valores e normas** diferentes
+- Pesquisadores devem ser **conscientes** das narrativas e valores, e decidir se querem que os robôs **reproduzam** ou **desafiem** as normas e práticas
+- A pesquisa deve abrir mais espaço a participantes de **contextos socioculturais** e de aplicação **diversos**
+
+## Para assistir {.smaller}
+
+- **Ayanna Howard**, *Should We Trust Robots and Should They Trust Us?*: por que as pessoas **confiam demais** nos robôs e que resultados **bons e ruins** isso traz
+- **Kate Darling**, *Ethical Issues in Human-Robot Interaction*: por que os robôs **sociais** têm implicações éticas diferentes das de outros robôs
+- Depois de assistir: qual implicação você achou mais **surpreendente** ou **importante**? Como ela muda a forma de **projetar** robôs sociais?
+
+## Para pensar {.smaller}
+
+- Qual foi o último filme, série ou livro que você viu com robôs? Como eram os **protagonistas**: humanoides? Ameaçavam a humanidade ou **salvavam o mundo**?
+- Como novas mídias, como o **YouTube**, mudam as expectativas das pessoas diante dos robôs?
+- Quais profissões foram **substituídas** por máquinas? Quais as consequências **positivas e negativas**?
+- Existe uma atividade que você gosta que uma máquina faça? E uma que você **não** quer que seja substituída? Quem **discordaria** de você?
+- É **ético** usar um robô social para **consolar idosos solitários**? E criar **robôs babás** ou **robôs professores**?
+- É ético realizar estudos de HRI **controversos**, como o do racismo (Bartneck et al., 2018)? Há **temas** em que a área não deveria entrar?
+
+## No seu projeto {.smaller}
+
+- Para o robô que a sua equipe está projetando ---
+  - descreva **que expectativas** vindas da **mídia** as pessoas podem trazer, e como **geri-las**;
+  - identifique **riscos éticos** (engano, persuasão, apego, uso indevido) e como **mitigá-los**;
+  - pense em **quem pode ser excluído** ou prejudicado pelo robô, e em como incluir essas pessoas;
+  - decida se o robô vai **reproduzir** ou **desafiar** normas sociais (de gênero, por exemplo), e justifique.
+
+## Leituras futuras {.smaller}
+
+- **Asimov** --- a série *Robot*, de contos e romances (1950–1986)
+- **Veruggio, Operto \& Bekey (2016)** --- *Roboethics: Social and ethical implications*, no *Springer Handbook of Robotics*
+- **Lin, Abney \& Bekey (2012)** --- *Robot Ethics: The Ethical and Social Implications of Robotics*
+- **Sharkey (2016)** --- *Should we welcome robot teachers?*
+- **Awad et al. (2018)** --- *The moral machine experiment*
+- **Sparrow (2017)** --- *Robots, rape, and representation*
+- Filmes e livros: *Her* (Jonze), *Robot and Frank* (Schreier), *Blade Runner* (Dick)

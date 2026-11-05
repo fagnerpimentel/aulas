@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{n/.style={circle, fill=white, line width=2pt, minimum size=0.5cm, inner sep=0pt},
+        t/.style={font=\large, text width=4.2cm, align=center}}
+\node[font=\Large\bfseries, dorange, anchor=west] at (0.0,8.4) {na ficção};
+\draw[dorange, line width=2.4pt, -{Stealth[length=3.4mm]}] (0.2,6.8) -- (18.9,6.8);
+\foreach \x/\a/\b in {2.3/{folclore}/{\textbf{Golem}: ser artificial, há centenas de anos}, 6.9/{1921}/{\textbf{R.U.R.} (Čapek): nasce a palavra \emph{robô}}, 11.5/{Asimov}/{cria os termos \emph{robótica} e \emph{robopsicologia}}, 16.1/{pós-guerra}/{\textbf{Astro Boy} (Tezuka): o robô amigo}} {
+  \node[n, draw=dorange] at (\x,6.8) {};
+  \node[font=\large\bfseries, dorange] at (\x,7.6) {\a};
+  \node[t] at (\x,5.6) {\b};
+}
+\node[font=\Large\bfseries, dblue, anchor=west] at (0.0,3.8) {na inteligência artificial};
+\draw[dblue, line width=2.4pt, -{Stealth[length=3.4mm]}] (0.2,2.4) -- (18.9,2.4);
+\foreach \x/\a/\b in {3.5/{1997}/{\textbf{Deep Blue} vence o campeão mundial de xadrez}, 9.5/{2011}/{\textbf{Watson} vence no \emph{Jeopardy}}, 15.5/{2017}/{\textbf{AlphaGo} vence o número 1 do Go}} {
+  \node[n, draw=dblue] at (\x,2.4) {};
+  \node[font=\large\bfseries, dblue] at (\x,3.2) {\a};
+  \node[t] at (\x,1.2) {\b};
+}
+\end{tikzpicture}
+\end{document}

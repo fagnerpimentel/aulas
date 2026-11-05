@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=5.6cm, minimum height=1.7cm, font=\large, line width=1.6pt}}
+\node[font=\large\bfseries, dblue, anchor=west] at (0.2,8.4) {Na sala de aula};
+\node[k, draw=dgreen] (a) at (3.2,6.8) {robô como \textbf{assistente}\\ {\normalsize \textbf{preferido}}};
+\node[k, draw=dred, dashed] (b) at (9.7,6.8) {robô como \textbf{professor principal}\\ {\normalsize \textbf{não} preferido}};
+\node[k, draw=dorange, text width=5.9cm] (c) at (16.3,6.8) {\textbf{temores} dos professores: \textbf{manutenção}, perda de \textbf{tempo e atenção}};
+\node[font=\large\bfseries, dblue, anchor=west] at (0.2,4.7) {O que prevê a aceitação};
+\node[k, draw=dblue] (d) at (4.6,3.0) {\textbf{comprometimento} com a tecnologia\\ {\normalsize (escola)}};
+\node[k, draw=dblue] (e) at (4.6,0.9) {\textbf{abertura} à tecnologia\\ {\normalsize (robôs assistivos em casa)}};
+\node[k, draw=dgreen, text width=6.2cm, minimum height=3.7cm] (f) at (14.6,1.95) {\textbf{atitudes positivas}\\ e \textbf{aceitação} do robô};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (d.east) -- (f.north west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (e.east) -- (f.south west);
+\end{tikzpicture}
+\end{document}

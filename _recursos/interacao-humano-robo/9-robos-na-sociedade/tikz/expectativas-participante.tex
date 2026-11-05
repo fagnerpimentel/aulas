@@ -1,0 +1,26 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{s/.style={dbox, text width=4.4cm, minimum height=1.5cm, font=\large, line width=1.6pt}}
+\node[s, draw=dorange] (a) at (2.6,6.6) {\textbf{filmes}, séries e livros};
+\node[s, draw=dred] (b) at (2.6,4.4) {\textbf{notícias} enviesadas};
+\node[s, draw=dgreen, dashed] (c) at (2.6,2.2) {\textbf{pesquisa} científica};
+\node[ellipse, draw=black!60, fill=white, line width=1.8pt, text width=4.2cm, minimum height=3.2cm, font=\large, align=center, inner sep=4pt] (e) at (9.4,4.4) {\textbf{expectativas}\\ sobre o que o robô pode e não pode fazer};
+\draw[dorange, line width=4pt, -{Stealth[length=3.6mm]}] (a.east) -- (e.north west);
+\draw[dred, line width=4pt, -{Stealth[length=3.6mm]}] (b.east) -- (e.west);
+\draw[dgreen, dashed, line width=1.2pt, -{Stealth[length=2.6mm]}] (c.east) -- (e.south west);
+\draw[dblue, fill=dblue!15, line width=1.6pt] (14.2,5.4) circle (0.5);
+\draw[dblue, fill=dblue!15, line width=1.6pt, rounded corners=5pt] (13.5,3.6) rectangle (14.9,4.9);
+\node[font=\large\bfseries, dblue] at (14.2,3.0) {participante};
+\draw[dgreen, fill=dgreen!15, line width=1.6pt, rounded corners=3pt] (16.9,4.0) rectangle (18.5,5.4);
+\fill[dgreen] (17.3,4.9) circle (0.12); \fill[dgreen] (18.1,4.9) circle (0.12);
+\draw[dgreen, line width=1.6pt] (17.7,5.4) -- (17.7,5.8); \fill[dgreen] (17.7,5.9) circle (0.08);
+\draw[dgreen, fill=dgreen!15, line width=1.6pt, rounded corners=3pt] (16.7,2.9) rectangle (18.7,3.9);
+\node[font=\large\bfseries, dgreen] at (17.7,2.4) {robô};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (11.8,4.4) -- (13.2,4.4);
+\draw[dtrans, line width=2pt, dashed, -{Stealth[length=3.2mm]}] (15.2,4.3) -- (16.5,4.3);
+\node[font=\large, text width=14cm, align=center] at (9.7,0.7) {as expectativas vêm \textbf{mais da ficção} e da mídia do que da \textbf{ciência}};
+\end{tikzpicture}
+\end{document}

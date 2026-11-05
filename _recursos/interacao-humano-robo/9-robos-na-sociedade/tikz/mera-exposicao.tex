@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[daxis, line width=1.2pt] (0.8,1.8) -- (8.4,1.8) node[right, font=\normalsize] {tempo};
+\draw[daxis, line width=1.2pt] (0.8,1.8) -- (0.8,6.8) node[above, font=\normalsize] {atitude positiva};
+\draw[dgreen, line width=3pt, domain=0:7, samples=40] plot (\x+1.0, {1.9+3.9*(1-exp(-0.45*\x))});
+\node[font=\large\bfseries, dgreen, text width=7cm, align=center] at (4.6,7.7) {efeito de mera exposição};
+\node[font=\large, text width=7.4cm, align=center] at (4.6,0.6) {quanto mais se ouve uma palavra, mais \textbf{positiva} ela soa};
+\tikzset{c/.style={dbox, text width=7.6cm, minimum height=1.6cm, font=\large, line width=1.6pt}}
+\node[c, draw=dblue] (a) at (14.2,7.0) {o robô de compras sugere ``\textbf{Pepsi}'' em vez de ``\textbf{Coca-Cola}''};
+\node[c, draw=dorange] (b) at (14.2,4.5) {milhares de robôs \textbf{sincronizam} o vocabulário pela internet, \textbf{em segundos}};
+\node[c, draw=dred, fill=dred!6] (d) at (14.2,2.0) {\textbf{quem decide} as palavras que os robôs usam?};
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (a.south) -- (b.north);
+\draw[dtrans, line width=1.8pt, -{Stealth[length=3mm]}] (b.south) -- (d.north);
+\end{tikzpicture}
+\end{document}

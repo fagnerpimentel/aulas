@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=8.6cm, minimum height=4.0cm, font=\large, line width=1.7pt}}
+\node[c, draw=dred] at (4.7,5.2) {\textbf{\textcolor{dred}{História de alarme}}\\ \emph{science-scare}\\[6pt] ``\textbf{Quando os robôs vão dominar o mundo?}''\\ explora o medo e a fascinação};
+\node[c, draw=dorange] at (14.7,5.2) {\textbf{\textcolor{dorange}{Ciência maluca}}\\ \emph{wacky science}\\[6pt] mais rara; \textbf{entretém} em vez de relatar o progresso científico};
+\node[dbox, draw=black!50, dashed, fill=white, line width=1.6pt, text width=14cm, minimum height=1.7cm, font=\large] at (9.7,1.2) {manchete \textbf{improvável}: ``Robôs são inofensivos e quase inúteis'', mas é o que a maioria dos projetos de HRI mostra hoje};
+\end{tikzpicture}
+\end{document}

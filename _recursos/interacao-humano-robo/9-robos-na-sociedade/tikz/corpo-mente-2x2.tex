@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.2cm, minimum height=3.0cm, font=\large, line width=1.6pt}}
+\node[font=\Large\bfseries, black!75] at (11.0,8.3) {mente};
+\node[font=\large\bfseries, black!75] at (8.2,7.4) {semelhante};
+\node[font=\large\bfseries, black!75] at (14.0,7.4) {diferente};
+\node[font=\Large\bfseries, black!75, rotate=90] at (0.7,4.0) {corpo};
+\node[font=\large\bfseries, black!75, anchor=east] at (2.4,5.4) {semelhante};
+\node[font=\large\bfseries, black!75, anchor=east] at (2.4,2.1) {diferente};
+\node[c, draw=dblue] at (8.2,5.4) {\textbf{\textcolor{dblue}{Tipo I}}\\ corpo e mente \textbf{iguais}\\ \emph{orquestra de robôs} (Raes)};
+\node[c, draw=dgreen] at (14.0,5.4) {\textbf{\textcolor{dgreen}{Tipo II}}\\ corpo igual, mente \textbf{diferente}\\ Mr. Data, o androide David};
+\node[c, draw=dorange] at (8.2,2.1) {\textbf{\textcolor{dorange}{Tipo III}}\\ corpo \textbf{diferente}, mente igual\\ Johnny Five};
+\node[c, draw=dred] at (14.0,2.1) {\textbf{\textcolor{dred}{Tipo IV}}\\ corpo e mente \textbf{diferentes}};
+\end{tikzpicture}
+\end{document}

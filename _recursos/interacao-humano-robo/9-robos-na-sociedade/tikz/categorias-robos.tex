@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=4.6cm, minimum height=1.5cm, font=\large, line width=1.6pt}}
+% robo
+\draw[dgreen, fill=dgreen!15, line width=1.6pt, rounded corners=3pt] (0.2,2.4) rectangle (2.2,3.9);
+\fill[dgreen] (0.75,3.3) circle (0.14); \fill[dgreen] (1.65,3.3) circle (0.14);
+\draw[dgreen, line width=1.6pt] (1.2,3.9) -- (1.2,4.35); \fill[dgreen] (1.2,4.4) circle (0.09);
+\draw[dgreen, fill=dgreen!15, line width=1.6pt, rounded corners=3pt] (0.0,1.2) rectangle (2.4,2.3);
+\node[k, draw=dorange, text width=3.9cm] (a) at (5.3,4.4) {\textbf{pistas visuais}\\ {\normalsize (idade, etnia, gênero)}};
+\node[k, draw=dorange, text width=3.9cm] (b) at (5.3,2.2) {só o \textbf{nome} do robô};
+\node[k, draw=dblue, text width=4.4cm] (c) at (11.3,3.3) {\textbf{categoria social} inferida};
+\node[k, draw=dred, text width=4.4cm] (d) at (17.0,3.3) {impressão \textbf{rápida} e \textbf{automática}};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (a.east) -- (c.north west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (b.east) -- (c.south west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (c.east) -- (d.west);
+\node[dbox, draw=dred, dashed, fill=dred!6, line width=1.6pt, text width=16cm, minimum height=1.2cm, font=\large] at (10.0,0.2) {mesmo robôs \textbf{neutros em gênero} ativam \textbf{vieses}: as pessoas trazem suas experiências e suposições};
+\end{tikzpicture}
+\end{document}

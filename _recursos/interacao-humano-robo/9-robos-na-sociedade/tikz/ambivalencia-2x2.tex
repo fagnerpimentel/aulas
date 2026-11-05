@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.3cm, minimum height=2.9cm, font=\large, line width=1.7pt}}
+\draw[daxis, line width=1.4pt] (1.6,0.6) -- (13.6,0.6) node[right, font=\large] {avaliação \textbf{positiva}};
+\draw[daxis, line width=1.4pt] (1.6,0.6) -- (1.6,8.2) node[above, font=\large] {avaliação \textbf{negativa}};
+\node[c, draw=black!55] at (4.9,2.3) {\textbf{Indiferença}\\ pouco positivo, pouco negativo};
+\node[c, draw=dgreen] at (10.9,2.3) {\textbf{\textcolor{dgreen}{Atitude positiva}}\\ muito positivo, pouco negativo};
+\node[c, draw=dred] at (4.9,5.9) {\textbf{\textcolor{dred}{Atitude negativa}}\\ pouco positivo, muito negativo};
+\node[c, draw=dorange, fill=dorange!10, line width=2.4pt] at (10.9,5.9) {\textbf{\textcolor{dorange}{Ambivalência}}\\ \textbf{os dois ao mesmo tempo}: conflito interno};
+\node[dbox, draw=dblue, fill=dblue!8, line width=1.6pt, text width=4.6cm, minimum height=5.0cm, font=\large] at (16.9,4.1) {atitudes aparentemente \textbf{neutras} podem ser, na verdade, \textbf{ambivalentes} (Stapels e Eyssel, 2021, 2022)};
+\end{tikzpicture}
+\end{document}
