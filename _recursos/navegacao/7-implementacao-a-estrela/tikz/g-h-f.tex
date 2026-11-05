@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\node[circle, fill=dgreen, text=white, font=\Large\bfseries, minimum size=1.1cm] (s) at (1.5,3.4) {S};
+\node[circle, draw=dblue, fill=dblue!15, line width=1.8pt, font=\Large\bfseries, minimum size=1.5cm] (n) at (9.0,3.4) {$N$};
+\node[circle, fill=dred, text=white, font=\Large\bfseries, minimum size=1.1cm] (g) at (16.5,3.4) {G};
+\draw[dorange, line width=3pt, -{Stealth[length=3.4mm]}] (s) -- (n);
+\draw[dblue, dashed, line width=3pt, -{Stealth[length=3.4mm]}] (n) -- (g);
+\draw[decorate, decoration={brace, amplitude=9pt}, dorange, line width=1.6pt] (1.0,4.2) -- (8.5,4.2);
+\node[font=\Large\bfseries, dorange, text width=8cm, align=center] at (4.75,5.5) {g = 4};
+\node[font=\large, dorange, text width=8cm, align=center] at (4.75,4.85) {custo \textbf{já percorrido} (real)};
+\draw[decorate, decoration={brace, amplitude=9pt, mirror}, dblue, line width=1.6pt] (9.5,2.6) -- (16.0,2.6);
+\node[font=\Large\bfseries, dblue, text width=7cm, align=center] at (12.75,1.3) {h = 6};
+\node[font=\large, dblue, text width=7cm, align=center] at (12.75,0.65) {\textbf{estimativa} do que falta};
+\node[dbox, draw=black!70, fill=white, line width=1.8pt, text width=7.2cm, minimum height=1.6cm, font=\Huge\bfseries] at (4.75,1.2) {f = g + h = 10};
+\node[font=\large, black!70] at (4.75,0.1) {custo total \textbf{estimado} do caminho por $N$};
+
+\end{tikzpicture}
+\end{document}

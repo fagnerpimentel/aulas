@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[font=\Large\bfseries, black!75] at (9.5,8.6) {depois de 7 expansões};
+\node[font=\Large\bfseries, dblue] at (3.4,7.7) {fila (wavefront)};
+\node[font=\Large\bfseries, dorange] at (15.6,7.7) {lista aberta (A*)};
+\node[dbox, draw=dblue, fill=dblue!14, line width=2.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (3.40,6.50) {\textbf{(1,8)}\\ chegou 1ª};
+\node[dbox, draw=dblue, fill=dblue!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (3.40,5.00) {\textbf{(5,5)}\\ chegou 2ª};
+\node[dbox, draw=dblue, fill=dblue!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (3.40,3.50) {\textbf{(3,6)}\\ chegou 3ª};
+\node[dbox, draw=dblue, fill=dblue!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (3.40,2.00) {\textbf{(4,5)}\\ chegou 4ª};
+\node[dbox, draw=dorange, fill=dorange!14, line width=2.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (15.60,6.50) {\textbf{(3,6)}\\ $f=10$ \quad ($g=5$, $h=5$)};
+\node[dbox, draw=dorange, fill=dorange!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (15.60,5.00) {\textbf{(4,5)}\\ $f=10$ \quad ($g=5$, $h=5$)};
+\node[dbox, draw=dorange, fill=dorange!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (15.60,3.50) {\textbf{(5,5)}\\ $f=10$ \quad ($g=4$, $h=6$)};
+\node[dbox, draw=dorange, fill=dorange!6, line width=1.4pt, text width=5.6cm, minimum height=1.3cm, font=\large] at (15.60,2.00) {\textbf{(1,8)}\\ $f=12$ \quad ($g=3$, $h=9$)};
+\node[font=\large\bfseries, dblue, anchor=west, text width=2.4cm, align=left] at (6.6,6.5) {$\leftarrow$ sai a mais antiga};
+\node[font=\large\bfseries, dorange, anchor=east, text width=2.4cm, align=right] at (12.4,6.5) {sai a de menor $f$ $\rightarrow$};
+\end{tikzpicture}
+\end{document}
