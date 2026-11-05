@@ -1,0 +1,286 @@
+---
+title: "Navegação"
+subtitle: "Implementação do A*"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/7-implementacao-a-estrela
+---
+
+# Implementação do A\*
+
+::: {.esquerda}
+Aula de implementação do algoritmo **A\***, com base no apêndice C de **Latombe**, *Robot Motion Planning* (Kluwer, 1991).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="60%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **A ideia**: como o A\* guia a busca para o objetivo, com $f = g + h$
+- **O algoritmo passo a passo**: a lista aberta, a lista fechada e a árvore de busca
+- **Do objetivo ao caminho**, casos de borda e uma demonstração interativa
+
+# A Ideia
+
+## O que o wavefront faz de mais {.smaller}
+
+- O **wavefront** calcula a distância até G para **todas** as células: útil para **vários inícios**, mas **gasta trabalho** quando só importa **um** caminho
+- O **A\*** busca de **S até G** e **dirige a busca para o objetivo**: expande só as células **promissoras**
+- Nos dois casos o caminho encontrado é o **menor** (10 passos neste mapa)
+- Aqui: **37** células visitadas pelo wavefront contra **17** do A\*
+
+![](images/wavefront-vs-astar.svg){fig-align="center" width="100%"}
+
+## A ideia: $f = g + h$ {.smaller}
+
+- **$g$**: o **custo real** já percorrido de S até a célula
+- **$h$**: uma **estimativa** do que falta até G (a **heurística**)
+- **$f = g + h$**: o custo total **estimado** de um caminho que passa pela célula
+- A cada passo, o A\* **expande a célula de menor $f$**
+
+![](images/g-h-f.svg){fig-align="center" width="90%"}
+
+## A heurística $h$ {.smaller}
+
+::: columns
+::: {.column width="45%"}
+- Em grade de **4 vizinhos**, usamos a **distância de Manhattan**: $|\Delta\text{linha}| + |\Delta\text{coluna}|$
+- Ela **ignora as paredes**: é o custo se o caminho fosse livre
+- Por isso **nunca passa** do custo real
+- Com $h = 0$ o A\* vira o **Dijkstra**, que explora para todos os lados
+:::
+::: {.column width="55%"}
+![](images/heuristica-manhattan.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Admissível e consistente {.smaller}
+
+- $h$ é **admissível** se $h(N) \le$ **custo real** de $N$ até G, para toda célula $N$
+  - Se for, o A\* **devolve o caminho de custo mínimo**, quando ele existe; senão, **informa que falhou**
+- $h$ é **consistente** se $h(N) \le h(N') + \text{custo}(N, N')$ para toda vizinha $N'$: o custo estimado **não cai** mais que o passo dado
+  - Se for, cada célula é expandida **uma única vez**, já com o **menor $g$**
+- A **distância de Manhattan** é **admissível e consistente** em grade de 4 vizinhos
+
+## Da fila à lista aberta {.smaller}
+
+- O wavefront usa uma **fila**: sai a célula que **chegou primeiro**
+- O A\* usa uma **lista aberta**:
+  - sai a célula de **menor $f$**
+ - em caso de empate, sai a de **menor $h$** (a mais próxima de G)
+- Uma fila de **prioridade** (um *heap*) mantém isso **eficiente**
+
+![](images/lista-aberta.svg){fig-align="center" width="100%"}
+
+# Passo a Passo
+
+## Três estruturas de dados {.smaller}
+
+- **Lista aberta**: as células **descobertas e ainda não expandidas**, ordenadas por $f$
+- **Lista fechada**: as células **já expandidas**, que saíram da lista aberta e tiveram as **vizinhas examinadas**
+- **Árvore de busca**: cada célula descoberta guarda seu **pai** (de **onde veio**) e três números: **$g$** (custo desde S), **$h$** (estimativa até G) e **$f = g + h$**; juntas, formam uma **árvore com raiz em S**
+
+![](images/estruturas-dados.svg){fig-align="center" width="100%"}
+
+## O algoritmo A\* em passos {.smaller}
+
+1. Escreva $g(S) = 0$ e **coloque S na lista aberta**, com $f = h(S)$
+2. **Enquanto a lista aberta não estiver vazia:**
+   1. **retire** a célula $N$ de **menor $f$**
+   2. se $N$ for **G**, **pare**: reconstrua o caminho
+   3. **coloque $N$ na lista fechada**
+   4. para cada **vizinha** $M$ **livre** e **fora da lista fechada**: calcule $g_{novo} = g(N) + 1$; se $M$ é **nova** ou $g_{novo} < g(M)$, **escreva** $g(M) = g_{novo}$, **guarde $N$ como pai** de $M$ e **coloque $M$** na lista, com $f = g(M) + h(M)$
+3. Se a lista esvaziar **sem chegar a G**, **não há caminho**
+
+## Executando à mão {.smaller}
+
+::: {style="font-size: 0.78em;"}
+O início é `(4,8)`, o objetivo `(3,1)`, com $h$ = distância de Manhattan:
+
+| Iteração | Sai da lista (menor $f$) | Entram na lista (**$g$** + **$h$** = **$f$**) |
+|---|---|---|
+| 1 | `(4,8)`, $f=8$ | `(3,8)`: 1+7=**8**; `(5,8)`: 1+9=**10** |
+| 2 | `(3,8)`, $f=8$ | `(2,8)`: 2+8=**10** |
+| 3 | `(2,8)`, $f=10$ | `(1,8)`: 3+9=**12** |
+| 4 | `(5,8)`, $f=10$ | `(5,7)`: 2+8=**10** |
+| 5 | `(5,7)`, $f=10$ | `(5,6)`: 3+7=**10** |
+| 6 | `(5,6)`, $f=10$ | `(4,6)`: 4+6=**10**; `(5,5)`: 4+6=**10** |
+| 7 | `(4,6)`, $f=10$ | `(3,6)`: 5+5=**10**; `(4,5)`: 5+5=**10** |
+
+- **Iteração 3**: `(2,8)` e `(5,8)` empatam em $f=10$; sai `(2,8)`, de menor $h$ (8 contra 9)
+- Vizinhas na ordem **cima, baixo, esquerda, direita**
+:::
+
+![](images/astar-etapas.svg){fig-align="center" width="100%"}
+
+## Do objetivo ao caminho {.smaller}
+
+::: columns
+::: {.column width="42%"}
+1. Quando **G** sai da lista, a busca **termina**
+2. Parta de **G** e siga o **pai** de cada célula, até chegar em **S**
+3. **Inverta** a sequência: é o caminho de **S até G**
+4. O custo é o $g$ de G: **10 passos**
+- Diferente do wavefront, os pais **só existem** para as células **das listas fechada e aberta**
+:::
+::: {.column width="58%"}
+![](images/astar-caminho.svg){fig-align="center" width="100%"}
+:::
+:::
+
+## Wavefront × A\* {.smaller}
+
+::: {style="font-size: 0.8em;"}
+| | **Wavefront** | **A\*** |
+|---|---|---|
+| **Começa** | no **objetivo** | no **início** |
+| **Estrutura** | **fila** (FIFO) | **lista aberta** ordenada por $f$ |
+| **Resultado** | um **campo** para todas as células | **um caminho** de S a G |
+| **Células visitadas** | **todas** as alcançáveis | só as **promissoras** |
+| **Melhor quando** | **vários inícios**, um objetivo | **um par** início–objetivo |
+:::
+
+## Casos de borda {.smaller}
+
+- **Sem caminho:** a lista aberta **esvazia** antes de G; o robô precisa saber que **falhou**
+- **Início ou objetivo num obstáculo:** **verifique** antes de começar
+- **Empates em $f$:** desempate pelo **menor $h$**: o caminho continua ótimo, e a busca **expande menos**
+- **Heurística que superestima** (multiplicar $h$ por 3, por exemplo): **mais rápida**, mas **pode** devolver um caminho **mais longo** que o ótimo
+- **8 vizinhos** (diagonal custa $\sqrt{2}$): use uma $h$ que **não passe** do custo real, como a **distância euclidiana**
+- **Terrenos de custos diferentes:** $g$ soma os **custos reais**, e $h$ não pode passar do **menor custo** por passo
+
+![](images/casos-de-borda.svg){fig-align="center" width="100%"}
+
+## Experimente: o A\* passo a passo {.smaller}
+
+Escolha o modo, **clique ou arraste** na grade e depois avance a busca. **Azul**: lista fechada. **Laranja**: lista aberta. O número grande é o $f$; o $g$ fica no canto inferior esquerdo e o $h$ no canto inferior direito, em fonte menor.
+
+```{=html}
+<style>
+#as{font-size:.8em;text-align:left;user-select:none}
+#as .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+#as button{font-size:1em;padding:3px 10px;cursor:pointer}
+#as label{cursor:pointer}
+#as .gd{display:grid;grid-template-columns:repeat(15,1fr);gap:1px;background:#999;width:100%;max-width:1000px;touch-action:none}
+#as .ce{position:relative;background:#fff;aspect-ratio:1.45;display:flex;align-items:center;justify-content:center;font-size:.85em;color:#333;cursor:pointer}
+#as .ce .cg,#as .ce .ch{position:absolute;bottom:1px;font-size:.66em;line-height:1;color:#444;font-weight:normal}
+#as .ce .cg{left:3px}
+#as .ce .ch{right:3px}
+#as .ce.g .cg,#as .ce.g .ch,#as .ce.s .cg,#as .ce.s .ch{color:#fff}
+#as .ce.o{background:#333}
+#as .ce.l{background:#e8a77f}
+#as .ce.v{background:#c5d3e0}
+#as .ce.u{box-shadow:inset 0 0 0 3px #000}
+#as .ce.p{box-shadow:inset 0 0 0 3px #B3541E}
+#as .ce.g{background:#9C4B4B;color:#fff;font-weight:bold}
+#as .ce.s{background:#4A7C59;color:#fff;font-weight:bold}
+#as .info{margin-top:6px;min-height:1.4em}
+</style>
+<div id="as" data-prevent-swipe>
+  <div class="bar">
+    <label><input type="radio" name="asm" value="o" checked> obstáculo</label>
+    <label><input type="radio" name="asm" value="g"> objetivo (G)</label>
+    <label><input type="radio" name="asm" value="s"> início (S)</label>
+    <label><input type="checkbox" id="as-h" checked> usar heurística $h$</label>
+    <button id="as-step">Avançar</button>
+    <button id="as-run">Executar</button>
+    <button id="as-clear">Limpar busca</button>
+    <button id="as-reset">Reiniciar</button>
+  </div>
+  <div class="gd" id="as-gd"></div>
+  <div class="info" id="as-info"></div>
+</div>
+<script>
+(function(){
+  var R=9,C=15,gd=document.getElementById('as-gd'),info=document.getElementById('as-info'),chk=document.getElementById('as-h');
+  var obs,G,S,g,pai,fe,ab,cur,seq,iniciada,fim,ok,caminho,timer=null,cells=[],down=false,paint=null;
+  var V=[[-1,0],[1,0],[0,-1],[0,1]];
+  function H(r,c){return chk.checked?Math.abs(r-G[0])+Math.abs(c-G[1]):0}
+  function init(){obs=[];for(var r=0;r<R;r++){obs.push([]);for(var c=0;c<C;c++)obs[r].push(false)}
+    for(r=1;r<=7;r++)obs[r][7]=true;obs[3][9]=obs[4][9]=obs[5][9]=true;obs[5][10]=obs[5][11]=true;
+    G=[4,2];S=[4,12];limpa()}
+  function parar(){if(timer){clearInterval(timer);timer=null}}
+  function limpa(){parar();g=[];pai=[];fe=[];for(var r=0;r<R;r++){g.push([]);pai.push([]);fe.push([]);for(var c=0;c<C;c++){g[r].push(Infinity);pai[r].push(null);fe[r].push(false)}}
+    ab=[];cur=null;seq=0;iniciada=false;fim=false;ok=false;caminho=null;draw()}
+  function fval(p){return g[p[0]][p[1]]+H(p[0],p[1])}
+  function passo(){
+    if(fim)return;
+    if(!iniciada){if(obs[G[0]][G[1]]||obs[S[0]][S[1]]){info.textContent='Início ou objetivo está em um obstáculo.';return}
+      g[S[0]][S[1]]=0;ab=[{r:S[0],c:S[1],n:seq++}];iniciada=true;draw();return}
+    if(ab.length===0){fim=true;ok=false;parar();draw();return}
+    var bi=0;for(var i=1;i<ab.length;i++){var a=ab[i],b=ab[bi],fa=fval([a.r,a.c]),fb=fval([b.r,b.c]);
+      if(fa<fb||(fa===fb&&(H(a.r,a.c)<H(b.r,b.c)||(H(a.r,a.c)===H(b.r,b.c)&&a.n<b.n))))bi=i}
+    var n=ab.splice(bi,1)[0];cur=[n.r,n.c];fe[n.r][n.c]=true;
+    if(n.r===G[0]&&n.c===G[1]){fim=true;ok=true;parar();
+      caminho=[];var x=[G[0],G[1]];while(x){caminho.push(x);x=pai[x[0]][x[1]]}caminho.reverse();draw();return}
+    V.forEach(function(v){var r=n.r+v[0],c=n.c+v[1];
+      if(r<0||r>=R||c<0||c>=C||obs[r][c]||fe[r][c])return;
+      var ng=g[n.r][n.c]+1;
+      if(ng<g[r][c]){g[r][c]=ng;pai[r][c]=[n.r,n.c];
+        var ja=false;for(var j=0;j<ab.length;j++)if(ab[j].r===r&&ab[j].c===c){ja=true}
+        if(!ja)ab.push({r:r,c:c,n:seq++})}});
+    draw()}
+  function draw(){var ps={};if(caminho)caminho.forEach(function(q){ps[q[0]+','+q[1]]=1});
+    var nexp=0;for(var r=0;r<R;r++)for(var c=0;c<C;c++)if(fe[r][c])nexp++;
+    var emab={};ab.forEach(function(a){emab[a.r+','+a.c]=1});
+    for(var r=0;r<R;r++)for(var c=0;c<C;c++){var e=cells[r*C+c],cl='ce',t='';
+      if(obs[r][c])cl+=' o';
+      else if(r===G[0]&&c===G[1]){cl+=' g';t='G'}
+      else if(r===S[0]&&c===S[1]){cl+=' s';t='S'}
+      else if(fe[r][c]){cl+=' v';t=fval([r,c])}
+      else if(emab[r+','+c]){cl+=' l';t=fval([r,c])}
+      if(cur&&cur[0]===r&&cur[1]===c&&!fim&&!obs[r][c])cl+=' u';
+      if(ps[r+','+c])cl+=' p';
+      var cn='';if(!obs[r][c]&&g[r][c]<Infinity)cn='<span class="cg">'+g[r][c]+'</span><span class="ch">'+H(r,c)+'</span>';
+      e.className=cl;e.innerHTML=t+cn}
+    if(!iniciada)info.textContent='Clique em "Avançar" para colocar S na lista aberta.';
+    else if(!fim)info.textContent=nexp+' na lista fechada; '+ab.length+' na lista aberta.';
+    else if(ok)info.textContent='Pronto: caminho de S até G com '+(caminho.length-1)+' passos ('+nexp+' células na lista fechada).';
+    else info.textContent='Pronto: não há caminho de S até G ('+nexp+' células na lista fechada).'}
+  function modo(){return document.querySelector('#as input[name=asm]:checked').value}
+  function aplica(i,m){var r=Math.floor(i/C),c=i%C;
+    if(m==='o'){if((r===G[0]&&c===G[1])||(r===S[0]&&c===S[1]))return;obs[r][c]=paint}
+    else if(m==='g'&&!obs[r][c]){G=[r,c]}
+    else if(m==='s'&&!obs[r][c]){S=[r,c]}
+    limpa()}
+  for(var i=0;i<R*C;i++){(function(i){var e=document.createElement('div');e.className='ce';cells.push(e);gd.appendChild(e);
+    e.addEventListener('pointerdown',function(ev){ev.preventDefault();var m=modo();down=true;
+      var r=Math.floor(i/C),c=i%C;paint=!obs[r][c];aplica(i,m)});
+    e.addEventListener('pointerenter',function(){if(down&&modo()==='o')aplica(i,'o')})})(i)}
+  document.addEventListener('pointerup',function(){down=false});
+  chk.onchange=limpa;
+  document.getElementById('as-step').onclick=function(){parar();passo()};
+  document.getElementById('as-run').onclick=function(){parar();if(fim)limpa();timer=setInterval(passo,250)};
+  document.getElementById('as-clear').onclick=limpa;
+  document.getElementById('as-reset').onclick=init;
+  window.__as={passo:passo,estado:function(){return {fim:fim,ok:ok,n:caminho&&caminho.length-1,info:info.textContent}}};
+  init();
+})();
+</script>
+```
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- O A\* é uma **busca guiada**: expande sempre a célula de **menor $f = g + h$**, em uma **lista aberta** ordenada
+  - A heurística **admissível** garante o **caminho mínimo**
+  - A heurística **consistente** garante que cada célula seja expandida **uma só vez**
+- Com $h = 0$ vira o **Dijkstra**; com **$h$ boa**, expande **muito menos** células
+- O caminho vem de seguir os **pais** de G até S
+- Sem caminho, a lista aberta **esvazia** e a busca **falha**
+
+## Para pensar {.smaller}
+
+- Por que a **distância de Manhattan** não pode ser usada em uma grade de **8 vizinhos** com custo $\sqrt{2}$ nas diagonais?
+- O que acontece com o A\* se $h$ **superestimar**? Em que situação isso pode ser **aceitável**?
+- Em que caso o A\* expande **tantas** células quanto o wavefront?
+- Para **vinte robôs** e **um só objetivo**, vale mais o wavefront ou o A\*? E para **um robô** com objetivos **diferentes** a cada vez?
+- Por que o A\* **precisa** dos **pais**, e o wavefront não?
+
+## Leituras futuras {.smaller}
+
+- **Latombe (1991)** --- *Robot Motion Planning* --- apêndice C: busca em grafos e o algoritmo A\*
+- **Hart, Nilsson \& Raphael (1968)** --- *A formal basis for the heuristic determination of minimum cost paths* --- o artigo original do A\*
+- **Choset et al. (2005)** --- *Principles of Robot Motion* --- capítulo 4: funções potenciais e o *wave-front planner*
+- **Siegwart, Nourbakhsh \& Scaramuzza (2011)** --- *Introduction to Autonomous Mobile Robots* --- capítulo 6: planejamento e navegação
