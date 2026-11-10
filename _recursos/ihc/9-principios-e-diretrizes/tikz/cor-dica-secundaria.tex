@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=5.6cm, minimum height=4.9cm, font=\large, line width=1.7pt}}
+\node[k, draw=dred] at (3.0,4.0) {\textbf{\textcolor{dred}{só a cor}}\\[10pt] \tikz{\fill[dred!70] (0,0) circle (0.45); \fill[dgreen!70] (1.4,0) circle (0.45);}\\[10pt] quem não distingue as cores perde a informação};
+\node[k, draw=dgreen] at (9.9,4.0) {\textbf{\textcolor{dgreen}{cor + dica secundária}}\\[6pt] \tikz{\fill[dred!70] (0,0) circle (0.45); \node[font=\large\bfseries, white] at (0,0) {x}; \fill[dgreen!70] (1.9,0) circle (0.45); \node[font=\large\bfseries, white] at (1.9,0) {ok};}\\[6pt] ícone, rótulo ou tom de cinza diferente};
+\node[k, draw=dorange, text width=4.8cm] at (16.7,4.0) {\textbf{\textcolor{dorange}{por quê?}}\\[8pt] daltonismo: cerca de \textbf{10\%} dos homens\\[4pt] e limitações do dispositivo};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (6.1,4.0) -- (6.8,4.0);
+\end{tikzpicture}
+\end{document}

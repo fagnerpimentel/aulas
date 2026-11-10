@@ -1,0 +1,11 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[draw=black!70, line width=1.6pt, fill=white, rounded corners=3pt] (0.0,3.2) rectangle (5.9,7.2);\node[font=\large, anchor=north west, text width=5.5cm] at (0.2,7.1) {\textbf{Quer receber a \emph{newsletter}?}};\draw[black, line width=1.6pt] (0.6,4.9) circle (0.22); \node[font=\large, anchor=west] at (1.0,4.9) {sim};\draw[black, line width=1.6pt] (0.6,3.9) circle (0.22); \node[font=\large, anchor=west] at (1.0,3.9) {não};\fill[black] (0.6,4.9) circle (0.12);\node[font=\large\bfseries, anchor=north] at (2.95,2.8) {\textcolor{dred}{pré-selecionado}};\node[font=\large, anchor=north, text width=5.6cm, align=center] at (2.95,2.1) {a maioria aceita: \textbf{induz} à opção};
+\draw[draw=black!70, line width=1.6pt, fill=white, rounded corners=3pt] (6.6,3.2) rectangle (12.5,7.2);\node[font=\large, anchor=north west, text width=5.5cm] at (6.8,7.1) {\textbf{Quer receber a \emph{newsletter}?}};\draw[black, line width=1.6pt] (7.199999999999999,4.9) circle (0.22); \node[font=\large, anchor=west] at (7.6,4.9) {sim};\draw[black, line width=1.6pt] (7.199999999999999,3.9) circle (0.22); \node[font=\large, anchor=west] at (7.6,3.9) {não};\node[font=\large\bfseries, anchor=north] at (9.55,2.8) {\textcolor{dgreen}{sem seleção}};\node[font=\large, anchor=north, text width=5.6cm, align=center] at (9.55,2.1) {\textbf{neutro}, mas pede uma escolha};
+\draw[draw=black!70, line width=1.6pt, fill=white, rounded corners=3pt] (13.2,3.2) rectangle (19.1,7.2);\node[font=\large, anchor=north west, text width=5.5cm] at (13.399999999999999,7.1) {\textbf{Quer receber a \emph{newsletter}?} *};\draw[black, line width=1.6pt] (13.799999999999999,4.9) circle (0.22); \node[font=\large, anchor=west] at (14.2,4.9) {sim};\draw[black, line width=1.6pt] (13.799999999999999,3.9) circle (0.22); \node[font=\large, anchor=west] at (14.2,3.9) {não};\node[font=\large\bfseries, anchor=north] at (16.15,2.8) {\textcolor{dorange}{campo obrigatório}};\node[font=\large, anchor=north, text width=5.6cm, align=center] at (16.15,2.1) {\textbf{exige} a resposta (* indica obrigatório)};
+\node[font=\Large\bfseries] at (9.6,8.3) {Cada alternativa é eficiente? neutra? induz?};
+\end{tikzpicture}
+\end{document}

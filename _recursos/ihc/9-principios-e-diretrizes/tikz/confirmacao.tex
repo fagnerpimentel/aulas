@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={draw=black!70, line width=1.6pt, fill=white, rounded corners=2pt},
+        b/.style={draw=black, line width=1.8pt, fill=white, rounded corners=2pt, minimum width=2.0cm, minimum height=0.9cm, font=\large\bfseries}}
+\draw[d] (0,0) rectangle (9,6.4); \draw[d, fill=dshade!50] (0,5.5) rectangle (9,6.4);
+\node[font=\large\bfseries, anchor=west] at (0.3,5.95) {Confirma formatação};
+\node[font=\large, text width=7.6cm, align=left, anchor=north west] at (0.7,5.1) {\textbf{Todos os arquivos do disco D: serão apagados permanentemente!}\\[6pt] Deseja continuar?};
+\node[b] at (2.8,0.9) {Sim}; \node[b] at (5.8,0.9) {Não};
+\node[font=\large, anchor=north, text width=8.6cm, align=center] at (4.5,-0.3) {basta apertar \emph{Sim}, quase sem ler: \textbf{\textcolor{dred}{menos seguro}}};
+\draw[d] (10.4,0) rectangle (19.4,6.4); \draw[d, fill=dshade!50] (10.4,5.5) rectangle (19.4,6.4);
+\node[font=\large\bfseries, anchor=west] at (10.7,5.95) {Confirma formatação};
+\node[font=\large, text width=8.0cm, align=left, anchor=north west] at (10.8,5.1) {\textbf{Todos os arquivos do disco D: serão apagados permanentemente!}\\[6pt] Para confirmar, digite a \emph{palavra-secreta}:};
+\draw[line width=1.6pt, draw=black!60] (10.8,1.9) rectangle (19.0,2.6);
+\node[b, text=black!40, draw=black!40] at (12.6,0.9) {Formatar}; \node[b] at (15.6,0.9) {Cancelar};
+\node[font=\large, anchor=north, text width=8.6cm, align=center] at (14.9,-0.3) {exige \textbf{atenção}: \textbf{\textcolor{dgreen}{mais seguro}}};
+\end{tikzpicture}
+\end{document}

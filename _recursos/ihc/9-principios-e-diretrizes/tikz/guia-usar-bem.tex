@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.2cm, minimum height=3.0cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Comunicar}}\\ divulgar a existência e a importância do guia};
+\node[c, draw=dgreen] at (4.8,0.0) {\textbf{\textcolor{dgreen}{Treinar}}\\ oferecer treinamento à equipe};
+\node[c, draw=dorange] at (9.6,0.0) {\textbf{\textcolor{dorange}{Facilitar}}\\ acesso ao guia todo ou a um tópico};
+\node[c, draw=dred] at (14.4,0.0) {\textbf{\textcolor{dred}{Mudar a cultura}}\\ de design e desenvolvimento da equipe};
+\node[font=\Large, text width=18cm, align=center] at (7.2,-2.5) {o guia é parte de um \textbf{processo reflexivo de design}, não um conjunto de regras prontas};
+\end{tikzpicture}
+\end{document}

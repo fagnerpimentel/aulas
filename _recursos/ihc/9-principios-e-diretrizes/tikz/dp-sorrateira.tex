@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={draw=black!70, line width=1.6pt, fill=white, rounded corners=3pt}}
+\draw[d] (0,0) rectangle (10.4,6.8);
+\node[font=\Large\bfseries, anchor=west] at (0.4,6.2) {Resumo da reserva};
+\node[font=\large, anchor=west] at (0.4,5.1) {Assento regular \hfill R\$ 100,00};
+\node[font=\large, anchor=west] at (0.4,4.3) {Assento regular \hfill R\$ 100,00};
+\node[font=\large\bfseries, anchor=west, text=dred] at (0.4,3.5) {Seleção de assentos \quad R\$ 25,00};
+\node[font=\large\bfseries, anchor=west] at (0.4,2.6) {Subtotal: R\$ 225,00};
+\node[font=\large\bfseries, draw=black, line width=2.0pt, fill=dblue!15, rounded corners=2pt, minimum width=9.4cm, minimum height=1.1cm] at (5.2,1.5) {Confirmar};
+\node[font=\tiny, anchor=north] at (5.2,0.8) {\underline{Avançar sem seleção de assentos}};
+\node[dbox, draw=dred, text width=7.6cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.4,4.8) {\textbf{custo extra} pré-selecionado: parece um passo \textbf{obrigatório}};
+\node[dbox, draw=dorange, text width=7.6cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.4,1.7) {a opção de \textbf{avançar sem isso} é um \textbf{link minúsculo}};
+\draw[dred, line width=2pt, -{Stealth[length=3.2mm]}] (11.6,4.8) -- (10.6,3.5);
+\draw[dorange, line width=2pt, -{Stealth[length=3.2mm]}] (11.6,1.7) -- (8.6,0.8);
+\end{tikzpicture}
+\end{document}

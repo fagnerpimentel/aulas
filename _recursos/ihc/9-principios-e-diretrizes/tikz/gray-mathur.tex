@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=6.4cm, minimum height=2.6cm, font=\large, line width=1.7pt}}
+\node[font=\Large\bfseries, dblue] at (3.6,7.2) {mecanismo};
+\node[font=\large, anchor=north] at (3.6,6.8) {Gray et al. (2018)};
+\node[k, draw=dblue] (a) at (3.6,4.8) {\textbf{\textcolor{dblue}{Ação sorrateira}}\\ assentos pré-selecionados, com custo extra};
+\node[font=\Large\bfseries, dgreen] at (15.6,7.2) {fim almejado};
+\node[font=\large, anchor=north] at (15.6,6.8) {Mathur et al. (2019)};
+\node[k, draw=dgreen] (b) at (15.6,4.8) {\textbf{\textcolor{dgreen}{Enganação}}\\ o usuário acredita que a marcação é obrigatória};
+\draw[dtrans, line width=2.4pt, -{Stealth[length=4mm]}] (a.east) -- (b.west) node[midway, above, font=\large\bfseries, text=black] {leva a};
+\node[dbox, draw=dorange, text width=16.4cm, minimum height=2.2cm, font=\large, line width=1.7pt] at (9.6,1.2) {as classificações são \textbf{complementares}: uma olha os \textbf{mecanismos}, a outra os \textbf{fins}. Juntas mostram \textbf{que informação oculta} leva à falsidade e \textbf{que parte da solução} rever};
+\end{tikzpicture}
+\end{document}

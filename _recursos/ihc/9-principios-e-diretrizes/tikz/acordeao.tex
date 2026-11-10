@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{p/.style={draw=black!70, line width=1.6pt, fill=dshade!55, minimum width=7.0cm, minimum height=0.95cm, font=\large\bfseries, anchor=west, inner sep=8pt}}
+\node[p] at (0,6.8) {> Páginas mestres};
+\node[p, fill=dblue!22] at (0,5.85) {v Layouts};
+\draw[draw=black!70, line width=1.6pt, fill=white] (0,3.0) rectangle (7.0,5.4);
+\foreach \x in {0.4,2.6,4.8} {\foreach \y in {4.2,3.3} {\draw[black!55, line width=1.4pt, fill=dcream] (\x,\y) rectangle (\x+1.8,\y+0.7);}}
+\node[p] at (0,2.5) {> Modelos de tabela};
+\node[p] at (0,1.55) {> Animação personalizada};
+\node[dbox, draw=dgreen, text width=5.2cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (11.0,5.6) {\textbf{\textcolor{dgreen}{vantagem}}\\ comprime muitos itens em pouco espaço};
+\node[dbox, draw=dred, text width=5.2cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (11.0,2.9) {\textbf{\textcolor{dred}{desvantagem}}\\ os itens dos outros painéis ficam ocultos};
+\node[dbox, draw=dblue, text width=5.2cm, minimum height=1.6cm, font=\large, line width=1.7pt] at (16.9,4.3) {\textbf{um painel} aberto de cada vez};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (7.2,5.85) -- (8.2,5.6);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (7.2,5.0) -- (8.2,3.4);
+\end{tikzpicture}
+\end{document}

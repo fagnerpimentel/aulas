@@ -1,0 +1,23 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{n/.style={dbox, text width=4.2cm, minimum height=1.5cm, font=\large\bfseries, line width=1.7pt},
+        e/.style={dtrans, line width=1.8pt, -{Stealth[length=3mm]}},
+        l/.style={midway, fill=dcream, inner sep=2pt, font=\normalsize, text=black, text width=3.6cm, align=center}}
+\draw[draw=dblue, dashed, line width=1.8pt, rounded corners=14pt, fill=dblue!4] (-0.6,-2.2) rectangle (20.0,9.8);
+\node[font=\Large\bfseries, dblue, anchor=north west] at (-0.2,9.6) {linguagem de padrões};
+\node[n, draw=dorange, line width=2.6pt, fill=white] (a) at (9.7,4.4) {Acordeão};
+\node[n, draw=dgreen] (g) at (2.9,7.8) {Guias};
+\node[n, draw=dgreen] (t) at (16.5,7.8) {Árvores de navegação};
+\node[n, draw=dgreen] (p) at (2.9,0.8) {Painéis colapsáveis};
+\node[n, draw=dgreen] (f) at (16.5,0.8) {Perguntas frequentes (FAQ)};
+\node[n, draw=dred, dashed] (s) at (9.7,-1.0) {Assistente};
+\draw[e] (a) -- (g) node[l] {equivalente conceitualmente};
+\draw[e] (a) -- (t) node[l] {solução alternativa};
+\draw[e] (a) -- (p) node[l] {se mais de um painel pode ficar aberto};
+\draw[e] (a) -- (f) node[l] {bom uso: uma pergunta aberta por vez};
+\draw[e] (a) -- (s) node[l, pos=0.45, text width=3.0cm] {uso não recomendado};
+\end{tikzpicture}
+\end{document}

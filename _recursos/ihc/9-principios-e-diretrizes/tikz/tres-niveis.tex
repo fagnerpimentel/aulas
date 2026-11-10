@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.6cm, minimum height=2.0cm, font=\large, line width=1.7pt, align=left},
+        t/.style={dbox, text width=3.4cm, minimum height=2.0cm, font=\Large\bfseries, line width=1.7pt}}
+\node[t, draw=dblue] at (2.0,6.6) {\textcolor{dblue}{Princípio}};
+\node[k, draw=dblue] at (8.6,6.6) {objetivo \textbf{geral}, de \textbf{alto nível}\\ {\normalsize ex.: consistência}};
+\node[t, draw=dgreen] at (2.0,3.9) {\textcolor{dgreen}{Diretriz}};
+\node[k, draw=dgreen] at (8.6,3.9) {\textbf{regra geral} comum na prática\\ {\normalsize ex.: ações semelhantes funcionam da mesma forma}};
+\node[t, draw=dorange] at (2.0,1.2) {\textcolor{dorange}{Padrão}};
+\node[k, draw=dorange] at (8.6,1.2) {\textbf{solução específica} a um contexto delimitado\\ {\normalsize ex.: o padrão Acordeão}};
+\draw[dtrans, line width=2.6pt, -{Stealth[length=4mm]}] (13.6,7.4) -- (13.6,0.4);
+\node[font=\large\bfseries, dblue, anchor=west] at (14.0,6.9) {geral};
+\node[font=\large\bfseries, dorange, anchor=west] at (14.0,0.7) {específico};
+\end{tikzpicture}
+\end{document}

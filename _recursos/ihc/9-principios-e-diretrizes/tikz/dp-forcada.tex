@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[draw=black!70, line width=1.8pt, fill=white, rounded corners=3pt] (0,0) rectangle (10.8,7.6);
+\node[font=\Large\bfseries, anchor=west] at (0.4,6.9) {Trilhos de Ouro};
+\node[font=\Large\bfseries] at (5.4,5.3) {Seu agendamento está confirmado.};
+\node[font=\Large\bfseries, draw=black, line width=2.2pt, fill=dblue!20, rounded corners=3pt, minimum width=4.6cm, minimum height=1.3cm] at (5.4,3.8) {Continuar};
+\draw[draw=black!50, line width=1.3pt, fill=dshade!50] (0,0) rectangle (10.8,1.9);
+\node[font=\normalsize, anchor=west] at (0.4,1.4) {Você vai para São Paulo!};
+\node[font=\LARGE\bfseries, anchor=west] at (0.4,0.6) {XYKZ987};
+\node[dbox, draw=dred, text width=6.8cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.6,5.3) {\textbf{Continuar} parece o próximo passo, mas leva a um \textbf{cadastro em outro sistema}};
+\node[dbox, draw=dgreen, text width=6.8cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.6,1.9) {a compra \textbf{já foi concluída}: o código de confirmação está na parte de baixo};
+\draw[dred, line width=2pt, -{Stealth[length=3.2mm]}] (12.1,5.0) -- (8.0,3.9);
+\draw[dgreen, line width=2pt, -{Stealth[length=3.2mm]}] (12.1,1.9) -- (8.0,0.8);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.2cm, minimum height=3.2cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Assimetria de informação}}\\ \emph{Asymmetric}: impor preferência por certas escolhas};
+\node[c, draw=dgreen] at (5.8,0.0) {\textbf{\textcolor{dgreen}{Ocultação de efeitos}}\\ \emph{Covert}: esconder como as decisões afetam o usuário};
+\node[c, draw=dorange] at (11.6,0.0) {\textbf{\textcolor{dorange}{Enganação}}\\ \emph{Deceptive}: levar o usuário a acreditar em falsidades};
+\node[c, draw=dred] at (0.0,-3.7) {\textbf{\textcolor{dred}{Ocultação de informações}}\\ \emph{Hides Information}: obscurecer ou atrasar o que é relevante};
+\node[c, draw=dblue] at (5.8,-3.7) {\textbf{\textcolor{dblue}{Restrição de ações}}\\ \emph{Restrictive}: limitar as escolhas disponíveis};
+\node[font=\Large, text width=17cm, align=center] at (5.8,-6.3) {Mathur et al. (2019)};
+\end{tikzpicture}
+\end{document}

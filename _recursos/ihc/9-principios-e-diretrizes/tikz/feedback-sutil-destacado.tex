@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={draw=black!70, line width=1.6pt, fill=white, rounded corners=3pt}}
+\node[font=\Large\bfseries, dgreen] at (4.8,7.6) {sutil};
+\draw[d] (0,3.4) rectangle (9.6,6.9); 
+\draw[line width=1.6pt, draw=dgreen, fill=dgreen!12] (0,5.3) rectangle (9.6,6.9);
+\node[font=\large, anchor=west, text width=9cm] at (0.3,6.1) {\textbf{\textcolor{dgreen}{ok}}\ Material incluído com sucesso};
+\node[font=\large, anchor=west, text width=9cm] at (0.4,4.4) {Disciplina INF9999: lista de materiais};
+\node[font=\large, text width=9.6cm, align=center, anchor=north] at (4.8,3.0) {ação \textbf{frequente} e com resultado \textbf{esperado}};
+\node[font=\Large\bfseries, dred] at (14.4,7.6) {destacado};
+\draw[d] (9.8,2.0) rectangle (19.2,6.9); \draw[d, fill=dshade!50] (9.8,6.0) rectangle (19.2,6.9);
+\node[font=\large\bfseries, anchor=west] at (10.1,6.45) {Problema no \emph{upload} do arquivo};
+\draw[line width=2.2pt, draw=dred] (11.1,3.6) circle (0.5); \node[font=\large\bfseries, dred] at (11.1,3.6) {x};
+\node[font=\large, anchor=west, text width=6.6cm] at (12.0,4.4) {Houve um problema no envio, talvez por falha de conexão.};
+\node[font=\large\bfseries, anchor=west, draw=black, line width=1.8pt, rounded corners=2pt, minimum height=0.9cm] at (12.0,2.9) {Tentar novamente};
+\node[font=\large, text width=9.4cm, align=center, anchor=north] at (14.5,1.6) {ação \textbf{infrequente} ou de \textbf{grande consequência}};
+\end{tikzpicture}
+\end{document}

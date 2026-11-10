@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.8cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{1. Introdução}}\\ objetivo, público, como usar e manter};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{2. Análise}}\\ ambiente de trabalho do usuário};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{3. Elementos de interface}}\\ grid, janelas, tipografia, símbolos, cores, animações};
+\node[c, draw=dred] at (0.0,-3.3) {\textbf{\textcolor{dred}{4. Elementos de interação}}\\ estilos de interação e aceleradores};
+\node[c, draw=dblue] at (6.0,-3.3) {\textbf{\textcolor{dblue}{5. Elementos de ação}}\\ preencher campos, selecionar, ativar};
+\node[c, draw=dgreen] at (12.0,-3.3) {\textbf{\textcolor{dgreen}{6. Vocabulário e padrões}}\\ terminologia, tipos de tela, sequências de diálogos};
+\end{tikzpicture}
+\end{document}

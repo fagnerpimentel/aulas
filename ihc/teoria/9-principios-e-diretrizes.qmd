@@ -1,0 +1,489 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Princípios e Diretrizes"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/9-principios-e-diretrizes
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+    code-line-numbers: false
+---
+
+# Princípios e Diretrizes
+
+::: {.esquerda}
+Capítulo 10 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Princípios, diretrizes e padrões** --- o que são e como usá-los com critério
+- **Nove famílias de diretrizes** --- expectativas, simplicidade, controle, consistência, eficiência, antecipação, visibilidade, conteúdo e erros
+- **Padrões de design** --- soluções para problemas recorrentes e como descrevê-los
+- ***Deceptive patterns*** --- quando o design trabalha **contra** o usuário
+- **Guias de estilo** --- registrar as decisões de design
+
+# Visão Geral
+
+## Princípios, diretrizes e padrões {.smaller}
+
+- A literatura de IHC está cheia de conjuntos de princípios, diretrizes (*guidelines*) e heurísticas
+
+![](images/tres-niveis.svg){fig-align="center" width="85%"}
+
+## Os conjuntos mais conhecidos {.smaller}
+
+- **Gerais**, para qualquer sistema: 
+  - **Norman** (1988), **Tognazzini** (2014), **heurísticas de Nielsen** (1994b), **regras de ouro de Shneiderman** (1998) e **Cooper** (1999)
+  - são a **base das nove famílias** de diretrizes que veremos
+- **Específicos**: 
+  - para **ambientes** (Windows, macOS, Gnome)
+  - para **dispositivos** (móveis, TV digital)
+  - para **domínios** (educação, governo eletrônico)
+  - para padronizar o ***look-and-feel***
+
+<!-- ## Cuidado ao usar diretrizes {.smaller}
+
+- Princípios e diretrizes **não substituem** a análise do problema, o design e a avaliação: são um **auxílio** ao design
+- São recomendações **genéricas** e **descontextualizadas** da teoria ou da base empírica que as originou
+- Muitas vezes duas ou mais **entram em conflito**
+- Cabe ao **designer** decidir **quais** são adequadas à situação e **como** se manifestam na solução -->
+
+<!-- ## Diretrizes em listas de verificação {.smaller} -->
+
+<!-- - As diretrizes são muito usadas em **listas de verificação** (*checklists*): inspetores examinam a interface e conferem se ela segue o conjunto escolhido (seção 11.2) -->
+<!-- - No Brasil, um exemplo é a **ErgoList**, lista de verificação baseada em **princípios de ergonomia** -->
+
+# Diretrizes
+
+Nove famílias de orientações para o design da interação e da interface.
+
+## Os nove tópicos {.smaller}
+
+- Os princípios e as diretrizes usados em IHC giram em torno de nove tópicos
+- As próximas seções mostram **diretrizes** de cada tópico e **como aplicá-las**
+
+![](images/nove-familias.svg){fig-align="center" width="85%"}
+
+<!-- ## O modelo conceitual de Norman {.smaller} -->
+
+<!-- - O design deve apoiar um **modelo conceitual** que o usuário aprenda **rápido** e **sem dificuldade**, e que ligue **ações** e **informações** do sistema ao conhecimento no mundo
+- Para isso, o design deve facilitar:
+  - saber **que ações são possíveis** a cada momento, usando **restrições** (*constraints*)
+  - tornar **visíveis** o modelo conceitual, as ações alternativas e seus resultados
+  - **avaliar** o estado atual e seguir **mapeamentos naturais** entre intenções, ações, efeitos e informação visível -->
+
+## 1. Correspondência com as expectativas {.smaller}
+
+- **Explorar os mapeamentos naturais** (Norman): entre variáveis mentais e físicas, e entre tarefas e controles; o usuário deve relacionar **intenções** e **ações**, ações e **efeitos**, estado **real** e **percebido**
+- **Estruturar o diálogo** com início, meio e fim (Shneiderman) e seguir as **convenções do mundo real** (Nielsen), com *feedback* ao **concluir** um grupo de ações
+- Usar o **idioma do usuário** e **metáforas** com cuidado (Tognazzini): 
+  - uma pasta no gerenciador **não** tem o limite de itens da pasta física
+
+## Exemplo: quando pedir a identificação {.smaller}
+
+- Na loja, a pessoa só se **identifica** ao **finalizar a compra**; alguns sites exigem o *login* **antes** de ver os produtos
+- Uma terceira solução: **oferecer**, mas **não exigir**, a identificação a qualquer momento **antes do *checkout***
+
+![](images/identificacao-compra.svg){fig-align="center" width="92%"}
+
+## 2. Simplicidade nas tarefas {.smaller}
+
+- **Simplificar a estrutura das tarefas**: reduzir o planejamento e a resolução de problemas que elas exigem (Norman)
+- Tarefas complexas sem necessidade podem ser **reestruturadas**, em geral com **inovação tecnológica**, por quatro abordagens: 
+  - manter a tarefa com **mais apoio**
+  - **tornar  visível** o invisível
+  - **automatizar**
+  - **mudar a natureza** da tarefa
+
+## Exemplo: as quatro abordagens {.smaller}
+
+- Cada abordagem muda a tarefa de um jeito; a escolha depende do quanto o usuário precisa **manter o controle** (exemplos ilustrativos, não do livro)
+
+![](images/quatro-abordagens.svg){fig-align="center" width="92%"}
+Cuidado: **automação demais** tira o controle do usuário e pode torná-lo **dependente**
+
+## 3. Equilíbrio entre controle e liberdade {.smaller}
+
+- **Manter o usuário no controle** (Norman, Nielsen, Tognazzini, Shneiderman, Cooper):
+  - ele aprende rápido e ganha **maestria**; mas, sem limites, fica **perdido** 
+  - **reduzir** as opções e **explorar as restrições** naturais e artificiais
+- O caminho de **menor resistência** é o preferido, mas deve ser possível **explorar**
+  - sempre apresentar uma **saída** clara, entretanto deve ser **mais fácil permanecer** do que sair por engano
+  - mais **assistência** a inexperientes, mais **liberdade** a experientes
+- Poder **cancelar**, **desfazer** e **refazer** reduz a ansiedade e apoia o aprendizado
+  - o software deve ser **maleável** (Cooper), com **controle local** (Shneiderman), parâmetros **configuráveis** e bons ***defaults***
+
+## Exemplo: confirmação só quando não dá para desfazer {.smaller}
+
+- **Cooper**: poder desfazer **evita** muitos diálogos de confirmação, que aumentam o tempo e muitas vezes **nem são lidos**
+- Se a operação **não puder ser desfeita**, projetar **medidas de segurança** para que não seja acionada sem querer
+
+![](images/confirmacao.svg){fig-align="center" width="85%"}
+
+<!-- SLIDES EXTRAS DE 3. CONTROLE (assistente, perfil do usuário, cancelar): para reativar, apague esta linha e a linha "FIM DOS EXTRAS DE 3" -->
+<!--
+## Exemplo: assistente com botão primário {.smaller}
+
+- Um **assistente** com a ação principal (**Avançar**) **claramente indicada**
+- As ações secundárias (**Voltar**, **Cancelar**) têm menos destaque
+
+![](images/assistente-botoes.svg){fig-align="center" width="80%"}
+
+## Controle depende do perfil {.smaller}
+
+- O caminho de **menor resistência** é o preferido, mas deve ser possível **explorar alternativas**
+- Sempre deve haver uma **saída** clara e rápida, mas **mais fácil permanecer** do que sair por engano
+
+![](images/controle-liberdade.svg){fig-align="center" width="95%"}
+
+## Permitir cancelar, desfazer e refazer {.smaller}
+
+- O usuário deve poder **cancelar**, **desfazer** e **refazer** suas ações (Nielsen, Tognazzini, Shneiderman), e ter uma **saída de emergência** clara
+- **Reduz a ansiedade** e o medo de errar, e apoia o **aprendizado por exploração**
+
+![](images/progresso-cancelar.svg){fig-align="center" width="85%"}
+-->
+<!-- FIM DOS EXTRAS DE 3 -->
+
+## 4. Consistência e padronização {.smaller}
+
+- **Norman**: a interface deve ser consistente com o **modelo conceitual** do sistema, e a documentação também; a consistência mais importante é com as **expectativas** do usuário, e, quando não dá, **padronizar** os mapeamentos arbitrários
+- Padronizar **ações**, **resultados**, o ***layout*** dos diálogos e as visualizações de informação, seguindo as **convenções da plataforma**
+- O usuário **não deve se perguntar** se palavras, situações ou ações diferentes significam a mesma coisa; um sistema irregular **não é confiável** (Cooper)
+
+## Exemplo: consistência na prática {.smaller}
+
+- Elementos **internalizados** (atalhos, roda do mouse) devem ser **iguais** em todo o sistema; comportamentos diferentes pedem **aparências distintas** (Tognazzini)
+
+![](images/consistencia.svg){fig-align="center" width="90%"}
+
+## 5. Eficiência do usuário {.smaller}
+
+- **Tognazzini**: a eficiência do **usuário** vem **primeiro**, e não a do computador
+  - **manter o usuário ocupado**, com processamentos demorados em ***background***
+- **Cooper**: o sistema deve ser **sensível ao que o usuário faz** e não o interromper sem necessidade
+  - **proteger o trabalho**: o usuário nunca deve perdê-lo
+- O sistema **lembra** o que o usuário disse e sabe se é a **primeira vez**, **onde** ele está e **onde parou**, para **retomar** em outra máquina
+
+## Exemplo: atalhos e aceleradores {.smaller}
+
+- **Nielsen** e **Shneiderman**: **atalhos e aceleradores** (teclas de atalho, botões de barras de ferramentas) sem prejudicar o novato
+- Operações frequentes: **macros**, **programação por demonstração** e **valores *default*** em **perfis** (ex.: perfil de exportação para PDF)
+
+![](images/aceleradores.svg){fig-align="center" width="85%"}
+
+## 6. Antecipação {.smaller}
+
+- **Prever o que o usuário quer e precisa**, em vez de esperar que ele busque informações e ferramentas (Tognazzini)
+- **Cooper**: o software deve **tomar iniciativa**: quem pergunta o telefone de um restaurante também recebe **dias e horários**
+- O software deve ser **observador**: lembrar das ações em sequência para **antever o próximo passo**
+
+## Exemplo: valores *default* {.smaller}
+
+- **Tognazzini**: definir os *defaults* **com cuidado**, adequados à situação atual, **já selecionados** e fáceis de editar
+- As pessoas **tendem a aceitar** os *defaults* (por não entender ou achar que é a resposta **certa**), então a escolha deve ser cuidadosa
+
+![](images/defaults.svg){fig-align="center" width="85%"}
+
+## 7. Visibilidade e reconhecimento {.smaller}
+
+- **Tornar as coisas visíveis** (Norman): 
+  - abreviar os **golfos de execução e de avaliação**
+  - antes de agir, o usuário vê **o que é possível**
+  - depois, o **estado** do sistema, consistente com seu **modelo mental**
+- **Reconhecer em vez de lembrar**: 
+  - estado, ações e opções **atualizados** e **perceptíveis** 
+  - o usuário **não memoriza** símbolos nem informações de outra parte (memória de **curto prazo**)
+  - **status** e **sinalização** mostram o caminho percorrido, **sem exagero** (Cooper)
+- ***Feedback* adequado** e **no tempo certo**: 
+  - **sutil** para ação frequente e resultado esperado
+  - **substancial** para ação infrequente ou de grande consequência
+
+## Exemplo: *feedback* e tempo de resposta {.smaller}
+
+- **Tognazzini**: o *feedback* deve crescer com a **duração** da operação, para reduzir a sensação de que o programa **não está respondendo**
+
+![](images/feedback-tempos.svg){fig-align="center" width="95%"}
+
+<!-- SLIDE EXTRA DE 7. VISIBILIDADE (feedback sutil x destacado): para reativar, apague esta linha e a linha "FIM DO EXTRA DE 7" -->
+<!--
+## *Feedback* adequado {.smaller}
+
+- O sistema informa o que ocorreu ou ocorre, com ***feedback* adequado** e **no tempo certo** (Nielsen, Shneiderman, Tognazzini)
+- Ação **frequente** e resultado **esperado**: resposta **sutil**; ação **infrequente** ou de **grande consequência**: resposta **substancial**
+
+![](images/feedback-sutil-destacado.svg){fig-align="center" width="80%"}
+-->
+<!-- FIM DO EXTRA DE 7 -->
+
+## 8. Conteúdo relevante e expressão adequada {.smaller}
+
+- **Reeves e Nass** (1996): tratamos qualquer tecnologia que se comporta como pessoa, realmente como uma pessoa; 
+  <!-- - daí as **quatro máximas** da conversa cooperativa de **Grice**: **qualidade**, **quantidade**, **relação** e **modo** -->
+- **Menos é mais** (Nielsen): projeto **estético e minimalista**
+  - cada unidade extra de informação **compete** com as relevantes
+    - interação **respeitosa**, **generosa** e **prestativa**
+- **Redação** (Tognazzini): mensagens **concisas**, rótulos **claros** e sem ambiguidade; nem sempre o termo **mais preciso** é o melhor
+- **Legibilidade**: alto contraste, evitar fundo cinza, fontes grandes; ao usar **cor**, acrescentar **dicas secundárias**
+
+## Exemplo: rótulos de menu {.smaller}
+
+- Itens com **verbos variados** são mais precisos, mas **exigem decodificação**; repetir o mesmo verbo permite **varrer** as opções mais rápido
+
+![](images/rotulos-menu.svg){fig-align="center" width="90%"}
+
+<!-- SLIDES EXTRAS DE 8. CONTEÚDO (máximas de Grice, cores, design gráfico): para reativar, apague esta linha e a linha "FIM DOS EXTRAS DE 8" -->
+<!--
+## Máximas de Grice {.smaller}
+
+- **Reeves e Nass** (1996): as pessoas dão **tratamento humano** a qualquer mídia ou tecnologia com comportamento semelhante ao de uma pessoa
+- Daí a **conversa cooperativa** de **Grice** (1975): uma interação polida segue **quatro máximas**
+
+![](images/maximas-grice.svg){fig-align="center" width="90%"}
+
+## Legibilidade e cores {.smaller}
+
+- Texto **legível**: alto contraste (preto sobre branco ou amarelo-claro), evitar fundo **cinza**, fontes **suficientemente grandes** e permitir que usuários com deficiência visual as **aumentem**
+- Ao usar **cor** para transmitir informação, usar também **dicas secundárias**: variações em tons de cinza, ícones ou rótulos
+
+![](images/cor-dica-secundaria.svg){fig-align="center" width="85%"}
+
+## Design gráfico {.smaller}
+
+- **Designers gráficos** são os principais responsáveis pela **identidade visual** do sistema: *layout*, fontes, formas, cores, texturas, imagens e símbolos (Mullet e Sano, 1995)
+- Nos esboços, os princípios básicos mantêm a atenção no **foco do design**; usar **grid** e a **direção de leitura** para alinhar os elementos
+- Temas de Mullet e Sano: **elegância e simplicidade**; **escala, contraste e proporção**; **organização e estrutura visual**; **módulo e programa**; **imagem e representação**; **estilo**
+-->
+<!-- FIM DOS EXTRAS DE 8 -->
+
+## 9. Projeto para erros {.smaller}
+
+- **Norman**: **assumir** que qualquer erro possível será compartilhado
+  - o designer ajuda o usuário a **se recuperar**, informando o que ocorreu, as consequências e como reverter
+- **Cooper**: não colocar controles **perigosos** próximos de controles **frequentes**
+- **Nielsen** e **Shneiderman**: primeiro **evitar** o erro
+  - se ocorrer, **detectá-lo** e tratá-lo, com mensagens em **linguagem simples**, que indiquem **precisamente** o problema e sugiram uma solução **construtiva**
+- **Ajuda e documentação** de alta qualidade: 
+  - **fáceis de encontrar**, **focadas na tarefa**, com **passos concretos** e **não muito extensas** 
+
+## Exemplo: mensagem de erro com recuperação {.smaller}
+
+- Em vez de só avisar, **oferecer uma saída** e retomar um **caminho produtivo**
+
+![](images/mensagem-erro.svg){fig-align="center" width="90%"}
+
+<!-- SLIDES EXTRAS DE 9. ERROS (botões perigosos, evitar-detectar-recuperar): para reativar, apague esta linha e a linha "FIM DOS EXTRAS DE 9" -->
+<!--
+## Botões perigosos longe dos frequentes {.smaller}
+
+- **Cooper**: não colocar controles de funções **perigosas ou raras** próximos de controles **frequentes**
+
+![](images/botoes-perigosos.svg){fig-align="center" width="85%"}
+
+## Evitar, detectar e recuperar {.smaller}
+
+- **Nielsen** e **Shneiderman**: tentar, em primeiro lugar, **evitar** que o erro ocorra
+- Se ele ocorrer, o sistema deve **detectá-lo** e oferecer mecanismos simples e inteligentes para **tratá-lo**
+
+![](images/erros-etapas.svg){fig-align="center" width="85%"}
+-->
+<!-- FIM DOS EXTRAS DE 9 -->
+
+# Padrões de Design
+
+## O que são padrões {.smaller}
+
+- **Padrões de design** são descrições de **melhores práticas** em um domínio de design (Tidwell, 2011; Borchers, 2000)
+  - Capturam **soluções comuns** a certos interesses ou tensões de design,  tornando explícito o conhecimento compartilhado
+- Origem: **Alexander** (1979), em arquitetura e urbanismo; chegaram à computação nos anos 1990, na engenharia de software orientada a objetos (Gamma et al., 1994)
+
+![](images/padroes-sequencia.svg){fig-align="center" width="100%"}
+
+## Vantagens e cuidados {.smaller}
+
+- **Vantagens** (Tidwell, 2011): capturam a **sabedoria coletiva** de designers experientes, dão um **vocabulário comum** e divulgam boas soluções
+- **Cuidados**: não são **soluções prontas**, nem **regras** ou **heurísticas**; cada aplicação difere um pouco
+- Descrevem **problemas pontuais**, não o projeto inteiro, e **não garantem** a qualidade: são **recursos** em um processo de design **reflexivo**
+
+![](images/padroes-vantagens-cuidados.svg){fig-align="center" width="85%"}
+
+<!-- ## Linguagem de padrões {.smaller} -->
+
+<!-- - Os padrões **não são isolados**: relacionam-se de várias maneiras, com mais ou menos detalhe, e cada um serve a um certo **contexto** -->
+<!-- - O conjunto completo de padrões relacionados é uma **linguagem de padrões** (*pattern language*):  -->
+  <!-- - um **vocabulário extenso** de elementos de design e formas de **articulá-los** -->
+
+## Como descrever um padrão {.smaller}
+
+- **Borchers** (2000), semelhante a Alexander: **nome**, **avaliação** (zero a dois asteriscos), **imagem**, **contexto**, **problema** (breve e detalhado, com as forças), **solução central**, **diagrama** e **referências** a padrões menores
+- **Tidwell** (2011) e **van Welie** descrevem de forma parecida, com os elementos da figura
+
+![](images/descricao-padroes.svg){fig-align="center" width="75%"}
+
+## Exemplo: o padrão Acordeão {.smaller}
+
+![](images/padrao-acordeao.svg){fig-align="center" width="95%"}
+
+<!-- SLIDE EXTRA (Acordeão: como implementar; já resumido na figura): para reativar, apague esta linha e a linha "FIM DO EXTRA" -->
+<!--
+## Acordeão: como implementar {.smaller}
+
+- **Animar** a abertura dos painéis, para dar *feedback* (sutil, no máximo **250 ms**)
+- Permitir a navegação pelas **setas do teclado** e **destacar** o painel atual
+- O tamanho total do acordeão deve poder **crescer ou diminuir** para acomodar o conteúdo
+- **Por quê**: comprime muitos elementos em um espaço pequeno; a **desvantagem**: os outros painéis ficam **ocultos**
+-->
+<!-- FIM DO EXTRA -->
+
+# Deceptive<br>Patterns
+
+## Quando o design trabalha contra o usuário {.smaller}
+
+- Muitos padrões de interação são **persuasivos**: influenciam o usuário a tomar certas **decisões**
+- Quando priorizam o interesse da empresa **em detrimento do usuário**, são ***deceptive patterns***; seus criadores agem de forma **antiética**
+
+![](images/persuasivo-coercivo.svg){fig-align="center" width="92%"}
+
+## Prejuízos {.smaller}
+
+- **Material**: induzir **compras desnecessárias**, como colocar produtos no carrinho sem avisar claramente
+- **Não material**: induzir a compartilhar **dados pessoais** sem ciência das consequências, uma violação de **privacidade** (venda ou compartilhamento indevido)
+
+![](images/dark-consequencias.svg){fig-align="center" width="85%"}
+
+## Origem do conceito {.smaller}
+
+- **Fogg** et al. (2003): quando a persuasão é **exacerbada**, ela deixa de ser **persuasiva** e se torna **coerciva**
+- **Brignull** (2010): estabeleceu o conceito ao analisar **sites de compra e venda**, e catalogou casos em **darkpatterns.org**, sem metodologia estruturada
+- **Gray** et al. (2018): criaram uma **taxonomia** a partir dos exemplos de Brignull
+
+![](images/origem-conceito.svg){fig-align="center" width="95%"}
+
+## Taxonomia de Gray et al. {.smaller}
+
+![](images/gray-taxonomia.svg){fig-align="center" width="85%"}
+
+## Exemplo: Incômodo repetitivo {.smaller}
+
+- Exemplo corriqueiro: o abuso de ***push notifications***, repetindo a mesma mensagem muitas vezes
+
+![](images/dp-incomodo.svg){fig-align="center" width="80%"}
+
+## Exemplo: Obstrução {.smaller}
+
+- Impedir ou dificultar uma ação do usuário: aqui, **descadastrar** exige informações que a empresa deseja
+- Outras formas: **navegação excessiva**, elementos **desativados** sem indicação clara e uso de "**moedas**" virtuais em jogos
+
+![](images/dp-obstrucao.svg){fig-align="center" width="85%"}
+
+## Exemplo: Ação sorrateira {.smaller}
+
+- Uma ação **desnecessária** no fluxo: a reserva de assentos parece obrigatória e tem **custo extra**
+- Também: **custos ocultos**, ações com consequências **diferentes das esperadas** e **continuidade** de serviços após a expiração
+
+![](images/dp-sorrateira.svg){fig-align="center" width="85%"}
+
+## Exemplo: Interferência na interface {.smaller}
+
+- **Manipular** decisões pela exploração de aspectos **perceptivos** e **emocionais** da interface
+- Formas: **ocultar informações**, **pré-selecionar** opções e manipular a estética (elementos interativos que **não parecem** interativos)
+
+![](images/dp-interferencia.svg){fig-align="center" width="85%"}
+
+## Exemplo: Ação forçada {.smaller}
+
+- Obrigar o usuário a uma decisão que **não** lhe beneficia: aqui, o botão **Continuar** leva a um cadastro **sem relação** com a compra
+- Outras: exigir **informações desnecessárias** para acessar um serviço
+
+![](images/dp-forcada.svg){fig-align="center" width="85%"}
+
+## Taxonomia de Mathur et al. {.smaller}
+
+![](images/mathur-taxonomia.svg){fig-align="center" width="85%"}
+
+## Combinando as duas taxonomias {.smaller}
+
+- As classificações têm **semelhanças** (a **ocultação** aparece na Ação sorrateira e em duas categorias de Mathur) e são **complementares**
+- Usadas juntas, mostram **que informação oculta** leva à falsidade e **que parte da solução** rever
+
+![](images/gray-mathur.svg){fig-align="center" width="90%"}
+
+## Por que funcionam e o que está em jogo {.smaller}
+
+- Exploram **vieses cognitivos** (Kahneman, 2011): 
+  - tendências de decisão que também podem ser estudadas para **proteger** o usuário
+- Afetam a **interpretação** do sistema e a **antecipação** das consequências, e, em larga escala, geram **impactos sociais** (ansiedade e distração)
+- No Brasil, a **LGPD** exige **transparência** e controle sobre os dados (***privacy by design***)
+  - somos **responsáveis** pelas consequências do sistema, **moral e legalmente**
+
+# Guias de Estilo
+
+## O que é um guia de estilo {.smaller}
+
+- Em projetos grandes, reúne-se os princípios e as diretrizes adotados em um documento: o **guia de estilo**
+- Registra as **decisões de design**, para que sejam **incorporadas** ao produto, e serve de **comunicação** entre as equipes de design e de desenvolvimento
+- Pode ter diferentes **escopos** (Mayhew, 1999)
+
+![](images/escopos-guia.svg){fig-align="center" width="92%"}
+
+## O que o guia contém {.smaller}
+
+- **Marcus** (1991) considera estes **elementos** de design de interface:
+
+![](images/marcus-elementos.svg){fig-align="center" width="85%"}
+
+## Estrutura de um guia de estilo {.smaller}
+
+- Estrutura comum (Marcus, 1991; Mayhew, 1999)
+- **Mayhew** sugere incluir os produtos da análise das necessidades e o ***design rationale***: o rastreamento entre uma decisão e a discussão que a originou
+
+![](images/estrutura-guia.svg){fig-align="center" width="85%"}
+
+## Como usar bem o guia {.smaller}
+
+- Não basta produzir o guia: é preciso **comunicar** sua existência e importância e **facilitar** o acesso
+- Investir em uma **mudança de cultura** de design e desenvolvimento
+
+![](images/guia-usar-bem.svg){fig-align="center" width="92%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- **Princípios** (gerais), **diretrizes** (regras da prática) e **padrões** (soluções específicas): 
+  - **não substituem** o processo de design
+- Nove famílias de diretrizes:
+  - **expectativas**, **simplicidade**, **controle**, **consistência**, **eficiência**, **antecipação**, **visibilidade**, **conteúdo** e **erros**
+- **Padrões de design** capturam soluções recorrentes e formam **linguagens de padrões**
+- ***Deceptive patterns*** priorizam a empresa em detrimento do usuário: são **antiéticos** e podem violar a **LGPD**
+- O **guia de estilo** registra e comunica as decisões de design
+
+## Para pensar {.smaller}
+
+- Considere a **agenda pessoal** integrada à lista de afazeres e ao e-mail, projetada para um computador **desktop** e um **smartphone**. Quais **princípios e diretrizes** foram aplicados nos esboços? Algum foi **violado**? Como resolver? Se não for resolvido, quais as **consequências**?
+- Examine as bibliotecas de **padrões** citadas no capítulo. Quais se encaixam na solução? Que **adaptações** são necessárias?
+- A partir dos modelos e esboços, destaque os elementos que podem compor um **guia de estilo** para futuras funcionalidades do sistema
+- Em um aplicativo que você usa, encontre um ***deceptive pattern***: de qual tipo é? Que **interesse** ele serve?
+
+<!-- ## No seu projeto {.smaller} -->
+<!---->
+<!-- - Para o sistema que sua equipe está projetando --- -->
+<!--   - avalie os esboços de interface pelas **nove famílias** de diretrizes e registre as **violações**; -->
+<!--   - escolha **padrões de design** adequados e adapte-os; -->
+<!--   - verifique se alguma decisão cai em um ***deceptive pattern***; -->
+<!--   - monte o **guia de estilo** com os elementos já definidos. -->
+
+## Leituras futuras {.smaller}
+
+- **Norman (1988)** --- *The Design of Everyday Things*
+- **Nielsen (1994)** --- *Usability Engineering*
+- **Shneiderman (1998)** --- *Designing the User Interface*
+- **Cooper (1999)** --- *The Inmates Are Running the Asylum*
+- **Tognazzini (2014)** --- *First Principles of Interaction Design*
+- **Tidwell (2011)** --- *Designing Interfaces*
+- **Gray et al. (2018)** --- *The Dark (Patterns) Side of UX Design*
+- **Mathur et al. (2019)** --- *Dark Patterns at Scale*

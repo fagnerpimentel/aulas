@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[draw=black!70, line width=1.8pt, fill=white, rounded corners=6pt] (0,0) rectangle (6.8,8.4);
+\node[font=\large\bfseries, anchor=west] at (0.4,8.0) {23:00};
+\foreach \i/\d in {0/{15/04}, 1/{14/04}, 2/{13/04}, 3/{12/04}, 4/{11/04}} {
+  \draw[draw=black!50, line width=1.3pt, fill=dshade!55] (0.3,{6.4-\i*1.4}) rectangle (6.5,{7.5-\i*1.4});
+  \node[font=\normalsize\bfseries, anchor=west] at (0.5,{7.22-\i*1.4}) {Loja Express \d};
+  \node[font=\normalsize, anchor=west] at (0.5,{6.72-\i*1.4}) {Hoje é sua última oportunidade!};}
+\draw[decorate, decoration={brace, amplitude=8pt, mirror}, line width=2pt, dred] (6.8,0.3) -- (6.8,7.6);
+\node[font=\large, anchor=west, text width=9cm] at (8.0,5.8) {a \textbf{mesma mensagem} todos os dias: \textbf{\textcolor{dred}{todo dia é o dia da ``última oportunidade''}}};
+\node[font=\large, anchor=west, text width=9cm] at (8.0,3.2) {o sistema tenta convencer o usuário \textbf{por exaustão}, na esperança de que o incômodo pare};
+\node[font=\large, anchor=west, text width=9cm] at (8.0,1.0) {também em \emph{e-mails} e \emph{pop-ups}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.2cm, minimum height=3.0cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Plataforma}}\\ dispositivo e sistema operacional};
+\node[c, draw=dgreen] at (4.8,0.0) {\textbf{\textcolor{dgreen}{Corporativo}}\\ padronização entre os produtos de uma empresa};
+\node[c, draw=dorange] at (9.6,0.0) {\textbf{\textcolor{dorange}{Família de produtos}}\\ consistência entre produtos relacionados};
+\node[c, draw=dred] at (14.4,0.0) {\textbf{\textcolor{dred}{Produto específico}}\\ decisões de um único produto};
+\node[font=\Large, text width=18cm, align=center] at (7.2,-2.5) {o guia registra as \textbf{decisões de design} para que não se percam};
+\end{tikzpicture}
+\end{document}

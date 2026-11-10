@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Título}}\\ nome curto, fácil de lembrar (ex.: painéis colapsáveis)};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{O que}}\\ a solução resumida em um parágrafo curto};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{Quando usar}}\\ as situações em que o padrão se aplica e as forças em jogo};
+\node[c, draw=dred] at (0.0,-3.1) {\textbf{\textcolor{dred}{Por quê}}\\ dados que justificam o padrão na situação};
+\node[c, draw=dblue] at (6.0,-3.1) {\textbf{\textcolor{dblue}{Como}}\\ a solução em detalhe e como implementá-la};
+\node[c, draw=dgreen] at (12.0,-3.1) {\textbf{\textcolor{dgreen}{Exemplos}}\\ diagramas e imagens de interfaces concretas};
+\end{tikzpicture}
+\end{document}

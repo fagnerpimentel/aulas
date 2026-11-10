@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={draw=black!70, line width=1.6pt, fill=white, rounded corners=2pt},
+        b/.style={draw=black, line width=1.8pt, fill=white, rounded corners=2pt, minimum height=0.95cm, font=\normalsize\bfseries, inner sep=6pt}}
+\draw[d] (0,0.4) rectangle (9.2,5.8); \draw[d, fill=dshade!50] (0,4.9) rectangle (9.2,5.8);
+\node[font=\large\bfseries, anchor=west] at (0.3,5.35) {Status da conexão};
+\node[font=\large, anchor=west] at (0.5,4.2) {Duração: 1:52:37};
+\node[font=\large, anchor=west] at (0.5,3.4) {Velocidade: 100 Mbps};
+\node[b, anchor=west] at (0.3,1.4) {Propriedades...}; \node[b, anchor=west, draw=dred, line width=2.6pt] at (3.9,1.4) {Desabilitar}; \node[b, anchor=east] at (8.8,1.4) {Fechar};
+\node[font=\large, text width=9cm, align=center, anchor=north] at (4.6,0.1) {uso \textbf{frequente} colado a uma ação de \textbf{consequência grave}};
+\draw[d] (10.3,0.4) rectangle (19.5,5.8); \draw[d, fill=dshade!50] (10.3,4.9) rectangle (19.5,5.8);
+\node[font=\large\bfseries, anchor=west] at (10.6,5.35) {Status da conexão};
+\node[font=\large, anchor=west] at (10.8,4.2) {Duração: 1:52:37};
+\node[font=\large, anchor=west] at (10.8,3.4) {Velocidade: 100 Mbps};
+\node[b, anchor=west] at (10.7,1.4) {Propriedades...}; \node[b, anchor=east] at (19.1,1.4) {Fechar};
+\node[b, anchor=west, draw=dgreen, line width=2.6pt] at (10.7,2.45) {Desabilitar};
+\node[font=\large, text width=9cm, align=center, anchor=north] at (14.9,0.1) {ação perigosa \textbf{afastada} dos controles de uso frequente};
+\end{tikzpicture}
+\end{document}

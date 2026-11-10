@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{f/.style={draw=black!60, line width=1.4pt, fill=white, minimum width=8.4cm, minimum height=0.8cm, anchor=west}}
+\node[font=\Large\bfseries, dgreen] at (4.2,8.6) {assinar: 1 passo};
+\draw[draw=black!70, line width=1.8pt, fill=white, rounded corners=3pt] (0,5.4) rectangle (8.8,8.0);
+\node[font=\large\bfseries, anchor=west] at (0.4,7.4) {Boletim Bem Estar};
+\node[font=\large, anchor=west, draw=black, line width=1.8pt, fill=dblue!15, rounded corners=2pt, minimum height=1.0cm] at (0.4,6.1) {Assinar};
+\node[font=\Large\bfseries, dred] at (14.0,8.6) {descadastrar: vários passos};
+\draw[draw=black!70, line width=1.8pt, fill=white, rounded corners=3pt] (9.6,0) rectangle (18.9,8.0);
+\node[font=\large\bfseries, anchor=west] at (10.0,7.4) {Boletim Bem Estar};
+\node[font=\normalsize, anchor=west] at (10.0,6.7) {Para se descadastrar, preencha o formulário:};
+\node[f] at (10.0,5.8) {}; \node[font=\normalsize, anchor=west] at (10.2,5.8) {Nome *};
+\node[f] at (10.0,4.8) {}; \node[font=\normalsize, anchor=west] at (10.2,4.8) {E-mail *};
+\draw[draw=black!60, line width=1.4pt, fill=white] (10.0,2.8) rectangle (18.4,4.3); \node[font=\normalsize, anchor=north west] at (10.2,4.2) {Razões para se descadastrar *};
+\draw[draw=black!60, line width=1.4pt, fill=white] (10.0,1.0) rectangle (18.4,2.5); \node[font=\normalsize, anchor=north west] at (10.2,2.4) {Como falaria de nós para conhecidos? *};
+\node[font=\large, text width=8.8cm, align=center, anchor=north] at (4.4,4.6) {\textbf{\textcolor{dred}{sair} custa mais do que entrar}:\\ campos obrigatórios desnecessários \emph{(descadastrar não depende desses dados)}};
+\end{tikzpicture}
+\end{document}

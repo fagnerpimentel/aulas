@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{1. Expectativas}}\\ correspondência com as expectativas do usuário};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{2. Simplicidade}}\\ simplicidade na estrutura das tarefas};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{3. Controle}}\\ equilíbrio entre controle e liberdade};
+\node[c, draw=dred] at (0.0,-3.1) {\textbf{\textcolor{dred}{4. Consistência}}\\ consistência e padronização};
+\node[c, draw=dblue] at (6.0,-3.1) {\textbf{\textcolor{dblue}{5. Eficiência}}\\ promover a eficiência do usuário};
+\node[c, draw=dgreen] at (12.0,-3.1) {\textbf{\textcolor{dgreen}{6. Antecipação}}\\ antecipar as necessidades};
+\node[c, draw=dorange] at (0.0,-6.2) {\textbf{\textcolor{dorange}{7. Visibilidade}}\\ visibilidade e reconhecimento};
+\node[c, draw=dred] at (6.0,-6.2) {\textbf{\textcolor{dred}{8. Conteúdo}}\\ conteúdo relevante e expressão adequada};
+\node[c, draw=dblue] at (12.0,-6.2) {\textbf{\textcolor{dblue}{9. Erros}}\\ projeto para erros};
+\end{tikzpicture}
+\end{document}

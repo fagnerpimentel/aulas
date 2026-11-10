@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{s/.style={dbox, text width=2.6cm, minimum height=1.4cm, font=\normalsize, line width=1.5pt, rounded corners=8pt},
+        a/.style={dtrans, line width=1.8pt, -{Stealth[length=3mm]}}}
+\node[font=\large\bfseries, dgreen, anchor=west] at (0,8.6) {(a) identificar só no fim, como na loja física};
+\node[s, draw=dblue] (a1) at (1.5,7.3) {buscar produto};
+\node[s, draw=dblue] (a2) at (5.0,7.3) {selecionar produto};
+\node[s, draw=dgreen, line width=2.4pt] (a3) at (8.5,7.3) {efetuar login};
+\node[s, draw=dgreen] (a4) at (12.0,7.3) {finalizar compra};
+\draw[a] (a1) -- (a2); \draw[a] (a2) -- (a3); \draw[a] (a3) -- (a4);
+\node[font=\large\bfseries, dred, anchor=west] at (0,5.7) {(b) identificar antes de tudo};
+\node[s, draw=dred, line width=2.4pt] (b1) at (1.5,4.4) {efetuar login};
+\node[s, draw=dblue] (b2) at (5.0,4.4) {buscar produto};
+\node[s, draw=dblue] (b3) at (8.5,4.4) {selecionar produto};
+\node[s, draw=dgreen] (b4) at (12.0,4.4) {finalizar compra};
+\draw[a] (b1) -- (b2); \draw[a] (b2) -- (b3); \draw[a] (b3) -- (b4);
+\node[font=\large\bfseries, dgreen, anchor=west] at (0,2.8) {(c) opcional, a qualquer momento antes do \emph{checkout}};
+\node[s, draw=dblue] (c1) at (1.5,1.5) {buscar produto};
+\node[s, draw=dblue] (c2) at (5.0,1.5) {selecionar produto};
+\node[s, draw=dgreen] (c4) at (12.0,1.5) {finalizar compra};
+\node[s, draw=dgreen, dashed, line width=2.4pt] (c3) at (8.5,1.5) {efetuar login};
+\draw[a] (c1) -- (c2); \draw[a] (c2) -- (c3); \draw[a] (c3) -- (c4);
+\draw[a, dashed] (c2.south) to[bend right=25] (c4.south);
+\node[dbox, draw=dgreen, text width=5.0cm, minimum height=1.4cm, font=\large, line width=1.6pt] at (16.8,1.5) {não exclui clientes ainda não cadastrados};
+\node[dbox, draw=dred, text width=5.0cm, minimum height=1.4cm, font=\large, line width=1.6pt] at (16.8,4.4) {exigir cedo demais pode afastar quem só quer ver os produtos};
+\end{tikzpicture}
+\end{document}

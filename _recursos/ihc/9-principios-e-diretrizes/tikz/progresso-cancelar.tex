@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={draw=black!70, line width=1.6pt, fill=white, rounded corners=2pt}}
+\draw[d] (0,0) rectangle (8,5); \draw[d, fill=dshade!50] (0,4.1) rectangle (8,5);
+\node[font=\large\bfseries, anchor=west] at (0.3,4.55) {Realizando busca};
+\draw[line width=1.6pt, draw=black!60, fill=dshade!60] (0.5,2.3) rectangle (6.4,3.3);
+\node[font=\large\bfseries] at (3.4,2.8) {50\%};
+\node[font=\large, anchor=north] at (4.0,-0.2) {\textbf{\textcolor{dred}{sem saída}}: só esperar};
+\draw[d] (10.5,0) rectangle (18.5,5); \draw[d, fill=dshade!50] (10.5,4.1) rectangle (18.5,5);
+\node[font=\large\bfseries, anchor=west] at (10.8,4.55) {Realizando busca};
+\draw[line width=1.6pt, draw=black!60, fill=dshade!60] (11.0,2.9) rectangle (16.9,3.9);
+\node[font=\large\bfseries] at (13.9,3.4) {50\%};
+\draw[line width=2.2pt, draw=black, fill=white, rounded corners=2pt] (14.4,0.6) rectangle (17.0,1.7);
+\node[font=\large\bfseries] at (15.7,1.15) {Cancelar};
+\node[font=\large, anchor=north] at (14.5,-0.2) {\textbf{\textcolor{dgreen}{com saída}}: o usuário pode cancelar};
+\end{tikzpicture}
+\end{document}

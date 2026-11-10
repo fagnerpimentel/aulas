@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[draw=dblue, line width=2.2pt, fill=dblue!6, rounded corners=10pt] (0.0,-0.4) rectangle (6.8,9.2);
+\node[font=\Large\bfseries, text=dblue] at (3.4,8.4) {Alexander (anos 1970)};
+\node[font=\large, text width=6.2cm, align=center] at (3.4,7.6) {arquitetura e urbanismo: \textbf{253 padrões}, do maior ao menor};
+\node[dbox, draw=dblue, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (blue6) at (3.4,6.0) {\textbf{região}: \emph{Independent Regions}};
+\node[dbox, draw=dblue, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (blue4) at (3.4,4.0) {\textbf{cidade}: \emph{Web of Public Transportation}};
+\node[dbox, draw=dblue, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (blue2) at (3.4,2.0) {\textbf{cômodo}: \emph{Window Place}};
+\node[font=\large\bfseries, text width=6.2cm, align=center] at (3.4,0.5) {uma \textbf{linguagem}: cada padrão cita os maiores e os menores};
+\draw[draw=dgreen, line width=2.2pt, fill=dgreen!6, rounded corners=10pt] (8.0,-0.4) rectangle (14.8,9.2);
+\node[font=\Large\bfseries, text=dgreen] at (11.4,8.4) {Gamma et al. (1994)};
+\node[font=\large, text width=6.2cm, align=center] at (11.4,7.6) {engenharia de software: \textbf{23 padrões} em três famílias};
+\node[dbox, draw=dgreen, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (green6) at (11.4,6.0) {\textbf{criação}: \emph{Singleton}, \emph{Factory Method}};
+\node[dbox, draw=dgreen, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (green4) at (11.4,4.0) {\textbf{estrutura}: \emph{Adapter}, \emph{Decorator}};
+\node[dbox, draw=dgreen, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (green2) at (11.4,2.0) {\textbf{comportamento}: \emph{Observer}, \emph{Strategy}};
+\node[font=\large\bfseries, text width=6.2cm, align=center] at (11.4,0.5) {um \textbf{catálogo}, organizado por família};
+\draw[draw=dorange, line width=2.2pt, fill=dorange!6, rounded corners=10pt] (15.999999999999998,-0.4) rectangle (22.799999999999997,9.2);
+\node[font=\Large\bfseries, text=dorange] at (19.4,8.4) {Tidwell (2011)};
+\node[font=\large, text width=6.2cm, align=center] at (19.4,7.6) {interfaces de usuário: padrões agrupados por \textbf{tema}};
+\node[dbox, draw=dorange, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (orange6) at (19.4,6.0) {\textbf{organizar o conteúdo}: \emph{Wizard}, \emph{Escape Hatch}};
+\node[dbox, draw=dorange, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (orange4) at (19.4,4.0) {\textbf{navegar}: \emph{Global Navigation}, \emph{Breadcrumbs}};
+\node[dbox, draw=dorange, text width=5.5cm, minimum height=1.6cm, font=\large, line width=1.6pt, fill=white] (orange2) at (19.4,2.0) {\textbf{organizar a página}: \emph{Accordion}, \emph{Collapsible Panels}};
+\node[font=\large\bfseries, text width=6.2cm, align=center] at (19.4,0.5) {um \textbf{mapa temático} de padrões de IHC};
+\draw[dtrans, line width=3pt, -{Stealth[length=4.2mm]}] (6.9,4.4) -- (7.9,4.4);
+\draw[dtrans, line width=3pt, -{Stealth[length=4.2mm]}] (14.9,4.4) -- (15.9,4.4);
+\end{tikzpicture}
+\end{document}

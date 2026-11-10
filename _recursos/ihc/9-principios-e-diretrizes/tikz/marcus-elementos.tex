@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Layout}}\\ proporção, \emph{grids}, metáforas espaciais};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{Tipografia}}\\ uso em diálogos, formulários e relatórios};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{Simbolismo}}\\ clareza e consistência dos ícones};
+\node[c, draw=dred] at (0.0,-3.1) {\textbf{\textcolor{dred}{Cores}}\\ regras de uso de cores};
+\node[c, draw=dblue] at (6.0,-3.1) {\textbf{\textcolor{dblue}{Visualização}}\\ gráficos, diagramas e mapas};
+\node[c, draw=dgreen] at (12.0,-3.1) {\textbf{\textcolor{dgreen}{Telas e \emph{widgets}}}\\ design de telas e elementos de interface};
+\end{tikzpicture}
+\end{document}

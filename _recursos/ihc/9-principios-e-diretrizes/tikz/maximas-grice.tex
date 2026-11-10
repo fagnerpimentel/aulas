@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.1cm, minimum height=3.4cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Qualidade}}\\ não dizer o que se sabe falso ou sem evidência};
+\node[c, draw=dgreen] at (4.7,0.0) {\textbf{\textcolor{dgreen}{Quantidade}}\\ só a informação necessária: \emph{menos é mais}};
+\node[c, draw=dorange] at (9.4,0.0) {\textbf{\textcolor{dorange}{Relação}}\\ tudo o que se diz deve ser relevante ao objetivo};
+\node[c, draw=dred] at (14.1,0.0) {\textbf{\textcolor{dred}{Modo}}\\ evitar prolixidade e ambiguidade; ser claro e ordenado};
+\node[font=\Large, text width=18cm, align=center] at (7.05,-2.7) {a interação polida segue as \textbf{máximas da conversa cooperativa} (Grice, 1975)};
+\end{tikzpicture}
+\end{document}

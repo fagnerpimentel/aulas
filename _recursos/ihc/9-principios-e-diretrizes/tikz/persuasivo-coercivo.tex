@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.2cm, minimum height=3.0cm, font=\large, line width=1.7pt}}
+\node[k, draw=dgreen] (a) at (3.8,3.4) {\textbf{\textcolor{dgreen}{persuasivo}}\\ influencia decisões\\ e ações, em geral a favor do \textbf{usuário}};
+\node[k, draw=dred] (b) at (15.4,3.4) {\textbf{\textcolor{dred}{\emph{deceptive pattern}}}\\ princípios de persuasão levados ao \textbf{exagero}: \textbf{coercivo}, em detrimento do usuário};
+\draw[dtrans, line width=2.6pt, -{Stealth[length=4mm]}] (a.east) -- (b.west);
+\node[font=\large\bfseries] at (9.6,4.1) {exagero};
+\node[font=\large, text width=17cm, align=center] at (9.6,0.5) {persuasão não é antiética por natureza: depende da \textbf{intenção} de quem projeta e da \textbf{forma} de uso};
+\end{tikzpicture}
+\end{document}

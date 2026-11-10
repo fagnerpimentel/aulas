@@ -1,0 +1,20 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[line width=1.8pt, draw=black!70, fill=white, rounded corners=3pt] (0,0) rectangle (13,7.6);
+\draw[line width=1.8pt, draw=black!70, fill=dshade!50] (0,6.6) rectangle (13,7.6);
+\node[font=\Large\bfseries, anchor=west] at (0.4,7.1) {Assistente de consulta};
+\draw[line width=1.6pt, draw=black!60] (0.6,1.9) rectangle (12.4,6.2);
+\draw[line width=1.2pt, draw=black!40] (0.6,1.9) -- (12.4,6.2); \draw[line width=1.2pt, draw=black!40] (0.6,6.2) -- (12.4,1.9);
+\node[font=\large, text=black, anchor=west] at (0.7,0.9) {\underline{$<$ Voltar}};
+\node[font=\large, text=black, anchor=west] at (3.4,0.9) {\underline{Cancelar}};
+\node[font=\large, text=black, anchor=east] at (8.6,0.9) {\underline{Concluir}};
+\draw[line width=2.6pt, draw=black, fill=dblue!15, rounded corners=2pt] (9.3,0.3) rectangle (12.4,1.5);
+\node[font=\large\bfseries] at (10.85,0.9) {Avançar $>$};
+\draw[dred, line width=2pt, -{Stealth[length=3.2mm]}] (14.4,0.9) -- (12.6,0.9);
+\node[font=\large\bfseries, dred, anchor=west, text width=4.8cm] at (14.6,1.5) {botão primário claramente indicado};
+\node[font=\large, anchor=west, text width=4.8cm] at (14.6,-0.3) {\textbf{\textcolor{dgreen}{sair é possível}}, mas \textbf{ficar é mais fácil}};
+\end{tikzpicture}
+\end{document}

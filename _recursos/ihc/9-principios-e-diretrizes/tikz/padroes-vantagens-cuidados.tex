@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=5.2cm, minimum height=1.9cm, font=\large, line width=1.7pt}}
+\node[font=\Large\bfseries, dgreen, anchor=west] at (0.0,8.0) {o que um padrão oferece};
+\node[k, draw=dgreen] at (2.9,6.2) {\textbf{sabedoria coletiva} de designers experientes};
+\node[k, draw=dgreen] at (9.7,6.2) {\textbf{vocabulário comum} para a equipe};
+\node[k, draw=dgreen] at (16.5,6.2) {\textbf{divulgação} de boas soluções};
+\node[font=\Large\bfseries, dred, anchor=west] at (0.0,4.3) {o que um padrão não é};
+\node[k, draw=dred, dashed] at (2.9,2.5) {\textbf{solução pronta} para copiar};
+\node[k, draw=dred, dashed] at (9.7,2.5) {\textbf{regra} ou \textbf{heurística}};
+\node[k, draw=dred, dashed] at (16.5,2.5) {\textbf{receita} do projeto inteiro};
+\node[dbox, draw=dblue, fill=dblue!6, line width=1.8pt, text width=18.6cm, minimum height=1.4cm, font=\large] at (9.7,0.0) {um \textbf{recurso} para problemas pontuais, em um processo de design \textbf{reflexivo}; \textbf{não garante} a qualidade};
+\end{tikzpicture}
+\end{document}

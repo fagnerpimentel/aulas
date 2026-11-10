@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{m/.style={draw=black!70, line width=1.6pt, fill=white, text width=7.0cm, minimum height=0.95cm, font=\large, anchor=west, inner sep=8pt}}
+\node[font=\Large\bfseries, dred] at (4.4,6.4) {verbos variados};
+\node[m] at (0.9,5.1) {Inserir Quebra de Página};
+\node[m] at (0.9,4.15) {Acrescentar Nota de Rodapé};
+\node[m] at (0.9,3.2) {Construir Tabela};
+\node[font=\large, text width=8.4cm, align=center, anchor=north] at (4.4,2.4) {mais \textbf{precisos}, mas cada verbo exige \textbf{decodificação}};
+\node[font=\Large\bfseries, dgreen] at (14.6,6.4) {mesmo verbo, varredura rápida};
+\node[m] at (11.1,5.1) {Inserir Quebra de Página};
+\node[m] at (11.1,4.15) {Inserir Nota de Rodapé};
+\node[m] at (11.1,3.2) {Inserir Tabela};
+\node[font=\large, text width=8.4cm, align=center, anchor=north] at (14.6,2.4) {o usuário \textbf{varre} as opções \textbf{mais rápido}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[draw=black!70, line width=1.8pt, fill=white, rounded corners=3pt] (0,0) rectangle (10.8,7.6);
+\node[font=\Large\bfseries] at (5.4,6.8) {Clube da Barganha};
+\node[font=\normalsize, text width=9.4cm, align=center] at (5.4,5.5) {Junte-se a nós! Receba vantagens e benefícios instalando um \emph{plugin}.};
+\node[font=\Large\bfseries, draw=black, line width=2.2pt, fill=dblue!20, rounded corners=3pt, minimum width=8.2cm, minimum height=1.5cm] at (5.4,3.5) {Quero benefícios!};
+\node[font=\tiny, text width=9.4cm, align=center] at (5.4,1.4) {\underline{Não gosto de benefícios e prefiro pagar preços mais caros pelos mesmos produtos}};
+\node[dbox, draw=dred, text width=6.8cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.6,5.4) {botão \textbf{grande} e atraente \emph{versus} texto \textbf{pequeno}, sem aparência de link};
+\node[dbox, draw=dorange, text width=6.8cm, minimum height=2.0cm, font=\large, line width=1.7pt] at (15.6,2.2) {a linguagem \textbf{constrange} o usuário a aceitar: \textbf{emocionalmente abusiva}};
+\draw[dred, line width=2pt, -{Stealth[length=3.2mm]}] (12.1,5.0) -- (8.8,3.6);
+\draw[dorange, line width=2pt, -{Stealth[length=3.2mm]}] (12.1,2.0) -- (10.2,1.4);
+\end{tikzpicture}
+\end{document}
