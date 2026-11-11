@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{sub/.style={draw=dblue, dashed, line width=1.5pt, fill=dblue!7, rounded corners=6pt},
+        sp/.style={decorate, decoration={zigzag, segment length=2.8mm, amplitude=1.2mm}, line width=1.4pt, draw=dorange}}
+\foreach \px/\py in {1.2/1.8,1.2/3.8,1.2/5.8,8.4/5.8,8.4/3.8,8.4/1.8} {\draw[sub] ({\px-0.75},{\py-0.95}) rectangle ({\px+0.75},{\py+0.95});}
+\foreach \px/\py in {2.8/7.2,4.8/7.2,6.8/7.2} {\draw[sub] ({\px-0.95},{\py-0.75}) rectangle ({\px+0.95},{\py+0.75});}
+\draw[sub] (0.45,6.0) rectangle (1.95,7.95);
+\draw[dblue, line width=2.6pt] (1.2,1.0) -- (1.2,7.2) -- (8.4,7.2) -- (8.4,1.0);
+\coordinate (n1) at (1.2,1.8); \coordinate (n2) at (1.2,3.8); \coordinate (n3) at (1.2,5.8); \coordinate (n4) at (2.8,7.2); \coordinate (n5) at (4.8,7.2); \coordinate (n6) at (6.8,7.2); \coordinate (n7) at (8.4,5.8); \coordinate (n8) at (8.4,3.8); \coordinate (n9) at (8.4,1.8);
+\foreach \a/\b in {n1/n2,n2/n3,n3/n4,n4/n5,n5/n6,n6/n7,n7/n8,n8/n9} {\draw[sp] (\a) -- (\b);}
+\foreach \k in {n1,n2,n3,n4,n5,n6,n7,n8,n9} {\fill[dblue] (\k) circle (0.2);}
+\draw[line width=1.4pt, {Stealth[length=2.6mm]}-{Stealth[length=2.6mm]}] (-0.7,2.8) -- (-0.7,4.8); \node[font=\large\bfseries, rotate=90] at (-1.15,3.8) {5 m};
+\fill[dblue] (11.0,6.6) circle (0.2); \node[font=\large, anchor=west] at (11.5,6.6) {nó de pose (coordenadas do submapa)};
+\draw[sub] (10.8,4.9) rectangle (11.4,5.6); \node[font=\large, anchor=west] at (11.7,5.25) {submapa a cada \textbf{5 m} percorridos};
+\draw[sp] (10.8,3.6) -- (11.8,3.6); \node[font=\large, anchor=west] at (12.0,3.6) {restrição de movimento};
+\node[font=\large, anchor=west, text width=7.0cm] at (11.0,1.8) {dentro dos 5 m, a deriva é \textbf{pequena}, e o casamento de varreduras funciona \textbf{bem}};
+\end{tikzpicture}
+\end{document}

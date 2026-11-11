@@ -1,0 +1,33 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{p/.style={circle, draw=dblue, fill=dblue!12, line width=1.6pt, minimum size=0.55cm}}
+\draw[dgreen, dashed, line width=2.2pt, smooth] plot coordinates {(0.90,1.50) (2.79,1.74) (4.63,2.21) (6.39,2.90) (8.06,3.81) (9.60,4.93) (10.99,6.22) (12.21,7.68) (13.24,9.28)}; \fill[dgreen] (13.24,9.28) circle (0.22);
+\draw[dblue, line width=2.0pt, smooth] plot coordinates {(0.90,1.50) (2.79,1.69) (4.65,2.07) (6.47,2.63) (8.22,3.37) (9.89,4.28) (11.45,5.35) (12.91,6.58) (14.23,7.94)};
+\node[p] (e0) at (0.90,1.50) {}; \draw[->, line width=1.6pt, draw=dblue] (e0) -- ++(0.0:0.7);
+\node[p] (e1) at (2.79,1.69) {}; \draw[->, line width=1.6pt, draw=dblue] (e1) -- ++(5.7:0.7);
+\node[p] (e2) at (4.65,2.07) {}; \draw[->, line width=1.6pt, draw=dblue] (e2) -- ++(11.5:0.7);
+\node[p] (e3) at (6.47,2.63) {}; \draw[->, line width=1.6pt, draw=dblue] (e3) -- ++(17.2:0.7);
+\node[p] (e4) at (8.22,3.37) {}; \draw[->, line width=1.6pt, draw=dblue] (e4) -- ++(22.9:0.7);
+\node[p] (e5) at (9.89,4.28) {}; \draw[->, line width=1.6pt, draw=dblue] (e5) -- ++(28.6:0.7);
+\node[p] (e6) at (11.45,5.35) {}; \draw[->, line width=1.6pt, draw=dblue] (e6) -- ++(34.4:0.7);
+\node[p] (e7) at (12.91,6.58) {}; \draw[->, line width=1.6pt, draw=dblue] (e7) -- ++(40.1:0.7);
+\node[p] (e8) at (14.23,7.94) {}; \draw[->, line width=1.6pt, draw=dblue] (e8) -- ++(45.8:0.7);
+
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (1.85,0.99) {$u_{1}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (3.72,1.28) {$u_{2}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (5.56,1.75) {$u_{3}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (7.34,2.40) {$u_{4}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (9.05,3.22) {$u_{5}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (10.67,4.22) {$u_{6}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (12.18,5.36) {$u_{7}$};
+\node[font=\normalsize, text=dblue, fill=white, inner sep=1pt] at (13.57,6.66) {$u_{8}$};
+
+\node[font=\large\bfseries, anchor=east] at (0.5,1.5) {$\mu_0=(0\ 0\ 0)^{\top}$};
+\node[font=\large, anchor=west, text width=6.4cm] at (16.2,5.6) {\textcolor{dblue}{\textbf{estimativa} $\mu_{0:t}$}: encadeia o modelo de movimento com os controles $u_t$};
+\node[font=\large, anchor=west, text width=6.4cm] at (16.2,3.6) {\textcolor{dgreen}{\textbf{caminho real}} (desconhecido): a estimativa \textbf{deriva}};
+\node[font=\large, anchor=west, text width=6.4cm] at (16.2,1.8) {só a parte \textbf{determinística}, \textbf{sem medições}};
+\end{tikzpicture}
+\end{document}

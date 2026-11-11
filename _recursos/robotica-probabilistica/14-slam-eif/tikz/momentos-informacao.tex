@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.4cm, minimum height=3.2cm, font=\large, line width=1.8pt}}
+\node[k, draw=dblue] (a) at (3.9,4.0) {\textbf{\Large\textcolor{dblue}{Forma de momentos}}\\[6pt] média $\mu$ e covariância $\Sigma$\\[6pt] usada pelo \textbf{EKF SLAM}};
+\node[k, draw=dorange] (b) at (15.5,4.0) {\textbf{\Large\textcolor{dorange}{Forma de informação}}\\[6pt] vetor $\xi$ e matriz $\Omega$\\[6pt] usada pelo \textbf{EIF SLAM}};
+\draw[dtrans, line width=2.4pt, {Stealth[length=3.6mm]}-{Stealth[length=3.6mm]}] (a.east) -- (b.west);
+\node[font=\large, fill=white, inner sep=3pt, text width=3.4cm, align=center] at (9.7,5.2) {a \textbf{mesma} informação};
+\node[font=\Large] at (9.7,3.4) {$\Omega=\Sigma^{-1}$};
+\node[font=\Large] at (9.7,2.5) {$\xi=\Sigma^{-1}\mu$};
+\node[dbox, draw=dgreen, fill=dgreen!8, line width=1.8pt, text width=17cm, minimum height=1.4cm, font=\large] at (9.7,0.0) {a \textbf{informação é aditiva}: integrar uma medição é \textbf{somar} parcelas a $\Omega$ e $\xi$};
+\end{tikzpicture}
+\end{document}

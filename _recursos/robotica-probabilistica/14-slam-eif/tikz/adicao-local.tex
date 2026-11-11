@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\def\cw{1.5}
+\tikzset{g/.style={draw=black!35, line width=0.5pt}}
+\foreach \o/\tit/\a/\b/\col/\leg in {0/{cada \textbf{controle} $u_t$}/0/1/dblue/{liga $x_{t-1}$ e $x_t$}, 11/{cada \textbf{medição} $z_t^i$}/1/2/dorange/{liga $x_t$ e $m_j$}} {
+  \node[font=\Large, anchor=west] at (\o,1.6) {\tit};
+  \foreach \i in {0,1,2} {\foreach \j in {0,1,2} {\draw[g] ({\o+\j*\cw},{-\i*\cw}) rectangle ({\o+(\j+1)*\cw},{-(\i+1)*\cw});}}
+  \foreach \p in {\a,\b} {\foreach \q in {\a,\b} {\fill[\col!70] ({\o+\q*\cw+0.05},{-\p*\cw-0.05}) rectangle ({\o+(\q+1)*\cw-0.05},{-(\p+1)*\cw+0.05});}}
+  \draw[line width=1.6pt] (\o,0) rectangle ({\o+3*\cw},{-3*\cw});
+  \node[font=\large] at ({\o+0.75},0.5) {$x_{t-1}$}; \node[font=\large] at ({\o+2.25},0.5) {$x_t$}; \node[font=\large] at ({\o+3.75},0.5) {$m_j$};
+  \node[font=\large, anchor=north, text width=7cm, align=center] at ({\o+2.25},-4.8) {\leg};}
+\node[font=\Large\bfseries] at (7.0,-2.25) {\Huge $+$};
+\node[font=\large, text width=18cm, align=center] at (10.0,-6.4) {a atualização é uma \textbf{soma local}: só as linhas e colunas das variáveis envolvidas mudam};
+\end{tikzpicture}
+\end{document}

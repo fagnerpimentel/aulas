@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{d/.style={circle, fill=dblue, inner sep=1.4pt}}
+\node[font=\Large\bfseries] at (3.0,5.5) {1. deriva};
+\draw[dblue, line width=2.2pt] (0.5,0.5) -- (0.5,4.5) -- (4.5,4.5) -- (4.5,0.5) -- (1.6,0.5) -- (1.6,3.6);
+\foreach \y in {0.5,1.5,2.5,3.5} {\fill[dblue] (0.5,\y) circle (0.12); \fill[dred] (1.6,\y) circle (0.12);}
+\node[font=\large, text width=6.6cm, align=center] at (3.0,-0.8) {o corredor aparece \textbf{duas vezes}};
+\node[font=\Large\bfseries] at (10.6,5.5) {2. restrições};
+\draw[dblue, line width=2.2pt] (8.1,0.5) -- (8.1,4.5) -- (12.1,4.5) -- (12.1,0.5) -- (9.2,0.5) -- (9.2,3.6);
+\foreach \y in {0.5,1.5,2.5,3.5} {\fill[dblue] (8.1,\y) circle (0.12); \fill[dred] (9.2,\y) circle (0.12); \draw[dorange, dashed, line width=1.8pt] (8.1,\y) -- (9.2,\y);}
+\node[font=\large, text width=6.6cm, align=center] at (10.6,-0.8) {pares de poses \textbf{provavelmente iguais} viram restrições};
+\node[font=\Large\bfseries] at (18.2,5.5) {3. mapa consistente};
+\draw[dgreen, line width=2.6pt] (15.7,0.5) -- (15.7,4.5) -- (19.7,4.5) -- (19.7,0.5) -- (15.7,0.5);
+\foreach \y in {0.5,1.5,2.5,3.5} {\fill[dgreen] (15.7,\y) circle (0.14);}
+\node[font=\large, text width=6.6cm, align=center] at (17.7,-0.8) {o caminho se \textbf{fecha}; um só corredor};
+\draw[dtrans, line width=2.4pt, -{Stealth[length=3.6mm]}] (6.0,3.0) -- (7.0,3.0);
+\draw[dtrans, line width=2.4pt, -{Stealth[length=3.6mm]}] (13.6,3.0) -- (14.6,3.0);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\def\n{10}
+\foreach \k in {0,...,\n} {
+  \pgfmathsetmacro{\ang}{90-\k*33}
+  \pgfmathsetmacro{\r}{0.10+\k*0.07}
+  \coordinate (s\k) at ({6.0+4.6*cos(\ang)},{4.4+3.0*sin(\ang)});
+  \draw[dorange, line width=1.6pt, fill=dorange!12, fill opacity=0.5] (s\k) circle (\r+0.25);
+}
+\foreach \k in {0,...,9} {\pgfmathtruncatemacro{\j}{\k+1}\draw[dblue, line width=2.2pt, -{Stealth[length=3mm]}] (s\k) -- (s\j);}
+\foreach \k in {0,...,\n} {\fill[dblue] (s\k) circle (0.14);}
+\draw[dred, line width=2.6pt, dashed, {Stealth[length=3.4mm]}-{Stealth[length=3.4mm]}] (s0) -- (s10);
+\node[font=\large\bfseries, text=dred, fill=white, inner sep=2pt] at (6.0,8.4) {sem ligação: o mesmo lugar, visto como lugares distintos};
+\node[font=\large, text width=7.0cm, align=center] at (6.0,4.4) {cada varredura casa só com a \textbf{anterior}; o erro \textbf{se acumula} (círculos crescentes)};
+\node[font=\Large\bfseries, anchor=west] at (12.4,6.6) {resultado};
+\node[font=\large, anchor=west, text width=6.0cm] at (12.4,5.3) {mapa \textbf{inconsistente}: vários corredores aparecem \textbf{mais de uma vez}};
+\node[font=\large, anchor=west, text width=6.0cm] at (12.4,3.2) {falta \textbf{fechar o ciclo}};
+\end{tikzpicture}
+\end{document}

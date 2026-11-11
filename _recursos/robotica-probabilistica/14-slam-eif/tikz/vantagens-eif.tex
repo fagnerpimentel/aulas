@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.9cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Linearização melhor}}\\ usa todos os dados, e não só os até o instante $t$};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{Correspondência melhor}}\\ também usa todos os dados para decidir quem é quem};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{Refinamento iterativo}}\\ refaz o mapa, as correspondências e os modelos};
+\node[c, draw=dred] at (0.0,-3.4) {\textbf{\textcolor{dred}{Mais robusto}}\\ menos frágil a associação errada e a incerteza rotacional alta};
+\node[c, draw=dblue] at (6.0,-3.4) {\textbf{\textcolor{dblue}{Mapas bem maiores}}\\ ordens de grandeza acima do que o EKF aguenta};
+\node[font=\Large, text width=17cm, align=center] at (6.0,-5.85) {o preço: \textbf{não é incremental}, e os dados ficam na memória até o mapa ser construído};
+\end{tikzpicture}
+\end{document}

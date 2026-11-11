@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.6cm, minimum height=3.6cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] (n0) at (0.0,0) {\textbf{\textcolor{dblue}{1. Construir}}\\ $\Omega$ e $\xi$ sobre poses e marcos: matriz \textbf{grande e esparsa}};
+\node[c, draw=dgreen] (n1) at (6.4,0) {\textbf{\textcolor{dgreen}{2. Reduzir}}\\ eliminar os marcos: $\tilde\Omega$ e $\tilde\xi$ \textbf{só sobre as poses}};
+\node[c, draw=dorange] (n2) at (12.8,0) {\textbf{\textcolor{dorange}{3. Resolver}}\\ inverter $\tilde\Omega$ para o \textbf{caminho}; depois, \textbf{um marco por vez}};
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n0.east) -- (n1.west);
+\draw[dtrans, line width=2pt, -{Stealth[length=3mm]}] (n1.east) -- (n2.west);
+\node[font=\Large, text width=18cm, align=center] at (6.4,-2.8) {em cada passo, o custo é \textbf{linear}, exceto a inversão de $\tilde\Omega$ quando há \textbf{ciclos}};
+\end{tikzpicture}
+\end{document}

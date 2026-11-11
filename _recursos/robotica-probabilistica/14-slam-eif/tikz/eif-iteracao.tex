@@ -1,0 +1,19 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=3.3cm, minimum height=2.4cm, font=\large, line width=1.7pt}}
+\node[k, draw=black] (z) at (1.8,4.0) {\textbf{dados completos coletados}\\ $u_{1:t},\ z_{1:t}$};
+\node[k, draw=dred] (a) at (6.4,4.0) {$\mu_{0:t}$ \textbf{inicial}\\ pela odometria};
+\node[k, draw=dblue] (b) at (11.0,4.0) {\textbf{construir}\\ $\Omega,\ \xi$};
+\node[k, draw=dgreen] (c) at (15.6,4.0) {\textbf{reduzir}\\ $\tilde\Omega,\ \tilde\xi$};
+\node[k, draw=dorange] (d) at (20.2,4.0) {\textbf{resolver}\\ $\mu,\ \Sigma_{0:t}$};
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (z) -- (a);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (a) -- (b);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (b) -- (c);
+\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (c) -- (d);
+\draw[dred, line width=2.2pt, -{Stealth[length=3.4mm]}] (d.south) -- ++(0,-1.4) -| node[pos=0.25, above, font=\large\bfseries, text=black, fill=white, inner sep=2pt] {$\mu$ melhor: repetir 2 ou 3 vezes} (b.south);
+\node[font=\large, text width=20cm, align=center] at (10.6,0.4) {tudo roda \textbf{depois da coleta}: cada passada reestima o \textbf{caminho inteiro} e o mapa de uma vez, e só é preciso repetir se o erro inicial de orientação for grande (mais de $20^\circ$)};
+\end{tikzpicture}
+\end{document}

@@ -28,3 +28,4 @@ listing:
 - [Localização por grade e Monte Carlo: sequestro e ambientes dinâmicos](pratica/exercicio-localizacao-grade-monte-carlo.qmd)
 - [Mapeamento por grade de ocupação: log-odds, pessoas, deriva da pose e fusão de sensores](pratica/exercicio-mapeamento-grade-ocupacao.qmd)
 - [SLAM com EKF: estado combinado, fechamento de ciclo e associação de dados](pratica/exercicio-slam-ekf.qmd)
+- [SLAM com EIF: molas, matriz de informação esparsa, reduzir e resolver](pratica/exercicio-slam-eif.qmd)

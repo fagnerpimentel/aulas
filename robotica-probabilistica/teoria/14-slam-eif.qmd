@@ -1,0 +1,389 @@
+---
+title: "Robótica Probabilística"
+subtitle: "SLAM com Filtro de Informação Estendido"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/robotica-probabilistica/14-slam-eif
+format:
+  revealjs:
+    include-in-header:
+      text: |
+        <style>
+          /* divisor com título longo: reduz só o h1 para caber na coluna de 40% */
+          .reveal .slides section.corresp > h1 { font-size: 1.1em !important; }
+        </style>
+---
+
+# EIF SLAM
+
+::: {.esquerda}
+Capítulo 11 do livro [**Probabilistic Robotics**](http://probabilistic-robotics.informatik.uni-freiburg.de/), de **Sebastian Thrun**, **Wolfram Burgard** e **Dieter Fox**.
+:::
+
+![](images/capa-livro.jpg){.nostretch width="65%"}
+
+## O que veremos nesta aula {.smaller}
+
+- O **filtro de informação** e por que ela combina com o **SLAM completo**
+- Como o EIF SLAM **constrói** a matriz de informação **somando restrições**
+- Como **reduz** o problema e **resolve** o caminho e o mapa
+- Como trata **correspondências desconhecidas**
+- Um experimento em **larga escala**
+
+# Visão Geral
+
+Uma alternativa ao EKF SLAM.
+
+## Uma Alternativa ao EKF SLAM {.smaller}
+
+- O EKF SLAM tem **limitações**; este capítulo apresenta o ***extended information form* SLAM**, o **EIF SLAM**
+- Como o EKF, representa o posterior por uma **gaussiana**, mas na **forma de informação**: matriz $\Omega$ e vetor $\xi$ 
+- Resolve o **SLAM completo**: o posterior sobre o **caminho inteiro** e o mapa, e não só a pose atual
+
+![](images/momentos-informacao.svg){fig-align="center" width="95%"}
+
+## O EIF SLAM É em Lote {.smaller}
+
+- **Não é incremental**: processa um **conjunto de dados inteiro** de uma vez, e o EKF SLAM atualiza o mapa para sempre
+- Serve a problemas com **dados de tamanho fixo**, que **cabem na memória** até o mapa ser construído
+- Em troca, como tem **todos os dados**, pode melhorar a **linearização** e a **correspondência**
+
+## O Que Se Ganha {.smaller}
+
+- Os dados todos ajudam a **linearizar** e a decidir as **correspondências**
+- O EIF **refaz** o mapa, as correspondências e os modelos, para a **melhor estimativa** de todos eles
+
+![](images/vantagens-eif.svg){fig-align="center" width="85%"}
+
+# Intuição
+
+Restrições locais.
+
+## Controles e Medições Viram Molas {.smaller}
+
+- Dados: **medições** $z_{1:t}$, com correspondências $c_{1:t}$, e **controles** $u_{1:t}$
+- Cada **controle** liga **duas poses** consecutivas; cada **medição** liga uma **pose** a um **marco**: como **molas** em um modelo de massas e molas
+- A **rigidez** da mola é a incerteza residual: quanto **menos ruidoso** o sensor, mais **rígida**
+
+![](images/grafo-molas.svg){fig-align="center" width="95%"}
+
+## Construir $\Omega$ e $\xi$ {.smaller}
+
+- Cada mola vira uma **soma local** em $\Omega$ e $\xi$: **informação é aditiva**
+- O resultado é uma matriz sobre o espaço **conjunto** das poses $x_{0:t}$ e do mapa $m$
+
+![](images/adicao-local.svg){fig-align="center" width="85%"}
+
+## Uma Matriz Esparsa {.smaller}
+
+- Só são **não nulos**: poses **consecutivas** (controle) e **pose–marco** observado
+- **Marcos nunca se ligam entre si**: no SLAM, só recebemos medições do marco **relativas a uma pose**
+- Só um número **linear** de elementos é não nulo
+
+![](images/matriz-omega.svg){fig-align="center" width="85%"}
+
+## A Informação Ainda Não É o Mapa {.smaller}
+
+- Para obter caminho e mapa: $\mu=\Omega^{-1}\xi$, a **inversão** de uma matriz esparsa
+- A pergunta central: **quão eficientemente** recuperar o mapa? 
+  - EIFs foram aplicados a mapas com **centenas de milhões** de marcos
+- Sem **ciclos** (cada marco visto uma vez), $\Omega$ vira **banda**: não nulos **perto da diagonal**, e a inversão é **linear**
+- Com **ciclos** (marcos revistos muito depois), surgem elementos **longe da diagonal**, e a inversão é **mais cara**
+
+![](images/topologia-ciclos.svg){fig-align="center" width="95%"}
+
+## Eliminar um Marco {.smaller}
+
+- **Remover** $m_j$ de $\Omega$ e $\xi$ é tirar o nó e **todas as molas** dele
+- Troca-se cada mola de $m_j$ por molas **entre as poses** $\tau(j)$ em que ele foi observado
+- Operação **local**: o posterior das variáveis restantes é **equivalente** ao original
+
+![](images/eliminar-marco.svg){fig-align="center" width="90%"}
+
+## Construir, Reduzir, Resolver {.smaller}
+
+- Removendo todos os marcos, sobra $\tilde\Omega$ e $\tilde\xi$ **só sobre as poses**, em tempo **linear** no tamanho do mapa
+- Os **ciclos permanecem**, então inverter $\tilde\Omega$ pode ainda ser caro
+- Depois, os marcos são recuperados **um a um**, a partir das poses
+
+![](images/tres-passos-eif.svg){fig-align="center" width="100%"}
+
+# O Algoritmo
+
+## Os Procedimentos {.smaller}
+
+- **EIF_initialize**: estimativa **inicial** das poses, para linearizar
+- **EIF_construct**: monta $\Omega$ e $\xi$ somando controles e medições
+- **EIF_reduce**: **elimina** os marcos
+- **EIF_solve**: calcula as **médias** e a covariância do **caminho**
+
+![](images/eif-iteracao.svg){fig-align="center" width="100%"}
+
+## EIF_initialize: o Ponto de Linearização {.smaller}
+
+- A linearização precisa de uma estimativa inicial $\mu_{0:t}$ das poses; **qualquer** boa estimativa serve (por exemplo, a de um EKF SLAM, mas **não é necessário**)
+  - Aqui, **encadeia-se o modelo de movimento** (só a parte determinística), sem usar medições
+- A primeira pose é $\mu_0=(0\ \ 0\ \ 0)^\top$
+
+$$\mu_t=g(u_t,\mu_{t-1}),\qquad t=1,\dots,T$$
+
+![](images/inicializacao-controles.svg){fig-align="center" width="70%"}
+
+## EIF_construct: Âncora e Controles {.smaller}
+
+- Começa com $\Omega=0$ e $\xi=0$; a **âncora** soma um valor **infinito** em $x_0$, que **fixa** a pose inicial (sem ela, $\Omega$ seria **singular**: só há informação **relativa**)
+- Cada **controle** soma, nas linhas de $x_t$ e $x_{t-1}$, com $\hat x_t=g(u_t,\mu_{t-1})$ e o jacobiano $G_t$:
+
+<!-- $$\Omega\leftarrow\Omega+\begin{pmatrix}1\\-G_t\end{pmatrix}R_t^{-1}\begin{pmatrix}1&-G_t\end{pmatrix}\qquad -->
+
+<!-- \xi\leftarrow\xi+\begin{pmatrix}1\\-G_t\end{pmatrix}R_t^{-1}\,[\hat x_t-G_t\,\mu_{t-1}]$$ -->
+
+![](images/ancora-controles.svg){fig-align="center" width="100%"}
+
+## EIF_construct: Medições {.smaller}
+
+- Para cada marco observado $j=c_t^i$: calcula o que **esperaria ver**, $\hat z_t^i$, e o jacobiano $H_t^i$ 
+<!-- - Soma nas linhas de $x_t$ e $m_j$: -->
+
+<!-- $$\Omega\leftarrow\Omega+H_t^{i\top}Q_t^{-1}H_t^i\qquad -->
+<!-- \xi\leftarrow\xi+H_t^{i\top}Q_t^{-1}\,[z_t^i-\hat z_t^i+H_t^i\mu_t]$$ -->
+
+- A parcela $5\times5$ se decompõe em $3\times3$ (pose), $2\times2$ (marco) e duas de **ligação**
+- Se há **10 vezes mais marcos que poses**, cerca de **99%** de $\Omega$ é zero; o tempo é **linear** em $t$
+
+<!-- ## Uma Medição: os Blocos de $\Omega$ {.smaller} -->
+
+<!-- - A medição $z_t^i$ compara o **medido** com o **esperado** $\hat z_t^i$ e soma uma parcela $5\times5$ nas linhas de $x_t$ e $m_j$ -->
+
+![](images/medicao-blocos.svg){fig-align="center" width="100%"}
+
+## EIF_reduce: Eliminar os Marcos {.smaller}
+
+- Para cada marco $j$, com $\tau(j)$ as poses em que foi observado, **subtrai-se** de $\tilde\Omega$ e $\tilde\xi$ a contribuição dele e **removem-se** suas linhas e colunas
+- O custo é **linear** em $t$
+
+![](images/reducao-blocos.svg){fig-align="center" width="95%"}
+
+## EIF_solve: Caminho e Marcos {.smaller}
+
+- **Caminho**: $\Sigma_{0:t}=\tilde\Omega^{-1}$ e $\mu_{0:t}=\Sigma_{0:t}\tilde\xi$, o passo **mais caro** se $\tilde\Omega$ tem **ciclos**
+- **Marcos**, um a um, com as poses de $\tau(j)$ **fixas** em $\tilde\mu$: $\mu_j=\Omega_{j,j}^{-1}\bigl(\xi_j-\Omega_{j,\tau(j)}\,\tilde\mu_{\tau(j)}\bigr)$
+  - Cada pose **puxa** o marco para onde o mediu, com a **rigidez** dada por $\Omega$; ele se acomoda no **equilíbrio** das molas
+- Devolve a **média** do caminho e de **todos os marcos**, mas só a **covariância do caminho**
+
+![](images/resolver-etapas.svg){fig-align="center" width="75%"}
+
+## Iterar {.smaller}
+
+- **Linearizar** é trocar uma função curva pela sua **reta tangente** num ponto $\mu$, $g(x)\approx g(\mu)+G\,(x-\mu)$: boa **perto** de $\mu$, ruim **longe**
+- A qualidade depende da **estimativa inicial**: $x$ e $y$ entram **linearmente**, mas a **orientação** não
+- Por isso, **repete-se** construir, reduzir e resolver, usando o $\mu$ obtido como **novo ponto de linearização**
+  - **2 ou 3** vezes bastam
+- Só é necessário se o erro inicial de orientação for **grande** (mais de $20^\circ$)
+
+![](images/iterar-linearizacao.svg){fig-align="center" width="62%"}
+
+## O Algoritmo com Correspondência Conhecida {.smaller}
+
+$$\begin{array}{l}
+\mathbf{EIF\_SLAM\_known\_correspondence}\,(u_{1:t},\,z_{1:t},\,c_{1:t}) \\
+\quad\mu_{0:t}=\mathbf{EIF\_initialize}\,(u_{1:t}) \\
+\quad\textbf{repetir} \\
+\qquad\Omega,\ \xi=\mathbf{EIF\_construct}\,(u_{1:t},\,z_{1:t},\,c_{1:t},\,\mu_{0:t}) \\
+\qquad\tilde\Omega,\ \tilde\xi=\mathbf{EIF\_reduce}\,(\Omega,\ \xi) \\
+\qquad\mu,\ \Sigma_{0:t}=\mathbf{EIF\_solve}\,(\tilde\Omega,\ \tilde\xi,\ \Omega,\ \xi) \\
+\quad\textbf{até a convergência} \\
+\quad\textbf{retornar}\ \mu
+\end{array}$$
+
+<!-- SEÇÃO DERIVAÇÃO (divisor + 6 slides: posterior, termos quadráticos, Taylor, marginalizar, marcos baratos, condicionar): para reativar, apague esta linha e a linha "FIM DA DERIVAÇÃO" -->
+<!--
+# Derivação
+
+Por que as somas locais estão certas.
+
+## O Posterior do SLAM Completo {.smaller}
+
+- Seja $y_{0:t}=(x_0,\dots,x_t,m)$: o **caminho** e o **mapa**
+- Pela regra de Bayes e pela hipótese de Markov, o posterior **fatora**:
+
+$$p(y_{0:t}\mid z_{1:t},u_{1:t},c_{1:t})=\eta\,p(x_0)\prod_t\Bigl[p(x_t\mid x_{t-1},u_t)\prod_i p(z_t^i\mid y_t,c_t^i)\Bigr]$$
+
+- Sem conhecimento inicial do mapa, o prior do mapa **some no normalizador** $\eta$
+
+## Uma Soma de Termos Quadráticos {.smaller}
+
+- Em **log**, com ruído gaussiano: um termo para o **prior**, um para cada **controle** e um para cada **medição**
+
+$$\log p=\text{const}-\tfrac12\Bigl[x_0^\top\Omega_0x_0+\sum_t\bigl(x_t-g\bigr)^\top R_t^{-1}\bigl(x_t-g\bigr)+\sum_i\bigl(z_t^i-h\bigr)^\top Q_t^{-1}\bigl(z_t^i-h\bigr)\Bigr]$$
+
+- Mas os termos são quadráticos em $g$ e $h$, e **não** nas variáveis a estimar
+
+## Linearização de Taylor {.smaller}
+
+- Como no EKF: $g(u_t,x_{t-1})\approx g(u_t,\mu_{t-1})+G_t(x_{t-1}-\mu_{t-1})$ e $h(y_t,c_t^i)\approx h(\mu_t,c_t^i)+H_t^i(y_t-\mu_t)$
+- Agora o log-posterior é **quadrático** em $y_{0:t}$: 
+
+$$\log p=\text{const}-\tfrac12\,y_{0:t}^\top\,\Omega\,y_{0:t}+y_{0:t}^\top\,\xi$$
+
+- Lêem-se $\Omega$ e $\xi$ **diretamente**: o prior dá $\Omega_0$, e cada controle e cada medição dão as **somas** vistas antes
+
+## Marginalizar: Eliminar Variáveis {.smaller}
+
+- **Lema da marginal**: se $\Omega_{yy}$ é invertível, o marginal $p(x)$ tem
+
+$$\bar\Omega_{xx}=\Omega_{xx}-\Omega_{xy}\,\Omega_{yy}^{-1}\,\Omega_{yx}\qquad\bar\xi_x=\xi_x-\Omega_{xy}\,\Omega_{yy}^{-1}\,\xi_y$$
+
+- É o que o **EIF_reduce** faz: integra o mapa para fora, $p(x_{0:t}\mid\cdot)=\int p(y_{0:t}\mid\cdot)\,dm$
+
+## Por que É Barato Eliminar Marcos {.smaller}
+
+- $\Omega_{m,m}$ é **bloco-diagonal**: não há elos entre marcos
+- Logo, a inversa se faz **bloco a bloco**: $\Omega_{m,m}^{-1}=\sum_j F_j^\top\,\Omega_{j,j}^{-1}\,F_j$
+- E a redução vira uma **atualização sequencial**, marco a marco, só nos elementos das poses de $\tau(j)$
+
+## Condicionar: Recuperar o Mapa {.smaller}
+
+- **Lema do condicional**: $p(x\mid y)$ tem informação $\Omega_{xx}$ e vetor $\xi_x-\Omega_{xy}\,y$
+- Dado o caminho, cada marco é uma gaussiana independente: 
+
+$$\Sigma_j=\Omega_{j,j}^{-1}\qquad\mu_j=\Sigma_j\bigl(\xi_j-\Omega_{j,\tau(j)}\,\tilde\mu_{\tau(j)}\bigr)$$
+
+- É condicionado ao caminho **verdadeiro**; sem ele, os marcos ficam **correlacionados**, e por isso o EIF_solve devolve só a covariância do caminho
+-->
+<!-- FIM DA DERIVAÇÃO -->
+
+# Correspondências {.corresp}
+
+## Correspondência no EIF {.smaller}
+
+- As variáveis são definidas sobre **pares de marcos**: $c(j,k)=1$ se $m_j$ e $m_k$ são o **mesmo marco físico**
+- A busca é **gananciosa**, como no EKF: cada passo melhora a **log-verossimilhança**
+- Mas, vendo **todos os dados**, o EIF pode:
+  - considerar **qualquer conjunto** de marcos, sem ordem
+  - **intercalar** a busca com o cálculo do mapa
+  - em princípio, **desfazer** decisões (o algoritmo do capítulo **não** faz)
+
+![](images/eif-pode.svg){fig-align="center" width="92%"}
+
+## O Teste de Correspondência {.smaller}
+
+- Pergunta: qual a probabilidade de $m_j$ e $m_k$ serem o **mesmo** marco? Se passar de um **limiar** $\chi$, eles são **unificados**
+- Calcula-se o marginal conjunto $(m_j,m_k)$, a gaussiana de $\Delta_{j,k}=m_j-m_k$ e a probabilidade de $\Delta_{j,k}=0$:
+
+$$\pi=\bigl|2\pi\,\Omega_{\Delta}^{-1}\bigr|^{-1/2}\exp\Bigl\{-\tfrac12\,\mu_{\Delta}^\top\,\Omega_{\Delta}\,\mu_{\Delta}\Bigr\}$$
+
+![](images/teste-correspondencia.svg){fig-align="center" width="100%"}
+
+
+## EIF_correspondence_test {.smaller}
+
+- **Entradas**: $\Omega,\xi,\mu$ e $\Sigma_{0:t}$ (a **covariância do caminho**), todos do **EIF_solve**
+- **Linhas 2 e 3**: o **marginal** de $(m_j,m_k)$, levando em conta a incerteza das poses de $\tau(j,k)=\tau(j)\cup\tau(k)$
+- **Linhas 4 a 6**: a gaussiana de $\Delta_{j,k}$; a **linha 7** devolve sua **densidade em zero**, o $\pi_{j=k}$
+
+$$\begin{array}{ll}
+\text{1:} & \mathbf{EIF\_correspondence\_test}\,(\Omega,\xi,\mu,\Sigma_{0:t},j,k) \\
+\text{2:} & \Omega_{[j,k]}=\Omega_{jk,jk}-\Omega_{jk,\tau(j,k)}\,\Sigma_{\tau(j,k),\tau(j,k)}\,\Omega_{\tau(j,k),jk} \\
+\text{3:} & \xi_{[j,k]}=\Omega_{[j,k]}\,\mu_{j,k} \\
+\text{4:} & \Omega_{\Delta_{j,k}}=\begin{pmatrix}1&-1\end{pmatrix}\Omega_{[j,k]}\begin{pmatrix}1\\-1\end{pmatrix} \\
+\text{5:} & \xi_{\Delta_{j,k}}=\begin{pmatrix}1&-1\end{pmatrix}\xi_{[j,k]} \\
+\text{6:} & \mu_{\Delta_{j,k}}=\Omega_{\Delta_{j,k}}^{-1}\,\xi_{\Delta_{j,k}} \\
+\text{7:} & \text{retornar}\ \bigl|2\pi\,\Omega_{\Delta_{j,k}}^{-1}\bigr|^{-1/2}\exp\bigl\{-\tfrac12\,\mu_{\Delta_{j,k}}^\top\,\Omega_{\Delta_{j,k}}\,\mu_{\Delta_{j,k}}\bigr\}
+\end{array}$$
+
+## O Algoritmo com Correspondência Desconhecida {.smaller}
+
+- Todas as correspondências começam **únicas**; 
+  - roda initialize, construct, reduce e solve
+- Para cada **par** de marcos não correspondentes, calcula $\pi$; se $\pi>\chi$, **unifica**, **reconstrói** e **resolve**; para quando **nenhum** par passa do limiar
+  - $\pi_{j=k}$ é a **densidade** de $\Delta_{j,k}=m_j-m_k$ em **zero**: 
+    - quanto maior, mais $m_j$ e $m_k$ parecem o **mesmo marco**
+    - $\chi$: limiar **escolhido pelo projetista**:
+      - **alto** evita fundir marcos **diferentes**
+      - **baixo**, duplicar
+      <!-- - Sugestão: **Mahalanobis** com **qui-quadrado** (ex.: 95%) -->
+
+## O Algoritmo com Correspondência Desconhecida: Pseudocódigo {.smaller}
+
+$$\begin{array}{l}
+\textbf{repetir} \\
+\quad\textbf{para cada par}\ (m_j,\,m_k)\ \textbf{não correspondentes} \\
+\qquad\pi_{j=k}=\mathbf{EIF\_correspondence\_test}\,(\Omega,\xi,\mu,\Sigma_{0:t},j,k) \\
+\qquad\textbf{se}\ \pi_{j=k}>\chi:\ \text{unifica, e refaz construct, reduce e solve} \\
+\textbf{até nenhum par}\ (m_j,m_k)\ \text{com}\ \pi_{j=k}>\chi
+\end{array}$$
+
+## Eficiência na Prática {.smaller}
+
+- O algoritmo básico testa **todos os pares** de marcos e **refaz o mapa** a cada união: está longe de ser eficiente
+- Implementações reais refinam isso de quatro formas
+
+![](images/melhorias-eficiencia.svg){fig-align="center" width="95%"}
+
+<!-- SEÇÃO EXPERIMENTO (divisor + 4 slides: robô Groundhog, casamento de varreduras, submapas e busca de associação): para reativar, apague esta linha e a linha "FIM DO EXPERIMENTO" -->
+<!--
+# Experimento
+
+## O Robô Groundhog {.smaller}
+
+- Veículo de cerca de **680 kg** (1.500 libras), construído para **mapear minas abandonadas**
+- Equipado com **laser**, sensores de **gás** e de **afundamento** e câmeras de vídeo
+- A mina mapeada tem cerca de **250 metros** de diâmetro
+
+![](images/groundhog.svg){fig-align="center" width="80%"}
+
+## Casamento de Varreduras {.smaller}
+
+- O **casamento de varreduras** aos pares só estabelece correspondência entre varreduras **consecutivas**
+- O mapa resultante é **inconsistente**: vários corredores aparecem **mais de uma vez**
+- Um caso de **deriva** acumulada, sem **fechar o ciclo**
+
+![](images/casamento-varreduras.svg){fig-align="center" width="85%"}
+
+## Submapas como Nós {.smaller}
+
+- O *software* decompõe o mapa em **submapas**, um a cada **5 metros** percorridos
+- Dentro de 5 metros a deriva é **pequena**, e o casamento de varreduras funciona **bem**
+- As coordenadas de cada submapa viram um **nó de pose**; submapas vizinhos ficam ligados por **restrições de movimento**
+
+![](images/submapas-nos.svg){fig-align="center" width="85%"}
+
+## Busca de Associação {.smaller}
+
+- A busca de correspondências é **recursiva** e **iterativa**: algumas só são descobertas **depois** que outras se propagam, e outras se **desfazem** no caminho
+- O modelo final é **estável**: mais busca **não altera** o resultado
+- O mapa em grade resultante, embora **imperfeito**, é **superior** ao do casamento incremental
+
+![](images/associacao-iterativa.svg){fig-align="center" width="95%"}
+-->
+<!-- FIM DO EXPERIMENTO -->
+
+# Resumo
+
+## EKF SLAM × EIF SLAM {.smaller}
+
+![](images/comparacao-ekf-eif.svg){fig-align="center" width="85%"}
+
+## SLAM com EIF {.smaller}
+
+- O **EIF SLAM** resolve o **SLAM completo**, em **lote**, na **forma de informação**
+- Sua ideia-chave: a informação é **esparsa**; medições e movimentos viram **restrições** locais entre pares de variáveis
+- Recupera o mapa em três passos: **construir** (Taylor), **reduzir** e **resolver**, repetindo a linearização
+- A **correspondência** é a probabilidade de dois marcos terem as **mesmas coordenadas**, numa busca gananciosa
+- Na prática: **mapas locais**, **vários marcos por vez** e **informação negativa**
+
+## Para pensar {.smaller}
+
+- Por que o EIF SLAM é **em lote**, e o EKF SLAM é **online**?
+- Por que $\Omega$ é **esparsa**, e a covariância do EKF SLAM é **cheia**?
+- Por que a pose inicial é fixada com informação **infinita**?
+- O que acontece com as **molas** quando se elimina um marco?
+- Por que os **ciclos** tornam a inversão mais cara?
+- Que vantagem o EIF tem, na **correspondência**, por ver **todos** os dados?
+
+## Leituras futuras {.smaller}
+
+- **Thrun, Burgard \& Fox (2005)** --- *Probabilistic Robotics*, capítulo 12 (filtro de informação esparso, SEIF)
+- **Thrun \& Montemerlo (2006)** --- *The GraphSLAM Algorithm with Applications to Large-Scale Mapping of Urban Structures*
+- **Grisetti et al. (2010)** --- *A Tutorial on Graph-Based SLAM*
