@@ -1,0 +1,47 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[line width=1.2pt, fill=white] (0.00,0) rectangle (9.60,6.4);
+\draw[dblue, line width=1.2pt] (1.00,1.40) -- (1.80,2.30);
+\draw[dblue, line width=1.2pt] (1.80,2.30) -- (3.00,3.00);
+\draw[dblue, line width=1.2pt] (3.00,3.00) -- (2.20,4.20);
+\draw[dblue, line width=1.2pt] (3.00,3.00) -- (3.90,1.60);
+\draw[dblue, line width=1.2pt] (2.20,4.20) -- (1.20,4.60);
+\fill[dblue] (1.00,1.40) circle (0.09);
+\fill[dblue] (1.80,2.30) circle (0.09);
+\fill[dblue] (3.00,3.00) circle (0.09);
+\fill[dblue] (2.20,4.20) circle (0.09);
+\fill[dblue] (3.90,1.60) circle (0.09);
+\fill[dblue] (1.20,4.60) circle (0.09);
+\fill[dblue] (3.00,3.00) circle (0.17); \node[font=\large\bfseries, text=dblue, anchor=east] at (2.75,2.85) {$q_{\mathrm{near}}$};
+\draw[dred, line width=2.4pt] (7.23,4.83) -- (7.57,5.17) (7.23,5.17) -- (7.57,4.83);
+\node[font=\large\bfseries, text=dred, anchor=south west] at (7.50,5.15) {$q_{\mathrm{rand}}$};
+\draw[dred, dashed, line width=1.4pt] (3.00,3.00) -- (7.40,5.00);
+\draw[dgreen, line width=3pt] (3.00,3.00) -- (5.00,3.91);
+\fill[dgreen] (5.00,3.91) circle (0.17); \node[font=\large\bfseries, text=dgreen, anchor=north] at (5.00,3.69) {$q_{\mathrm{new}}$};
+\node[font=\Large\bfseries, anchor=south] at (4.80,6.5) {$q_{\mathrm{rand}}$ longe};
+\node[font=\large, text width=9.4cm, align=center] at (4.80,-0.8) {$q_{\mathrm{new}}$ fica a um \textbf{passo} $\delta$ de $q_{\mathrm{near}}$};
+\draw[line width=1.2pt, fill=white] (11.00,0) rectangle (20.60,6.4);
+\draw[dblue, line width=1.2pt] (12.00,1.40) -- (12.80,2.30);
+\draw[dblue, line width=1.2pt] (12.80,2.30) -- (14.00,3.00);
+\draw[dblue, line width=1.2pt] (14.00,3.00) -- (13.20,4.20);
+\draw[dblue, line width=1.2pt] (14.00,3.00) -- (14.90,1.60);
+\draw[dblue, line width=1.2pt] (13.20,4.20) -- (12.20,4.60);
+\fill[dblue] (12.00,1.40) circle (0.09);
+\fill[dblue] (12.80,2.30) circle (0.09);
+\fill[dblue] (14.00,3.00) circle (0.09);
+\fill[dblue] (13.20,4.20) circle (0.09);
+\fill[dblue] (14.90,1.60) circle (0.09);
+\fill[dblue] (12.20,4.60) circle (0.09);
+\fill[dblue] (14.00,3.00) circle (0.17); \node[font=\large\bfseries, text=dblue, anchor=east] at (13.75,2.85) {$q_{\mathrm{near}}$};
+\draw[dred, line width=2.4pt] (15.33,3.73) -- (15.67,4.07) (15.33,4.07) -- (15.67,3.73);
+\node[font=\large\bfseries, text=dred, anchor=south west] at (15.60,4.05) {$q_{\mathrm{rand}}$};
+\draw[dred, dashed, line width=1.4pt] (14.00,3.00) -- (15.50,3.90);
+\draw[dgreen, line width=3pt] (14.00,3.00) -- (15.50,3.90);
+\fill[dgreen] (15.50,3.90) circle (0.17); \node[font=\large\bfseries, text=dgreen, anchor=north] at (15.50,3.68) {$q_{\mathrm{new}}$};
+\node[font=\Large\bfseries, anchor=south] at (15.80,6.5) {$q_{\mathrm{rand}}$ perto};
+\node[font=\large, text width=9.4cm, align=center] at (15.80,-0.8) {se está a menos de $\delta$, $q_{\mathrm{new}}=q_{\mathrm{rand}}$};
+\end{tikzpicture}
+\end{document}

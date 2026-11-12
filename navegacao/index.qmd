@@ -21,3 +21,6 @@ listing:
 ## Práticas
 
 - [Locomoção: inicializando e controlando os robôs (TurtleBot3, ROBOTIS OP3, Unitree Go2)](pratica/exercicio-locomocao.qmd)
+- [Implementação do Wavefront (NF1): do campo de distâncias ao caminho](pratica/exercicio-wavefront.qmd)
+- [Implementação do A\*: busca guiada por heurística](pratica/exercicio-astar.qmd)
+- [Implementação do RRT: planejamento por amostragem](pratica/exercicio-rrt.qmd)

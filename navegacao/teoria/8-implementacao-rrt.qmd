@@ -1,0 +1,323 @@
+---
+title: "Navegação"
+subtitle: "Implementação do RRT"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/navegacao/8-implementacao-rrt
+---
+
+# Implementação do RRT
+
+::: {.esquerda}
+Aula de implementação do algoritmo **RRT** (*Rapidly-exploring Random Tree*), com base no capítulo 7 (*Motion Planning*) de **Kavraki** e **LaValle**, no *Springer Handbook of Robotics* (2ª ed., 2016).
+:::
+
+![](images/capa-livro.jpg){.nostretch width="60%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **A ideia**: por que **sortear** pontos no espaço, e como a **árvore** cresce
+- **O algoritmo passo a passo**: o sorteio, o vizinho mais próximo, o passo, a colisão e o **viés para o objetivo**
+- **Do objetivo ao caminho**, os parâmetros, os casos de borda e uma demonstração interativa
+
+# A Ideia
+
+## Quando a grade não basta {.smaller}
+
+- O wavefront e o A\* trabalham em uma **grade**: um valor para **cada célula**
+- Com mais **dimensões** (um braço com 6 juntas, por exemplo), o número de células **explode**
+- Os planejadores por **amostragem** não discretizam o espaço: **sorteiam** configurações e testam se estão **livres**
+- A garantia é mais **fraca**: se existe um caminho, o planejador o encontra **com o tempo** (completude **probabilística**)
+
+![](images/grade-vs-arvore.svg){fig-align="center" width="100%"}
+
+## A ideia do RRT {.smaller}
+
+- Uma **árvore** com raiz em **S** que **cresce em direção ao espaço ainda não explorado**
+- A cada iteração: **sorteia** um ponto, acha o **nó mais próximo** da árvore, dá um **passo** nessa direção e, se o trecho está **livre**, **acrescenta** o novo nó
+- Para quando um nó chega **perto de G**
+
+![](images/rrt-crescendo.svg){fig-align="center" width="85%"}
+
+## Por que a árvore se espalha {.smaller}
+
+- A cada iteração, o ponto sorteado pode cair em **qualquer lugar** do espaço, e o nó **mais próximo** dele é **estendido**
+- Um nó na **fronteira**, com muito **espaço livre** ao redor, é o mais próximo de **muitos** pontos e é **estendido mais vezes**; um nó no **interior**, cercado por outros, **quase nunca**
+- Assim a árvore **cresce para fora**, **explorando**, em vez de se adensar perto de S
+- Na figura, o **tamanho** de cada nó é a **chance** de ele ser o mais próximo de um ponto sorteado
+
+![](images/voronoi-vies.svg){fig-align="center" width="62%"}
+
+# Passo a Passo
+
+## Estruturas e operações {.smaller}
+
+- **A árvore** (estrutura): a **posição** de cada nó e o **índice do pai**; a raiz (S) não tem pai
+- **Os obstáculos** (estrutura): a **representação do mapa**
+- **Livre?** (operação): diz se um **ponto** ou um **segmento** está livre
+- **Vizinho mais próximo** (operação): varrer **todos** os nós e guardar o de **menor distância**
+
+![](images/estruturas-dados.svg){fig-align="center" width="85%"}
+
+## Um passo do RRT {.smaller}
+
+1. **Amostrar**: sortear $q_{rand}$ no espaço (às vezes, o próprio G)
+2. **Vizinho mais próximo**: achar $q_{near}$, o nó da árvore **mais perto** de $q_{rand}$
+3. **Estender**: andar de $q_{near}$ em direção a $q_{rand}$ por um **passo** $\delta$, e obter $q_{new}$
+4. **Verificar**: se o segmento de $q_{near}$ a $q_{new}$ está **livre**, **acrescentar** $q_{new}$, com **pai** $q_{near}$; senão, **descartar**
+
+![](images/passo-sequencia.svg){fig-align="center" width="100%"}
+
+## Estender com um passo $\delta$ {.smaller}
+
+- Se $q_{rand}$ está a **mais de $\delta$** de $q_{near}$: $q_{new}$ fica a **um passo** de $q_{near}$, na direção de $q_{rand}$
+
+$$q_{new}=q_{near}+\delta\,\frac{q_{rand}-q_{near}}{\lVert q_{rand}-q_{near}\rVert}$$
+
+- Se está a **menos de $\delta$**: $q_{new}=q_{rand}$
+
+![](images/um-passo.svg){fig-align="center" width="85%"}
+
+## Verificar a colisão {.smaller}
+
+- O trecho $q_{near}\to q_{new}$ é testado em **pontos** ao longo do segmento
+- O espaçamento entre os pontos deve ser **menor que o menor obstáculo**
+- Se **um** ponto cai em um obstáculo, o trecho é **rejeitado**
+- Robô **redondo**: **infle** os obstáculos pelo raio do robô e trate o robô como um ponto
+
+![](images/colisao-segmento.svg){fig-align="center" width="85%"}
+
+## O algoritmo RRT em passos {.smaller}
+
+1. Crie a árvore com **S** como raiz
+2. **Repita**, até o limite de $N$ iterações:
+   1. com probabilidade $p_G$, faça $q_{rand}=G$; senão, **sorteie** $q_{rand}$ no espaço
+   2. ache o nó $q_{near}$ **mais próximo** de $q_{rand}$
+   3. calcule $q_{new}$, a **um passo** $\delta$ de $q_{near}$ em direção a $q_{rand}$
+   4. se o segmento $q_{near}\to q_{new}$ está **livre**, **acrescente** $q_{new}$, com **pai** $q_{near}$; se $q_{new}$ está a menos de uma **tolerância** de G, **pare**
+3. Se as $N$ iterações acabarem **sem chegar a G**, **desista**: **nenhum caminho** foi encontrado
+
+## Viés para o objetivo {.smaller}
+
+- Com **probabilidade** $p_G$, o ponto sorteado é o **próprio G**: a árvore é **puxada** para o objetivo
+- Handbook: escolher G **uma vez a cada 50 iterações**, mais ou menos; na demonstração, de 5% a 10%
+- **Sem viés**, a árvore explora tudo por igual; **com $p_G$ alto demais**, ela **gruda** em um obstáculo entre S e G
+
+![](images/vies-objetivo.svg){fig-align="center" width="85%"}
+
+## Executando à mão {.smaller}
+
+::: columns
+::: {.column width="62%"}
+::: {style="font-size: 0.58em;"}
+Mundo de 10 × 6, com um **muro** em 4,5 ≤ *x* ≤ 5,5 (de *y* = 1,5 para cima), *δ* = 1,5, início `(1,0; 3,0)` e objetivo `(9,0; 3,0)`:
+
+| Iteração | *q*~rand~ | Nó mais próximo | *q*~near~ | *q*~new~ | Resultado |
+|---|---|---|---|---|---|
+| 1 | `(6,0; 5,0)` | 0 | `(1,0; 3,0)` | `(2,4; 3,6)` | nó 1 |
+| 2 | `(3,0; 0,6)` | 1 | `(2,4; 3,6)` | `(2,7; 2,1)` | nó 2 |
+| 3 | `(7,0; 3,2)` | 2 | `(2,7; 2,1)` | `(4,1; 2,5)` | nó 3 |
+| 4 | `(6,5; 2,5)` | 3 | `(4,1; 2,5)` | `(5,6; 2,5)` | **colisão** |
+| 5 | `(4,0; 1,0)` | 3 | `(4,1; 2,5)` | `(4,0; 1,0)` | nó 4 |
+| 6 | `(6,0; 0,8)` | 4 | `(4,0; 1,0)` | `(5,5; 0,9)` | nó 5 |
+| 7 | `(8,0; 1,5)` | 5 | `(5,5; 0,9)` | `(6,9; 1,2)` | nó 6 |
+| 8 | `(9,5; 2,5)` | 6 | `(6,9; 1,2)` | `(8,3; 1,9)` | nó 7 |
+| 9 | `(9,0; 3,0)` | 7 | `(8,3; 1,9)` | `(9,0; 3,0)` | nó 8 = **G** |
+:::
+:::
+::: {.column width="38%"}
+![](images/exemplo-a-mao.svg){fig-align="center" width="100%"}
+:::
+:::
+
+::: {style="font-size: 0.66em;"}
+- **Iteração 4**: o segmento **atravessa o muro**: *q*~new~ é rejeitado e a árvore **não muda**
+- **Iteração 5**: *q*~rand~ está a **menos de** *δ*, então *q*~new~ = *q*~rand~
+- **Iteração 9**: o sorteio foi o **próprio G** (viés), a menos de *δ* do nó 7: **chegou**
+:::
+
+## Do objetivo ao caminho {.smaller}
+
+- Quando um nó chega **perto de G**, a busca **termina**
+- Parta desse nó e siga o **pai** de cada nó, até chegar em **S**; **inverta** a sequência
+- O caminho do RRT é **irregular** e **mais longo** que o necessário: **suavize** com **atalhos**
+  - ligue cada nó ao **mais distante** que ele **enxerga** em linha reta (segmento **livre**)
+
+![](images/caminho-atalhos.svg){fig-align="center" width="85%"}
+
+## Os parâmetros {.smaller}
+
+- **Passo $\delta$**: **pequeno** demais, a árvore **demora**; **grande** demais, ela passa mal por **espaços estreitos** e o caminho fica **grosseiro**
+- **Limite de iterações $N$**: define quando **desistir**
+- **Viés $p_G$**: acelera a chegada a G, mas **não** pode ser perto de 100%
+- **Tolerância** de chegada: a que distância de G um nó conta como **chegada**
+
+![](images/parametros-passo.svg){fig-align="center" width="95%"}
+
+## RRT × A\* {.smaller}
+
+::: {style="font-size: 0.8em;"}
+| | **A\*** | **RRT** |
+|---|---|---|
+| **Espaço** | **grade** discreta | **contínuo** |
+| **Mais dimensões** | número de células **explode** | **sorteia** e testa amostras: cresce **muito menos** |
+| **Garantia** | **completo** na resolução da grade | **probabilisticamente completo** |
+| **Caminho** | **mínimo** na grade | **qualquer** caminho, em geral irregular |
+| **Repetível** | **sim** | **não**: depende do sorteio |
+| **Melhor quando** | **2D**, mapa em grade | **muitas dimensões** ou espaço contínuo |
+:::
+
+## Casos de borda {.smaller}
+
+- **Passagem estreita**: poucas amostras caem nela; a árvore **demora**
+- **Sem caminho**: o RRT **nunca prova** que não há caminho; só **desiste** no **limite** de iterações
+- **Caminhos diferentes** a cada execução: depende do **sorteio**
+- **Obstáculos que se movem**: o caminho pode **deixar de valer**; **replaneje**
+- **Robô com restrições de movimento** (um carro): o passo vira uma **simulação** dos controles
+
+![](images/casos-de-borda.svg){fig-align="center" width="100%"}
+
+## Variantes {.smaller}
+
+- **RRT-Connect** (bidirecional): **duas árvores**, de S e de G, que tentam se **encontrar**
+- **RRT\***: escolhe o **melhor pai** entre os vizinhos e **refaz** as ligações dos vizinhos; o caminho **melhora** com o tempo (**assintoticamente ótimo**)
+<!-- - **RRT cinodinâmico**: para robôs com **dinâmica** -->
+
+![](images/variantes.svg){fig-align="center" width="95%"}
+
+## Experimente: o RRT passo a passo {.smaller}
+
+
+```{=html}
+<style>
+#rr{font-size:.8em;text-align:left;user-select:none}
+#rr .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+#rr button{font-size:1em;padding:3px 10px;cursor:pointer}
+#rr label{cursor:pointer}
+#rr input[type=range]{vertical-align:middle;width:110px}
+#rr canvas{width:100%;max-width:700px;background:#fff;border:1px solid #999;touch-action:none;display:block}
+#rr .info{margin-top:6px;min-height:1.4em}
+</style>
+<div id="rr" data-prevent-swipe>
+  <div class="bar">
+    <label><input type="radio" name="rrm" value="o" checked> obstáculo</label>
+    <label><input type="radio" name="rrm" value="g"> objetivo (G)</label>
+    <label><input type="radio" name="rrm" value="s"> início (S)</label>
+    <label>passo δ <input type="range" id="rr-d" min="0.3" max="3" step="0.1" value="0.9"> <span id="rr-dv">0,9</span></label>
+    <label>viés <input type="range" id="rr-v" min="0" max="30" step="1" value="5"> <span id="rr-vv">5%</span></label>
+    <label><input type="checkbox" id="rr-at"> suavizar (atalhos)</label>
+  </div>
+  <div class="bar">
+    <button id="rr-step">Avançar</button>
+    <button id="rr-10">+10</button>
+    <button id="rr-run">Executar</button>
+    <button id="rr-clear">Limpar árvore</button>
+    <button id="rr-seed">Nova semente</button>
+    <button id="rr-ex">Mundo do exemplo</button>
+    <button id="rr-np">Passagem estreita</button>
+  </div>
+  <canvas id="rr-cv" width="1000" height="600"></canvas>
+  <div class="info" id="rr-info"></div>
+</div>
+<script>
+(function(){
+  var W=20,H=12,U=50,cv=document.getElementById('rr-cv'),cx=cv.getContext('2d'),info=document.getElementById('rr-info');
+  var rd=document.getElementById('rr-d'),rv=document.getElementById('rr-v'),rdv=document.getElementById('rr-dv'),rvv=document.getElementById('rr-vv'),rat=document.getElementById('rr-at');
+  var obs,S,G,nos,pai,seed,rng,it,rej,achou,cam,ult,timer=null,drag=null;
+  function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1])}
+  function livrePt(p){for(var i=0;i<obs.length;i++){var o=obs[i];if(p[0]>=o[0]&&p[0]<=o[2]&&p[1]>=o[1]&&p[1]<=o[3])return false}return true}
+  function livreSeg(a,b){var n=Math.max(1,Math.floor(dist(a,b)/0.05));for(var i=0;i<=n;i++){var t=i/n;if(!livrePt([a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]))return false}return true}
+  function estende(a,q,d){var l=dist(a,q);if(l<=d)return q.slice();return [a[0]+d*(q[0]-a[0])/l,a[1]+d*(q[1]-a[1])/l]}
+  function exemplo(){obs=[[5.5,0,7.5,7.5],[10.5,4.5,12.5,12],[15,0,16.5,6.5]];S=[1.5,6];G=[18,8.5];seed=1;limpa()}
+  function passagem(){obs=[[9.5,0,10.5,5.8],[9.5,6.2,10.5,12]];S=[1.5,6];G=[18,6];seed=1;limpa()}
+  function parar(){if(timer){clearInterval(timer);timer=null}}
+  function limpa(){parar();rng=mulberry(seed);nos=[S.slice()];pai=[-1];it=0;rej=0;achou=false;cam=null;ult=null;draw()}
+  function atalhos(c){var r=[c[0]],i=0;while(i<c.length-1){var j=c.length-1;while(j>i+1&&!livreSeg(c[i],c[j]))j--;r.push(c[j]);i=j}return r}
+  function comp(c){var s=0;for(var i=0;i<c.length-1;i++)s+=dist(c[i],c[i+1]);return s}
+  function passo(){
+    if(achou)return;
+    if(!livrePt(S)||!livrePt(G)){info.textContent='Início ou objetivo está dentro de um obstáculo.';parar();return}
+    it++;var d=parseFloat(rd.value),p=parseFloat(rv.value)/100;
+    var qr=rng()<p?G.slice():[rng()*W,rng()*H];
+    var bi=0,bd=Infinity;for(var i=0;i<nos.length;i++){var e=(nos[i][0]-qr[0])*(nos[i][0]-qr[0])+(nos[i][1]-qr[1])*(nos[i][1]-qr[1]);if(e<bd){bd=e;bi=i}}
+    var qn=estende(nos[bi],qr,d),ok=livrePt(qn)&&livreSeg(nos[bi],qn);
+    ult={qr:qr,i:bi,qn:qn,ok:ok};
+    if(ok){nos.push(qn);pai.push(bi);
+      if(dist(qn,G)<=0.9){achou=true;parar();cam=[];var k=nos.length-1;while(k>=0){cam.push(nos[k]);k=pai[k]}cam.reverse()}}
+    else rej++;
+    draw()}
+  function X(x){return x*U}function Y(y){return (H-y)*U}
+  function cruz(p,c,r){cx.strokeStyle=c;cx.lineWidth=3;cx.beginPath();cx.moveTo(X(p[0])-r,Y(p[1])-r);cx.lineTo(X(p[0])+r,Y(p[1])+r);cx.moveTo(X(p[0])-r,Y(p[1])+r);cx.lineTo(X(p[0])+r,Y(p[1])-r);cx.stroke()}
+  function linha(c,col,lw){cx.strokeStyle=col;cx.lineWidth=lw;cx.beginPath();c.forEach(function(p,i){i?cx.lineTo(X(p[0]),Y(p[1])):cx.moveTo(X(p[0]),Y(p[1]))});cx.stroke()}
+  function draw(){
+    cx.clearRect(0,0,W*U,H*U);
+    obs.forEach(function(o){cx.fillStyle='#ddd7c9';cx.strokeStyle='#444';cx.lineWidth=1.5;cx.fillRect(X(o[0]),Y(o[3]),(o[2]-o[0])*U,(o[3]-o[1])*U);cx.strokeRect(X(o[0]),Y(o[3]),(o[2]-o[0])*U,(o[3]-o[1])*U)});
+    if(drag){cx.fillStyle='rgba(120,120,120,.3)';cx.fillRect(X(Math.min(drag[0],drag[2])),Y(Math.max(drag[1],drag[3])),Math.abs(drag[2]-drag[0])*U,Math.abs(drag[3]-drag[1])*U)}
+    cx.strokeStyle='#2A5B8C';cx.lineWidth=1.6;cx.beginPath();
+    for(var k=1;k<nos.length;k++){cx.moveTo(X(nos[pai[k]][0]),Y(nos[pai[k]][1]));cx.lineTo(X(nos[k][0]),Y(nos[k][1]))}cx.stroke();
+    cx.fillStyle='#2A5B8C';nos.forEach(function(p){cx.beginPath();cx.arc(X(p[0]),Y(p[1]),2.6,0,6.283);cx.fill()});
+    if(ult){var a=nos[ult.i];cx.setLineDash([5,5]);cx.strokeStyle='#9C4B4B';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(X(a[0]),Y(a[1]));cx.lineTo(X(ult.qr[0]),Y(ult.qr[1]));cx.stroke();cx.setLineDash([]);
+      cruz(ult.qr,'#9C4B4B',7);
+      if(!ult.ok){cx.setLineDash([6,5]);cx.strokeStyle='#9C4B4B';cx.lineWidth=3;cx.beginPath();cx.moveTo(X(a[0]),Y(a[1]));cx.lineTo(X(ult.qn[0]),Y(ult.qn[1]));cx.stroke();cx.setLineDash([]);cruz(ult.qn,'#9C4B4B',9)}
+      else{cx.fillStyle='#4A7C59';cx.beginPath();cx.arc(X(ult.qn[0]),Y(ult.qn[1]),5,0,6.283);cx.fill()}}
+    if(cam){linha(cam,'#B3541E',5);if(rat.checked)linha(atalhos(cam),'#4A7C59',5)}
+    cx.fillStyle='#4A7C59';cx.beginPath();cx.arc(X(S[0]),Y(S[1]),9,0,6.283);cx.fill();
+    cx.fillStyle='#9C4B4B';cx.beginPath();cx.arc(X(G[0]),Y(G[1]),9,0,6.283);cx.fill();
+    cx.font='bold 22px serif';cx.fillStyle='#4A7C59';cx.fillText('S',X(S[0])-6,Y(S[1])-14);cx.fillStyle='#9C4B4B';cx.fillText('G',X(G[0])-7,Y(G[1])-14);
+    if(achou){var t='Pronto: caminho com '+cam.length+' nós e comprimento '+comp(cam).toFixed(1).replace('.',',');if(rat.checked){var c2=atalhos(cam);t+='; com atalhos, '+c2.length+' nós e '+comp(c2).toFixed(1).replace('.',',')}info.textContent=t+' ('+it+' iterações, '+nos.length+' nós, '+rej+' rejeitadas).'}
+    else info.textContent=it===0?'Clique em "Avançar" ou "Executar". O traço verde é o primeiro nó S.':it+' iterações; '+nos.length+' nós; '+rej+' extensões rejeitadas.'}
+  function modo(){return document.querySelector('#rr input[name=rrm]:checked').value}
+  function pos(ev){var r=cv.getBoundingClientRect();return [(ev.clientX-r.left)/r.width*W,H-(ev.clientY-r.top)/r.height*H]}
+  function snap(v){return Math.round(v*2)/2}
+  cv.addEventListener('pointerdown',function(ev){ev.preventDefault();var p=pos(ev),m=modo();
+    if(m==='g'){if(livrePt(p)){G=p;limpa()}return}
+    if(m==='s'){if(livrePt(p)){S=p;limpa()}return}
+    for(var i=0;i<obs.length;i++){var o=obs[i];if(p[0]>=o[0]&&p[0]<=o[2]&&p[1]>=o[1]&&p[1]<=o[3]){obs.splice(i,1);limpa();return}}
+    drag=[snap(p[0]),snap(p[1]),snap(p[0]),snap(p[1])];cv.setPointerCapture(ev.pointerId)});
+  cv.addEventListener('pointermove',function(ev){if(!drag)return;var p=pos(ev);drag[2]=snap(p[0]);drag[3]=snap(p[1]);draw()});
+  cv.addEventListener('pointerup',function(){if(!drag)return;var d=drag;drag=null;
+    var x0=Math.min(d[0],d[2]),x1=Math.max(d[0],d[2]),y0=Math.min(d[1],d[3]),y1=Math.max(d[1],d[3]);
+    if(x1-x0>=0.5&&y1-y0>=0.5)obs.push([x0,y0,x1,y1]);limpa()});
+  rd.oninput=function(){rdv.textContent=rd.value.replace('.',',');limpa()};
+  rv.oninput=function(){rvv.textContent=rv.value+'%';limpa()};
+  rat.onchange=draw;
+  document.getElementById('rr-step').onclick=function(){parar();passo()};
+  document.getElementById('rr-10').onclick=function(){parar();for(var i=0;i<10;i++)passo()};
+  document.getElementById('rr-run').onclick=function(){parar();if(achou)limpa();timer=setInterval(function(){passo();if(it>=5000){parar()}},25)};
+  document.getElementById('rr-clear').onclick=limpa;
+  document.getElementById('rr-seed').onclick=function(){seed++;limpa()};
+  document.getElementById('rr-ex').onclick=exemplo;
+  document.getElementById('rr-np').onclick=passagem;
+  window.__rrt={passo:passo,estado:function(){return {it:it,nos:nos.length,achou:achou,len:cam?comp(cam):null,info:info.textContent}}};
+  exemplo();
+})();
+</script>
+```
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- O **RRT** faz crescer uma **árvore** a partir de S: **sorteia** um ponto, acha o **nó mais próximo**, dá um **passo** $\delta$ e **acrescenta** o novo nó se o trecho está **livre**
+- A árvore **explora** o espaço, **crescendo para fora**; o **viés para G** acelera a chegada
+- O caminho vem de seguir os **pais** de G até S, e pode ser **suavizado** com atalhos
+- Sem caminho, o RRT **não para sozinho**: é preciso um **limite** de iterações
+- Garante **chegar** (probabilisticamente), **não** o caminho **mínimo**: para isso, o **RRT\***
+
+## Para pensar {.smaller}
+
+- Por que o RRT **não pode** garantir o caminho **mínimo**, nem **parar** quando não há caminho?
+- O que acontece com a árvore se $\delta$ for **muito grande**? E **muito pequeno**?
+- Por que o viés para G **não pode ser 100%**?
+- Em que situação a **grade** (A\*) é melhor que o RRT?
+- Como testar a colisão de um robô **redondo**, de raio $r$?
+- Por que o RRT **escolhe o nó mais próximo**, e não um nó **aleatório** da árvore?
+
+## Leituras futuras {.smaller}
+
+- **Kavraki \& LaValle (2016)** --- *Motion Planning*, capítulo 7 do *Springer Handbook of Robotics* (2ª ed.): planejadores por amostragem, árvores e o RRT
+- **LaValle (1998)** --- *Rapidly-Exploring Random Trees: A New Tool for Path Planning* --- o relatório técnico original do RRT
+- **Kuffner \& LaValle (2000)** --- *RRT-Connect: An Efficient Approach to Single-Query Path Planning*
+- **Karaman \& Frazzoli (2011)** --- *Sampling-based Algorithms for Optimal Motion Planning* --- o RRT\*
+- **LaValle (2006)** --- *Planning Algorithms*, capítulo 5: planejamento por amostragem

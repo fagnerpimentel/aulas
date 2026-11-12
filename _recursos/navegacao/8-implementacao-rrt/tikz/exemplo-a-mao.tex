@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[line width=1.2pt, fill=white] (0.00,0.00) rectangle (11.50,6.90);
+\draw[line width=1pt, draw=black!70, fill=dshade] (5.17,1.72) rectangle (6.32,6.90);
+\fill[dgreen] (1.15,3.45) circle (0.16); \node[font=\small\bfseries, text=dgreen, anchor=south] at (1.15,3.61) {S};
+\fill[dred] (10.35,3.45) circle (0.16); \node[font=\small\bfseries, text=dred, anchor=south] at (10.35,3.61) {G};
+\draw[dblue, line width=1.6pt] (1.15,3.45) -- (2.75,4.09);
+\draw[dblue, line width=1.6pt] (2.75,4.09) -- (3.10,2.40);
+\draw[dblue, line width=1.6pt] (3.10,2.40) -- (4.77,2.83);
+\draw[dred, line width=1.8pt, dashed] (4.77,2.83) -- (6.49,2.86);
+\draw[dred, line width=2.6pt] (6.49,2.86) -- ++(0.2,0.2) (6.49,2.86) -- ++(0.2,-0.2) (6.49,2.86) -- ++(-0.2,0.2) (6.49,2.86) -- ++(-0.2,-0.2);
+\draw[dblue, line width=1.6pt] (4.77,2.83) -- (4.60,1.15);
+\draw[dblue, line width=1.6pt] (4.60,1.15) -- (6.32,0.98);
+\draw[dblue, line width=1.6pt] (6.32,0.98) -- (7.99,1.41);
+\draw[dblue, line width=1.6pt] (7.99,1.41) -- (9.53,2.18);
+\draw[dblue, line width=1.6pt] (9.53,2.18) -- (10.35,3.45);
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (2.75,4.09) {1};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (3.10,2.40) {2};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (4.77,2.83) {3};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (4.60,1.15) {4};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (6.32,0.98) {5};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (7.99,1.41) {6};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (9.53,2.18) {7};
+\node[circle, draw=dblue, fill=white, line width=1.2pt, inner sep=1pt, minimum size=0.5cm, font=\small\bfseries] at (10.35,3.45) {8};
+\node[font=\large, text width=11cm, align=center] at (5.75,-0.9) {nó \textbf{numerado} = nó aceito; \textcolor{dred}{\textbf{×}} = $q_{\mathrm{new}}$ rejeitado por colisão};
+\end{tikzpicture}
+\end{document}
