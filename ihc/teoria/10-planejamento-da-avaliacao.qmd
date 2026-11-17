@@ -1,0 +1,397 @@
+---
+title: "Interação Humano-Computador"
+subtitle: "Planejamento da Avaliação"
+author: "Prof. Dr. Fagner de Assis Moura Pimentel"
+resource-path:
+  - ../../_recursos/ihc/10-planejamento-da-avaliacao
+format:
+  revealjs:
+    theme: [serif, ../../custom.scss, ../../custom-purple.scss]
+    code-line-numbers: false
+---
+
+# Planejamento da Avaliação
+
+::: {.esquerda}
+Capítulo 11 do livro [**Interação Humano-Computador e Experiência do Usuário**](https://leanpub.com/ihc-ux), de **Simone Barbosa**, **Gabriel Barbosa**, **Ticianne Darin**, **Milene Silveira**, **Isabela Gasparini** e **Bruno Santana da Silva**.
+:::
+
+![](images/capa-livro.png){.nostretch width="58%"}
+
+## O que veremos nesta aula {.smaller}
+
+- **Por que avaliar** --- a importância de avaliar a qualidade de uso
+- **O que, quando e onde avaliar** --- objetivos, formativa e somativa, contexto real e laboratório
+- **Que método escolher** --- investigação, observação e inspeção
+- **Como avaliar** --- preparar, coletar, interpretar, consolidar e relatar
+- O ***framework* DECIDE** para orientar o planejamento
+
+# Por que Avaliar?
+
+<!-- ## Avaliar é julgar o valor do uso {.smaller} -->
+<!---->
+<!-- - A avaliação orienta o avaliador a fazer um **julgamento de valor** sobre a **qualidade de uso** da solução e a **identificar problemas** na interação e na interface -->
+<!-- - Assim, os problemas podem ser **corrigidos** antes de o sistema entrar no cotidiano dos usuários, seja ele novo ou uma nova versão -->
+<!-- - Seguir processos de qualidade **não garante** um produto de qualidade: é preciso **avaliar o produto final** -->
+
+## Duas perspectivas de qualidade {.smaller}
+
+- **Quem constrói** verifica se o sistema funciona de acordo com a **especificação**: foco **dentro** do sistema, com testes de unidade, integração, sistema e operação
+- **Quem projeta e quem usa** querem saber se o sistema **apoia o usuário** a atingir seus objetivos: foco **da interface para fora**
+
+![](images/duas-perspectivas.svg){fig-align="center" width="85%"}
+
+## O usuário não é o designer {.smaller}
+
+- O sistema é fruto de **decisões de design** do designer; o usuário pode **não compreender** ou **não concordar** com essa lógica
+- Os usuários são **pessoas diferentes** de designers e desenvolvedores: outras culturas, costumes, gostos e objetivos
+- Por isso, avaliar **com a participação deles**, e de preferência por **avaliadores que não participaram da concepção**: o avaliador é uma espécie de **advogado do usuário** (Prates e Barbosa, 2003)
+
+![](images/usuario-nao-e-designer.svg){fig-align="center" width="84%"}
+
+## A qualidade de uso sempre será avaliada {.smaller}
+
+- O **usuário final sempre avalia** o sistema durante a experiência de uso e forma uma opinião
+- A equipe deve assumir a **responsabilidade** de avaliar **antes** de entregar, principalmente em um sistema **inovador** (Sharp et al., 2019)
+- Identificar e corrigir os problemas antes da entrega demonstra **profissionalismo** da equipe
+
+![](images/qualidade-sempre-avaliada.svg){fig-align="center" width="85%"}
+
+## Razões para avaliar {.smaller}
+
+- Segundo **Tognazzini** (2000), avaliar a qualidade de uso traz cinco vantagens:
+
+![](images/razoes-avaliar.svg){fig-align="center" width="85%"}
+
+<!-- ## Custo e benefício {.smaller} -->
+<!---->
+<!-- - O custo de avaliar costuma ser **baixo** frente ao orçamento global do projeto e aos benefícios -->
+<!-- - Mas avaliar **não é** entregar um protótipo a alguns usuários e esperar o relato espontâneo de problemas: exige **planejamento cuidadoso**, para não desperdiçar tempo e dinheiro -->
+<!---->
+<!-- ![](images/custo-beneficio.svg){fig-align="center" width="80%"} -->
+<!---->
+<!-- ## O que decidir ao planejar {.smaller} -->
+<!---->
+<!-- - O avaliador decide **o que**, **quando**, **onde** e **como** avaliar, os **dados** a coletar e produzir e o **tipo de método** -->
+<!-- - Essas decisões orientam a escolha do método, a execução e a apresentação dos resultados -->
+<!---->
+<!-- ![](images/planejar-perguntas.svg){fig-align="center" width="85%"} -->
+
+# O que Avaliar?
+
+## Os objetivos vêm dos *stakeholders* {.smaller}
+
+- A questão fundamental é definir os **objetivos** da avaliação, **a quem interessam** e **por quê**
+- Os objetivos são motivados por **requisitos**, **reclamações** ou **comportamentos** de qualquer interessado no sistema
+
+![](images/stakeholders-objetivos.svg){fig-align="center" width="80%"}
+
+## Os quatro aspectos avaliados {.smaller}
+
+- O objetivo determina quais **aspectos relacionados ao uso** serão investigados (Hix e Hartson, 1993; Rubin, 1994; Nielsen e Mack, 1994; Sharp et al., 2019)
+
+![](images/quatro-aspectos.svg){fig-align="center" width="95%"}
+
+<!-- ## Apropriação de tecnologia {.smaller} -->
+<!---->
+<!-- - Requer a **participação dos usuários**, para entender o **contexto**, os **objetivos** e as **necessidades**, e em que grau as tecnologias disponíveis as satisfazem -->
+<!-- - Pode ser um **estudo exploratório** na análise, ou ocorrer durante o design, com **protótipos**, para buscar consenso sobre a solução -->
+<!-- - Também mostra os **efeitos** de introduzir um sistema: se os usuários atingem objetivos em **menos tempo**, com **menos erros**, **satisfeitos** e **motivados**, e por que **não o incorporam** -->
+<!---->
+<!-- ## Ideias e alternativas de design {.smaller} -->
+<!---->
+<!-- - **Comparar** alternativas por critérios de **uso** (aprendizado, recuperação de erros) e de **construção** (custo, tempo, infraestrutura) -->
+<!-- - Os critérios saem da **análise** da situação: contexto de uso, objetivos e preferências dos usuários -->
+<!-- - Costuma ser **rápida e informal**, no ciclo iterativo do design, com **protótipos** em vários níveis de detalhe, **com ou sem** usuários -->
+<!---->
+<!-- ## Conformidade com um padrão {.smaller} -->
+<!---->
+<!-- - Quando a solução precisa seguir padrões: **acessibilidade** (W3C), **ambientes** (GNOME, KDE, Windows, macOS), **domínios** (correio, comércio eletrônico) ou **normas da organização** -->
+<!-- - Se os padrões são seguidos, os usuários têm **menos dificuldades** com o que já conhecem; contribui para **consistência** e **coerência** -->
+<!-- - Esse aspecto **não exige** a participação dos usuários -->
+<!---->
+<!-- ## Problemas na interação e na interface {.smaller} -->
+<!---->
+<!-- - É o aspecto **mais avaliado** em IHC, com ou sem a participação dos usuários -->
+<!-- - Os problemas são classificados por **gravidade**, **frequência** e **fatores de qualidade** prejudicados: usabilidade, experiência do usuário, acessibilidade, comunicabilidade -->
+<!-- - Exemplos: um problema de **recordação** (usabilidade); a etiqueta **"Cadê?"** na avaliação de comunicabilidade -->
+
+## Do objetivo às perguntas {.smaller}
+
+- Os objetivos são detalhados em **perguntas mais específicas**, para torná-los **operacionais** (Sharp et al., 2007)
+- As perguntas consideram os usuários-alvo, as atividades e os artefatos
+
+![](images/objetivo-perguntas.svg){fig-align="center" width="100%"}
+
+# Quando e Onde
+
+## Avaliação formativa e somativa {.smaller}
+
+- **Formativa** (construtiva): **durante** o design; compara ideias e acha problemas **cedo**, quando o custo de correção é baixo
+- **Somativa** (conclusiva): **depois** de a solução estar pronta; busca **evidências** de que as metas foram atingidas
+
+![](images/formativa-somativa.svg){fig-align="center" width="95%"}
+
+<!-- ## Escolher o momento {.smaller} -->
+<!---->
+<!-- - Artefatos que servem à avaliação **formativa**: cenários de uso, esboços de tela, *storyboards*, modelagem da interação e protótipos -->
+<!-- - A avaliação **somativa** usa protótipos de **média ou alta fidelidade**, ou o próprio sistema implementado -->
+<!-- - Saber **em que momento** se avalia mostra quais representações estarão **disponíveis** e orienta a escolha do método -->
+
+<!-- ## O contexto de uso {.smaller} -->
+<!---->
+<!-- - A interação é afetada pelo **contexto de uso**: ambiente **físico**, **social** e **cultural** -->
+<!-- - O usuário usa outros **artefatos** (anotações em papel), consulta informações fora do sistema, é interrompido por **telefone** ou conversas, sofre **pressão** e a **conexão** pode falhar -->
+<!-- - Conhecer esses fatores ajuda a avaliar se o sistema é adequado ao **ambiente real** -->
+
+## Em contexto ou em laboratório {.smaller}
+
+- **Em contexto**: um **estudo de campo** com situações de uso mais **diversas** e típicas, mas com **menos controle**
+- **Em laboratório**: **controle** das interferências e **registro** facilitado, mas um ambiente **artificial**
+
+![](images/contexto-laboratorio.svg){fig-align="center" width="85%"}
+
+## O laboratório de observação {.smaller}
+
+- Duas salas: a de **uso**, onde o usuário utiliza o sistema, e a de **observação**, ligada por um **vidro espelhado** e por um **monitor clone**
+- O vidro **diminui a interferência** dos observadores; a sala de uso tem **microfones**, **câmeras** e *software* de captura de vídeo e teclas
+- Para grupos de foco e prototipação em papel basta uma **sala de reunião**; avaliações do tipo *Wizard of Oz* usam uma **sala de controle**
+
+![](images/laboratorio-observacao.svg){fig-align="center" width="70%"}
+
+<!-- # Dados -->
+<!---->
+<!-- ## Que dados coletar {.smaller} -->
+<!---->
+<!-- - A abrangência e o foco da coleta dependem dos **objetivos** -->
+<!-- - Os dados são **interpretados** conforme o método e produzem **resultados** que respondem às perguntas da avaliação -->
+<!---->
+<!-- ![](images/dados-por-objetivo.svg){fig-align="center" width="85%"} -->
+<!---->
+<!-- ## Três classificações dos dados {.smaller} -->
+<!---->
+<!-- - Os dados de uma avaliação podem ser classificados de diferentes formas: por **escala** (Stevens, 1946), **natureza** (Hix e Hartson, 1993) e **origem** (Meister e Rabideau, 1965) -->
+<!---->
+<!-- ![](images/tres-classificacoes.svg){fig-align="center" width="85%"} -->
+<!---->
+<!-- ## Escalas de medida {.smaller} -->
+<!---->
+<!-- - **Nominais**: rótulos ou categorias, **sem ordem** (atividades, idiomas, problemas enfrentados) -->
+<!-- - **Ordinais**: ranqueamento; dá para dizer **qual é maior**, mas não **quanto** -->
+<!-- - **Intervalo**: diferença de **igual magnitude**, com **zero arbitrário** (temperatura em Celsius) -->
+<!-- - **Razão**: tem **zero verdadeiro**; permite dizer que P2 levou o **triplo** do tempo de P1 -->
+<!---->
+<!-- ![](images/escalas-medida.svg){fig-align="center" width="95%"} -->
+<!---->
+<!-- ## Contínuos e discretos {.smaller} -->
+<!---->
+<!-- - Dados de intervalo e de razão podem ser **contínuos** ou **discretos** -->
+<!-- - O **número de erros** é de razão e **discreto** (não existe 0,5 erro); o **tempo** da tarefa é de razão e **contínuo** -->
+<!-- - As escalas de **Likert** e os diferenciais semânticos não são estritamente intervalares, mas costumam ser tratados como **intervalo** nas estatísticas -->
+<!---->
+<!-- ## Dados qualitativos e quantitativos {.smaller} -->
+<!---->
+<!-- - **Qualitativos**: conceitos sem representação numérica, como respostas livres: expectativas, explicações, críticas e sugestões -->
+<!-- - **Quantitativos**: uma **contagem ou medição**: tempo, passos, erros, consultas à ajuda, usuários que atingiram o objetivo -->
+<!-- - Os quantitativos servem para **verificar hipóteses**; os qualitativos, para **explorar e explicar** o que ocorreu -->
+<!---->
+<!-- ## Exemplo de dados quantitativos {.smaller} -->
+<!---->
+<!-- - Hipótese: a solução A é melhor do que a B; contam-se quantos usuários concluem as tarefas -->
+<!---->
+<!-- ![](images/exemplo-quantitativo.svg){fig-align="center" width="85%"} -->
+<!---->
+<!-- ## Dados objetivos e subjetivos {.smaller} -->
+<!---->
+<!-- - **Objetivos**: medidos por instrumentos ou *software* -->
+<!-- - **Subjetivos**: expressos **explicitamente** pelos participantes, como opiniões, em texto ou em escala numérica (questionários) -->
+<!-- - Os dois eixos se **combinam** com qualitativo e quantitativo -->
+<!---->
+<!-- ![](images/objetivo-subjetivo.svg){fig-align="center" width="90%"} -->
+<!---->
+<!-- ## Pesquisa qualitativa {.smaller} -->
+<!---->
+<!-- - Nem todo uso de dados qualitativos é **pesquisa qualitativa** -->
+<!-- - A pesquisa qualitativa é um conjunto de **práticas interpretativas** que usa anotações, entrevistas, conversas, fotografias e gravações -->
+<!-- - Estuda as coisas **em seu ambiente natural**, interpretando os fenômenos pelos **significados** que as pessoas lhes dão (Denzin e Lincoln, 2008) -->
+
+# Métodos
+
+## Os três tipos de método {.smaller}
+
+- Cada método atende melhor a certos objetivos e indica **quando e onde** coletar, **como** e **quais critérios** de qualidade de uso analisar
+
+![](images/tres-metodos.svg){fig-align="center" width="90%"}
+
+<!-- ## Métodos de investigação {.smaller} -->
+<!---->
+<!-- - Permitem investigar **concepções**, **opiniões**, **expectativas** e comportamentos: alternativas de design, problemas, apropriação e expectativas de futuras interações -->
+<!-- - Usados nas **etapas iniciais**, na avaliação **formativa** e para avaliar a **introdução** da nova tecnologia; em geral, **não exigem** o uso do sistema -->
+<!-- - A qualidade dos dados depende da **habilidade do participante** de articular ideias e **lembrar**; sempre que possível, **integrar à observação** -->
+<!---->
+<!-- ## Métodos de observação {.smaller} -->
+<!---->
+<!-- - Dão dados sobre situações em que os usuários **realizam suas atividades**, com ou sem sistema; identificam **problemas reais** -->
+<!-- - **Em contexto**: dados mais amplos e ricos (estudos de campo); **em laboratório**: mais direcionada e simples, com controle do ambiente (métodos **empíricos**) -->
+<!---->
+<!-- ## Métodos de inspeção {.smaller} -->
+<!---->
+<!-- - O avaliador **examina** a solução para **antever** as consequências das decisões; em geral **sem usuários**, tratando experiências **potenciais** -->
+<!-- - Ele **não é o usuário**: a empatia tem **limite**; ele pode deixar de ver problemas ou julgar problemáticos pontos que não incomodam -->
+<!-- - São mais **rápidos** e de **menor custo** (Salgado et al. (2006): menos da metade do tempo da avaliação com usuários), mas se baseiam em **hipóteses** -->
+
+## Como escolher o método {.smaller}
+
+- Os **objetivos**, detalhados em **perguntas**, são o guia principal
+- Também contam as **restrições práticas**: prazo, orçamento, equipamentos, usuários acessíveis e avaliadores capacitados
+
+![](images/escolha-metodo.svg){fig-align="center" width="92%"}
+
+# Como Avaliar?
+
+## As atividades de uma avaliação {.smaller}
+
+- Os métodos têm quatro atividades básicas
+
+![](images/atividades-avaliacao.svg){fig-align="center" width="90%"}
+
+<!-- ## Por onde começar {.smaller} -->
+<!---->
+<!-- - **Aprender** sobre a situação atual: o **domínio**, os **papéis** e **perfis** dos usuários, seus objetivos e atividades e o **contexto** -->
+<!-- - Conhecer as interfaces de sistemas **semelhantes** que os usuários já usam, além da interface avaliada -->
+<!-- - Ajuda a **se colocar no lugar do usuário** (inspeção) e a **entender os dados** (investigação e observação) -->
+<!---->
+<!-- ## Preparação: objetivos, escopo e método {.smaller} -->
+<!---->
+<!-- - A preparação é **fundamental**; negligenciá-la desperdiça tempo e dinheiro -->
+<!-- - Definir os **objetivos** e as **questões específicas**, e o **escopo**: partes da interface, caminhos, **tarefas** e perfis de usuário -->
+<!-- - As tarefas: as mais **importantes**, as com mais **problemas**, as mais **difíceis de projetar** ou o **diferencial** do sistema -->
+<!-- - Escolher o(s) **método(s)** conforme objetivos, recursos e acesso aos usuários -->
+<!---->
+<!-- ## Participantes: perfil e número {.smaller} -->
+<!---->
+<!-- - Buscar participantes que **representem o público-alvo**: idade, sexo, formação, domínio e experiência no sistema; equilibrar **homens e mulheres** -->
+<!-- - **Nielsen** (2000): cinco usuários bastam para cerca de **85%** dos problemas; para significância estatística, a amostra deve ser **grande e representativa** -->
+<!---->
+<!-- ![](images/numero-participantes.svg){fig-align="center" width="90%"} -->
+<!---->
+<!-- ## Questões práticas e éticas {.smaller} -->
+<!---->
+<!-- - **Práticas**: alocar **pessoal**, **recursos** e **equipamentos**, preparar o **material**, o **ambiente**, o **teste-piloto** e o **recrutamento** -->
+<!-- - **Éticas**: o participante deve ser **respeitado** e não pode ser **prejudicado** (seção 7.4) -->
+<!-- - Avaliadores com pouca experiência no método podem precisar de **treinamento** -->
+<!---->
+<!-- ## O material de apoio {.smaller} -->
+<!---->
+<!-- - Antes de coletar dados, **preparar e imprimir** o material de apoio -->
+<!---->
+<!-- ![](images/material-apoio.svg){fig-align="center" width="85%"} -->
+<!---->
+<!-- ## Tarefas e tempo {.smaller} -->
+<!---->
+<!-- - Cada tarefa deve levar no máximo **20 minutos** e uma sessão, cerca de **uma hora**; incluir **pausas** para evitar fadiga -->
+<!-- - O **formulário de acompanhamento** facilita anotar falas espontâneas, se o usuário concluiu a tarefa e se precisou de **ajuda** -->
+<!-- - Se for difícil criar tarefas curtas, **revisar o escopo** -->
+<!---->
+<!-- ## Ambiente, hardware e *software* {.smaller} -->
+<!---->
+<!-- - Preparar **tudo** antes de receber cada participante -->
+<!-- - **Configurar e testar** câmeras, gravadores e monitores-clone, e *softwares* que capturam vídeo, teclas e movimentos do mouse -->
+<!-- - O laboratório deve estar **limpo e arrumado**, e o sistema **funcionando** -->
+<!---->
+<!-- ## O teste-piloto {.smaller} -->
+<!---->
+<!-- - Avalia o **próprio planejamento**: conduzido como uma **sessão normal**, mostra se a linguagem é clara, se os equipamentos funcionam e se o **tempo** é adequado -->
+<!-- - Inclui uma breve **análise** dos dados, para ver se respondem às questões; registrar **apenas** os dados úteis -->
+<!-- - Se houver problemas, **corrigir** e repetir; os dados do piloto são **descartados** -->
+<!-- - O participante pode ser um colega ou amigo, de **perfil um pouco diferente**, que **não** tenha participado do planejamento -->
+<!---->
+<!-- ## Recrutar participantes {.smaller} -->
+<!---->
+<!-- - Conferir o **perfil** por questionários ou entrevistas curtas; esclarecer **objetivos**, **onde** e **quanto tempo**, e **agendar** -->
+<!-- - Evitar **conhecidos**, **amigos**, **alunos** e **subordinados**: a relação pode **influenciar** ou contaminar os dados -->
+<!-- - Esclarecer que o objetivo é **encontrar problemas** e que a opinião do participante é **importante** -->
+
+# Coleta e Interpretação
+
+## A sessão de coleta de dados {.smaller}
+
+- Nos métodos **empíricos**, a coleta registra as **experiências de uso**; na inspeção, os avaliadores examinam a interface seguindo o procedimento do método
+
+![](images/sessao-passos.svg){fig-align="center" width="100%"}
+
+## Durante a observação {.smaller}
+
+- Pelo menos **dois avaliadores**: um perto do participante e outro mais distante; **anotar** o que for relevante, **sem interferir**
+- **Não interromper** nem questionar durante as tarefas; se o participante gastar muito tempo ou se **constranger**, sugerir passar à próxima; ele pode **pedir pausa**
+- ***Think aloud*** (Ericsson e Simon, 1993): relatar em voz alta o que pensa e faz, mas **interfere** no tempo e nos erros; usar com **cuidado**
+
+## Interpretação {.smaller}
+
+- O avaliador **atribui significado** aos dados, guiado pelo método e pelas **questões** definidas; começa pela **análise de cada participante** (intrassujeito)
+- Pode ser **automática** (links quebrados, critérios de acessibilidade) ou **manual**; também é possível comparar a interação **real** com a **prevista** em um modelo de tarefas
+- A análise automática ainda é **limitada**: a análise **humana** continua fundamental
+
+## Consolidação dos resultados {.smaller}
+
+- A análise **em conjunto** (intersujeito) busca **recorrências**, que separam o que **representa o grupo** das **idiossincrasias** de cada participante
+- A **generalização** exige muito cuidado: os resultados são influenciados pelo ambiente e pelas características dos participantes
+- Diferentes métodos revelam **problemas diferentes**; os resultados indicam **tendências**, não certezas, e **não achar problemas** não prova alta qualidade de uso
+
+## Relato dos resultados {.smaller}
+
+- O relato costuma incluir:
+  - os **objetivos** e o **escopo** da avaliação
+  - a forma como foi realizada (**método**)
+  - o **número** e o **perfil** de usuários e avaliadores
+  - um **sumário** dos dados coletados, com tabelas e gráficos
+  - o relato da **interpretação** e **análise** dos dados
+  - a lista dos **problemas encontrados**
+  - um planejamento para o **reprojeto** do sistema
+
+# DECIDE
+
+## O *framework* DECIDE {.smaller}
+
+- Proposto por **Preece** et al. (2002) para orientar o **planejamento**, a **execução** e a **análise** de uma avaliação
+
+![](images/decide.svg){fig-align="center" width="95%"}
+
+## Avaliar os dados: confiabilidade e validade {.smaller}
+
+- Antes de tirar conclusões, considerar o **grau de confiabilidade** e três **validades** do estudo
+
+![](images/validades.svg){fig-align="center" width="95%"}
+
+# Conclusão
+
+## O que vimos {.smaller}
+
+- **Avaliar** é julgar o valor da **qualidade de uso** e identificar problemas **antes** de entregar o sistema
+- Planejar é decidir **o que** (objetivos e aspectos), **quando** (formativa ou somativa) e **onde** (contexto ou laboratório)
+- Os métodos são de **investigação**, **observação** e **inspeção**; o objetivo e as restrições práticas guiam a escolha
+- **Como avaliar**: preparação, coleta, interpretação, consolidação e relato
+- O **DECIDE** ajuda a organizar o planejamento
+
+## Para pensar {.smaller}
+
+- Você foi apresentado a um produtor de *software* que planeja uma **nova versão** de um sistema comercial. Que **argumentos** usaria para convencê-lo a realizar uma avaliação de IHC?
+- Escolha um *software* e defina **dois objetivos** de avaliação (por exemplo, dois da Tabela 11.1). Planeje **duas avaliações**, uma para cada objetivo, e **compare** os planejamentos
+- Que **vantagens e riscos** há em avaliar **em contexto** e **em laboratório**? Quando faria cada uma?
+
+<!-- ## No seu projeto {.smaller} -->
+<!---->
+<!-- - Para o sistema que sua equipe está projetando --- -->
+<!--   - defina os **objetivos** e as **perguntas** da avaliação e o **aspecto** que será avaliado; -->
+<!--   - escolha **quando**, **onde** e o **método**; -->
+<!--   - prepare **tarefas**, **material de apoio** e o **perfil** dos participantes; -->
+<!--   - planeje o **teste-piloto** e organize o planejamento pelo **DECIDE**. -->
+
+## Leituras futuras {.smaller}
+
+- **Preece, Rogers \& Sharp (2002)** --- *Interaction Design: Beyond Human-Computer Interaction*
+- **Sharp, Preece \& Rogers (2019)** --- *Interaction Design*
+- **Nielsen (1994)** --- *Usability Engineering*
+- **Rubin (1994)** --- *Handbook of Usability Testing*
+- **Dumas \& Redish (1999)** --- *A Practical Guide to Usability Testing*
+- **Prates \& Barbosa (2003)** --- *Avaliação de interfaces de usuário: conceitos e métodos*

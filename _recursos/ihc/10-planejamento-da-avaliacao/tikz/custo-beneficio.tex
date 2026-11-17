@@ -1,0 +1,16 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.8cm, minimum height=2.4cm, font=\large, line width=1.7pt}}
+\node[font=\Large\bfseries, dgreen] at (4.9,8.4) {a curto prazo};
+\node[k, draw=dgreen] at (4.9,6.3) {\textbf{mais produtividade} dos usuários};
+\node[k, draw=dgreen] at (4.9,3.6) {\textbf{menos erros}, em número e em gravidade};
+\node[k, draw=dgreen] at (4.9,0.9) {\textbf{mais satisfação} dos usuários};
+\node[font=\Large\bfseries, dblue] at (14.5,8.4) {a médio e longo prazo};
+\node[k, draw=dblue] at (14.5,6.3) {\textbf{menos custo} de treinamento e suporte};
+\node[k, draw=dblue] at (14.5,3.6) {\textbf{versões futuras} melhor planejadas};
+\node[k, draw=dblue] at (14.5,0.9) {partes do sistema que \textbf{podem ser mais exploradas}};
+\end{tikzpicture}
+\end{document}

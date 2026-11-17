@@ -1,0 +1,15 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{s/.style={dbox, text width=3.6cm, minimum height=1.5cm, font=\large\bfseries, line width=1.6pt},
+        o/.style={dbox, text width=10.6cm, minimum height=1.5cm, font=\large, line width=1.6pt}}
+\foreach \y/\n/\t/\cor in {7.2/Usuários/{demonstram \textbf{desinteresse} ou fazem \textbf{reclamações}}/dblue, 5.5/Designers/{querem \textbf{comparar alternativas} de design}/dgreen, 3.8/Cliente/{quer saber se a \textbf{qualidade de uso} é um diferencial do produto}/dorange, 2.1/Desenvolvedores/{querem saber se a \textbf{nova tecnologia} da interface agrada}/dred, 0.4/Marketing/{quer lançar um produto que atenda \textbf{necessidades ainda não exploradas}}/dblue} {
+  \node[s, draw=\cor] (a) at (2.4,\y) {\textcolor{\cor}{\n}};
+  \node[o, draw=\cor] (b) at (11.9,\y) {\t};
+  \draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (a.east) -- (b.west);}
+\node[font=\Large\bfseries] at (2.4,8.6) {stakeholder};
+\node[font=\Large\bfseries] at (11.9,8.6) {objetivo da avaliação};
+\end{tikzpicture}
+\end{document}

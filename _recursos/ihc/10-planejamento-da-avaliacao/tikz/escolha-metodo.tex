@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{o/.style={dbox, text width=7.2cm, minimum height=1.8cm, font=\large, line width=1.7pt},
+        m/.style={dbox, text width=8.4cm, minimum height=1.8cm, font=\large, line width=1.7pt}}
+\node[o, draw=dred] (a) at (3.8,6.6) {\textbf{problemas} na interação e na interface};
+\node[m, draw=dorange] (a2) at (14.8,6.6) {\textbf{inspeção} para cobrir (quase) toda a interface + \textbf{observação ou investigação} nas partes importantes};
+\node[o, draw=dblue] (b) at (3.8,4.0) {\textbf{apropriação} da tecnologia};
+\node[m, draw=dgreen] (b2) at (14.8,4.0) {\textbf{investigação} ou \textbf{observação}, com a participação dos usuários};
+\node[o, draw=dgreen] (c) at (3.8,1.4) {\textbf{conformidade} com um padrão};
+\node[m, draw=dorange] (c2) at (14.8,1.4) {\textbf{inspeção}: a participação dos usuários é desnecessária};
+\foreach \p/\q in {a/a2, b/b2, c/c2} {\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (\p.east) -- (\q.west);}
+\node[font=\Large\bfseries] at (3.8,8.1) {objetivo};
+\node[font=\Large\bfseries] at (14.8,8.1) {método mais adequado};
+\end{tikzpicture}
+\end{document}

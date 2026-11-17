@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=8.4cm, minimum height=1.5cm, font=\large, line width=1.6pt}}
+\node[dbox, draw=dblue, text width=8.6cm, minimum height=1.9cm, font=\large\bfseries, line width=2pt, fill=dblue!8] at (4.7,8.4) {objetivo: verificar se o protótipo \textbf{satisfaz as necessidades} dos usuários};
+\node[k, draw=dblue] at (4.7,6.4) {grau de \textbf{satisfação} com o sistema};
+\node[k, draw=dblue] at (4.7,4.7) {necessidade de usar \textbf{outros sistemas} ou artefatos};
+\node[k, draw=dblue] at (4.7,3.0) {\textbf{pontos fortes e fracos} do sistema};
+\node[k, draw=dblue] at (4.7,1.3) {o que gostariam que fosse \textbf{melhorado}};
+\node[dbox, draw=dred, text width=8.6cm, minimum height=1.9cm, font=\large\bfseries, line width=2pt, fill=dred!8] at (14.7,8.4) {objetivo: \textbf{identificar problemas} na interação e na interface};
+\node[k, draw=dred] at (14.7,6.4) {quantos usuários \textbf{concluíram} as tarefas};
+\node[k, draw=dred] at (14.7,4.7) {\textbf{quanto tempo} cada tarefa levou};
+\node[k, draw=dred] at (14.7,3.0) {\textbf{erros}: quais, onde e com que frequência};
+\node[k, draw=dred] at (14.7,1.3) {consultas a \textbf{material de apoio}, e quando};
+\end{tikzpicture}
+\end{document}

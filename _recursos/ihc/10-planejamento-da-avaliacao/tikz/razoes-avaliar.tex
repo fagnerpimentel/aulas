@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=3.0cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Corrigir cedo}}\\ problemas de IHC corrigidos antes, e não depois, do lançamento};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{Foco em problemas reais}}\\ em vez de debater gostos e preferências da equipe};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{Advogado do usuário}}\\ engenheiros sabem construir, mas não defender a qualidade de uso};
+\node[c, draw=dred] at (0.0,-3.5) {\textbf{\textcolor{dred}{Menos tempo até o mercado}}\\ problemas corrigidos desde o início, com menos esforço};
+\node[c, draw=dblue] at (6.0,-3.5) {\textbf{\textcolor{dblue}{Produto mais robusto}}\\ a versão corretiva não precisa começar no lançamento};
+\node[font=\Large, text width=17cm, align=center] at (6.0,-6.0) {razões apontadas por Tognazzini (2000)};
+\end{tikzpicture}
+\end{document}

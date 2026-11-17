@@ -1,0 +1,12 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=5.6cm, minimum height=4.2cm, font=\large, line width=1.8pt}}
+\node[k, draw=dblue] at (3.2,3.2) {\textbf{\textcolor{dblue}{Dumas e Redish (1999)}}\\[8pt] {\Huge\bfseries 5 a 12}\\[8pt] usuários em uma avaliação, em geral};
+\node[k, draw=dgreen] at (9.7,3.2) {\textbf{\textcolor{dgreen}{Nielsen (2000)}}\\[8pt] {\Huge\bfseries 5}\\[8pt] bastam para achar \textbf{cerca de 85\%} dos problemas};
+\node[k, draw=dorange] at (16.2,3.2) {\textbf{\textcolor{dorange}{Significância estatística}}\\[8pt] amostra \textbf{grande} e \textbf{representativa}\\[8pt] custo alto de coleta e análise};
+\node[font=\large, text width=18cm, align=center] at (9.7,0.0) {mesmo sem significância, os resultados dão \textbf{indícios} úteis para o reprojeto};
+\end{tikzpicture}
+\end{document}

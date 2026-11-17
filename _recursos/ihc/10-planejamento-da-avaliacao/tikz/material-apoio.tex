@@ -1,0 +1,14 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=5.4cm, minimum height=2.8cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{TCLE}}\\ termo de consentimento livre e esclarecido};
+\node[c, draw=dgreen] at (6.0,0.0) {\textbf{\textcolor{dgreen}{Questionário pré-teste}}\\ ou roteiro de entrevista estruturada: perfil e experiência};
+\node[c, draw=dorange] at (12.0,0.0) {\textbf{\textcolor{dorange}{Entrevista pós-teste}}\\ opiniões e sentimentos sobre a experiência de uso};
+\node[c, draw=dred] at (0.0,-3.3) {\textbf{\textcolor{dred}{Instruções e cenários}}\\ orientam os participantes nas tarefas};
+\node[c, draw=dblue] at (6.0,-3.3) {\textbf{\textcolor{dblue}{Roteiro de observação}}\\ facilita a captura de dados e anotações};
+\node[font=\Large, text width=17cm, align=center] at (6.0,-5.7) {todos os participantes recebem o \textbf{mesmo material} e as \textbf{mesmas orientações}};
+\end{tikzpicture}
+\end{document}

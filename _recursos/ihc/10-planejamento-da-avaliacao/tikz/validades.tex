@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.2cm, minimum height=4.0cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Confiabilidade}}\\ mesmos resultados ao repetir o método nas mesmas circunstâncias};
+\node[c, draw=dgreen] at (4.8,0.0) {\textbf{\textcolor{dgreen}{Validade interna}}\\ o método mede o que deveria medir, com rigor e sem distorções};
+\node[c, draw=dorange] at (9.6,0.0) {\textbf{\textcolor{dorange}{Validade externa}}\\ até que ponto os resultados podem ser generalizados para outro contexto};
+\node[c, draw=dred] at (14.4,0.0) {\textbf{\textcolor{dred}{Validade ecológica}}\\ o quanto materiais, métodos e ambiente se parecem com a situação real};
+\node[font=\Large, text width=18cm, align=center] at (7.2,-3.0) {cuidados antes de tirar conclusões e divulgar os resultados};
+\end{tikzpicture}
+\end{document}

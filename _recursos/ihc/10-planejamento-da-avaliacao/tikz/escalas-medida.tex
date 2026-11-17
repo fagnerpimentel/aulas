@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.0cm, minimum height=3.8cm, font=\large, line width=1.7pt}}
+\node[c, draw=dblue] (a) at (2.3,3.4) {\textbf{\textcolor{dblue}{Nominal}}\\ rótulos ou categorias\\[4pt] {\normalsize ex.: atividades, idiomas, problemas}};
+\node[c, draw=dgreen] (b) at (7.4,3.4) {\textbf{\textcolor{dgreen}{Ordinal}}\\ ranqueamento\\[4pt] {\normalsize ex.: sites mais usados}};
+\node[c, draw=dorange] (d) at (12.5,3.4) {\textbf{\textcolor{dorange}{Intervalo}}\\ diferença de igual magnitude\\[4pt] {\normalsize ex.: temperatura em Celsius}};
+\node[c, draw=dred] (e) at (17.6,3.4) {\textbf{\textcolor{dred}{Razão}}\\ zero verdadeiro\\[4pt] {\normalsize ex.: tempo da tarefa, erros}};
+\foreach \p/\q in {a/b, b/d, d/e} {\draw[dtrans, line width=2pt, -{Stealth[length=3.2mm]}] (\p.east) -- (\q.west);}
+\node[font=\large, text width=4.3cm, align=center] at (2.3,0.4) {igual ou diferente};
+\node[font=\large, text width=4.3cm, align=center] at (7.4,0.4) {maior ou menor, mas \textbf{não quanto}};
+\node[font=\large, text width=4.3cm, align=center] at (12.5,0.4) {\textbf{quanto} a mais, mas não a proporção};
+\node[font=\large, text width=4.3cm, align=center] at (17.6,0.4) {também a \textbf{proporção} (o triplo)};
+\node[font=\large\bfseries] at (9.95,6.5) {o que se pode afirmar cresce da esquerda para a direita};
+\end{tikzpicture}
+\end{document}

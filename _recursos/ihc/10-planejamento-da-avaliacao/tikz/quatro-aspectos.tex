@@ -1,0 +1,13 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{c/.style={dbox, text width=4.2cm, minimum height=3.8cm, font=\large, line width=1.4pt}}
+\node[c, draw=dblue] at (0.0,0.0) {\textbf{\textcolor{dblue}{Apropriação de tecnologia}}\\ como os usuários incorporam o sistema e a tecnologia no cotidiano};
+\node[c, draw=dgreen] at (4.8,0.0) {\textbf{\textcolor{dgreen}{Ideias e alternativas de design}}\\ comparar soluções por critérios de uso e de construção};
+\node[c, draw=dorange] at (9.6,0.0) {\textbf{\textcolor{dorange}{Conformidade com um padrão}}\\ acessibilidade (W3C), ambientes, domínio e normas da organização};
+\node[c, draw=dred] at (14.4,0.0) {\textbf{\textcolor{dred}{Problemas na interação e na interface}}\\ o que prejudica a qualidade de uso};
+\node[font=\Large, text width=18cm, align=center] at (7.2,-2.9) {o objetivo da avaliação define \textbf{quais aspectos do uso} serão investigados};
+\end{tikzpicture}
+\end{document}

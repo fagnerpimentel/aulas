@@ -1,0 +1,21 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{h/.style={dbox, text width=5.8cm, minimum height=1.7cm, font=\Large\bfseries, line width=1.8pt},
+        k/.style={dbox, text width=5.8cm, minimum height=1.4cm, font=\large, line width=1.5pt}}
+\node[h, draw=dblue] at (3.2,6.8) {\textcolor{dblue}{pela escala}};
+\node[k, draw=dblue] at (3.2,4.9) {nominais};
+\node[k, draw=dblue] at (3.2,3.4) {ordinais};
+\node[k, draw=dblue] at (3.2,1.9) {de intervalo};
+\node[k, draw=dblue] at (3.2,0.4) {de razão};
+\node[h, draw=dgreen] at (9.7,6.8) {\textcolor{dgreen}{pela natureza}};
+\node[k, draw=dgreen] at (9.7,4.9) {qualitativos};
+\node[k, draw=dgreen] at (9.7,3.4) {quantitativos};
+\node[h, draw=dorange] at (16.2,6.8) {\textcolor{dorange}{pela origem}};
+\node[k, draw=dorange] at (16.2,4.9) {objetivos};
+\node[k, draw=dorange] at (16.2,3.4) {subjetivos};
+\node[font=\large, text width=17cm, align=center] at (9.7,-1.0) {cada método de avaliação privilegia \textbf{dados e resultados de diferentes tipos}};
+\end{tikzpicture}
+\end{document}

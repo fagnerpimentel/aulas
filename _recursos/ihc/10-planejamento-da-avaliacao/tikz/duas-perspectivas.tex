@@ -1,0 +1,18 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.6cm, minimum height=2.0cm, font=\large, line width=1.6pt}}
+\draw[draw=dblue, line width=2pt, fill=dblue!6, rounded corners=10pt] (0,0.2) rectangle (9.0,7.8);
+\node[font=\Large\bfseries, dblue] at (4.5,7.2) {quem constrói};
+\node[k, draw=dblue] at (4.5,5.4) {o sistema \textbf{funciona conforme a especificação}?};
+\node[k, draw=dblue] at (4.5,3.2) {foco \textbf{dentro} do sistema: entrada, processamento e saída};
+\node[font=\large, text width=8cm, align=center] at (4.5,1.2) {testes de unidade, integração, sistema e operação};
+\draw[draw=dgreen, line width=2pt, fill=dgreen!6, rounded corners=10pt] (10.4,0.2) rectangle (19.4,7.8);
+\node[font=\Large\bfseries, dgreen] at (14.9,7.2) {quem projeta e quem usa};
+\node[k, draw=dgreen] at (14.9,5.4) {o sistema \textbf{apoia o usuário} a atingir seus objetivos?};
+\node[k, draw=dgreen] at (14.9,3.2) {foco \textbf{da interface para fora}: a experiência vivida};
+\node[font=\large, text width=8cm, align=center] at (14.9,1.2) {usabilidade, UX, acessibilidade e comunicabilidade};
+\end{tikzpicture}
+\end{document}

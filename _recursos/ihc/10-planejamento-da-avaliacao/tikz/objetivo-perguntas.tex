@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{h/.style={dbox, text width=4.1cm, minimum height=2.2cm, font=\large\bfseries, line width=1.8pt},
+        q/.style={dbox, text width=4.1cm, minimum height=1.9cm, font=\normalsize, line width=1.4pt}}
+\node[h, draw=dblue] at (2.2,7.0) {\textcolor{dblue}{apropriação da tecnologia}};
+\node[q, draw=dblue] at (2.2,4.6) {Como os usuários usam o sistema? Em que difere do planejado?};
+\node[q, draw=dblue] at (2.2,2.4) {Que variação houve em erros, tempo e satisfação?};
+\node[q, draw=dblue] at (2.2,0.2) {Por que não incorporaram o sistema?};
+\node[h, draw=dgreen] at (7.1,7.0) {\textcolor{dgreen}{alternativas de design}};
+\node[q, draw=dgreen] at (7.1,4.6) {Qual é a mais eficiente? Mais fácil de aprender?};
+\node[q, draw=dgreen] at (7.1,2.4) {Qual pode ser construída em menos tempo?};
+\node[q, draw=dgreen] at (7.1,0.2) {Qual os usuários preferem? Por quê?};
+\node[h, draw=dorange] at (12.0,7.0) {\textcolor{dorange}{conformidade com um padrão}};
+\node[q, draw=dorange] at (12.0,4.6) {Está de acordo com os padrões de acessibilidade do W3C?};
+\node[q, draw=dorange] at (12.0,2.4) {Segue o padrão do sistema operacional? E o da empresa?};
+\node[q, draw=dorange] at (12.0,0.2) {Os termos seguem as convenções do domínio?};
+\node[h, draw=dred] at (16.9,7.0) {\textcolor{dred}{problemas na interação}};
+\node[q, draw=dred] at (16.9,4.6) {O usuário consegue operar o sistema? Atinge o objetivo, com quanta eficiência?};
+\node[q, draw=dred] at (16.9,2.4) {Que parte da interface o deixa insatisfeito?};
+\node[q, draw=dred] at (16.9,0.2) {Ele entende o que significa cada elemento?};
+\end{tikzpicture}
+\end{document}

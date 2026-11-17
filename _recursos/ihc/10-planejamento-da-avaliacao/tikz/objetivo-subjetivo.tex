@@ -1,0 +1,17 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{k/.style={dbox, text width=7.6cm, minimum height=2.6cm, font=\large, line width=1.7pt}}
+\node[font=\Large\bfseries, dgreen] at (6.0,8.6) {qualitativo};
+\node[font=\Large\bfseries, dblue] at (15.2,8.6) {quantitativo};
+\node[font=\Large\bfseries, anchor=east] at (-0.6,6.2) {objetivo};
+\node[font=\Large\bfseries, anchor=east] at (-0.6,2.6) {subjetivo};
+\node[k, draw=dgreen] at (6.0,6.2) {termos usados em uma \textbf{busca};\\ músicas mais ouvidas no último mês};
+\node[k, draw=dblue] at (15.2,6.2) {\textbf{tempo} para realizar a tarefa em uma sessão de teste};
+\node[k, draw=dgreen] at (6.0,2.6) {opiniões expressas em \textbf{texto} em linguagem natural};
+\node[k, draw=dblue] at (15.2,2.6) {opiniões em uma \textbf{escala numérica}, em questionários};
+\node[font=\large, text width=17cm, align=center] at (10.6,0.3) {\textbf{objetivos}: medidos por instrumentos ou software; \textbf{subjetivos}: expressos pelos participantes};
+\end{tikzpicture}
+\end{document}

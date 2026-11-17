@@ -1,0 +1,22 @@
+\documentclass[border=3pt]{standalone}
+\input{preamble}
+\begin{document}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{l/.style={circle, minimum size=1.6cm, font=\Huge\bfseries, line width=2pt, fill=white},
+        k/.style={dbox, text width=7.0cm, minimum height=1.9cm, font=\large, line width=1.6pt, align=left}}
+\foreach \y/\ch/\col/\tit/\txt in {
+  7.6/D/dblue/{Determinar os objetivos}/{o que se avalia, por quê e para quem},
+  5.5/E/dgreen/{Explorar as perguntas}/{perguntas específicas para cada objetivo},
+  3.4/C/dorange/{Escolher os métodos}/{prazo, orçamento, equipamentos e experiência dos avaliadores},
+  1.3/I/dred/{Identificar as questões práticas}/{recrutamento, equipamentos, prazos, pessoal}} {
+  \node[l, draw=\col, text=\col] at (1.0,\y) {\ch};
+  \node[k, draw=\col] at (5.4,\y) {\textbf{\textcolor{\col}{\tit}}\\ \txt};}
+\foreach \y/\ch/\col/\tit/\txt in {
+  7.6/D/dblue/{Decidir as questões éticas}/{respeitar e não prejudicar os participantes},
+  5.5/E/dgreen/{Avaliar os dados}/{interpretar e apresentar, atento à confiabilidade e à validade}} {
+  \node[l, draw=\col, text=\col] at (11.4,\y) {\ch};
+  \node[k, draw=\col] at (15.8,\y) {\textbf{\textcolor{\col}{\tit}}\\ \txt};}
+\node[dbox, draw=dorange, dashed, fill=dorange!6, line width=1.7pt, text width=8.2cm, minimum height=2.8cm, font=\large] at (15.2,2.3) {as atividades são \textbf{interligadas} e feitas de forma \textbf{iterativa}: sem permissão para visitar o ambiente de uso, os \textbf{objetivos} precisam ser revistos};
+\end{tikzpicture}
+\end{document}
